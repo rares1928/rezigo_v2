@@ -11,7 +11,7 @@ import LoginPage from './pagini/loginPage';
 import SignupPage from './pagini/signupPage';
 import LayoutSite from './componente/layoutSite';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
+import Nav from './componente/navigation';
 
 function App() {
 
@@ -22,7 +22,7 @@ function App() {
       <CssBaseline/>
       <Router>
         <LayoutSite andreea= {false} >
-
+          <Nav></Nav>
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/login" exact component={LoginPage} />
