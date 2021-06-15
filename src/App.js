@@ -43,7 +43,7 @@ const themeAndreea = createMuiTheme({
   },
   palette: {
     primary: {
-      main: "#F5ABC9",
+      main: "#FFF5FD",
     },
     secondary: {
       main: '#005A8D',
@@ -51,14 +51,24 @@ const themeAndreea = createMuiTheme({
   },
 });
 
+const theme3 = createMuiTheme({
+  typography: {
+    button: {
+      textTransform:'none',
+    },
+  },
+  palette: {
+    type: "dark",
+  },
+});
 
 function App() {
 
   const [andreeaMode, setAndreeaMode] = useState(false);
-  console.log(andreeaMode);
+
 
   return (
-    <ThemeProvider theme={andreeaMode? themeAndreea : themeDark}>
+    <ThemeProvider theme={theme3}>
       <CssBaseline/>
       <Router>
         <LayoutSite andreea= {andreeaMode} >

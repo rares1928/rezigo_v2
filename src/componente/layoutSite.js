@@ -23,8 +23,7 @@ export default function LayoutSite(props) {
     const stil_light = useAndreea();
     return(
         <Box 
-            component="main" 
-            className={props.andreea ? stil_light.root : stil_night.root}    
+            component="main"            
         >
             <Grid>
                 {props.children}

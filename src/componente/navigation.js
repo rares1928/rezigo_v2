@@ -22,7 +22,8 @@ const useStyles = makeStyles(() => ({
     },
   }));
 
-export default function Nav() {
+
+export default function Nav(props) {
     const classes = useStyles();
 
     return(
@@ -40,7 +41,12 @@ export default function Nav() {
                     <Button href="/librarie"> <Typography variant="h5" > Librărie </Typography> </Button>
                 </div>
                 <div className = {classes.profile}>
-                    <Switch onChange={()=>{}} />
+                    <Switch 
+                        onChange={()=> {
+                            localStorage.setItem("andreeaTheme", !props.andreea);
+                            props.setAndreea(!props.andreea);
+                        }} 
+                    />
                 </div>
             </Toolbar>
         </AppBar>
