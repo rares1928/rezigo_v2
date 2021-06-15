@@ -1,12 +1,47 @@
 import { React } from 'react';
-import { AppBar, Typography, Toolbar } from '@material-ui/core';
+import { AppBar, Typography, Toolbar, makeStyles, Button, Link, Switch  } from '@material-ui/core';
+import logo from '../poze/logo4.svg';
 
+const useStyles = makeStyles(() => ({
+    root: {
+      flexGrow: 1,
+    },
+    logo: {
+        height: "65px", 
+        cursor: "pointer",
+    },
+    menuButton: {
+      flexGrow: 2,
+      justifyContent: 'flex-end',
+      display:"flex",
+    },
+    profile: {
+      flexGrow: 1,
+      justifyContent: 'flex-end',
+      display:"flex",
+    },
+  }));
 
 export default function Nav() {
+    const classes = useStyles();
+
     return(
-        <AppBar position="relative">
+        <AppBar position="relative" >
             <Toolbar>
-                <Typography variant="h6">Aici e un text care va intra in appbar</Typography>
+                <Link href="/">
+                    <img 
+                        src={logo} 
+                        alt="logo" 
+                        className={classes.logo}
+                    />
+                </Link>
+                <div className={classes.menuButton}>
+                    <Button href="/creeaza-ti_test" > <Typography variant="h5" > Test </Typography> </Button>
+                    <Button href="/librarie"> <Typography variant="h5" > Librărie </Typography> </Button>
+                </div>
+                <div className = {classes.profile}>
+                    <Switch onChange={()=>{}} />
+                </div>
             </Toolbar>
         </AppBar>
    );
