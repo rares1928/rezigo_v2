@@ -1,6 +1,5 @@
 import './App.css';
-import React from 'react';
-import { useState } from 'react';
+import React,{ useState } from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import HomePage from './pagini/homePage';
@@ -14,55 +13,39 @@ import LayoutSite from './componente/layoutSite';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ProfilePage from './pagini/profilePage';
 
-const themeDark = createMuiTheme({
-  typography: {
-    button: {
-      textTransform:'none',
-    },
-  },
-  palette: {
-    type: "dark",
-    text: {
-      primary:"#fff"
-    },
-    primary: {
-      main: "#1A2B3D",
-      contrastText: '#fff',
-    },
-    secondary: {
-      main: 'rgb(250,156,79)',
-      contrastText: '#fff',
-    },
-  },
-});
-
-const themeAndreea = createMuiTheme({
-  typography: {
-    button: {
-      textTransform:'none',
-    },
-  },
-  palette: {
-    type: "light",
-    primary: {
-      main: "#FFF5FD",
-    },
-    secondary: {
-      main: '#005A8D',
-    },
-  },
-});
-
 
 function App() {
 
-  const [andreeaMode, setAndreeaMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
+
+  const theme = createMuiTheme({
+    typography: {
+      button: {
+        textTransform:'none',
+      },
+    },
+    palette: {
+      type: darkMode? "dark":"light",
+      text: {
+        primary: darkMode? "#fff": "#000"
+      },
+      primary: {
+        main: darkMode? "#1A2B3D":"#90caf9",
+        contrastText: darkMode? '#fff': "#000",
+      },
+      secondary: {
+        main: 'rgb(250,156,79)',
+        contrastText: darkMode? '#fff':"#000",
+      },
+    },
+  });
+  
 
   return (
-    <ThemeProvider theme={andreeaMode? themeAndreea : themeDark}>
+    <ThemeProvider theme={theme}>
       <CssBaseline/>
       <Router>
-        <LayoutSite andreea= {andreeaMode} setAndreea={setAndreeaMode} >
+        <LayoutSite darkMode= {darkMode} setDarkMode={setDarkMode} >
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/login" exact component={LoginPage} />
