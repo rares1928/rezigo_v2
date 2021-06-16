@@ -12,7 +12,7 @@ import LoginPage from './pagini/loginPage';
 import SignupPage from './pagini/signupPage';
 import LayoutSite from './componente/layoutSite';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Nav from './componente/navigation';
+import ProfilePage from './pagini/profilePage';
 
 const themeDark = createMuiTheme({
   typography: {
@@ -21,6 +21,7 @@ const themeDark = createMuiTheme({
     },
   },
   palette: {
+    type: "dark",
     text: {
       primary:"#fff"
     },
@@ -29,7 +30,7 @@ const themeDark = createMuiTheme({
       contrastText: '#fff',
     },
     secondary: {
-      main: '#CFA661',
+      main: 'rgb(250,156,79)',
       contrastText: '#fff',
     },
   },
@@ -42,6 +43,7 @@ const themeAndreea = createMuiTheme({
     },
   },
   palette: {
+    type: "light",
     primary: {
       main: "#FFF5FD",
     },
@@ -51,32 +53,21 @@ const themeAndreea = createMuiTheme({
   },
 });
 
-const theme3 = createMuiTheme({
-  typography: {
-    button: {
-      textTransform:'none',
-    },
-  },
-  palette: {
-    type: "dark",
-  },
-});
 
 function App() {
 
   const [andreeaMode, setAndreeaMode] = useState(false);
 
-
   return (
-    <ThemeProvider theme={theme3}>
+    <ThemeProvider theme={andreeaMode? themeAndreea : themeDark}>
       <CssBaseline/>
       <Router>
-        <LayoutSite andreea= {andreeaMode} >
-          <Nav andreea={andreeaMode} setAndreea={setAndreeaMode} ></Nav>
+        <LayoutSite andreea= {andreeaMode} setAndreea={setAndreeaMode} >
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/login" exact component={LoginPage} />
             <Route path="/signup" exact component={SignupPage} />
+            <Route path="/profil" exact component={ProfilePage} />
             <Route path="/librarie" exact component={LibrariePage} />
             <Route path="/creeaza-ti_test/" exact component={TestePage} />
             <Route path="/creeaza-ti_test/testid*" exact component={GrilePage} />
