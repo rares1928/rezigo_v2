@@ -16,7 +16,7 @@ import ProfilePage from './pagini/profilePage';
 
 function App() {
 
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState( localStorage.getItem("darkMode") === "false"? false: true);
 
   //useEffect ca sa intre o singura data in if si sa modifice darkMode daca e nevoie
   useEffect(()=>{
