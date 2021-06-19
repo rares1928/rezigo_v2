@@ -214,9 +214,12 @@ export default function LayoutSite(props) {
         <Box 
             component="main"            
         >
+            {
+            !(location.pathname.includes("/login")) &&
             <AppBar position="relative" elevation={0}  >
                 {mobileView ? displayMobileView() : displayDesktop()} 
             </AppBar>
+            }
             <Grid>
                 {props.children}
             </Grid>
