@@ -12,7 +12,7 @@ import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
 
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
     },
@@ -34,7 +34,7 @@ const useStyles = makeStyles(() => ({
         justifyContent: 'center',
         alignItems:"center",
         display:"flex",
-        marginTop: "16px",
+        margin: theme.spacing(4,2,0) ,
       },
     list: {
         width: 250,

@@ -1,5 +1,5 @@
 import './App.css';
-import React,{ useEffect, useState } from 'react';
+import React,{ useState } from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import HomePage from './pagini/homePage';
@@ -18,14 +18,6 @@ function App() {
 
   const [darkMode, setDarkMode] = useState( localStorage.getItem("darkMode") === "false"? false: true);
 
-  //useEffect ca sa intre o singura data in if si sa modifice darkMode daca e nevoie
-  useEffect(()=>{
-    let themeDarkTemp = localStorage.getItem("darkMode");
-    if(themeDarkTemp === "false"){
-      setDarkMode(false);
-    }
-  },[darkMode])
-
 
   const theme = createMuiTheme({
     typography: {
@@ -39,11 +31,11 @@ function App() {
         primary: darkMode? "#fff": "#000"
       },
       primary: {
-        main: darkMode? "#1A2B3D":"#90caf9",
+        main: darkMode? "#145DA0":"#2E8BC0",
         contrastText: darkMode? '#fff': "#000",
       },
       secondary: {
-        main: 'rgb(250,156,79)',
+        main: '#FA9C4F',
         contrastText: darkMode? '#fff':"#000",
       },
     },
