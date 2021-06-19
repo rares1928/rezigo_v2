@@ -1,5 +1,5 @@
 import './App.css';
-import React,{ useState } from 'react';
+import React,{ useEffect, useState } from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import HomePage from './pagini/homePage';
@@ -17,6 +17,15 @@ import ProfilePage from './pagini/profilePage';
 function App() {
 
   const [darkMode, setDarkMode] = useState(true);
+
+  //useEffect ca sa intre o singura data in if si sa modifice darkMode daca e nevoie
+  useEffect(()=>{
+    let themeDarkTemp = localStorage.getItem("darkMode");
+    if(themeDarkTemp === "false"){
+      setDarkMode(false);
+    }
+  },[darkMode])
+
 
   const theme = createMuiTheme({
     typography: {
