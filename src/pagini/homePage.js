@@ -1,6 +1,6 @@
 import React from 'react';
 import test from '../poze/test_v4.svg';
-import librarie from '../poze/librarie_v3.svg';
+import librarie from '../poze/librarie_v5.svg';
 import grupuri from '../poze/grupuri_v1.svg';
 import profil from '../poze/profil_v1.svg';
 import premium from '../poze/premium_v1.svg';
@@ -36,7 +36,10 @@ export default function HomePage() {
     return(
     <>
         <Container className={classes.root} maxWidth="lg">
-            <Grid justify="center" container spacing={6} >
+            <Grid 
+                justify="center" 
+                container 
+                spacing={6} >
                 <Grid item>
                     <HomeCard
                         imagine={test}

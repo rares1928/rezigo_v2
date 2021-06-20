@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme)=>({
     maxWidth: 400,
     display: "flex",
     flexDirection: "column",
+    borderRadius: 15,
   },
   media: {
     height: "30vh",
@@ -34,7 +35,6 @@ export default function HomeCard(props) {
             <CardMedia 
                 className={classes.media}
                 image={props.imagine}
-                title="Contemplative Reptile"
             />
         </CardActionArea>
         <CardContent className={classes.textSide}>

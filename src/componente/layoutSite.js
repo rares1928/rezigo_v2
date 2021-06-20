@@ -117,7 +117,7 @@ export default function LayoutSite(props) {
 
     useEffect(() => {
     const setResponsiveness = () => {
-        return window.innerWidth < 750
+        return window.innerWidth < 650
         ? setMobileView(true)
         : setMobileView(false);
     };
