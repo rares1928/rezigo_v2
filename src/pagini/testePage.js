@@ -12,6 +12,9 @@ import TestsBookCard from '../componente/testsBookCard';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import CategoryAcordion from '../componente/categoryAcordion';
+import Grow from '@material-ui/core/Grow';
+import data from "../componente/getCategorii";
 
 
 const useStyles = makeStyles((theme)=>({
@@ -21,6 +24,21 @@ const useStyles = makeStyles((theme)=>({
     },
     instructionsText: {
         padding: theme.spacing(2,0,0)
+    },
+    bookDiv :{
+        flex:1,
+    },
+    bookLevel :{
+        flex:1,
+        display:"flex",
+        flexDirection:"column",
+        alignContent:"center",
+        minWidth: 340,
+        maxWidth: 389,
+        
+    },
+    bookSubcatDiv :{
+        marginTop: theme.spacing(2),
     },
     footer: {
         backgroundColor: theme.palette.primary.main,
@@ -38,6 +56,8 @@ export default function TestePage() {
     const [isKumar, setKumar] = useState(false);
     const [isLawrence, setLawerence] = useState(false);
     const [isSinopsis, setSinopsis] = useState(false);
+    const listaCategorii = data["lista_finala"]; 
+
     
     const displayTestNou = ()=>{
         return(
@@ -48,32 +68,56 @@ export default function TestePage() {
                 <Grid 
                 className={classes.cardGrid}
                 container 
-                justify="space-around" 
+                justify="center"
                 spacing={4}
                 >
-                    <Grid item >
+                    <Grid item className={classes.bookLevel}>
                         <TestsBookCard
                             isSelected = {isKumar}
                             setCardSelected = {setKumar}
                             imagine={kumar} 
                             title="Kumar și Clark Medicină Clinică"
                         />
+                        {
+                            isKumar &&
+                            <Grow in={isKumar}>
+                                <div className={classes.bookSubcatDiv}>
+                                    <CategoryAcordion  data={listaCategorii} book="Kumar" />
+                                </div>
+                            </Grow>
+                        }
                     </Grid>
-                    <Grid item>
+                    <Grid item className={classes.bookLevel}>
                         <TestsBookCard
                             isSelected = {isLawrence}
                             setCardSelected = {setLawerence}
                             imagine={lawrence} 
                             title="Chirurgie generală și specialități chirurgicale"
                         />
+                        {
+                            isLawrence &&
+                            <Grow in={isLawrence}>
+                                <div className={classes.bookSubcatDiv}>
+                                    <CategoryAcordion  data={listaCategorii} book="Chirurgie" />
+                                </div>
+                            </Grow>
+                        }
                     </Grid>
-                    <Grid item>
+                    <Grid item className={classes.bookLevel}>
                         <TestsBookCard
                             isSelected = {isSinopsis}
                             setCardSelected = {setSinopsis}
                             imagine={sinopsis} 
                             title="Sinopsis de medicină"
                         />
+                        {
+                            isSinopsis &&
+                            <Grow in={isSinopsis}>
+                                <div className={classes.bookSubcatDiv}>
+                                    <CategoryAcordion  data={listaCategorii} book="Sinopsis" />
+                                </div>
+                            </Grow>
+                        }
                     </Grid>
                 </Grid>
             </>
@@ -129,7 +173,12 @@ export default function TestePage() {
                     />
                 </Grid>
             </Grid>
-            {(isCardSelected === "Test nou") && displayTestNou()}
+            {
+            (isCardSelected === "Test nou") &&  
+                <Grow in={isCardSelected === "Test nou"}>
+                    <div>{displayTestNou()}</div>
+                </Grow>
+            }
             {(isCardSelected === "Simulare") && <Typography>{isCardSelected}</Typography>}
             {(isCardSelected === "Teste neterminate") && <Typography>{isCardSelected}</Typography>}
             {(isCardSelected === "Reparcurge greșeli") && <Typography>{isCardSelected}</Typography>}

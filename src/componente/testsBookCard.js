@@ -10,7 +10,7 @@ export default function TestsBookCard(props) {
 
     const useStyles = makeStyles((theme)=>({
         root: {
-            width: 280,
+            
             display: "flex",
             flexDirection: "column",
             borderRadius: 15,

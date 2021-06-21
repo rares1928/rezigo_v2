@@ -26,6 +26,11 @@ function App() {
       },
     },
     palette: {
+      divider: darkMode? "rgba(255, 255, 255, 0.5)" :"rgba(0, 0, 0, 0.12)",
+      background:{
+        default: darkMode? "#303030":"#fafafa",
+        paper: darkMode? "#424242": "#eeeeee",
+      },
       type: darkMode? "dark":"light",
       text: {
         primary: darkMode? "#fff": "#000"
