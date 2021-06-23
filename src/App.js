@@ -18,7 +18,6 @@ function App() {
 
   const [darkMode, setDarkMode] = useState( localStorage.getItem("darkMode") === "false"? false: true);
 
-
   const theme = createMuiTheme({
     typography: {
       button: {

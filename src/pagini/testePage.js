@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import testNouImg from '../poze/test_nou_v2.svg';
 import simulareImg from '../poze/simulare_v1.svg';
@@ -14,7 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CategoryAcordion from '../componente/categoryAcordion';
 import Grow from '@material-ui/core/Grow';
-import data from "../componente/getCategorii";
+import preData from "../componente/getCategorii";
 
 
 const useStyles = makeStyles((theme)=>({
@@ -56,14 +56,32 @@ export default function TestePage() {
     const [isKumar, setKumar] = useState(false);
     const [isLawrence, setLawerence] = useState(false);
     const [isSinopsis, setSinopsis] = useState(false);
-    const listaCategorii = data["lista_finala"]; 
+    const [listaselectiisubcat, setListaselectiisubcat] = useState([{}]);
+    const [listaselectii, setListaselectii] = useState([]);
+    const [countSelected, setCountSelected] = useState(0);
+    const data=preData["lista_finala"];
+    const listaCategorii = data; 
 
-    
+    useEffect(()=>{
+        let lista_temp = [];
+        let lista_temp2 = [];
+
+        for (let i = 0; i < data.length; ++i) {
+            const lista_temp_temp = [];
+            for (let j = 0; j < data[i].subCategory.length; ++j)
+                lista_temp_temp.push(false);
+            lista_temp.push(lista_temp_temp);
+            lista_temp2.push(false);
+            }
+            setListaselectiisubcat(lista_temp);
+            setListaselectii(lista_temp2);
+    },[data])
+
     const displayTestNou = ()=>{
         return(
             <>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
-                    2. Selectează cărțile:
+                    2. Selectează cărțile, capitolele și subcapitolele:
                 </Typography>
                 <Grid 
                 className={classes.cardGrid}
@@ -82,7 +100,17 @@ export default function TestePage() {
                             isKumar &&
                             <Grow in={isKumar}>
                                 <div className={classes.bookSubcatDiv}>
-                                    <CategoryAcordion  data={listaCategorii} book="Kumar" />
+                                    <CategoryAcordion
+                                    onClickCategorieMare={onClickCategorieMare}
+                                    onClickSubCategorie={onClickSubCategorie}
+                                    listaselectii={listaselectii}
+                                    listaselectiisubcat={listaselectiisubcat}
+                                    setListaselectii={setListaselectii}
+                                    setListaselectiisubcat={setListaselectiisubcat}
+                                    setCountSelected={setCountSelected}
+                                    data={listaCategorii} 
+                                    book="Kumar" 
+                                    />
                                 </div>
                             </Grow>
                         }
@@ -98,7 +126,17 @@ export default function TestePage() {
                             isLawrence &&
                             <Grow in={isLawrence}>
                                 <div className={classes.bookSubcatDiv}>
-                                    <CategoryAcordion  data={listaCategorii} book="Chirurgie" />
+                                    <CategoryAcordion
+                                    onClickCategorieMare={onClickCategorieMare}
+                                    onClickSubCategorie={onClickSubCategorie}
+                                    listaselectii={listaselectii}
+                                    listaselectiisubcat={listaselectiisubcat}
+                                    setListaselectii={setListaselectii}
+                                    setListaselectiisubcat={setListaselectiisubcat}
+                                    setCountSelected={setCountSelected}
+                                    data={listaCategorii} 
+                                    book="Chirurgie" 
+                                    />
                                 </div>
                             </Grow>
                         }
@@ -114,7 +152,17 @@ export default function TestePage() {
                             isSinopsis &&
                             <Grow in={isSinopsis}>
                                 <div className={classes.bookSubcatDiv}>
-                                    <CategoryAcordion  data={listaCategorii} book="Sinopsis" />
+                                    <CategoryAcordion
+                                    onClickCategorieMare={onClickCategorieMare}
+                                    onClickSubCategorie={onClickSubCategorie}
+                                    listaselectii={listaselectii}
+                                    listaselectiisubcat={listaselectiisubcat}
+                                    setListaselectii={setListaselectii}
+                                    setListaselectiisubcat={setListaselectiisubcat}
+                                    setCountSelected={setCountSelected}
+                                    data={listaCategorii} 
+                                    book="Sinopsis" 
+                                    />
                                 </div>
                             </Grow>
                         }
@@ -122,6 +170,49 @@ export default function TestePage() {
                 </Grid>
             </>
         );
+    }
+    
+    const onClickCategorieMare = (i) => {
+        const lista_temp_selectii = [...listaselectii];
+        const lista_temporara_mare = [...listaselectiisubcat];
+        const lista_temporara = [...listaselectiisubcat[i]];
+        let count_temporar = 0;
+        if (listaselectiisubcat[i].reduce((acc,value) => acc && value, true)) {
+            for (let index = 0; index < listaselectiisubcat[i].length; index++) {
+                lista_temporara[index] = false;
+                count_temporar+=data[i]['subCategory'][index]['count'];
+            }
+            setCountSelected(countSelected-count_temporar);
+            lista_temporara_mare[i] = lista_temporara;
+            setListaselectiisubcat(lista_temporara_mare);
+        }
+        else {
+            for (let index = 0; index < listaselectiisubcat[i].length; index++) {
+                lista_temporara[index] = true;
+                if(!listaselectiisubcat[i][index]){
+                  count_temporar+=data[i]['subCategory'][index]['count'];
+                }
+            }
+            setCountSelected(countSelected+count_temporar);
+            lista_temporara_mare[i] = lista_temporara
+            setListaselectiisubcat(lista_temporara_mare);
+        }
+        lista_temp_selectii[i] = !listaselectii[i];
+        setListaselectii(lista_temp_selectii);
+    }
+
+    const onClickSubCategorie = (i, index) => {
+        const lista_temporara_mare = [...listaselectiisubcat];
+        const lista_temporara = [...listaselectiisubcat[i]];
+        lista_temporara[index] = !lista_temporara[index];
+        if(lista_temporara[index]){
+          setCountSelected(countSelected+data[i]['subCategory'][index]['count']);
+        }
+        else{
+          setCountSelected(countSelected-data[i]['subCategory'][index]['count']);
+        }
+        lista_temporara_mare[i] = lista_temporara;
+        setListaselectiisubcat(lista_temporara_mare);
     }
 
     return(

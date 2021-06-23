@@ -82,7 +82,7 @@ export default function SignIn() {
             color="secondary"
             className={classes.submit}
           >
-            Sign In
+            Autentificare
           </Button>
           <Grid container>
             <Grid item xs>

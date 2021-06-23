@@ -7,7 +7,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SubcategoryCard from './subcategoryCard';
-import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme)=>({
   root: {
@@ -31,8 +30,9 @@ export default function CategoryAcordion(props) {
   return (
     <div className={classes.root}>
       {
-        props.data.filter((cat)=> cat['book'] === props.book ).map((categorie, index)=>(
-        <Accordion>
+        props.data.map((categorie, index)=>(
+        categorie['book'] === props.book &&
+        <Accordion key={index}>
             <AccordionSummary
             key={index}
             expandIcon={<ExpandMoreIcon />}
@@ -42,6 +42,8 @@ export default function CategoryAcordion(props) {
             >
                 <div className={classes.titles}>
                     <Checkbox 
+                    checked={props.listaselectiisubcat[index].reduce((acc,value) => acc && value, true)}
+                    onChange={()=>{props.onClickCategorieMare(index)}}
                     onClick={(event) => event.stopPropagation()} 
                     onFocus={(event) => event.stopPropagation()} 
                     />
@@ -50,10 +52,19 @@ export default function CategoryAcordion(props) {
             </AccordionSummary>
             <AccordionDetails className={classes.subCatDiv}>
                 {categorie["subCategory"].map((subCategorie, indexSub)=>(
-                    <>
-                        <SubcategoryCard className={classes.subCat} key={indexSub} text={subCategorie["name"]} number={subCategorie["count"]} />
-                        
-                    </>
+                    <div key={`cat${index}_subcat${indexSub}`}>
+                      <SubcategoryCard 
+                      onClickSubCategorie={props.onClickSubCategorie}
+                      setListaselectiisubcat={props.setListaselectiisubcat}
+                      listaselectiisubcat={props.listaselectiisubcat}
+                      className={classes.subCat} 
+                      key={`cat${index}_subcat${indexSub}`} 
+                      text={subCategorie["name"]} 
+                      number={subCategorie["count"]} 
+                      index={index}
+                      indexSub={indexSub}
+                      />
+                    </div>
                 ))}
             </AccordionDetails>
         </Accordion>
