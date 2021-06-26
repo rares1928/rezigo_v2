@@ -35,7 +35,11 @@ export default function TestsCard(props) {
     const classes = useStyles();
   return (
     <Card className={classes.root}>
-        <CardActionArea onClick={()=>{props.setCardSelected(props.title)}}>
+        <CardActionArea onClick={()=>{
+                props.setCardSelected(props.title);
+                var objDiv = document.getElementById("testCard_div");
+                objDiv.scrollTop = objDiv.scrollHeight;
+            }}>
             <CardMedia 
                 className={classes.media}
                 image={props.imagine}

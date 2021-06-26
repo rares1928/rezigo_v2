@@ -15,9 +15,19 @@ import Typography from '@material-ui/core/Typography';
 import CategoryAcordion from '../componente/categoryAcordion';
 import Grow from '@material-ui/core/Grow';
 import preData from "../componente/getCategorii";
+import Button from "@material-ui/core/Button";
+import Slide from "@material-ui/core/Slide";
 
 
 const useStyles = makeStyles((theme)=>({
+    root:{
+        minHeight: "calc(100vh - calc(8 * 8px))",
+        display: "flex",
+        flexDirection: "column",
+    },
+    containerPart: {
+        flex:1,
+    },
     cardGrid: {
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2),
@@ -42,11 +52,15 @@ const useStyles = makeStyles((theme)=>({
     },
     footer: {
         backgroundColor: theme.palette.primary.main,
-        padding: theme.spacing(1,10,3),
+        width: "100%",
+        padding: theme.spacing(2)
     },
     footerItem: {
         maxWidth: 300,
-    }
+    },
+    footerButton:{
+        padding: theme.spacing(2),
+    },
 }));
 
 export default function TestePage() {
@@ -61,6 +75,8 @@ export default function TestePage() {
     const [countSelected, setCountSelected] = useState(0);
     const data=preData["lista_finala"];
     const listaCategorii = data; 
+    // delay la grow in milisecunde
+    const growTimeout = 700;
 
     useEffect(()=>{
         let lista_temp = [];
@@ -98,7 +114,7 @@ export default function TestePage() {
                         />
                         {
                             isKumar &&
-                            <Grow in={isKumar}>
+                            <Grow in={isKumar} timeout={growTimeout}>
                                 <div className={classes.bookSubcatDiv}>
                                     <CategoryAcordion
                                     onClickCategorieMare={onClickCategorieMare}
@@ -124,7 +140,10 @@ export default function TestePage() {
                         />
                         {
                             isLawrence &&
-                            <Grow in={isLawrence}>
+                            <Grow 
+                            in={isLawrence}
+                            timeout={growTimeout}
+                            >
                                 <div className={classes.bookSubcatDiv}>
                                     <CategoryAcordion
                                     onClickCategorieMare={onClickCategorieMare}
@@ -150,7 +169,7 @@ export default function TestePage() {
                         />
                         {
                             isSinopsis &&
-                            <Grow in={isSinopsis}>
+                            <Grow in={isSinopsis} timeout={growTimeout}>
                                 <div className={classes.bookSubcatDiv}>
                                     <CategoryAcordion
                                     onClickCategorieMare={onClickCategorieMare}
@@ -216,63 +235,143 @@ export default function TestePage() {
     }
 
     return(
-        <Container maxWidth="lg">
+        <div className={classes.root}>
+            <Container maxWidth="lg" className={classes.containerPart}>
 
-        <Typography variant="h6" component="h6" className={classes.instructionsText}>
-            1. Selectează tipul testului pe care vrei să îl începi:
-        </Typography>
-            <Grid 
-            className={classes.cardGrid}
-            justify="center" 
-            container 
-            spacing={3} 
-            >
-                <Grid item >
-                    <TestsCard
-                        isSelected = {isCardSelected === "Test nou"}
-                        setCardSelected = {setCardSelected}
-                        imagine={testNouImg} 
-                        title="Test nou"
-                        text="Selectează subcapitolele din care dorești grilele."
-                    />
+            <Typography variant="h6" component="h6" className={classes.instructionsText}>
+                1. Selectează tipul testului pe care vrei să îl începi:
+            </Typography>
+                <Grid 
+                className={classes.cardGrid}
+                justify="center" 
+                container 
+                spacing={3} 
+                id="testCard_div"
+                >
+                    <Grid item >
+                        <TestsCard
+                            isSelected = {isCardSelected === "Test nou"}
+                            setCardSelected = {setCardSelected}
+                            imagine={testNouImg} 
+                            title="Test nou"
+                            text="Selectează subcapitolele din care dorești grilele."
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TestsCard
+                            isSelected = {isCardSelected === "Simulare"}
+                            setCardSelected = {setCardSelected}
+                            imagine={simulareImg} 
+                            title="Simulare"
+                            text="50 de întrebări cu CS și 150 de întrebări cu CM."
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TestsCard
+                            isSelected = {isCardSelected === "Teste neterminate"}
+                            setCardSelected = {setCardSelected}
+                            imagine={testNeterminatImg} 
+                            title="Teste neterminate"
+                            text="Selectează unul dintre testele neterminate pe care vrei să le continui."
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TestsCard
+                            isSelected = {isCardSelected === "Reparcurge greșeli"}
+                            setCardSelected = {setCardSelected}
+                            imagine={reparcurgeGreseliImg} 
+                            title="Reparcurge greșeli"
+                            text="Selectează subcapitolele din care ai greșeli pentru a-ți acoperi golurile."
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <TestsCard
-                        isSelected = {isCardSelected === "Simulare"}
-                        setCardSelected = {setCardSelected}
-                        imagine={simulareImg} 
-                        title="Simulare"
-                        text="50 de întrebări cu CS și 150 de întrebări cu CM."
-                    />
+                {
+                (isCardSelected === "Test nou") &&  
+                    <Grow 
+                    id="bookCard_div" 
+                    in={isCardSelected === "Test nou"}
+                    timeout={growTimeout}
+                    >
+                        <div>{displayTestNou()}</div>
+                    </Grow>
+                }
+                {
+                (isCardSelected === "Simulare") && 
+                    <Grow 
+                    id="bookCard_div" 
+                    in={isCardSelected === "Simulare"}
+                    timeout={growTimeout}
+                    >
+                    <Typography>
+                        {isCardSelected}
+                    </Typography>
+                    </Grow>
+                }
+                {
+                (isCardSelected === "Teste neterminate") && 
+                    <Grow 
+                    id="bookCard_div" 
+                    in={isCardSelected === "Teste neterminate"}
+                    timeout={growTimeout}
+                    >
+                    <Typography>
+                        {isCardSelected}
+                    </Typography>
+                    </Grow>
+                }
+                {
+                (isCardSelected === "Reparcurge greșeli") && 
+                    <Grow 
+                    id="bookCard_div" 
+                    in={isCardSelected === "Reparcurge greșeli"}
+                    timeout={growTimeout}
+                    >
+                    <Typography>
+                        {isCardSelected}
+                    </Typography>
+                    </Grow>
+                }
+            </Container>
+            { 
+            countSelected !== 0 &&
+            <Slide 
+            in={(countSelected !== 0)} 
+            direction= "up" 
+            className={classes.footer}>
+            <footer >
+                <Container maxWidth="lg">
+                <Grid 
+                    container
+                    direction="row"
+                    justify="space-between"
+                    spacing={4}
+                >
+                    <Grid className={classes.footerItem} item>
+                        <Typography variant="h6"  gutterBottom>
+                            Detaliile testului tau:
+                        </Typography>
+                        <Typography variant="p" component="p">
+                            Tipul testului: {isCardSelected}
+                        </Typography>
+                        <Typography variant="p" component="p">
+                            Număr total de grile: {countSelected}
+                        </Typography>
+                    </Grid>
+                    <Grid container direction="column" className={classes.footerItem} item>
+                        <Typography variant="h6"  gutterBottom>
+                            Continut: 
+                        </Typography>
+                    </Grid>
+                    <Grid className={classes.footerItem} item>
+                        <Button className={classes.footerButton} color="secondary" variant="contained">
+                            ReadySetGO!
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <TestsCard
-                        isSelected = {isCardSelected === "Teste neterminate"}
-                        setCardSelected = {setCardSelected}
-                        imagine={testNeterminatImg} 
-                        title="Teste neterminate"
-                        text="Selectează unul dintre testele neterminate pe care vrei să le continui."
-                    />
-                </Grid>
-                <Grid item>
-                    <TestsCard
-                        isSelected = {isCardSelected === "Reparcurge greșeli"}
-                        setCardSelected = {setCardSelected}
-                        imagine={reparcurgeGreseliImg} 
-                        title="Reparcurge greșeli"
-                        text="Selectează subcapitolele din care ai greșeli pentru a-ți acoperi golurile."
-                    />
-                </Grid>
-            </Grid>
-            {
-            (isCardSelected === "Test nou") &&  
-                <Grow in={isCardSelected === "Test nou"}>
-                    <div>{displayTestNou()}</div>
-                </Grow>
+                </Container>
+            </footer>
+            </Slide>
             }
-            {(isCardSelected === "Simulare") && <Typography>{isCardSelected}</Typography>}
-            {(isCardSelected === "Teste neterminate") && <Typography>{isCardSelected}</Typography>}
-            {(isCardSelected === "Reparcurge greșeli") && <Typography>{isCardSelected}</Typography>}
-        </Container>
+        </div>
     );
 }

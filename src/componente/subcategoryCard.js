@@ -40,7 +40,7 @@ export default function SubcategoryCard(props) {
           title={props.text}
         />
         <CardContent>
-          <Typography variant="subtitle2" color="textSecondary">
+          <Typography variant="subtitle2" >
             {props.text}
           </Typography>
         </CardContent>

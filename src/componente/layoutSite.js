@@ -12,9 +12,13 @@ import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
 
 
+
 const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
+    
+    main:{
+    },
+    rootNavBar: {
+        height: theme.spacing(8),
     },
     logoGroup:{
         flexGrow:1
@@ -212,11 +216,12 @@ export default function LayoutSite(props) {
     }
     return(
         <Box 
-            component="main"            
+        className={classes.main}
+        component="main"            
         >
             {
             !(location.pathname.includes("/login")) &&
-            <AppBar position="relative" elevation={0}  >
+            <AppBar className={classes.rootNavBar} position="relative" elevation={0}  >
                 {mobileView ? displayMobileView() : displayDesktop()} 
             </AppBar>
             }

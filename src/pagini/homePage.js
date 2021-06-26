@@ -43,7 +43,7 @@ export default function HomePage() {
                 <Grid item>
                     <HomeCard
                         imagine={test}
-                        sendTo="/creeaza-ti_Test" 
+                        sendTo="/creeaza-ti_test" 
                         title="Test"
                         text="Creează-ți un test, încearcă-ți puterile cu o simulare sau reparcurge greșelile"
                     />
@@ -87,42 +87,44 @@ export default function HomePage() {
             </Grid>
         </Container>
         <footer className={classes.footer}>
-            <Grid 
-                container
-                direction="row"
-                justify="space-between"
-                spacing={4}
-            >
-                <Grid className={classes.footerItem} item>
-                    <Typography variant="h6"  gutterBottom>
-                        Contact
+            <Container maxWidth="lg" >
+                <Grid 
+                    container
+                    direction="row"
+                    justify="space-between"
+                    spacing={4}
+                >
+                    <Grid className={classes.footerItem} item>
+                        <Typography variant="h6"  gutterBottom>
+                            Contact
+                        </Typography>
+                    <Typography variant="p" component="p">
+                        Pentru orice fel intrebări sau sugestii,
+                        vă rugam să ne contactați la adresa de mail:
+                        rezigo.contact@gmail.com
                     </Typography>
-                <Typography component="p">
-                    Pentru orice fel intrebări sau sugestii,
-                    vă rugam să ne contactați la adresa de mail:
-                    rezigo.contact@gmail.com
-                </Typography>
+                    </Grid>
+                    <Grid container direction="column" className={classes.footerItem} item>
+                        <Typography variant="h6"  gutterBottom>
+                            Link-uri utile
+                        </Typography>
+                        <Link color="secondary" href="/">Despre noi</Link>
+                        <Link color="secondary" href="/">Termeni și condiții</Link>
+                        <Link color="secondary" href="/">Întrebări frecvente</Link>
+                    </Grid>
+                    <Grid className={classes.footerItem} item>
+                        <Typography  variant="h6"  gutterBottom>
+                            Păstrează legătura
+                        </Typography>
+                        <IconButton href="/">
+                            <FacebookIcon color="secondary"  fontSize="large" />
+                        </IconButton>
+                        <IconButton href="/">
+                            <InstagramIcon color="secondary" fontSize="large" />
+                        </IconButton>
+                    </Grid>
                 </Grid>
-                <Grid container direction="column" className={classes.footerItem} item>
-                    <Typography variant="h6"  gutterBottom>
-                        Link-uri utile
-                    </Typography>
-                    <Link color="secondary" href="/">Despre noi</Link>
-                    <Link color="secondary" href="/">Termeni și condiții</Link>
-                    <Link color="secondary" href="/">Întrebări frecvente</Link>
-                </Grid>
-                <Grid className={classes.footerItem} item>
-                    <Typography  variant="h6"  gutterBottom>
-                        Păstrează legătura
-                    </Typography>
-                    <IconButton href="/">
-                        <FacebookIcon color="secondary"  fontSize="large" />
-                    </IconButton>
-                    <IconButton href="/">
-                        <InstagramIcon color="secondary" fontSize="large" />
-                    </IconButton>
-                </Grid>
-            </Grid>
+            </Container>
         </footer>
     </>
    );
