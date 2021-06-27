@@ -27,8 +27,6 @@ export default function SubcategoryCard(props) {
 
   const classes = useStyles();
 
-  console.log(props.listaselectiisubcat[props.index][props.indexSub]);
-
   return (
     <Card className={classes.root}>
       <CardActionArea 

@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme)=>({
         padding: theme.spacing(2,0,0)
     },
     bookDiv :{
-        flex:1,
+        marginBottom: theme.spacing(11),
+        
     },
     bookLevel :{
         flex:1,
@@ -53,13 +54,17 @@ const useStyles = makeStyles((theme)=>({
     footer: {
         backgroundColor: theme.palette.primary.main,
         width: "100%",
-        padding: theme.spacing(2)
+        padding: theme.spacing(1),
+        paddingBottom: "2.5vh",
+        paddingTop: "2.5vh",
+        position: "fixed",
+        bottom: 0,
     },
     footerItem: {
         maxWidth: 300,
     },
     footerButton:{
-        padding: theme.spacing(2),
+        padding: theme.spacing(1.5),
     },
 }));
 
@@ -95,7 +100,7 @@ export default function TestePage() {
 
     const displayTestNou = ()=>{
         return(
-            <>
+            <div className={classes.bookDiv}>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     2. Selectează cărțile, capitolele și subcapitolele:
                 </Typography>
@@ -187,7 +192,7 @@ export default function TestePage() {
                         }
                     </Grid>
                 </Grid>
-            </>
+            </div>
         );
     }
     
@@ -347,24 +352,19 @@ export default function TestePage() {
                     spacing={4}
                 >
                     <Grid className={classes.footerItem} item>
-                        <Typography variant="h6"  gutterBottom>
-                            Detaliile testului tau:
+                        
+                        <Typography variant="subtitle2" component="p">
+                            Tip test: {isCardSelected}
                         </Typography>
-                        <Typography variant="p" component="p">
-                            Tipul testului: {isCardSelected}
-                        </Typography>
-                        <Typography variant="p" component="p">
-                            Număr total de grile: {countSelected}
-                        </Typography>
-                    </Grid>
-                    <Grid container direction="column" className={classes.footerItem} item>
-                        <Typography variant="h6"  gutterBottom>
-                            Continut: 
+                        <Typography variant="subtitle2" component="p">
+                            Număr de grile: {countSelected}
                         </Typography>
                     </Grid>
                     <Grid className={classes.footerItem} item>
                         <Button className={classes.footerButton} color="secondary" variant="contained">
+                            <Typography>
                             ReadySetGO!
+                            </Typography>
                         </Button>
                     </Grid>
                 </Grid>
