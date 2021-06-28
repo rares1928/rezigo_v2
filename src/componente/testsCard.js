@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
+
 export default function TestsCard(props) {
 
     const useStyles = makeStyles((theme)=>({
@@ -33,12 +34,14 @@ export default function TestsCard(props) {
       }));
 
     const classes = useStyles();
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
   return (
     <Card className={classes.root}>
         <CardActionArea onClick={()=>{
                 props.setCardSelected(props.title);
-                var objDiv = document.getElementById("testCard_div");
-                objDiv.scrollTop = objDiv.scrollHeight;
+                sleep(100).then(()=>{document.getElementById("as vrea sa scrolez aici").scrollIntoView(true);});
             }}>
             <CardMedia 
                 className={classes.media}

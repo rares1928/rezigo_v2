@@ -77,7 +77,7 @@ export default function TestePage() {
     const [isSinopsis, setSinopsis] = useState(false);
     const [listaselectiisubcat, setListaselectiisubcat] = useState([{}]);
     const [listaselectii, setListaselectii] = useState([]);
-    const [countSelected, setCountSelected] = useState(0);
+    const [ready, setReady] = useState(false);
     const data=preData["lista_finala"];
     const listaCategorii = data; 
     // delay la grow in milisecunde
@@ -90,13 +90,16 @@ export default function TestePage() {
         for (let i = 0; i < data.length; ++i) {
             const lista_temp_temp = [];
             for (let j = 0; j < data[i].subCategory.length; ++j)
-                lista_temp_temp.push(false);
+            {
+                lista_temp_temp.push(0);
+            }
             lista_temp.push(lista_temp_temp);
             lista_temp2.push(false);
-            }
-            setListaselectiisubcat(lista_temp);
-            setListaselectii(lista_temp2);
-    },[data])
+        }
+        setListaselectiisubcat(lista_temp);
+        setListaselectii(lista_temp2);
+        setReady(true);
+    },[data, ready])
 
     const displayTestNou = ()=>{
         return(
@@ -128,7 +131,7 @@ export default function TestePage() {
                                     listaselectiisubcat={listaselectiisubcat}
                                     setListaselectii={setListaselectii}
                                     setListaselectiisubcat={setListaselectiisubcat}
-                                    setCountSelected={setCountSelected}
+                                    
                                     data={listaCategorii} 
                                     book="Kumar" 
                                     />
@@ -157,7 +160,7 @@ export default function TestePage() {
                                     listaselectiisubcat={listaselectiisubcat}
                                     setListaselectii={setListaselectii}
                                     setListaselectiisubcat={setListaselectiisubcat}
-                                    setCountSelected={setCountSelected}
+                                    
                                     data={listaCategorii} 
                                     book="Chirurgie" 
                                     />
@@ -183,7 +186,7 @@ export default function TestePage() {
                                     listaselectiisubcat={listaselectiisubcat}
                                     setListaselectii={setListaselectii}
                                     setListaselectiisubcat={setListaselectiisubcat}
-                                    setCountSelected={setCountSelected}
+                                    
                                     data={listaCategorii} 
                                     book="Sinopsis" 
                                     />
@@ -200,24 +203,17 @@ export default function TestePage() {
         const lista_temp_selectii = [...listaselectii];
         const lista_temporara_mare = [...listaselectiisubcat];
         const lista_temporara = [...listaselectiisubcat[i]];
-        let count_temporar = 0;
-        if (listaselectiisubcat[i].reduce((acc,value) => acc && value, true)) {
+        if (listaselectiisubcat[i].reduce((acc,value) => acc + value, 0) === listaCategorii[i].subCategory.reduce((acc, subcat) => acc + subcat.count, 0) ) {
             for (let index = 0; index < listaselectiisubcat[i].length; index++) {
-                lista_temporara[index] = false;
-                count_temporar+=data[i]['subCategory'][index]['count'];
+                lista_temporara[index] = 0;
             }
-            setCountSelected(countSelected-count_temporar);
             lista_temporara_mare[i] = lista_temporara;
             setListaselectiisubcat(lista_temporara_mare);
         }
         else {
             for (let index = 0; index < listaselectiisubcat[i].length; index++) {
-                lista_temporara[index] = true;
-                if(!listaselectiisubcat[i][index]){
-                  count_temporar+=data[i]['subCategory'][index]['count'];
-                }
+                lista_temporara[index] = listaCategorii[i].subCategory[index].count;
             }
-            setCountSelected(countSelected+count_temporar);
             lista_temporara_mare[i] = lista_temporara
             setListaselectiisubcat(lista_temporara_mare);
         }
@@ -225,18 +221,26 @@ export default function TestePage() {
         setListaselectii(lista_temp_selectii);
     }
 
-    const onClickSubCategorie = (i, index) => {
+    const onClickSubCategorie = (i, index, click = true, numGrile=5 ) => {
         const lista_temporara_mare = [...listaselectiisubcat];
         const lista_temporara = [...listaselectiisubcat[i]];
-        lista_temporara[index] = !lista_temporara[index];
-        if(lista_temporara[index]){
-          setCountSelected(countSelected+data[i]['subCategory'][index]['count']);
+        if(click){
+            if(lista_temporara[index]>0){
+                lista_temporara[index] = 0;
+            }
+            else{
+                lista_temporara[index] = listaCategorii[i].subCategory[index].count;
+            }
         }
         else{
-          setCountSelected(countSelected-data[i]['subCategory'][index]['count']);
+            lista_temporara[index] = numGrile;
         }
         lista_temporara_mare[i] = lista_temporara;
         setListaselectiisubcat(lista_temporara_mare);
+    }
+
+    const sumaElemArr = (array)=>{
+        return array.reduce((acc, subArray) => acc + subArray.reduce((subAcc, value)=> subAcc + value, 0), 0);
     }
 
     return(
@@ -290,6 +294,7 @@ export default function TestePage() {
                         />
                     </Grid>
                 </Grid>
+                <div id="as vrea sa scrolez aici"></div>
                 {
                 (isCardSelected === "Test nou") &&  
                     <Grow 
@@ -337,10 +342,12 @@ export default function TestePage() {
                     </Grow>
                 }
             </Container>
-            { 
-            countSelected !== 0 &&
+            {ready &&
+            <>
+            {
+            sumaElemArr(listaselectiisubcat) !== 0 &&
             <Slide 
-            in={(countSelected !== 0)} 
+            in={(sumaElemArr(listaselectiisubcat))} 
             direction= "up" 
             className={classes.footer}>
             <footer >
@@ -357,7 +364,7 @@ export default function TestePage() {
                             Tip test: {isCardSelected}
                         </Typography>
                         <Typography variant="subtitle2" component="p">
-                            Număr de grile: {countSelected}
+                            Număr de grile: {sumaElemArr(listaselectiisubcat)}
                         </Typography>
                     </Grid>
                     <Grid className={classes.footerItem} item>
@@ -371,6 +378,8 @@ export default function TestePage() {
                 </Container>
             </footer>
             </Slide>
+            }
+            </>
             }
         </div>
     );
