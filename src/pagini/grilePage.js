@@ -3,6 +3,6 @@ import { Typography } from '@material-ui/core';
 
 export default function GrilePage() {
     return(
-        <Typography variant="h2">Aici vor fi întrebările</Typography>
+        <Typography variant="h2">Mu3</Typography>
     );
 }
