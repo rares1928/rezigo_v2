@@ -12,27 +12,6 @@ import { Container } from '@material-ui/core';
 
 
 export default function GrilePage(props) {
-    console.log(dataGrile["lista"]);
-
-    const useStyles = makeStyles((theme) => ({
-    
-        paper: {
-            padding: theme.spacing(2),
-            marginTop: theme.spacing(8),
-        },
-        question:{
-            paddingTop: theme.spacing(3),
-            padding: theme.spacing(1),
-            paddingBottom: theme.spacing(3),
-        },
-        cardVariante:{
-            backgroundColor: props.darkMode? "#5c5c5c" : "#fafafa",
-            display: "flex",
-            flexDirection: "row",
-            marginBottom: theme.spacing(0.5),
-        },
-    
-    }));
 
     const [selectedQuestion, setNextQuestion] = useState(0);
     let isQuestionSelected = [false, false, false, false, false]
@@ -43,10 +22,8 @@ export default function GrilePage(props) {
 
     useEffect(()=>{
         setItems(dataGrile["lista"]);
-        console.log("sunt in fucking useEffect");
-    },[])
-    console.log("items= ", items);
-    console.log(isReady);
+        setReady(true);
+    },[isReady])
 
     const handleNextQuestion = () => {
         const nextQuestion = selectedQuestion + 1;
@@ -69,14 +46,34 @@ export default function GrilePage(props) {
       }
     
     const abc = ['a)','b)','c)','d)','e)'];
+    const useStyles = makeStyles((theme) => ({
+    
+        paper: {
+            padding: theme.spacing(2),
+            marginTop: theme.spacing(8),
+        },
+        question:{
+            paddingTop: theme.spacing(3),
+            padding: theme.spacing(1),
+            paddingBottom: theme.spacing(3),
+        },
+        cardVariante:{
+            backgroundColor: props.darkMode? "#5c5c5c" : "#fafafa",
+            display: "flex",
+            flexDirection: "row",
+            marginBottom: theme.spacing(0.5),
+        },
+    
+    }));
     const classes = useStyles();
     return(
         <Container maxWidth="lg">
+        {isReady &&
         <Grid >
             <Grid item>
             <Paper className={classes.paper}>
                 <div className={classes.question}>
-                    <Typography variant="subtitle1">
+                    <Typography variant="subtitle1" color="textSecondary">
                         Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
                     </Typography>
                     <Typography  variant="subtitle1" >
@@ -102,6 +99,7 @@ export default function GrilePage(props) {
             </Paper>
             </Grid>
         </Grid>
+        }
         </Container>
     );
 }
