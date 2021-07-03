@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { useLocation } from 'react-router';
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import Brightness2Icon from '@material-ui/icons/Brightness2';
 import LibraryBooksRoundedIcon from '@material-ui/icons/LibraryBooksRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
@@ -154,7 +155,7 @@ export default function LayoutSite(props) {
                             }}  >
                             {
                                 props.darkMode && 
-                                <Brightness7Icon />
+                                <WbSunnyIcon />
                             }
                             {
                                 !props.darkMode && 

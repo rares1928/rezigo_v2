@@ -58,7 +58,7 @@ function App() {
             <Route path="/profil" exact component={ProfilePage} />
             <Route path="/librarie" exact component={LibrariePage} />
             <Route path="/creeaza-ti_test/" exact component={TestePage} />
-            <Route path="/creeaza-ti_test/testid*" exact component={GrilePage} />
+            <Route path="/creeaza-ti_test/testid*" exact component={()=> <GrilePage darkMode={darkMode} ></GrilePage>} />
             <Route component={NoMatch}/>
           </Switch>
         </LayoutSite>
