@@ -1,14 +1,16 @@
 import React, {useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import dataGrile from "../componente/getGrile";
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
+import AnswerOptionCard from '../componente/answerOptionCard';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import CardActions from '@material-ui/core/CardActions';
 import Grid from '@material-ui/core/Grid';
-import { Container } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Slider from '@material-ui/core/Slider';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 
 export default function GrilePage(props) {
@@ -18,7 +20,6 @@ export default function GrilePage(props) {
     const [isSelected, setIsSelected]=useState(isQuestionSelected);
     const [items, setItems] = useState([]);
     const [isReady, setReady] = useState(false);
-    const [arataRaspuns, setArataRaspuns] = useState(false);
 
     useEffect(()=>{
         setItems(dataGrile["lista"]);
@@ -44,13 +45,19 @@ export default function GrilePage(props) {
         temporaryList[index] = !temporaryList[index];
         setIsSelected([...temporaryList]);
       }
+    const handleSliderChange = (event, newValue) => {
+        setNextQuestion(newValue-1);
+    };
+    const baza2Converter = (numar, pozitie) => {
+        return(parseInt(numar/Math.pow(2,4-pozitie)) %2)
+    }
     
-    const abc = ['a)','b)','c)','d)','e)'];
     const useStyles = makeStyles((theme) => ({
     
         paper: {
             padding: theme.spacing(2),
             marginTop: theme.spacing(8),
+            marginBottom: theme.spacing(8),
         },
         question:{
             paddingTop: theme.spacing(3),
@@ -58,10 +65,18 @@ export default function GrilePage(props) {
             paddingBottom: theme.spacing(3),
         },
         cardVariante:{
-            backgroundColor: props.darkMode? "#5c5c5c" : "#fafafa",
             display: "flex",
             flexDirection: "row",
             marginBottom: theme.spacing(0.5),
+        },
+        butonRaspuns:{
+            marginTop: theme.spacing(3),
+        },
+        slider:{
+            marginTop: theme.spacing(3),
+            display:"flex",
+            flexDirection:"row",
+            alignItems:"center",
         },
     
     }));
@@ -73,28 +88,72 @@ export default function GrilePage(props) {
             <Grid item>
             <Paper className={classes.paper}>
                 <div className={classes.question}>
-                    <Typography variant="subtitle1" color="textSecondary">
+                    <Typography variant="body2" color="textSecondary">
                         Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
                     </Typography>
-                    <Typography  variant="subtitle1" >
+                    <Typography  variant="subtitle1" className="grileQuestionTypography">
                         {selectedQuestion+1}. {items[selectedQuestion]['Intrebare']}
                     </Typography>
                 </div>
                 <div>
                     {items[selectedQuestion]['Variante'].map((answerOption, index) =>(
-                        <Card key={index} className={classes.cardVariante}>
-                            <CardActionArea>
-                                <CardContent>
-                                    <Typography variant="subtitle1">
-                                        {abc[index]} {answerOption}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions>
-                                Corect/Gresit
-                            </CardActions>
-                        </Card>                       
+                        <AnswerOptionCard
+                        key={index}
+                        index={index}
+                        answerOption={answerOption}
+                        darkMode={props.darkMode}
+                        handleQuestionSelection={handleQuestionSelection}
+                        baza2Converter={baza2Converter}
+                        items={items}
+                        isSelected={isSelected}
+                        selectedQuestion={selectedQuestion}
+                        />                   
                     ))}
+                </div>
+                <Button 
+                    variant="contained" 
+                    color="secondary" 
+                    className={classes.butonRaspuns}
+                    disabled={(isSelected.reduce((a,b)=> a+b ,0)) === 0}
+                >
+                    {
+                    (items[selectedQuestion]["Choices"] === 0) &&
+                    <Typography>
+                      Trimite răspuns
+                    </Typography>
+                    }
+                    {
+                    (items[selectedQuestion]["Choices"] > 0) &&
+                    <Typography>
+                      Următoarea grilă
+                    </Typography>
+                    }
+                </Button>
+                <div className={classes.slider}>
+                    <IconButton
+                        onClick={ handlePreviousQuestion}
+                        disabled={selectedQuestion   === 0 ? true : false}
+                        >
+                        
+                        <ChevronLeftIcon/>
+                    </IconButton>
+                    
+                    <Slider
+                        onChange={handleSliderChange}
+                        value={selectedQuestion+1}
+                        marks
+                        step={1}
+                        min={1}
+                        max={items.length}
+                        valueLabelDisplay="auto"
+                    >          
+                    </Slider>
+                    <IconButton
+                        onClick={handleNextQuestion}
+                        disabled={selectedQuestion +1  === items.length ? true : false}
+                    >
+                        <ChevronRightIcon/>
+                    </IconButton>
                 </div>
             </Paper>
             </Grid>
