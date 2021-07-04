@@ -17,6 +17,7 @@ import Grow from '@material-ui/core/Grow';
 import preData from "../componente/getCategorii";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
+import DataTable from "../componente/tabel" ;
 
 
 const useStyles = makeStyles((theme)=>({
@@ -198,6 +199,19 @@ export default function TestePage() {
             </div>
         );
     }
+
+    const displayTestNeterminat = () => {
+        return (
+            <div>DURERE
+                <div>
+                    {
+                        <DataTable rows={[{CreatedAt:'12345', NumAnswered:'19', NumUnanswered:'23', Score:'1923'},
+                                          {CreatedAt:'12345', NumAnswered:'19', NumUnanswered:'23', Score:'1923'}]}/>
+                    }
+                </div>
+            </div>
+        )
+    }
     
     const onClickCategorieMare = (i) => {
         const lista_temp_selectii = [...listaselectii];
@@ -326,6 +340,7 @@ export default function TestePage() {
                     >
                     <Typography>
                         {isCardSelected}
+                        <div>{displayTestNeterminat()}</div>
                     </Typography>
                     </Grow>
                 }
