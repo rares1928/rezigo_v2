@@ -1,0 +1,22 @@
+1. Hash those passwords
+
+2. Allow for third-party identity providers if possible
+
+7. Validate the user's identity
+
+8. Allow users to change their username
+
+9. Let your users delete their accounts
+
+13. Build a secure auth system
+If you're using a service like Identity Platform, 
+a lot of security concerns are handled for you automatically. 
+However, your service will always need to be engineered properly to prevent abuse. 
+Core considerations include implementing a password reset instead of password retrieval,
+detailed account activity logging, rate-limiting login attempts to prevent credential stuffing,
+locking out accounts after too many unsuccessful login attempts, 
+and requiring two-factor authentication for unrecognized devices or accounts that have been idle for extended periods. 
+There are many more aspects to a secure authentication system, so please see the further reading 
+section below for links to more information. 
+
+

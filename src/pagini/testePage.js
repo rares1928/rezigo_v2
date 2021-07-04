@@ -205,8 +205,8 @@ export default function TestePage() {
             <div>DURERE
                 <div>
                     {
-                        <DataTable rows={[{CreatedAt:'12345', NumAnswered:'19', NumUnanswered:'23', Score:'1923'},
-                                          {CreatedAt:'12345', NumAnswered:'19', NumUnanswered:'23', Score:'1923'}]}/>
+                    <DataTable rows={[{CreatedAt:'12345', NumAnswered:'19', NumUnanswered:'23', Score:'1923'},
+                      {CreatedAt:'12345', NumAnswered:'19', NumUnanswered:'23', Score:'1923'}]}/>
                     }
                 </div>
             </div>
