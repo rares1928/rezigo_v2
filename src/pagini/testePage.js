@@ -17,7 +17,9 @@ import Grow from '@material-ui/core/Grow';
 import preData from "../componente/getCategorii";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
-import DataTable from "../componente/tabel" ;
+import DataTable from "../componente/tabel";
+import Cookies from 'universal-cookie';
+import axios from 'axios';
 
 
 const useStyles = makeStyles((theme)=>({
@@ -79,19 +81,57 @@ export default function TestePage() {
     const [listaselectiisubcat, setListaselectiisubcat] = useState([{}]);
     const [listaselectii, setListaselectii] = useState([]);
     const [ready, setReady] = useState(false);
-    const data=preData["lista_finala"];
-    const listaCategorii = data; 
+    const [listaCategorii, setListaCategorii] = useState([])
+    const [listatTesteNeterm, setListaTesteNeterm] = useState([])
     // delay la grow in milisecunde
     const growTimeout = 700;
 
-    useEffect(()=>{
+    useEffect(() => {
+        const callApiCategorii = async (url, data) => {
+            const cookies = new Cookies();
+            const token = cookies.get('accessToken');
+            const config = {
+                withCredentials: true,
+                headers: { Authorization: `Bearer ${token}` }
+            };
+            const response = await axios.post(url, data, config)
+            if ("token" in response.data) {
+                cookies.set('accessToken', token, { path: "/" })
+            }
+            setListaCategorii(response.data["lista_finala"])
+            setReady(true)
+        }
+
+        const callApiTeste = async (url, data) => {
+            const cookies = new Cookies();
+            const token = cookies.get('accessToken');
+            const config = {
+                withCredentials: true,
+                headers: { Authorization: `Bearer ${token}` }
+            };
+            const response = await axios.post(url, data, config)
+            if ("token" in response.data) {
+                cookies.set('accessToken', token, { path: "/" })
+            }
+            setListaTesteNeterm(response.data["lista"])
+        }
+        const cookies = new Cookies();
+        const rememberMe = cookies.get('rememberMe');
+
+        if (ready === false) {
+            callApiCategorii('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', {
+                rememberMe
+            })
+            callApiTeste('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe })
+        }
+
+        console.log("sunt aici")
         let lista_temp = [];
         let lista_temp2 = [];
 
-        for (let i = 0; i < data.length; ++i) {
+        for (let i = 0; i < listaCategorii.length; ++i) {
             const lista_temp_temp = [];
-            for (let j = 0; j < data[i].subCategory.length; ++j)
-            {
+            for (let j = 0; j < listaCategorii[i].subCategory.length; ++j) {
                 lista_temp_temp.push(0);
             }
             lista_temp.push(lista_temp_temp);
@@ -99,26 +139,25 @@ export default function TestePage() {
         }
         setListaselectiisubcat(lista_temp);
         setListaselectii(lista_temp2);
-        setReady(true);
-    },[data, ready])
+    },[ready])
 
-    const displayTestNou = ()=>{
-        return(
+    const displayTestNou = () => {
+        return (
             <div className={classes.bookDiv}>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     2. Selectează cărțile, capitolele și subcapitolele:
                 </Typography>
-                <Grid 
-                className={classes.cardGrid}
-                container 
-                justify="center"
-                spacing={4}
+                <Grid
+                    className={classes.cardGrid}
+                    container
+                    justify="center"
+                    spacing={4}
                 >
                     <Grid item className={classes.bookLevel}>
                         <TestsBookCard
-                            isSelected = {isKumar}
-                            setCardSelected = {setKumar}
-                            imagine={kumar} 
+                            isSelected={isKumar}
+                            setCardSelected={setKumar}
+                            imagine={kumar}
                             title="Kumar și Clark Medicină Clinică"
                         />
                         {
@@ -126,15 +165,15 @@ export default function TestePage() {
                             <Grow in={isKumar} timeout={growTimeout}>
                                 <div className={classes.bookSubcatDiv}>
                                     <CategoryAcordion
-                                    onClickCategorieMare={onClickCategorieMare}
-                                    onClickSubCategorie={onClickSubCategorie}
-                                    listaselectii={listaselectii}
-                                    listaselectiisubcat={listaselectiisubcat}
-                                    setListaselectii={setListaselectii}
-                                    setListaselectiisubcat={setListaselectiisubcat}
-                                    
-                                    data={listaCategorii} 
-                                    book="Kumar" 
+                                        onClickCategorieMare={onClickCategorieMare}
+                                        onClickSubCategorie={onClickSubCategorie}
+                                        listaselectii={listaselectii}
+                                        listaselectiisubcat={listaselectiisubcat}
+                                        setListaselectii={setListaselectii}
+                                        setListaselectiisubcat={setListaselectiisubcat}
+
+                                        data={listaCategorii}
+                                        book="Kumar"
                                     />
                                 </div>
                             </Grow>
@@ -142,28 +181,28 @@ export default function TestePage() {
                     </Grid>
                     <Grid item className={classes.bookLevel}>
                         <TestsBookCard
-                            isSelected = {isLawrence}
-                            setCardSelected = {setLawerence}
-                            imagine={lawrence} 
+                            isSelected={isLawrence}
+                            setCardSelected={setLawerence}
+                            imagine={lawrence}
                             title="Chirurgie generală și specialități chirurgicale"
                         />
                         {
                             isLawrence &&
-                            <Grow 
-                            in={isLawrence}
-                            timeout={growTimeout}
+                            <Grow
+                                in={isLawrence}
+                                timeout={growTimeout}
                             >
                                 <div className={classes.bookSubcatDiv}>
                                     <CategoryAcordion
-                                    onClickCategorieMare={onClickCategorieMare}
-                                    onClickSubCategorie={onClickSubCategorie}
-                                    listaselectii={listaselectii}
-                                    listaselectiisubcat={listaselectiisubcat}
-                                    setListaselectii={setListaselectii}
-                                    setListaselectiisubcat={setListaselectiisubcat}
-                                    
-                                    data={listaCategorii} 
-                                    book="Chirurgie" 
+                                        onClickCategorieMare={onClickCategorieMare}
+                                        onClickSubCategorie={onClickSubCategorie}
+                                        listaselectii={listaselectii}
+                                        listaselectiisubcat={listaselectiisubcat}
+                                        setListaselectii={setListaselectii}
+                                        setListaselectiisubcat={setListaselectiisubcat}
+
+                                        data={listaCategorii}
+                                        book="Chirurgie"
                                     />
                                 </div>
                             </Grow>
@@ -171,9 +210,9 @@ export default function TestePage() {
                     </Grid>
                     <Grid item className={classes.bookLevel}>
                         <TestsBookCard
-                            isSelected = {isSinopsis}
-                            setCardSelected = {setSinopsis}
-                            imagine={sinopsis} 
+                            isSelected={isSinopsis}
+                            setCardSelected={setSinopsis}
+                            imagine={sinopsis}
                             title="Sinopsis de medicină"
                         />
                         {
@@ -181,22 +220,22 @@ export default function TestePage() {
                             <Grow in={isSinopsis} timeout={growTimeout}>
                                 <div className={classes.bookSubcatDiv}>
                                     <CategoryAcordion
-                                    onClickCategorieMare={onClickCategorieMare}
-                                    onClickSubCategorie={onClickSubCategorie}
-                                    listaselectii={listaselectii}
-                                    listaselectiisubcat={listaselectiisubcat}
-                                    setListaselectii={setListaselectii}
-                                    setListaselectiisubcat={setListaselectiisubcat}
-                                    
-                                    data={listaCategorii} 
-                                    book="Sinopsis" 
+                                        onClickCategorieMare={onClickCategorieMare}
+                                        onClickSubCategorie={onClickSubCategorie}
+                                        listaselectii={listaselectii}
+                                        listaselectiisubcat={listaselectiisubcat}
+                                        setListaselectii={setListaselectii}
+                                        setListaselectiisubcat={setListaselectiisubcat}
+
+                                        data={listaCategorii}
+                                        book="Sinopsis"
                                     />
                                 </div>
                             </Grow>
                         }
                     </Grid>
                 </Grid>
-            </div>
+                    </div>
         );
     }
 
@@ -205,8 +244,7 @@ export default function TestePage() {
             <div>DURERE
                 <div>
                     {
-                    <DataTable rows={[{CreatedAt:'12345', NumAnswered:'19', NumUnanswered:'23', Score:'1923'},
-                      {CreatedAt:'12345', NumAnswered:'19', NumUnanswered:'23', Score:'1923'}]}/>
+                        <DataTable rows={listatTesteNeterm} />
                     }
                 </div>
             </div>
@@ -316,7 +354,7 @@ export default function TestePage() {
                     in={isCardSelected === "Test nou"}
                     timeout={growTimeout}
                     >
-                        <div>{displayTestNou()}</div>
+                        {ready && <div>{displayTestNou()}</div>}
                     </Grow>
                 }
                 {

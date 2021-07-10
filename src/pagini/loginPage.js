@@ -47,6 +47,8 @@ export default function SignIn() {
   let history = useHistory();
 
   const callLoginApi = () => {
+    const cookies = new Cookies();
+    cookies.set('rememberMe', rememberMe, { path: '/' })
     setapare_aicont(false);
     const tip_login = 'autohton';
     axios.post('https://grileapiwin.azurewebsites.net/api/Login?code=D2p6Wi0brJT9iDnRObOnEfKqJLZbEhKse5Ze0ac9T745hJSuyiimuQ==', {
@@ -54,13 +56,12 @@ export default function SignIn() {
         password,
         tip_login,
         rememberMe
-    }).then((response) => {
+    }, { withCredentials: true}).then((response) => {
         console.log(response);
         const firstname = response.data['first_name'];
         const lastname = response.data['last_name'];
         const plan = response.data['plan'];
         const accessToken = response.data['access']
-        const cookies = new Cookies();
         cookies.set('estiLogat', "rapid", { path: '/' });
         cookies.set('firstname', firstname, { path: '/' })
         cookies.set('lastname', lastname, { path: '/' })
