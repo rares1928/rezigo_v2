@@ -14,7 +14,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CategoryAcordion from '../componente/categoryAcordion';
 import Grow from '@material-ui/core/Grow';
-import preData from "../componente/getCategorii";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
 import DataTable from "../componente/tabel";
@@ -127,7 +126,6 @@ export default function TestePage() {
             callApiCategorii('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, (a) => setListaTesteNeterm(a))
         }
 
-        console.log("sunt aici")
         let lista_temp = [];
         let lista_temp2 = [];
 
