@@ -11,6 +11,7 @@ import Brightness2Icon from '@material-ui/icons/Brightness2';
 import LibraryBooksRoundedIcon from '@material-ui/icons/LibraryBooksRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
+import Cookies from 'universal-cookie';
 
 
 
@@ -51,6 +52,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function LayoutSite(props) {
+    const cookies = new Cookies();
+    let name = cookies.get('firstname');
     let location = useLocation();
 
     const classes = useStyles();
@@ -187,7 +190,7 @@ export default function LayoutSite(props) {
                         disableElevation 
                         variant={location.pathname === "/profil"? "contained":"outlined"} 
                         href="/profil">
-                            <Typography variant="h6" align="center">Nume Prenume</Typography>  
+                            <Typography variant="h6" align="center">{name}</Typography>  
                         </Button>        
                     </ButtonGroup>
                 </div>

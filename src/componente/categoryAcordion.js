@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme)=>({
 
 export default function CategoryAcordion(props) {
   const classes = useStyles();
-  console.log(props.data)
   return (
     <div className={classes.root}>
       {
@@ -42,7 +41,7 @@ export default function CategoryAcordion(props) {
             >
                 <div className={classes.titles}>
                     <Checkbox 
-                    checked={props.listaselectiisubcat[index].reduce((acc,value) => acc && value, true)}
+                    checked={props.listaselectiisubcat[index].reduce((acc,value) => acc + value, 0) > 0}
                     onChange={()=>{props.onClickCategorieMare(index)}}
                     onClick={(event) => event.stopPropagation()} 
                     onFocus={(event) => event.stopPropagation()} 

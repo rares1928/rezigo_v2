@@ -14,7 +14,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CategoryAcordion from '../componente/categoryAcordion';
 import Grow from '@material-ui/core/Grow';
-import preData from "../componente/getCategorii";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
 import DataTable from "../componente/tabel";
@@ -98,8 +97,8 @@ export default function TestePage() {
             if ("token" in response.data) {
                 cookies.set('accessToken', token, { path: "/" })
             }
-            setListaCategorii(response.data["lista_finala"])
-            setReady(true)
+            setListaCategorii(response.data["lista_finala"]);
+            setReady(true);
         }
 
         const callApiTeste = async (url, data) => {
@@ -125,7 +124,6 @@ export default function TestePage() {
             callApiTeste('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe })
         }
 
-        console.log("sunt aici")
         let lista_temp = [];
         let lista_temp2 = [];
 
@@ -139,7 +137,7 @@ export default function TestePage() {
         }
         setListaselectiisubcat(lista_temp);
         setListaselectii(lista_temp2);
-    },[ready])
+    },[ready, listaCategorii])
 
     const displayTestNou = () => {
         return (
@@ -400,7 +398,7 @@ export default function TestePage() {
             {
             sumaElemArr(listaselectiisubcat) !== 0 &&
             <Slide 
-            in={(sumaElemArr(listaselectiisubcat))} 
+            in={(sumaElemArr(listaselectiisubcat)) > 0} 
             direction= "up" 
             className={classes.footer}>
             <footer >
