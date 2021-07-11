@@ -20,6 +20,8 @@ import DataTable from "../componente/tabel";
 import Cookies from 'universal-cookie';
 import { callApi } from "../utils/callApi";
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import ErrorPopup from '../componente/errorPopup';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -83,6 +85,7 @@ export default function TestePage() {
     const [ready, setReady] = useState(false);
     const [listaCategorii, setListaCategorii] = useState([])
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
+    const [error, setError] = useState(0);
     // delay la grow in milisecunde
     const growTimeout = 700;
     let history = useHistory();
@@ -100,12 +103,47 @@ export default function TestePage() {
     };
 
     useEffect(() => {
+        const callApiCategorii = async (url, data) => {
+            const cookies = new Cookies();
+            const token = cookies.get('accessToken');
+            const config = {
+                withCredentials: true,
+                headers: { Authorization: `Bearer ${token}` }
+            };
+            axios.post(url, data, config).then((response)=>{
+                if ("token" in response.data) {
+                    cookies.set('accessToken', token, { path: "/" })
+                }
+                setListaCategorii(response.data["lista"]);
+                setReady(true);
+            },(err)=>{
+                setError(err.response.status);
+            })
+        }
+
+        const callApiTeste = async (url, data) => {
+            const cookies = new Cookies();
+            const token = cookies.get('accessToken');
+            const config = {
+                withCredentials: true,
+                headers: { Authorization: `Bearer ${token}` }
+            };
+            axios.post(url, data, config).then((response)=>{
+                if ("token" in response.data) {
+                    cookies.set('accessToken', token, { path: "/" })
+                }
+                setListaTesteNeterm(response.data["lista"]);
+            },(err)=>{
+                setError(err.response.status);
+            })
+            
+        }
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
 
         if (ready === false) {
-            callApi('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { rememberMe }, handleCategorii)
-            callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste)
+            callApiCategorii('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { rememberMe }, handleCategorii)
+            callApiTeste('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste)
             setReady(true)
         }
 
@@ -283,14 +321,14 @@ export default function TestePage() {
         setListaselectii(lista_temp_selectii);
     }
 
-    const onClickSubCategorie = (i, index, click = true, numGrile = 5) => {
+    const onClickSubCategorie = (i, index, click = true, numGrile ) => {
         const lista_temporara_mare = [...listaselectiisubcat];
         const lista_temporara = [...listaselectiisubcat[i]];
         if (click) {
             if (lista_temporara[index] > 0) {
                 lista_temporara[index] = 0;
             }
-            else {
+            else{
                 lista_temporara[index] = listaCategorii[i].subCategory[index].Count;
             }
         }
@@ -307,6 +345,7 @@ export default function TestePage() {
 
     return (
         <div className={classes.root}>
+            <ErrorPopup errorStatus={error} />
             <Container maxWidth="lg" className={classes.containerPart}>
 
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
@@ -326,6 +365,7 @@ export default function TestePage() {
                             imagine={testNouImg}
                             title="Test nou"
                             text="Selectează subcapitolele din care dorești grilele."
+                            ready = {ready}
                         />
                     </Grid>
                     <Grid item>
@@ -406,43 +446,43 @@ export default function TestePage() {
                 }
             </Container>
             {ready &&
-                <>
-                    {
-                        sumaElemArr(listaselectiisubcat) !== 0 &&
-                        <Slide
-                            in={(sumaElemArr(listaselectiisubcat)) > 0}
-                            direction="up"
-                            className={classes.footer}>
-                            <footer >
-                                <Container maxWidth="lg">
-                                    <Grid
-                                        container
-                                        direction="row"
-                                        justify="space-between"
-                                        spacing={4}
-                                    >
-                                        <Grid className={classes.footerItem} item>
-
-                                            <Typography variant="subtitle2" component="p">
-                                                Tip test: {isCardSelected}
-                                            </Typography>
-                                            <Typography variant="subtitle2" component="p">
-                                                Număr de grile: {sumaElemArr(listaselectiisubcat)}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid className={classes.footerItem} item>
-                                            <Button className={classes.footerButton} color="secondary" variant="contained" onClick={() => creeazaTest()} >
-                                                <Typography>
-                                                    ReadySetGO!
-                                                </Typography>
-                                            </Button>
-                                        </Grid>
-                                    </Grid>
-                                </Container>
-                            </footer>
-                        </Slide>
-                    }
-                </>
+            <>
+            {
+            sumaElemArr(listaselectiisubcat) !== 0 &&
+            <Slide 
+            in={(sumaElemArr(listaselectiisubcat)) > 0} 
+            direction= "up" 
+            className={classes.footer}>
+            <footer >
+                <Container maxWidth="lg">
+                <Grid 
+                    container
+                    direction="row"
+                    justify="space-between"
+                    spacing={4}
+                >
+                    <Grid className={classes.footerItem} item>
+                        
+                        <Typography variant="subtitle2" component="p">
+                            Tip test: {isCardSelected}
+                        </Typography>
+                        <Typography variant="subtitle2" component="p">
+                            Număr de grile: {sumaElemArr(listaselectiisubcat)}
+                        </Typography>
+                    </Grid>
+                    <Grid className={classes.footerItem} item>
+                        <Button className={classes.footerButton} color="secondary" variant="contained" onClick={() => creeazaTest()} >
+                            <Typography >
+                                Ready Set GO!
+                            </Typography>
+                        </Button>
+                    </Grid>
+                </Grid>
+                </Container>
+            </footer>
+            </Slide>
+            }
+            </>
             }
         </div>
     );

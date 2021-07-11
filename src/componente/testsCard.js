@@ -41,7 +41,9 @@ export default function TestsCard(props) {
     <Card className={classes.root}>
         <CardActionArea onClick={()=>{
                 props.setCardSelected(props.title);
-                sleep(100).then(()=>{document.getElementById("as vrea sa scrolez aici").scrollIntoView(true);});
+                if(props.ready){
+                    sleep(100).then(()=>{document.getElementById("as vrea sa scrolez aici").scrollIntoView(true);});
+                }
             }}>
             <CardMedia 
                 className={classes.media}

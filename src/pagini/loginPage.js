@@ -38,17 +38,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  let cookieRemember = new Cookies();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [apare_aicont, setapare_aicont] = useState(true);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(cookieRemember.get('rememberMe') === 'true' ? true:false);
   const [error, setError] = useState(0);
   const classes = useStyles();
   let history = useHistory();
 
+  const rememberChange = () =>{
+    setRememberMe(!rememberMe);
+    cookieRemember.set('rememberMe', !rememberMe, { path: '/' });
+  }
+
+
   const callLoginApi = () => {
-    const cookies = new Cookies();
-    cookies.set('rememberMe', rememberMe, { path: '/' })
+    let cookies = new Cookies();
     setapare_aicont(false);
     const tip_login = 'autohton';
     axios.post('https://grileapiwin.azurewebsites.net/api/Login?code=D2p6Wi0brJT9iDnRObOnEfKqJLZbEhKse5Ze0ac9T745hJSuyiimuQ==', {
@@ -57,7 +63,6 @@ export default function SignIn() {
         tip_login,
         rememberMe
     }, { withCredentials: true}).then((response) => {
-        console.log(response);
         const firstname = response.data['first_name'];
         const lastname = response.data['last_name'];
         const plan = response.data['plan'];
@@ -121,7 +126,7 @@ export default function SignIn() {
             error={error === 400}
           />
           <FormControlLabel
-            control={<Checkbox checked={rememberMe} onChange={()=> setRememberMe(!rememberMe)} value="remember" color="secondary" />}
+            control={<Checkbox checked={rememberMe} onChange={()=> rememberChange()} value="remember" color="secondary" />}
             label="Ține-mă minte"
           />
           <Button
