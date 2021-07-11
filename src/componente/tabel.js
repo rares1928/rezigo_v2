@@ -31,16 +31,16 @@ export default function BasicTable({ rows, onDelete, onClick }) {
                     </TableHead>
                     <TableBody>
                         {rows.map((row, index) => (
-                            <TableRow key={index} onClick={() => onClick(row.TestID)} >
+                            <TableRow key={index} >
                                 <TableCell component="th" scope="row">
                                     {index + 1}
                                 </TableCell>
-                                <TableCell align="center">{row.CreatedAt}</TableCell>
-                                <TableCell align="center">{row.NumAnswered + row.NumUnanswered}</TableCell>
-                                <TableCell align="center">{row.NumAnswered}</TableCell>
-                                <TableCell align="center">{row.NumUnanswered}</TableCell>
-                                <TableCell align="center">{row.Score}</TableCell>
-                                <TableCell align="center">{row.Done ? "Da" : "Nu"}</TableCell>
+                                <TableCell align="center" onClick={() => onClick(row.TestID)}>{row.CreatedAt}</TableCell>
+                                <TableCell align="center" onClick={() => onClick(row.TestID)}>{row.NumAnswered + row.NumUnanswered}</TableCell>
+                                <TableCell align="center" onClick={() => onClick(row.TestID)}>{row.NumAnswered}</TableCell>
+                                <TableCell align="center" onClick={() => onClick(row.TestID)}>{row.NumUnanswered}</TableCell>
+                                <TableCell align="center" onClick={() => onClick(row.TestID)}>{row.Score}</TableCell>
+                                <TableCell align="center" onClick={() => onClick(row.TestID)}>{row.Done ? "Da" : "Nu"}</TableCell>
                                 <TableCell align="center">
                                     <IconButton aria-label="delete" onClick={() => onDelete(row.TestID)} >
                                         <DeleteIcon style={{ color: "#d83838" }} />
