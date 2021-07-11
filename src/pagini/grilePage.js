@@ -98,6 +98,12 @@ export default function GrilePage(props) {
         }
     }
 
+    const getIntrebariCorecte = () => {
+        let count = 0;
+        items.forEach(element => { if (element["Correct"] > 0) { ++count } })
+        return count;
+    }
+
     const useStyles = makeStyles((theme) => ({
 
         paper: {
@@ -195,7 +201,7 @@ export default function GrilePage(props) {
                                 ))}
                             </div>
                             <div className={classes.butonDiv}>
-                            <Button variant="contained" color="secondary" onClick={() => trimiteRaspuns(isSelected, selectedQuestion)} disabled={(isSelected.reduce((a, b) => a + b, 0)) === 0 && items[selectedQuestion]["Choices"] === 0}>
+                                <Button variant="contained" color="secondary" onClick={() => trimiteRaspuns(isSelected, selectedQuestion)} disabled={(isSelected.reduce((a, b) => a + b, 0)) === 0 && items[selectedQuestion]["Choices"] === 0}>
                                     {
                                         (items[selectedQuestion]["Choices"] === 0) &&
                                         <Typography>
@@ -229,19 +235,19 @@ export default function GrilePage(props) {
                                 <Grid item className={classes.statisticSubdiv}>
                                     <div className={classes.smallPaper}>
                                         <Typography>Răspunsuri date</Typography>
-                                        <Typography>10/123</Typography>
+                                        <Typography>{items.reduce((acc, val) => acc + (val["Choices"] > 0), 0)}/{items.length}</Typography>
                                     </div>
                                 </Grid>
                                 <Grid item className={classes.statisticSubdiv}>
                                     <div className={classes.smallPaper}>
                                         <Typography>Răspunsuri corecte</Typography>
-                                        <Typography>10/123</Typography>
+                                    <Typography>{items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}/{items.length}</Typography>
                                     </div>
                                 </Grid>
                                 <Grid item className={classes.statisticSubdiv}>
                                     <div className={classes.smallPaper}>
                                         <Typography>Răspunsuri greșite</Typography>
-                                        <Typography>10/123</Typography>
+                                    <Typography>{items.reduce((acc, val) => acc + (val["Correct"] !== 31 && val["Choices"] > 0), 0)}/{items.length}</Typography>
                                     </div>
                                 </Grid>
                             </Grid>
