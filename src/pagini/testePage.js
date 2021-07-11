@@ -19,6 +19,7 @@ import Slide from "@material-ui/core/Slide";
 import DataTable from "../componente/tabel";
 import Cookies from 'universal-cookie';
 import axios from 'axios';
+import ErrorPopup from '../componente/errorPopup';
 
 
 const useStyles = makeStyles((theme)=>({
@@ -82,6 +83,7 @@ export default function TestePage() {
     const [ready, setReady] = useState(false);
     const [listaCategorii, setListaCategorii] = useState([])
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
+    const [error, setError] = useState(0);
     // delay la grow in milisecunde
     const growTimeout = 700;
 
@@ -93,12 +95,15 @@ export default function TestePage() {
                 withCredentials: true,
                 headers: { Authorization: `Bearer ${token}` }
             };
-            const response = await axios.post(url, data, config)
-            if ("token" in response.data) {
-                cookies.set('accessToken', token, { path: "/" })
-            }
-            setListaCategorii(response.data["lista_finala"]);
-            setReady(true);
+            axios.post(url, data, config).then((response)=>{
+                if ("token" in response.data) {
+                    cookies.set('accessToken', token, { path: "/" })
+                }
+                setListaCategorii(response.data["lista"]);
+                setReady(true);
+            },(err)=>{
+                setError(err.response.status);
+            })
         }
 
         const callApiTeste = async (url, data) => {
@@ -108,11 +113,15 @@ export default function TestePage() {
                 withCredentials: true,
                 headers: { Authorization: `Bearer ${token}` }
             };
-            const response = await axios.post(url, data, config)
-            if ("token" in response.data) {
-                cookies.set('accessToken', token, { path: "/" })
-            }
-            setListaTesteNeterm(response.data["lista"])
+            axios.post(url, data, config).then((response)=>{
+                if ("token" in response.data) {
+                    cookies.set('accessToken', token, { path: "/" })
+                }
+                setListaTesteNeterm(response.data["lista"]);
+            },(err)=>{
+                setError(err.response.status);
+            })
+            
         }
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
@@ -233,7 +242,7 @@ export default function TestePage() {
                         }
                     </Grid>
                 </Grid>
-                    </div>
+            </div>
         );
     }
 
@@ -271,7 +280,7 @@ export default function TestePage() {
         setListaselectii(lista_temp_selectii);
     }
 
-    const onClickSubCategorie = (i, index, click = true, numGrile=5 ) => {
+    const onClickSubCategorie = (i, index, click = true, numGrile ) => {
         const lista_temporara_mare = [...listaselectiisubcat];
         const lista_temporara = [...listaselectiisubcat[i]];
         if(click){
@@ -279,7 +288,7 @@ export default function TestePage() {
                 lista_temporara[index] = 0;
             }
             else{
-                lista_temporara[index] = listaCategorii[i].subCategory[index].count;
+                lista_temporara[index] = listaCategorii[i].subCategory[index].Count;
             }
         }
         else{
@@ -295,6 +304,7 @@ export default function TestePage() {
 
     return(
         <div className={classes.root}>
+            <ErrorPopup errorStatus={error} />
             <Container maxWidth="lg" className={classes.containerPart}>
 
             <Typography variant="h6" component="h6" className={classes.instructionsText}>
@@ -314,6 +324,7 @@ export default function TestePage() {
                             imagine={testNouImg} 
                             title="Test nou"
                             text="Selectează subcapitolele din care dorești grilele."
+                            ready = {ready}
                         />
                     </Grid>
                     <Grid item>
@@ -420,8 +431,8 @@ export default function TestePage() {
                     </Grid>
                     <Grid className={classes.footerItem} item>
                         <Button className={classes.footerButton} color="secondary" variant="contained">
-                            <Typography>
-                            ReadySetGO!
+                            <Typography >
+                                Ready Set GO!
                             </Typography>
                         </Button>
                     </Grid>

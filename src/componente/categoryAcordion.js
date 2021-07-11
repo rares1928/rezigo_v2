@@ -58,8 +58,8 @@ export default function CategoryAcordion(props) {
                       listaselectiisubcat={props.listaselectiisubcat}
                       className={classes.subCat} 
                       key={`cat${index}_subcat${indexSub}`} 
-                      text={subCategorie["name"]} 
-                      number={subCategorie["count"]} 
+                      text={subCategorie["Name"]} 
+                      number={subCategorie["Count"]} 
                       index={index}
                       indexSub={indexSub}
                       />
