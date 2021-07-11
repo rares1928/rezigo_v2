@@ -24,11 +24,11 @@ export default function GrilePage(props) {
     const [isSelected, setIsSelected] = useState(isQuestionSelected);
     const [items, setItems] = useState([]);
     const [isReady, setReady] = useState(false);
-    const { state } = useLocation()
+    const { state } = useLocation();
+    const [showAnswer, setShowAnswer] = useState(false);
     const testId = state;
 
     const handleItems = (e) => {
-        console.log(e)
         setItems(e);
         setReady(true);
     };
@@ -197,11 +197,16 @@ export default function GrilePage(props) {
                                         items={items}
                                         isSelected={isSelected}
                                         selectedQuestion={selectedQuestion}
+                                        showAnswer={showAnswer}
                                     />
                                 ))}
                             </div>
                             <div className={classes.butonDiv}>
-                                <Button variant="contained" color="secondary" onClick={() => trimiteRaspuns(isSelected, selectedQuestion)} disabled={(isSelected.reduce((a, b) => a + b, 0)) === 0 && items[selectedQuestion]["Choices"] === 0}>
+                                <Button 
+                                variant="contained" 
+                                color="secondary" 
+                                onClick={() => trimiteRaspuns(isSelected, selectedQuestion)} 
+                                disabled={((isSelected.reduce((a, b) => a + b, 0)) === 0 && items[selectedQuestion]["Choices"] === 0) || (selectedQuestion + 1 === items.length) }>
                                     {
                                         (items[selectedQuestion]["Choices"] === 0) &&
                                         <Typography>
@@ -209,7 +214,7 @@ export default function GrilePage(props) {
                                         </Typography>
                                     }
                                     {
-                                        (items[selectedQuestion]["Choices"] > 0) &&
+                                        (items[selectedQuestion]["Choices"] > 0) && 
                                         <Typography>
                                             Următoarea grilă
                                         </Typography>
@@ -229,7 +234,7 @@ export default function GrilePage(props) {
                                 <Grid item className={classes.statisticSubdiv}>
                                     <div className={classes.smallPaper}>
                                         <Typography>Afișează răspunsurile</Typography>
-                                        <Switch />
+                                        <Switch checked={showAnswer} onChange={()=>{setShowAnswer(!showAnswer)}} />
                                     </div>
                                 </Grid>
                                 <Grid item className={classes.statisticSubdiv}>

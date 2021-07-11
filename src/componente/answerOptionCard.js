@@ -26,6 +26,7 @@ export default function AnswerOptionCard(props){
         <Card className={classes.root}>
             <CardActionArea 
             className={classes.answerOption}
+            disabled = {props.items[props.selectedQuestion]["Choices"] > 0}
             onClick={()=> {props.handleQuestionSelection(props.index)}}
             >
                 <CardContent>
