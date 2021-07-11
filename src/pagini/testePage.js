@@ -18,7 +18,8 @@ import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
 import DataTable from "../componente/tabel";
 import Cookies from 'universal-cookie';
-import axios from 'axios';
+import { callApi } from "../utils/callApi";
+import { useHistory } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -84,46 +85,28 @@ export default function TestePage() {
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
     // delay la grow in milisecunde
     const growTimeout = 700;
+    let history = useHistory();
 
     const handleCategorii = (e) => {
         setListaCategorii(e);
     };
 
-    useEffect(() => {
-        const callApiCategorii = async (url, data, handle) => {
-            const cookies = new Cookies();
-            const token = cookies.get('accessToken');
-            const config = {
-                withCredentials: true,
-                headers: { Authorization: `Bearer ${token}` }
-            };
-            const response = await axios.post(url, data, config)
-            if ("token" in response.data) {
-                cookies.set('accessToken', token, { path: "/" })
-            }
-            handle(response.data["lista"])
-            setReady(true)
-        }
+    const handleTeste = (e) => {
+        setListaTesteNeterm(e);
+    };
 
-        const callApiTeste = async (url, data) => {
-            const cookies = new Cookies();
-            const token = cookies.get('accessToken');
-            const config = {
-                withCredentials: true,
-                headers: { Authorization: `Bearer ${token}` }
-            };
-            const response = await axios.post(url, data, config)
-            if ("token" in response.data) {
-                cookies.set('accessToken', token, { path: "/" })
-            }
-            setListaTesteNeterm(response.data["lista"])
-        }
+    const handleTestId = (testId) => {
+        return(history.push({ pathname: "/rezolva_test", state: testId }));
+    };
+
+    useEffect(() => {
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
 
         if (ready === false) {
-            callApiCategorii('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { rememberMe }, handleCategorii)
-            callApiCategorii('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, (a) => setListaTesteNeterm(a))
+            callApi('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { rememberMe }, handleCategorii)
+            callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste)
+            setReady(true)
         }
 
         let lista_temp = [];
@@ -139,7 +122,34 @@ export default function TestePage() {
         }
         setListaselectiisubcat(lista_temp);
         setListaselectii(lista_temp2);
-    }, [ready])
+    }, [listaCategorii, ready])
+
+    const deleteTest = (testId) => {
+        const cookies = new Cookies();
+        const rememberMe = cookies.get('rememberMe');
+        callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { rememberMe, testId }, () => { })
+        setTimeout(function () {
+            callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste)
+        }, 1000)
+    }
+
+    const creeazaTest = () => {
+        const cookies = new Cookies();
+        const rememberMe = cookies.get('rememberMe');
+        const lista_categorii = [];
+        for (let i = 0; i < listaselectii.length; i++) {
+            for (let j = 0; j < listaselectiisubcat[i].length; j++) {
+                if (listaselectiisubcat[i][j] > 0) {
+                    lista_categorii.push({
+                        nume_categorie: listaCategorii[i]['category_Name'],
+                        nume_subcategorie: listaCategorii[i]['subCategory'][j]['name'],
+                        numar: listaselectiisubcat[i][j]
+                    })
+                }
+            }
+        }
+        callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { rememberMe, lista_categorii }, handleTestId)
+    }
 
     const displayTestNou = () => {
         return (
@@ -244,7 +254,7 @@ export default function TestePage() {
             <div>DURERE
                 <div>
                     {
-                        <DataTable rows={listatTesteNeterm} />
+                        <DataTable rows={listatTesteNeterm} onDelete={(id) => deleteTest(id) } onClick={(id) => handleTestId(id)} />
                     }
                 </div>
             </div>
@@ -255,7 +265,7 @@ export default function TestePage() {
         const lista_temp_selectii = [...listaselectii];
         const lista_temporara_mare = [...listaselectiisubcat];
         const lista_temporara = [...listaselectiisubcat[i]];
-        if (listaselectiisubcat[i].reduce((acc, value) => acc + value, 0) === listaCategorii[i].subCategory.reduce((acc, subcat) => acc + subcat.count, 0)) {
+        if (listaselectiisubcat[i].reduce((acc, value) => acc + value, 0) === listaCategorii[i].subCategory.reduce((acc, subcat) => acc + subcat.Count, 0)) {
             for (let index = 0; index < listaselectiisubcat[i].length; index++) {
                 lista_temporara[index] = 0;
             }
@@ -264,7 +274,7 @@ export default function TestePage() {
         }
         else {
             for (let index = 0; index < listaselectiisubcat[i].length; index++) {
-                lista_temporara[index] = listaCategorii[i].subCategory[index].count;
+                lista_temporara[index] = listaCategorii[i].subCategory[index].Count;
             }
             lista_temporara_mare[i] = lista_temporara
             setListaselectiisubcat(lista_temporara_mare);
@@ -281,7 +291,7 @@ export default function TestePage() {
                 lista_temporara[index] = 0;
             }
             else {
-                lista_temporara[index] = listaCategorii[i].subCategory[index].count;
+                lista_temporara[index] = listaCategorii[i].subCategory[index].Count;
             }
         }
         else {
@@ -400,7 +410,7 @@ export default function TestePage() {
                     {
                         sumaElemArr(listaselectiisubcat) !== 0 &&
                         <Slide
-                            in={(sumaElemArr(listaselectiisubcat))}
+                            in={(sumaElemArr(listaselectiisubcat)) > 0}
                             direction="up"
                             className={classes.footer}>
                             <footer >
@@ -421,10 +431,10 @@ export default function TestePage() {
                                             </Typography>
                                         </Grid>
                                         <Grid className={classes.footerItem} item>
-                                            <Button className={classes.footerButton} color="secondary" variant="contained">
+                                            <Button className={classes.footerButton} color="secondary" variant="contained" onClick={() => creeazaTest()} >
                                                 <Typography>
                                                     ReadySetGO!
-                            </Typography>
+                                                </Typography>
                                             </Button>
                                         </Grid>
                                     </Grid>
