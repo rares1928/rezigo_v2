@@ -14,6 +14,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { useLocation } from 'react-router-dom'
 import Cookies from 'universal-cookie';
 import { callApi } from "../utils/callApi";
+import ErrorPopup from '../componente/errorPopup';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -23,21 +25,32 @@ export default function GrilePage(props) {
     let isQuestionSelected = [false, false, false, false, false]
     const [isSelected, setIsSelected] = useState(isQuestionSelected);
     const [items, setItems] = useState([]);
+    const [error, setError] = useState(0);
     const [isReady, setReady] = useState(false);
     const { state } = useLocation();
     const [showAnswer, setShowAnswer] = useState(false);
-    const testId = state;
+    let history= useHistory();
 
     const handleItems = (e) => {
         setItems(e);
         setReady(true);
     };
 
+    const handleError = (e) => {
+        setError(e);
+    }
+
+    
     useEffect(() => {
+        const testId = state;
+        if(!testId){
+            history.push("/creeaza-ti_test")
+        }else{
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
-        callApi('https://grileapiwin.azurewebsites.net/api/GetGrileWin?code=PrwHilYKYJLV46PoT12sMacgZkpYr7XsWKrjeZF3Hc9aSIZSqnsipQ==', { rememberMe, testId }, handleItems)
-    }, [testId])
+        callApi('https://grileapiwin.azurewebsites.net/api/GetGrileWin?code=PrwHilYKYJLV46PoT12sMacgZkpYr7XsWKrjeZF3Hc9aSIZSqnsipQ==', { rememberMe, testId }, handleItems, handleError)
+        }
+    }, [])
 
     const handleNextQuestion = () => {
         const nextQuestion = selectedQuestion + 1;
@@ -69,6 +82,7 @@ export default function GrilePage(props) {
     const trimiteRaspuns = (listaRaspunsuri, currentQuestion) => {
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
+        const testId = state;
 
         if (items[selectedQuestion]["Choices"] === 0) {
             let choice = 0;
@@ -98,11 +112,6 @@ export default function GrilePage(props) {
         }
     }
 
-    const getIntrebariCorecte = () => {
-        let count = 0;
-        items.forEach(element => { if (element["Correct"] > 0) { ++count } })
-        return count;
-    }
 
     const useStyles = makeStyles((theme) => ({
 
@@ -146,6 +155,8 @@ export default function GrilePage(props) {
     }));
     const classes = useStyles();
     return (
+        <>
+        <ErrorPopup errorStatus={error} />
         <Container maxWidth="lg">
             {isReady &&
                 <Grid direction="row" spacing={1} >
@@ -261,5 +272,6 @@ export default function GrilePage(props) {
                 </Grid>
             }
         </Container>
+        </>
     );
 }

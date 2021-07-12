@@ -49,7 +49,7 @@ export default function SignIn() {
 
   const rememberChange = () =>{
     setRememberMe(!rememberMe);
-    cookieRemember.set('rememberMe', !rememberMe, { path: '/' });
+    cookieRemember.set('rememberMe', !rememberMe, { path: '/', maxAge: 2592000});
   }
 
 
@@ -57,6 +57,7 @@ export default function SignIn() {
     let cookies = new Cookies();
     setapare_aicont(false);
     const tip_login = 'autohton';
+    let rememberMeSeconds = rememberMe? 2592000 : 43200;
     axios.post('https://grileapiwin.azurewebsites.net/api/Login?code=D2p6Wi0brJT9iDnRObOnEfKqJLZbEhKse5Ze0ac9T745hJSuyiimuQ==', {
         email,
         password,
@@ -67,11 +68,11 @@ export default function SignIn() {
         const lastname = response.data['last_name'];
         const plan = response.data['plan'];
         const accessToken = response.data['access']
-        cookies.set('estiLogat', "rapid", { path: '/' });
-        cookies.set('firstname', firstname, { path: '/' })
-        cookies.set('lastname', lastname, { path: '/' })
-        cookies.set('plan', plan, { path: '/' })
-        cookies.set('accessToken', accessToken, { path: '/' });
+        cookies.set('estiLogat', "rapid", { path: '/', maxAge: rememberMeSeconds});
+        cookies.set('firstname', firstname, { path: '/', maxAge: rememberMeSeconds });
+        cookies.set('lastname', lastname, { path: '/', maxAge: rememberMeSeconds  });
+        cookies.set('plan', plan, { path: '/', maxAge: rememberMeSeconds });
+        cookies.set('accessToken', accessToken, { path: '/', maxAge: rememberMeSeconds});
         history.push("/")
     }, (err) => {
         setError(err.response.status);

@@ -90,6 +90,10 @@ export default function TestePage() {
     const growTimeout = 700;
     let history = useHistory();
 
+    const handleError = (e) => {
+        setError(e);
+    }
+
     const handleCategorii = (e) => {
         setListaCategorii(e);
     };
@@ -103,48 +107,13 @@ export default function TestePage() {
     };
 
     useEffect(() => {
-        const callApiCategorii = async (url, data) => {
-            const cookies = new Cookies();
-            const token = cookies.get('accessToken');
-            const config = {
-                withCredentials: true,
-                headers: { Authorization: `Bearer ${token}` }
-            };
-            axios.post(url, data, config).then((response)=>{
-                if ("token" in response.data) {
-                    cookies.set('accessToken', token, { path: "/" })
-                }
-                setListaCategorii(response.data["lista"]);
-                setReady(true);
-            },(err)=>{
-                setError(err.response.status);
-            })
-        }
-
-        const callApiTeste = async (url, data) => {
-            const cookies = new Cookies();
-            const token = cookies.get('accessToken');
-            const config = {
-                withCredentials: true,
-                headers: { Authorization: `Bearer ${token}` }
-            };
-            axios.post(url, data, config).then((response)=>{
-                if ("token" in response.data) {
-                    cookies.set('accessToken', token, { path: "/" })
-                }
-                setListaTesteNeterm(response.data["lista"]);
-            },(err)=>{
-                setError(err.response.status);
-            })
-            
-        }
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
 
         if (ready === false) {
-            callApiCategorii('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { rememberMe }, handleCategorii)
-            callApiTeste('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste)
-            setReady(true)
+            callApi('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { rememberMe }, handleCategorii, handleError);
+            callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste, handleError);
+            setReady(true);
         }
 
         let lista_temp = [];
@@ -165,9 +134,9 @@ export default function TestePage() {
     const deleteTest = (testId) => {
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
-        callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { rememberMe, testId }, () => { })
+        callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { rememberMe, testId }, () => { }, handleError)
         setTimeout(function () {
-            callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste)
+            callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste, handleError)
         }, 1000)
     }
 
@@ -186,7 +155,7 @@ export default function TestePage() {
                 }
             }
         }
-        callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { rememberMe, lista_categorii }, handleTestId)
+        callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { rememberMe, lista_categorii }, handleTestId, handleError)
     }
 
     const displayTestNou = () => {
@@ -289,7 +258,10 @@ export default function TestePage() {
 
     const displayTestNeterminat = () => {
         return (
-            <div>DURERE
+            <div>
+                <Typography variant="h6" component="h6" className={classes.instructionsText} >
+                    2. Selectează testul pe care dorești să îl continui:
+                </Typography>
                 <div>
                     {
                         <DataTable rows={listatTesteNeterm} onDelete={(id) => deleteTest(id) } onClick={(id) => handleTestId(id)} />
@@ -426,10 +398,8 @@ export default function TestePage() {
                         in={isCardSelected === "Teste neterminate"}
                         timeout={growTimeout}
                     >
-                        <Typography>
-                            {isCardSelected}
-                            <div>{displayTestNeterminat()}</div>
-                        </Typography>
+        
+                        <div>{displayTestNeterminat()}</div>
                     </Grow>
                 }
                 {
