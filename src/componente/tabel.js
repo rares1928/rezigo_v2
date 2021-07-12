@@ -21,7 +21,7 @@ export default function BasicTable({ rows, onDelete, onClick }) {
     const classes = useStyles();
 
     return (
-        <div >
+        <div className={classes.body}>
             <TableContainer style={{ maxHeight: "40vh" }}>
                 <Table stickyHeader aria-label="simple table">
                     <TableHead >
