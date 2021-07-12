@@ -26,6 +26,7 @@ export default function BasicTable({ rows, onDelete, onClick }) {
                 <Table stickyHeader aria-label="simple table">
                     <TableHead >
                         <TableRow >
+                            <TableCell className={classes.header}> # </TableCell>
                             <TableCell className={classes.header}> Continuă </TableCell>
                             <TableCell className={classes.header} align="center">Data</TableCell>
                             <TableCell className={classes.header} align="center">Nr. Întrebări</TableCell>
@@ -39,6 +40,7 @@ export default function BasicTable({ rows, onDelete, onClick }) {
                     <TableBody>
                         {rows.map((row, index) => (
                             <TableRow key={index} >
+                                <TableCell >{index+1}</TableCell>
                                 <TableCell component="th" onClick={() => onClick(row.TestID)} scope="row">
                                     <IconButton>
                                     <PlayArrowIcon color="secondary" />
