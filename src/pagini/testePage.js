@@ -20,7 +20,6 @@ import DataTable from "../componente/tabel";
 import Cookies from 'universal-cookie';
 import { callApi } from "../utils/callApi";
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import ErrorPopup from '../componente/errorPopup';
 
 

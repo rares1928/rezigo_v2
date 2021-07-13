@@ -50,7 +50,7 @@ export default function GrilePage(props) {
         const rememberMe = cookies.get('rememberMe');
         callApi('https://grileapiwin.azurewebsites.net/api/GetGrileWin?code=PrwHilYKYJLV46PoT12sMacgZkpYr7XsWKrjeZF3Hc9aSIZSqnsipQ==', { rememberMe, testId }, handleItems, handleError)
         }
-    }, [])
+    }, [history, state])
 
     const handleNextQuestion = () => {
         const nextQuestion = selectedQuestion + 1;
