@@ -108,9 +108,9 @@ export default function HomePage() {
                         <Typography variant="h6"  gutterBottom>
                             Link-uri utile
                         </Typography>
-                        <Link color="secondary" href="/">Despre noi</Link>
-                        <Link color="secondary" href="/">Termeni și condiții</Link>
-                        <Link color="secondary" href="/">Întrebări frecvente</Link>
+                        <Link color="secondary" href="/despre_noi">Despre noi</Link>
+                        <Link color="secondary" href="/termeni">Termeni și condiții</Link>
+                        <Link color="secondary" href="/intrebari_frecvente">Întrebări frecvente</Link>
                     </Grid>
                     <Grid className={classes.footerItem} item>
                         <Typography  variant="h6"  gutterBottom>

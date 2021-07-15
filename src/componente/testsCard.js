@@ -20,6 +20,7 @@ export default function TestsCard(props) {
         media: {
             backgroundColor: props.isSelected? theme.palette.secondary.main : theme.palette.background.paper,
             height: "20vh",
+            maxHeight: "200px",
             minHeight: 150,
         },
         lowerPart:{       

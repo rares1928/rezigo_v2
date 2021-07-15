@@ -12,6 +12,10 @@ import SignupPage from './pagini/signupPage';
 import LayoutSite from './componente/layoutSite';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ProfilePage from './pagini/profilePage';
+import ProtectedRoute from './utils/protectedRoute';
+import DespreNoi from './pagini/despreNoi';
+import Termeni from './pagini/termeni';
+import Intrebari from './pagini/intrebari';
 
 
 function App() {
@@ -52,14 +56,21 @@ function App() {
       <Router>
         <LayoutSite darkMode= {darkMode} setDarkMode={setDarkMode} >
           <Switch>
-            <Route path="/" exact component={HomePage} />
             <Route path="/login" exact component={LoginPage} />
             <Route path="/signup" exact component={SignupPage} />
-            <Route path="/profil" exact component={ProfilePage} />
-            <Route path="/librarie" exact component={LibrariePage} />
-            <Route path="/creeaza-ti_test" exact component={TestePage} />
-            <Route path="/rezolva_test" exact component={()=> <GrilePage darkMode={darkMode} ></GrilePage>} />
-            <Route component={NoMatch}/>
+            <ProtectedRoute>
+              <Switch>
+              <Route path="/" exact component={HomePage} />
+              <Route path="/profil" exact component={ProfilePage} />
+              <Route path="/librarie" exact component={LibrariePage} />
+              <Route path="/creeaza-ti_test" exact component={TestePage} />
+              <Route path="/rezolva_test" exact component={()=> <GrilePage darkMode={darkMode} ></GrilePage>} />
+              <Route path="/despre_noi" exact component={DespreNoi}/>
+              <Route path="/termeni" exact component={Termeni}/>
+              <Route path="/intrebari_frecvente" exact component={Intrebari}/>
+              <Route component={NoMatch}/>
+              </Switch>
+            </ProtectedRoute>
           </Switch>
         </LayoutSite>
       </Router>

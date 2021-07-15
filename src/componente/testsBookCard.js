@@ -20,6 +20,7 @@ export default function TestsBookCard(props) {
             backgroundColor: props.isSelected? theme.palette.secondary.main : theme.palette.background.paper,
             display:"flex",
             justifyContent:"center",
+            maxHeight: 250,
         },
         mediaImg: {
             height: "20vh",

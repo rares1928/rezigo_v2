@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme)=>({
   },
   media: {
     height: "30vh",
+    maxHeight: "250px",
   },
   textSide:{
     display: "flex",
