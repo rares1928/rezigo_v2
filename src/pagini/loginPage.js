@@ -20,13 +20,15 @@ const useStyles = makeStyles((theme) => ({
   logoBox: {
     backgroundColor: theme.palette.primary.main,
     borderRadius: "25px",
-    paddingLeft: "10px"
+    paddingLeft: "10px",
+    marginBottom: theme.spacing(3),
   },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    paddingBottom: theme.spacing(3),
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -150,7 +152,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link color="secondary" href="#" variant="body2">
+              <Link color="secondary" href="/signup" variant="body2">
                 {"Nu ai cont? Creează cont"}
               </Link>
             </Grid>
