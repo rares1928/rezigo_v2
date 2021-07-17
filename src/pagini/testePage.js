@@ -349,7 +349,8 @@ export default function TestePage() {
                             imagine={testNouImg}
                             title="Test nou"
                             text="Selectează subcapitolele din care dorești grilele."
-                            ready = {ready}
+                            ready={ready}
+                            onClick={() => { }}
                         />
                     </Grid>
                     <Grid item>
@@ -359,6 +360,7 @@ export default function TestePage() {
                             imagine={simulareImg}
                             title="Simulare"
                             text="50 de întrebări cu CS și 150 de întrebări cu CM."
+                            onClick={() => { }}
                         />
                     </Grid>
                     <Grid item>
@@ -378,6 +380,7 @@ export default function TestePage() {
                             imagine={reparcurgeGreseliImg}
                             title="Reparcurge greșeli"
                             text="Selectează subcapitolele din care ai greșeli pentru a-ți acoperi golurile."
+                            onClick={() => { }}
                         />
                     </Grid>
                 </Grid>
