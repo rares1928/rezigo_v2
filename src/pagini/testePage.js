@@ -96,16 +96,22 @@ export default function TestePage() {
     }
 
     const handleCategorii = (e) => {
-        setListaCategorii(e);
+        setListaCategorii(e.data["lista"]);
     };
 
     const handleTeste = (e) => {
-        setListaTesteNeterm(e);
+        setListaTesteNeterm(e.data["lista"]);
     };
 
     const handleTestId = (testId) => {
         return(history.push({ pathname: "/rezolva_test", state: testId }));
     };
+
+    const callApiTestNeterminat = () => {
+        const cookies = new Cookies();
+        const rememberMe = cookies.get('rememberMe');
+        callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste, handleError);
+    }
 
     useEffect(() => {
         const cookies = new Cookies();
@@ -113,7 +119,6 @@ export default function TestePage() {
 
         if (ready === false) {
             callApi('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { rememberMe }, handleCategorii, handleError);
-            callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste, handleError);
             setReady(true);
         }
 
@@ -363,6 +368,7 @@ export default function TestePage() {
                             imagine={testNeterminatImg}
                             title="Teste neterminate"
                             text="Selectează unul dintre testele neterminate pe care vrei să le continui."
+                            onClick={callApiTestNeterminat}
                         />
                     </Grid>
                     <Grid item>

@@ -35,7 +35,7 @@ export default function GrilePage(props) {
     let history= useHistory();
 
     const handleItems = (e) => {
-        setItems(e);
+        setItems(e.data["lista"]);
         setReady(true);
     };
 

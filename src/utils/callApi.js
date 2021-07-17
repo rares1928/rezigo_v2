@@ -8,12 +8,13 @@ export const callApi = async (url, data, handle, handleError) => {
         withCredentials: true,
         headers: { Authorization: `Bearer ${token}` },
     };
-    try {const response = await axios.post(url, data, config)
-    if (response.data) {
-        if ("token" in response.data) {
-            cookies.set('accessToken', token, { path: "/" })
+    try {
+        const response = await axios.post(url, data, config)
+        if (response.data) {
+            if ("token" in response.data) {
+                cookies.set('accessToken', token, { path: "/" })
+            }
+            handle(response)
         }
-        handle(response.data["lista"])
-    }
-    }catch(err){handleError(err.response.status)}
+    } catch (err) { handleError(err.response.status) }
 };
