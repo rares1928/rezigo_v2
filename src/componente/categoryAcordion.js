@@ -31,9 +31,9 @@ export default function CategoryAcordion(props) {
             {
                 props.data.map((categorie, index) => (
                     categorie['book'] === props.book &&
-                    <Accordion key={index}>
+                    <Accordion key={`book_${props.book}_index_${index}`}>
                         <AccordionSummary
-                            key={index}
+                            key={`additional-actions${index}-header`}
                             expandIcon={<ExpandMoreIcon />}
                             aria-label="Expand"
                             aria-controls={`additional-actions${index}-content`}
@@ -57,7 +57,7 @@ export default function CategoryAcordion(props) {
                                         setListaselectiisubcat={props.setListaselectiisubcat}
                                         listaselectiisubcat={props.listaselectiisubcat}
                                         className={classes.subCat}
-                                        key={`cat${index}_subcat${indexSub}`}
+                                        key={`cat${index}_subcat${indexSub}_subcategoryCard`}
                                         text={subCategorie["Name"]}
                                         number={subCategorie["Count"]}
                                         index={index}

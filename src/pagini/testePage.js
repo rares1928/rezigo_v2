@@ -200,7 +200,6 @@ export default function TestePage() {
                                         listaselectiisubcat={listaselectiisubcat}
                                         setListaselectii={setListaselectii}
                                         setListaselectiisubcat={setListaselectiisubcat}
-
                                         data={listaCategorii}
                                         book="Kumar"
                                     />

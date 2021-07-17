@@ -154,6 +154,9 @@ export default function GrilePage(props) {
             flexDirection: "row",
             alignItems: "center",
         },
+        paperStatistics :{
+            marginBottom: theme.spacing(3),
+        },
 
     }));
     const classes = useStyles();
@@ -202,7 +205,7 @@ export default function GrilePage(props) {
                             <div>
                                 {items[selectedQuestion]['Variante'].map((answerOption, index) => (
                                     <AnswerOptionCard
-                                        key={index}
+                                        key={`subcapitol_${items[selectedQuestion]["SubCategorie"]}_intrebare_${selectedQuestion+1}_varianta_${index}`}
                                         index={index}
                                         answerOption={answerOption}
                                         darkMode={props.darkMode}
@@ -243,7 +246,7 @@ export default function GrilePage(props) {
                         </Paper>
                     </Grid>
                     <Grid item >
-                        <Paper>
+                        <Paper className={classes.paperStatistics}>
                             <Grid container justify="space-evenly">
                                 <Grid item className={classes.statisticSubdiv}>
                                     <div className={classes.smallPaper}>

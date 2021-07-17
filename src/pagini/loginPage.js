@@ -13,7 +13,6 @@ import Container from '@material-ui/core/Container';
 import logo from '../poze/logo4.svg';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import axios from 'axios';
 import { callApi } from '../utils/callApi';
 
 
