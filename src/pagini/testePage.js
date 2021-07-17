@@ -107,6 +107,10 @@ export default function TestePage() {
         return(history.push({ pathname: "/rezolva_test", state: testId }));
     };
 
+    const handleTestIdNou = (testId) => {
+        return(history.push({ pathname: "/rezolva_test", state: testId.data["lista"] }));
+    };
+
     const callApiTestNeterminat = () => {
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
@@ -161,7 +165,7 @@ export default function TestePage() {
                 }
             }
         }
-        callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { rememberMe, lista_categorii }, handleTestId, handleError)
+        callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { rememberMe, lista_categorii }, handleTestIdNou, handleError)
     }
 
     const displayTestNou = () => {
