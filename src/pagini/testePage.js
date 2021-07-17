@@ -87,6 +87,7 @@ export default function TestePage() {
     const [listaCategorii, setListaCategorii] = useState([])
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
     const [error, setError] = useState(0);
+    const [goLoading, setGoLoading] = useState(false);
     
     // delay la grow in milisecunde
     const growTimeout = 700;
@@ -149,7 +150,8 @@ export default function TestePage() {
         await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste, handleError);
     }
 
-    const creeazaTest = () => {
+    const creeazaTest = async () => {
+        setGoLoading(true);
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
         const lista_categorii = [];
@@ -164,7 +166,8 @@ export default function TestePage() {
                 }
             }
         }
-        callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { rememberMe, lista_categorii }, handleTestIdNou, handleError)
+        await callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { rememberMe, lista_categorii }, handleTestIdNou, handleError)
+        setGoLoading(false);
     }
 
     const displayTestNou = () => {
@@ -456,10 +459,15 @@ export default function TestePage() {
                         </Typography>
                     </Grid>
                     <Grid className={classes.footerItem} item>
-                        <Button className={classes.footerButton} color="secondary" variant="contained" onClick={() => creeazaTest()} >
+                        <Button 
+                        className={classes.footerButton} 
+                        color="secondary" variant="contained" 
+                        disabled={goLoading}
+                        onClick={() => creeazaTest()} >
+                            {goLoading? <CircularProgress color="primary" size={25} /> :
                             <Typography >
                                 Ready Set GO!
-                            </Typography>
+                            </Typography>}
                         </Button>
                     </Grid>
                 </Grid>

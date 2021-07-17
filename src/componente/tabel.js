@@ -1,5 +1,5 @@
-import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles, CircularProgress } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
@@ -21,6 +21,8 @@ export default function BasicTable({ rows, onDelete, onClick}) {
     }))
 
     const classes = useStyles();
+
+    const [loadingDelete, setLoadingDelete] = useState(false);
 
     return (
         <div className={classes.body}>
@@ -57,8 +59,8 @@ export default function BasicTable({ rows, onDelete, onClick}) {
                                 <TableCell align="center">
                                     <IconButton 
                                     aria-label="delete" 
-                                    onClick={() => { onDelete(row.TestID)} } >
-                                        <DeleteIcon style={{ color: "#d83838" }} />
+                                    onClick={async () => {setLoadingDelete(true); await onDelete(row.TestID); setLoadingDelete(false)} } >
+                                        { loadingDelete? <CircularProgress size={25} /> : <DeleteIcon style={{ color: "#d83838" }} />}
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

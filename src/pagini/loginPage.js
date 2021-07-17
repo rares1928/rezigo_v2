@@ -14,6 +14,7 @@ import logo from '../poze/logo4.svg';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { callApi } from '../utils/callApi';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +44,7 @@ export default function SignIn() {
     let cookieRemember = new Cookies();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [apare_aicont, setapare_aicont] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [rememberMe, setRememberMe] = useState(cookieRemember.get('rememberMe') === 'true' ? true : false);
     const [error, setError] = useState(0);
     const classes = useStyles();
@@ -55,13 +56,15 @@ export default function SignIn() {
     }
 
 
-    const callLoginApi = () => {
-        callApi("https://grileapiwin.azurewebsites.net/api/Login?code=D2p6Wi0brJT9iDnRObOnEfKqJLZbEhKse5Ze0ac9T745hJSuyiimuQ==", { email, password, tip_login: "autohton", rememberMe }, handleLogin, handleError)
+    const callLoginApi = async () => {
+        setLoading(true);
+        await callApi("https://grileapiwin.azurewebsites.net/api/Login?code=D2p6Wi0brJT9iDnRObOnEfKqJLZbEhKse5Ze0ac9T745hJSuyiimuQ==", { email, password, tip_login: "autohton", rememberMe }, handleLogin, handleError);
+        setLoading(false);
     }
 
     const handleLogin = (e) => {
         const cookies = new Cookies();
-        let rememberMeSeconds = rememberMe ? 2592000 : 43200;
+        let rememberMeSeconds = rememberMe ? 2592000 : null;
         const firstname = e.data['first_name'];
         const lastname = e.data['last_name'];
         const plan = e.data['plan'];
@@ -76,7 +79,6 @@ export default function SignIn() {
 
     const handleError = (e) => {
         setError(e);
-        setapare_aicont(true);
     }
 
     return (
@@ -136,13 +138,14 @@ export default function SignIn() {
                         color="secondary"
                         className={classes.submit}
                         onClick={callLoginApi}
-                        disabled={!apare_aicont}
+                        disabled={loading}
                     >
+                        {loading? <CircularProgress size={25} /> :
                         <Typography>
                             Autentificare
-            </Typography>
+                        </Typography>}
                     </Button>
-                    {apare_aicont &&
+                    {!loading &&
                         <Grid container>
                             <Grid item xs>
                                 <Link color="secondary" href="#" variant="body2">

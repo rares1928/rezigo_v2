@@ -30,7 +30,7 @@ export default function GrilePage(props) {
     const [error, setError] = useState(0);
     const [isReady, setReady] = useState(false);
     const { state } = useLocation();
-    const [showAnswer, setShowAnswer] = useState(false);
+    const [showAnswer, setShowAnswer] = useState(true);
     
     let history= useHistory();
 
