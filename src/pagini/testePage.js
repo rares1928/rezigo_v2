@@ -21,6 +21,7 @@ import Cookies from 'universal-cookie';
 import { callApi } from "../utils/callApi";
 import { useHistory } from 'react-router-dom';
 import ErrorPopup from '../componente/errorPopup';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 
@@ -160,7 +161,9 @@ export default function TestePage() {
 
     const displayTestNou = () => {
         return (
-            <div className={classes.bookDiv}>
+            <>
+            {!ready? <CircularProgress/> :
+                <div className={classes.bookDiv}>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     2. Selectează cărțile, capitolele și subcapitolele:
                 </Typography>
@@ -252,12 +255,15 @@ export default function TestePage() {
                         }
                     </Grid>
                 </Grid>
-            </div>
+            </div>}
+            </>
         );
     }
 
     const displayTestNeterminat = () => {
         return (
+            <>
+            {!ready? <CircularProgress/> :
             <div>
                 <Typography variant="h6" component="h6" className={classes.instructionsText} >
                     2. Selectează testul pe care dorești să îl continui:
@@ -267,7 +273,8 @@ export default function TestePage() {
                         <DataTable rows={listatTesteNeterm} onDelete={(id) => deleteTest(id) } onClick={(id) => handleTestId(id)} />
                     }
                 </div>
-            </div>
+            </div>}
+            </>
         )
     }
 
@@ -376,7 +383,7 @@ export default function TestePage() {
                         in={isCardSelected === "Test nou"}
                         timeout={growTimeout}
                     >
-                        {ready && <div>{displayTestNou()}</div>}
+                        <div>{displayTestNou()}</div> 
                     </Grow>
                 }
                 {

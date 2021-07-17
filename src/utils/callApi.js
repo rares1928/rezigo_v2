@@ -6,7 +6,7 @@ export const callApi = async (url, data, handle, handleError) => {
     const token = cookies.get('accessToken');
     const config = {
         withCredentials: true,
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
     };
     try {const response = await axios.post(url, data, config)
     if (response.data) {

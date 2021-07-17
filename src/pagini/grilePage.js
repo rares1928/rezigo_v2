@@ -16,6 +16,8 @@ import Cookies from 'universal-cookie';
 import { callApi } from "../utils/callApi";
 import ErrorPopup from '../componente/errorPopup';
 import { useHistory } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 
 
@@ -29,6 +31,7 @@ export default function GrilePage(props) {
     const [isReady, setReady] = useState(false);
     const { state } = useLocation();
     const [showAnswer, setShowAnswer] = useState(false);
+    
     let history= useHistory();
 
     const handleItems = (e) => {
@@ -158,7 +161,7 @@ export default function GrilePage(props) {
         <>
         <ErrorPopup errorStatus={error} />
         <Container maxWidth="lg">
-            {isReady &&
+            {   !isReady? <CircularProgress/> :
                 <Grid direction="row" spacing={1} >
                     <Grid item >
                         <Paper className={classes.paper}>
