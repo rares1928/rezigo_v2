@@ -8,14 +8,15 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme)=>({
   root: {
-    maxWidth: 400,
+    maxWidth: 370,
     display: "flex",
     flexDirection: "column",
     borderRadius: 15,
   },
   media: {
-    height: "30vh",
-    maxHeight: "250px",
+    height: "25vh",
+    maxHeight: "200px",
+    minHeight: 170,
   },
   textSide:{
     display: "flex",

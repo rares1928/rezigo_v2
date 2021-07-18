@@ -15,6 +15,10 @@ export default function BasicTable({ rows, onDelete, onClick}) {
             paddingBottom: theme.spacing(2),
             marginBottom: theme.spacing(4),
         },
+        tabel:{
+            height: "40vh",
+            minHeight: 320,
+        },
         header: {
             backgroundColor: theme.palette.primary.main
         }
@@ -26,7 +30,7 @@ export default function BasicTable({ rows, onDelete, onClick}) {
 
     return (
         <div className={classes.body}>
-            <TableContainer style={{ maxHeight: "40vh" }}>
+            <TableContainer className={classes.tabel}>
                 <Table stickyHeader aria-label="simple table">
                     <TableHead >
                         <TableRow >

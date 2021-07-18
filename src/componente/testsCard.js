@@ -40,9 +40,9 @@ export default function TestsCard(props) {
     }
     return (
         <Card className={classes.root}>
-            <CardActionArea onClick={() => {
+            <CardActionArea onClick={async () => {
                 if (props.onClick) {
-                    props.onClick();
+                    await props.onClick();
                 }
                 props.setCardSelected(props.title);
                 if (props.ready) {

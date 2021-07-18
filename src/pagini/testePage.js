@@ -373,6 +373,7 @@ export default function TestePage() {
                             imagine={testNeterminatImg}
                             title="Teste neterminate"
                             text="Selectează unul dintre testele neterminate pe care vrei să le continui."
+                            ready={ready}
                             onClick={callApiTestNeterminat}
                         />
                     </Grid>
