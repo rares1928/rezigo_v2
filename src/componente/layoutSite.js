@@ -19,6 +19,7 @@ import Cookies from 'universal-cookie';
 const useStyles = makeStyles((theme) => ({
     
     main:{
+        minHeight: "100vh",
     },
     rootNavBar: {
         height: theme.spacing(8),

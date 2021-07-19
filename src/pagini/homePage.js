@@ -13,10 +13,17 @@ import Link from '@material-ui/core/Link';
 import IconButton from "@material-ui/core/IconButton";
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
+import { findByLabelText } from '@testing-library/react';
 
 
 
 const useStyles = makeStyles((theme)=>({
+    wrapperDiv:{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "calc(100vh - calc(8 * 8px))",
+        justifyContent: "space-between",
+    },
     root: {
         paddingTop: theme.spacing(6),
         paddingBottom: theme.spacing(6),
@@ -24,6 +31,7 @@ const useStyles = makeStyles((theme)=>({
     footer: {
         backgroundColor: theme.palette.primary.main,
         padding: theme.spacing(1,10,3),
+    
     },
     footerItem: {
         maxWidth: 300,
@@ -34,7 +42,7 @@ export default function HomePage() {
     const classes=useStyles();
 
     return(
-    <>
+    <div className={classes.wrapperDiv}>
         <Container className={classes.root} maxWidth="lg">
             <Grid 
                 justify="center" 
@@ -126,6 +134,6 @@ export default function HomePage() {
                 </Grid>
             </Container>
         </footer>
-    </>
+    </div>
    );
 }
