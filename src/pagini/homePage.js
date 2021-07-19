@@ -13,7 +13,6 @@ import Link from '@material-ui/core/Link';
 import IconButton from "@material-ui/core/IconButton";
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
-import { findByLabelText } from '@testing-library/react';
 
 
 
