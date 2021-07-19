@@ -23,7 +23,7 @@ export default function TestsBookCard(props) {
             maxHeight: 250,
         },
         mediaImg: {
-            height: "20vh",
+            height: "15vh",
             minHeight: 150,
         },
         lowerPart:{       

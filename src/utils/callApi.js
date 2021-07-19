@@ -12,7 +12,8 @@ export const callApi = async (url, data, handle, handleError) => {
         const response = await axios.post(url, data, config)
         if (response.data) {
             if ("token" in response.data) {
-                cookies.set('accessToken', token, { path: "/" })
+                cookies.remove("accessToken");
+                cookies.set('accessToken', response.data.token, { path: "/" });
             }
             handle(response)
         }
