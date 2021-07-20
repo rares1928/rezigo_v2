@@ -132,10 +132,14 @@ export default function GrilePage(props) {
             justifyContent: "center",
             alignItems: "center"
         },
-        question: {
+        questionDetails: {
             paddingTop: theme.spacing(3),
             padding: theme.spacing(1),
-            paddingBottom: theme.spacing(3),
+            paddingBottom: theme.spacing(2),
+        },
+        question: {
+            paddingLeft: theme.spacing(1),
+            paddingBottom: theme.spacing(0.5),
         },
         cardVariante: {
             display: "flex",
@@ -185,6 +189,7 @@ export default function GrilePage(props) {
                                     min={1}
                                     max={items.length}
                                     valueLabelDisplay="auto"
+                                    color="secondary"
                                 >
                                 </Slider>
                                 <IconButton
@@ -194,11 +199,12 @@ export default function GrilePage(props) {
                                     <ChevronRightIcon />
                                 </IconButton>
                             </div>
-                            <div className={classes.question}>
-                                <Typography variant="body2" color="textSecondary">
-                                    Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
+                            
+                                <Typography className={classes.questionDetails} variant="body2" color="textSecondary">
+                                    Tip Grilă: {items[selectedQuestion]["TipGrile"]}; Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
                                 </Typography>
-                                <Typography variant="subtitle1" className="grileQuestionTypography">
+                            <div className="grileQuestionTypography">    
+                                <Typography className={classes.question} variant="subtitle1">
                                     {selectedQuestion + 1}. {items[selectedQuestion]['Intrebare']}
                                 </Typography>
                             </div>
