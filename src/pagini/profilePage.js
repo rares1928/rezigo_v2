@@ -43,7 +43,7 @@ export default function ProfilePage(props) {
             backgroundColor: props.darkMode? "#5c5c5c" : "#fafafa",
         },
         textField: {
-            padding: theme.spacing(1),
+            margin: theme.spacing(1),
         },
         gridButton: {
             margin: theme.spacing(1),
@@ -65,6 +65,7 @@ export default function ProfilePage(props) {
     const [ready, setReady] = useState(false);
     const [items, setItems] = useState({});
     const [error, setError] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [changeLastName, setChangeLastName] = useState('');
     const [changeFirstName, setChangeFirstName] = useState('');
@@ -78,16 +79,16 @@ export default function ProfilePage(props) {
     const [changeNewEmail, setChangeNewEmail] = useState('');
     const [verifyPasswordEmail, setVerifyPasswordEmail] = useState('');
 
+    const handleError = (e) => {
+        setError(e);
+    }
 
     const handleItems = (e) => {
         setItems(e.data);
     };
 
-    const handleError = (e) => {
-        setError(e);
-    }
-
     useEffect( () => {
+    
         const url = "https://grileapiwin.azurewebsites.net/api/GetProfil?code=an7l2kCHdoYlNw006LoBdCzHB5U4qSVbNvpQ1r1V3TgSHtAYuMbkyw==";
         callApi(url, {}, handleItems, handleError);
         setReady(true);
@@ -102,7 +103,24 @@ export default function ProfilePage(props) {
         cookies.remove('lastname');
         history.push('/login')
     }
-    console.log(items["tip_profil"]);
+
+    const updateProfile = async (whatToUpdate, newFirstName, newLastName, password, newPassword, newEmail) => {
+        setIsLoading(true);
+        const data = {
+            newFirstName,
+            newLastName,
+            password,
+            newPassword,
+            newEmail,
+            whatToUpdate,
+        }
+        const url = "https://grileapiwin.azurewebsites.net/api/updatepersonainfo?code=ii/dJ8ix8TdHZc6baLlJ7yLdYy1LeNVG7gRnQZJKzZEZIb9ISQJ8Nw==";
+        const url2 = "https://grileapiwin.azurewebsites.net/api/GetProfil?code=an7l2kCHdoYlNw006LoBdCzHB5U4qSVbNvpQ1r1V3TgSHtAYuMbkyw==";
+        await callApi(url, data, ()=>{} , handleError);
+        await callApi(url2, {}, handleItems, handleError);
+        setIsLoading(false);
+    }
+    
     return(
         <Container className={classes.root} maxWidth="sm">
             <Paper>
@@ -147,11 +165,12 @@ export default function ProfilePage(props) {
                                 <Grid className={classes.gridButton} item>
                                     <Button 
                                     variant="contained" 
-                                    disabled={changeLastName === '' || changeFirstName === '' || verifyPasswordName === ''} 
+                                    disabled={changeLastName === '' || changeFirstName === '' || verifyPasswordName === '' || isLoading} 
                                     color="secondary" 
-                                    onClick={() => {console.log(verifyPasswordName, changeLastName, changeFirstName,)}}
+                                    onClick={() => {updateProfile("name", changeFirstName, changeLastName, verifyPasswordName, null, null)}}
                                     >
-                                        Schimbă Numele
+                                        {isLoading? <CircularProgress/> :
+                                        <>Schimbă Numele</>}
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -195,11 +214,13 @@ export default function ProfilePage(props) {
                                 </Grid>
                                 <Grid className={classes.gridButton} item>
                                     <Button 
-                                    variant="contained" disabled={verifyPassword === '' || changeNewPassword === '' || changeNewPasswordAgain === ''} 
+                                    variant="contained" 
+                                    disabled={isLoading || verifyPassword === '' || changeNewPassword === '' || changeNewPasswordAgain === ''} 
                                     color="secondary" 
-                                    onClick={() => {console.log(verifyPassword, changeNewPassword, changeNewPasswordAgain)}}
+                                    onClick={() => {updateProfile("password", null, null, verifyPassword, changeNewPassword, null)}}
                                     >
-                                        Schimbă Parola
+                                        {isLoading? <CircularProgress/>:
+                                        <>Schimbă Parola</>}
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -237,9 +258,11 @@ export default function ProfilePage(props) {
                                 <Grid className={classes.gridButton} item>
                                     <Button 
                                     variant="contained" 
-                                    disabled={verifyPasswordEmail === '' || changeOldEmail === '' || changeNewEmail === ''} onClick={() => {console.log(verifyPasswordEmail, changeOldEmail, changeNewEmail)}} 
+                                    disabled={isLoading || verifyPasswordEmail === '' || changeNewEmail === ''} 
+                                    onClick={() => {updateProfile("email", null, null, verifyPasswordEmail, null, changeNewEmail)}} 
                                     color="secondary">
-                                        Schimbă Email
+                                        {isLoading? <CircularProgress/>:
+                                        <>Schimbă Email</>}
                                     </Button>
                                 </Grid>
                             </Grid>
