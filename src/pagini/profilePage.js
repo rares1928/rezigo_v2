@@ -65,6 +65,7 @@ export default function ProfilePage(props) {
     const [ready, setReady] = useState(false);
     const [items, setItems] = useState({});
     const [error, setError] = useState(0);
+    const [errorPassword, setErrorPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const [changeLastName, setChangeLastName] = useState('');
@@ -143,6 +144,7 @@ export default function ProfilePage(props) {
                                     <TextField 
                                     className={classes.textField} 
                                     label="Parolă" 
+                                    error={error === 400}
                                     variant="outlined" 
                                     color="secondary" 
                                     type="password" 
@@ -172,6 +174,7 @@ export default function ProfilePage(props) {
                                         {isLoading? <CircularProgress/> :
                                         <>Schimbă Numele</>}
                                     </Button>
+                                    {error === 400? <Typography color="error">Nu ai introdus corect parola!</Typography> : null}
                                 </Grid>
                             </Grid>
                         </AccordionDetails>
@@ -190,6 +193,7 @@ export default function ProfilePage(props) {
                                 <Grid item >
                                     <TextField 
                                     className={classes.textField} 
+                                    error={error === 400}
                                     label="Parolă veche" 
                                     variant="outlined" 
                                     color="secondary" 
@@ -200,6 +204,7 @@ export default function ProfilePage(props) {
                                     <TextField 
                                     className={classes.textField} 
                                     label="Parolă nouă" 
+                                    error={errorPassword}
                                     variant="outlined" 
                                     color="secondary" 
                                     type="password" 
@@ -207,6 +212,7 @@ export default function ProfilePage(props) {
                                     <TextField 
                                     className={classes.textField} 
                                     label="Reintrodu parola nouă" 
+                                    error={errorPassword}
                                     variant="outlined" 
                                     color="secondary" 
                                     type="password" 
@@ -217,11 +223,20 @@ export default function ProfilePage(props) {
                                     variant="contained" 
                                     disabled={isLoading || verifyPassword === '' || changeNewPassword === '' || changeNewPasswordAgain === ''} 
                                     color="secondary" 
-                                    onClick={() => {updateProfile("password", null, null, verifyPassword, changeNewPassword, null)}}
-                                    >
-                                        {isLoading? <CircularProgress/>:
-                                        <>Schimbă Parola</>}
+                                    onClick={() => {
+                                        if(changeNewPassword === changeNewPasswordAgain){
+                                        setErrorPassword(false)
+                                        updateProfile("password", null, null, verifyPassword, changeNewPassword, null)
+                                        }else{
+                                            setErrorPassword(true)
+                                        }
+                                    }}
+                                        >
+                                        {
+                                        isLoading? <CircularProgress/>:<>Schimbă Parola</> 
+                                        }
                                     </Button>
+                                    {error === 400? <Typography color="error">Nu ai introdus corect parola!</Typography> : null}
                                 </Grid>
                             </Grid>
                         </AccordionDetails>
@@ -242,6 +257,7 @@ export default function ProfilePage(props) {
                                     <TextField 
                                     className={classes.textField} 
                                     label="Parolă" 
+                                    error={error === 400}
                                     variant="outlined" 
                                     color="secondary" 
                                     type="password"
@@ -264,6 +280,7 @@ export default function ProfilePage(props) {
                                         {isLoading? <CircularProgress/>:
                                         <>Schimbă Email</>}
                                     </Button>
+                                    {error === 400? <Typography color="error">Nu ai introdus corect parola!</Typography> : null}
                                 </Grid>
                             </Grid>
                         </AccordionDetails>
