@@ -84,6 +84,7 @@ export default function TestePage() {
     const [listaselectiisubcat, setListaselectiisubcat] = useState([{}]);
     const [listaselectii, setListaselectii] = useState([]);
     const [ready, setReady] = useState(false);
+    const [loadingTestNeterm, setLoadingTestNeterm] = useState(false);
     const [listaCategorii, setListaCategorii] = useState([])
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
     const [error, setError] = useState(0);
@@ -113,10 +114,12 @@ export default function TestePage() {
         return(history.push({ pathname: "/rezolva_test", state: testId.data["lista"] }));
     };
 
-    const callApiTestNeterminat = () => {
+    const callApiTestNeterminat = async () => {
+        setLoadingTestNeterm(true);
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
-        callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste, handleError);
+        await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste, handleError);
+        setLoadingTestNeterm(false);
     }
 
     useEffect(() => {
@@ -273,7 +276,7 @@ export default function TestePage() {
     const displayTestNeterminat = () => {
         return (
             <>
-            {!ready? <CircularProgress/> :
+            {loadingTestNeterm? <CircularProgress/> :
             <div>
                 <Typography variant="h6" component="h6" className={classes.instructionsText} >
                     2. Selectează testul pe care dorești să îl continui:

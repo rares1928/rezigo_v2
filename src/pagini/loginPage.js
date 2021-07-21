@@ -68,12 +68,14 @@ export default function SignIn() {
         const firstname = e.data['first_name'];
         const lastname = e.data['last_name'];
         const plan = e.data['plan'];
-        const accessToken = e.data['access']
+        const accessToken = e.data['access'];
+        const refreshToken = e.data["refreshToken"];
         cookies.set('estiLogat', "rapid", { path: '/', maxAge: rememberMeSeconds });
         cookies.set('firstname', firstname, { path: '/', maxAge: rememberMeSeconds });
         cookies.set('lastname', lastname, { path: '/', maxAge: rememberMeSeconds });
         cookies.set('plan', plan, { path: '/', maxAge: rememberMeSeconds });
         cookies.set('accessToken', accessToken, { path: '/', maxAge: rememberMeSeconds });
+        cookies.set('refreshToken', refreshToken, )
         history.push("/")
     }
 
