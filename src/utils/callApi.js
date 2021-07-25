@@ -25,7 +25,7 @@ export const callApi = async (url, data, handle, handleError) => {
                     cookies.set('refreshToken', response.data.refreshToken, {path: "/"});
                 }
             }
-            handle(response)
         }
+        handle(response);
     } catch (err) { handleError(err.response.status) }
 };

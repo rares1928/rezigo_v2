@@ -17,8 +17,13 @@ import { callApi } from "../utils/callApi";
 import ErrorPopup from '../componente/errorPopup';
 import { useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
-
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 
 export default function GrilePage(props) {
@@ -26,11 +31,16 @@ export default function GrilePage(props) {
     const [selectedQuestion, setNextQuestion] = useState(0);
     let isQuestionSelected = [false, false, false, false, false]
     const [isSelected, setIsSelected] = useState(isQuestionSelected);
+    const [loading, setLoading] = useState(false);
     const [items, setItems] = useState([]);
     const [error, setError] = useState(0);
     const [isReady, setReady] = useState(false);
     const { state } = useLocation();
     const [showAnswer, setShowAnswer] = useState(true);
+    const [showReport, setShowReport] = useState(false);
+    const [reportText, setReportText] = useState("");
+    const [reportResponse, setReportResponse] = useState(0);
+    
     
     let history= useHistory();
 
@@ -39,9 +49,13 @@ export default function GrilePage(props) {
         setReady(true);
     };
 
+    const handleResponse = (e) => {
+        setReportResponse(e.status);
+    };
+
     const handleError = (e) => {
         setError(e);
-    }
+    };
 
     
     useEffect(() => {
@@ -107,12 +121,24 @@ export default function GrilePage(props) {
                 final_question = true
             }
 
-            callApi('https://grileapiwin.azurewebsites.net/api/UpdateQuestionWin?code=/exISg8MBjNHTzNt8dNAonkeqzYsV5Imgh5naOgP/7aPdlR06NS2xw==', { testId, rememberMe, grilaId, choice, correct, final_question }, () => { });
+            callApi('https://grileapiwin.azurewebsites.net/api/UpdateQuestionWin?code=/exISg8MBjNHTzNt8dNAonkeqzYsV5Imgh5naOgP/7aPdlR06NS2xw==', { testId, rememberMe, grilaId, choice, correct, final_question }, () => { }, handleError);
             setItems(tempItems.slice());
         }
         else {
             handleNextQuestion();
         }
+    }
+
+    const sendReport = async () => {
+        setLoading(true);
+        const data = {
+            grilaId: items[selectedQuestion]["GrilaID"],
+            report: reportText,
+        };
+        const url = "https://grileapiwin.azurewebsites.net/api/ReportGrila?code=aEvkH5jiGEsHUPt0/rAePmAtmihgiOuSs3JFZ1JWU2aCTIxTfBDVcg=="
+        await callApi(url, data, handleResponse, handleError);
+        setLoading(false);
+        setShowReport(false);
     }
 
 
@@ -161,12 +187,44 @@ export default function GrilePage(props) {
         paperStatistics :{
             marginBottom: theme.spacing(3),
         },
+        buttonReport:{
+            marginBottom: theme.spacing(2),
+            marginRight: theme.spacing(1),
+        },
+        textFiled:{
+            margin: theme.spacing(1),
+            marginBottom: theme.spacing(2),
+            paddingRight: theme.spacing(2),    
+        },
+        textReport:{
+            padding: theme.spacing(1),
+        },
+        reportButtonDiv:{
+            display: "flex",
+            width: "100%",
+            justifyContent: "flex-end",
+            
+        },
 
     }));
     const classes = useStyles();
+
+    const handleCloseAlert = () => {
+        setReportResponse(0);
+      };
+    console.log(reportResponse);
     return (
         <>
         <ErrorPopup errorStatus={error} />
+
+        <Snackbar open={reportResponse === 200} autoHideDuration={3000} onClose={handleCloseAlert}>
+            <Alert onClose={handleCloseAlert} severity="success">
+                <Typography>
+                    Raportul tău a fost trimis cu succes!
+                </Typography>
+            </Alert>
+        </Snackbar>
+
         <Container maxWidth="lg">
             {   !isReady? <CircularProgress/> :
                 <Grid direction="row" spacing={1} >
@@ -280,6 +338,47 @@ export default function GrilePage(props) {
                                 </Grid>
                             </Grid>
                         </Paper>
+                        <Button
+                        onClick={() => setShowReport(!showReport)}  
+                        variant="contained" 
+                        color="primary" 
+                        className={classes.buttonReport}>
+                            <Typography>
+                                Raportează grila
+                            </Typography>
+                        </Button>
+                        {showReport ?
+                        <Paper className={classes.paperStatistics}>
+                            <Typography className={classes.textReport}>
+                                Scrie mai jos motivul pentru care consideri că grila este greșită:
+                            </Typography>
+                            <TextField
+                                className={classes.textFiled}
+                                id="outlined-multiline-static"
+                                label={"Număr de caractere: ".concat(" ", reportText.length.toString(), "/500")}
+                                multiline
+                                error={reportText.length>500}
+                                rows={4}
+                                variant="outlined"
+                                fullWidth
+                                onInput={e => setReportText(e.target.value)}
+                                required
+                            />
+                            <div className={classes.reportButtonDiv}>
+                            <Button
+                                onClick={() => sendReport()}  
+                                variant="contained" 
+                                color="primary" 
+                                className={classes.buttonReport}
+                            >
+                            {loading? <CircularProgress color="secondary" /> :
+                                <Typography>
+                                    Trimite raportul
+                                </Typography>}
+                        </Button>
+                            </div>
+                        </Paper> : null
+                        }
                     </Grid>
                 </Grid>
             }

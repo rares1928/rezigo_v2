@@ -20,6 +20,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 export default function ProfilePage(props) {
 
     const useStyles = makeStyles((theme)=>({
+        paper:{
+            marginBottom: theme.spacing(3),
+        },
         root: {
             paddingTop: theme.spacing(6),
             paddingBottom: theme.spacing(6),
@@ -57,10 +60,6 @@ export default function ProfilePage(props) {
 
     let history = useHistory();
     const classes=useStyles();
-    const [name, setName] = useState('false');
-    const [email, setEmail] = useState('false');
-    const [password, setPassword] = useState('false');
-    const [premium, setPremium] = useState('false');
 
     const [ready, setReady] = useState(false);
     const [items, setItems] = useState({});
@@ -76,7 +75,6 @@ export default function ProfilePage(props) {
     const [changeNewPasswordAgain, setChangeNewPasswordAgain] = useState('');
     const [verifyPassword, setVerifyPassword] = useState('');
 
-    const [changeOldEmail, setChangeOldEmail] = useState('');
     const [changeNewEmail, setChangeNewEmail] = useState('');
     const [verifyPasswordEmail, setVerifyPasswordEmail] = useState('');
 
@@ -99,6 +97,7 @@ export default function ProfilePage(props) {
         const cookies = new Cookies();
         cookies.remove('estiLogat');
         cookies.remove('accessToken');
+        cookies.remove('refreshToken');
         cookies.remove('plan');
         cookies.remove('firstname');
         cookies.remove('lastname');
@@ -124,7 +123,7 @@ export default function ProfilePage(props) {
     
     return(
         <Container className={classes.root} maxWidth="sm">
-            <Paper>
+            <Paper className={classes.paper}>
                 <Typography className={classes.typographyHeader} variant="h5">Informații personale:</Typography>
                 {!ready? <CircularProgress/> :
                 <div className={classes.divAccordion}>
@@ -133,7 +132,6 @@ export default function ProfilePage(props) {
                             expandIcon={<EditIcon color='secondary'/> }
                             aria-controls="panel1a-content"
                             id="panel1a-header"
-                            onClick={() => {setName(!name)}}
                         >
                             <Typography className={classes.heading}>Nume: </Typography>
                             <Typography className={classes.secondaryHeading}> {items.lastName} {items.firstName} </Typography>
@@ -184,7 +182,6 @@ export default function ProfilePage(props) {
                             expandIcon={<EditIcon color='secondary'/> }
                             aria-controls="panel2a-content"
                             id="panel2a-header"
-                            onClick={() => {setName(!email)}}
                         >
                             <Typography className={classes.heading}>Parolă</Typography>
                         </AccordionSummary>
@@ -246,7 +243,6 @@ export default function ProfilePage(props) {
                             expandIcon={<EditIcon color='secondary'/> }
                             aria-controls="panel2a-content"
                             id="panel2a-header"
-                            onClick={() => {setName(!password)}}
                         >
                             <Typography className={classes.heading}>Email</Typography>
                             <Typography className={classes.secondaryHeading}> {items.email} </Typography>
@@ -290,7 +286,6 @@ export default function ProfilePage(props) {
                     disabled={!(items["tip_profil"] === "Premium")}
                     aria-controls="panel3a-content"
                     id="panel3a-header"
-                    onClick={() => {setName(!premium)}}
                     >
                         <Typography className={classes.heading}>Tip Cont</Typography>
                         <Typography className={classes.secondaryHeading}>{items["tip_profil"]}</Typography>
@@ -316,6 +311,15 @@ export default function ProfilePage(props) {
                 <Button className={classes.gridButton} variant="contained" color="secondary" onClick={() => delogare()}> Delogare </Button>
                 </div>
             </Paper>
+            <Paper className={classes.paper}>
+                <Typography className={classes.typographyHeader} variant="h5">Statistici: </Typography>
+                    {
+                    !ready? <CircularProgress/> :
+                    <div >
+                        
+                    </div>
+                    }
+                </Paper>
         </Container>
     );
 }

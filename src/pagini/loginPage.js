@@ -75,7 +75,7 @@ export default function SignIn() {
         cookies.set('lastname', lastname, { path: '/', maxAge: rememberMeSeconds });
         cookies.set('plan', plan, { path: '/', maxAge: rememberMeSeconds });
         cookies.set('accessToken', accessToken, { path: '/', maxAge: rememberMeSeconds });
-        cookies.set('refreshToken', refreshToken, )
+        cookies.set('refreshToken', refreshToken, { path: '/', maxAge: rememberMeSeconds });
         history.push("/")
     }
 

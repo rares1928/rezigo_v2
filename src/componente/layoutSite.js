@@ -118,7 +118,7 @@ export default function LayoutSite(props) {
                     disableElevation 
                     variant={location.pathname === "/profil"? "contained":"outlined"} 
                     href="/profil">
-                        <Typography variant="h6" align="center">Nume Prenume</Typography>  
+                        <Typography variant="h6" align="center">{name}</Typography>  
                     </Button>        
                 </ButtonGroup>
             </div>
