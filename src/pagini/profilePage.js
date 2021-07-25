@@ -14,6 +14,9 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { callApi } from '../utils/callApi';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
 
 
 
@@ -86,11 +89,12 @@ export default function ProfilePage(props) {
         setItems(e.data);
     };
 
-    useEffect( () => {
-    
+    useEffect( async () => {
+        setIsLoading(true);
         const url = "https://grileapiwin.azurewebsites.net/api/GetProfil?code=an7l2kCHdoYlNw006LoBdCzHB5U4qSVbNvpQ1r1V3TgSHtAYuMbkyw==";
-        callApi(url, {}, handleItems, handleError);
+        await callApi(url, {}, handleItems, handleError);
         setReady(true);
+        setIsLoading(false);
     }, [])
 
     const delogare = () => {
@@ -116,11 +120,11 @@ export default function ProfilePage(props) {
         }
         const url = "https://grileapiwin.azurewebsites.net/api/updatepersonainfo?code=ii/dJ8ix8TdHZc6baLlJ7yLdYy1LeNVG7gRnQZJKzZEZIb9ISQJ8Nw==";
         const url2 = "https://grileapiwin.azurewebsites.net/api/GetProfil?code=an7l2kCHdoYlNw006LoBdCzHB5U4qSVbNvpQ1r1V3TgSHtAYuMbkyw==";
-        await callApi(url, data, ()=>{} , handleError);
+        await callApi(url, data, () => {} , handleError);
         await callApi(url2, {}, handleItems, handleError);
         setIsLoading(false);
     }
-    
+
     return(
         <Container className={classes.root} maxWidth="sm">
             <Paper className={classes.paper}>
@@ -315,8 +319,38 @@ export default function ProfilePage(props) {
                 <Typography className={classes.typographyHeader} variant="h5">Statistici: </Typography>
                     {
                     !ready? <CircularProgress/> :
-                    <div >
-                        
+                    <div className={classes.divAccordion}>
+                        <List className={classes.accordion}>
+                            <ListItem>
+                                <Typography>Număr de teste începute: {items["lista_teste"].length } </Typography>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <Typography>Număr de teste terminate: {items["lista_teste"].filter((test) => test["Done"] === true).length } </Typography>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <Typography>Media scorurilor testelor terminate: {(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).length *100).toPrecision(3) }% (echivalentul a {(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).length *950)}/950) </Typography>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <Typography>
+                                    Număr total de grile rezolvate: {items["lista_teste"].reduce((acc, val) => acc + val["NumAnswered"], 0 )}  
+                                </Typography>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <Typography>
+                                    Număr total de grile rezolvate greșit: {items["lista_teste"].reduce((acc, val) => acc + (val["NumAnswered"] - val["Score"]), 0 )} (procentual: {(items["lista_teste"].reduce((acc, val) => acc + (val["NumAnswered"] - val["Score"]), 0 )/ items["lista_teste"].reduce((acc, val) => acc + val["NumAnswered"], 0 ) * 100).toPrecision(3) }%)   
+                                </Typography>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <Typography>
+                                    Număr total de grile rezolvate corect: {items["lista_teste"].reduce((acc, val) => acc + val["Score"] , 0 )} (procentual: {(items["lista_teste"].reduce((acc, val) => acc + val["Score"] , 0 )/ items["lista_teste"].reduce((acc, val) => acc + val["NumAnswered"], 0 ) * 100).toPrecision(3) }%) 
+                                </Typography>
+                            </ListItem>
+                        </List>
                     </div>
                     }
                 </Paper>

@@ -70,9 +70,11 @@ export default function GrilePage(props) {
     }, [history, state])
 
     const handleNextQuestion = () => {
-        const nextQuestion = selectedQuestion + 1;
-        setNextQuestion(nextQuestion);
-        setIsSelected(isQuestionSelected);
+        if(!(selectedQuestion + 1 === items.length)){
+            const nextQuestion = selectedQuestion + 1;
+            setNextQuestion(nextQuestion);
+            setIsSelected(isQuestionSelected);
+        }
     };
 
     const handlePreviousQuestion = () => {
@@ -212,7 +214,7 @@ export default function GrilePage(props) {
     const handleCloseAlert = () => {
         setReportResponse(0);
       };
-    console.log(reportResponse);
+    
     return (
         <>
         <ErrorPopup errorStatus={error} />
@@ -287,7 +289,7 @@ export default function GrilePage(props) {
                                 variant="contained" 
                                 color="secondary" 
                                 onClick={() => trimiteRaspuns(isSelected, selectedQuestion)} 
-                                disabled={((isSelected.reduce((a, b) => a + b, 0)) === 0 && items[selectedQuestion]["Choices"] === 0) || (selectedQuestion + 1 === items.length) }>
+                                disabled={((isSelected.reduce((a, b) => a + b, 0)) === 0 && items[selectedQuestion]["Choices"] === 0) }>
                                     {
                                         (items[selectedQuestion]["Choices"] === 0) &&
                                         <Typography>
