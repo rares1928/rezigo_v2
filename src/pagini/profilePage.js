@@ -87,14 +87,14 @@ export default function ProfilePage(props) {
 
     const handleItems = (e) => {
         setItems(e.data);
-    };
-
-    useEffect( async () => {
-        setIsLoading(true);
-        const url = "https://grileapiwin.azurewebsites.net/api/GetProfil?code=an7l2kCHdoYlNw006LoBdCzHB5U4qSVbNvpQ1r1V3TgSHtAYuMbkyw==";
-        await callApi(url, {}, handleItems, handleError);
         setReady(true);
         setIsLoading(false);
+    };
+
+    useEffect( () => {
+        setIsLoading(true);
+        const url = "https://grileapiwin.azurewebsites.net/api/GetProfil?code=an7l2kCHdoYlNw006LoBdCzHB5U4qSVbNvpQ1r1V3TgSHtAYuMbkyw==";
+        callApi(url, {}, handleItems, handleError);
     }, [])
 
     const delogare = () => {
@@ -144,6 +144,7 @@ export default function ProfilePage(props) {
                             <Grid container direction="column">
                                 <Grid item >
                                     <TextField 
+                                    size="small"
                                     className={classes.textField} 
                                     label="Parolă" 
                                     error={error === 400}
@@ -154,12 +155,14 @@ export default function ProfilePage(props) {
                                 </Grid>
                                 <Grid item >    
                                     <TextField 
+                                    size="small"
                                     className={classes.textField} 
                                     label={items.lastName}
                                     variant="outlined" 
                                     color="secondary" 
                                     onInput={e => setChangeLastName(e.target.value)}/>
                                     <TextField 
+                                    size="small"
                                     className={classes.textField} 
                                     label={items.firstName} 
                                     variant="outlined" 
@@ -193,6 +196,7 @@ export default function ProfilePage(props) {
                             <Grid container direction="column">
                                 <Grid item >
                                     <TextField 
+                                    size="small"
                                     className={classes.textField} 
                                     error={error === 400}
                                     label="Parolă veche" 
@@ -203,6 +207,7 @@ export default function ProfilePage(props) {
                                 </Grid>
                                 <Grid item >    
                                     <TextField 
+                                    size="small"
                                     className={classes.textField} 
                                     label="Parolă nouă" 
                                     error={errorPassword}
@@ -211,6 +216,7 @@ export default function ProfilePage(props) {
                                     type="password" 
                                     onInput={e => setChangeNewPassword(e.target.value)}/>
                                     <TextField 
+                                    size="small"
                                     className={classes.textField} 
                                     label="Reintrodu parola nouă" 
                                     error={errorPassword}
@@ -255,6 +261,7 @@ export default function ProfilePage(props) {
                             <Grid container direction="column">
                                 <Grid item >
                                     <TextField 
+                                    size="small"
                                     className={classes.textField} 
                                     label="Parolă" 
                                     error={error === 400}
@@ -265,6 +272,7 @@ export default function ProfilePage(props) {
                                 </Grid>
                                 <Grid item >    
                                     <TextField 
+                                    size="small"
                                     className={classes.textField} 
                                     label="Email nou" 
                                     variant="outlined" 
