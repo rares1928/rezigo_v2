@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles, CircularProgress } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import logo from '../poze/mini_logo4.svg';
 
 
 
@@ -21,7 +21,10 @@ export default function BasicTable({ rows, onDelete, onClick}) {
         },
         header: {
             backgroundColor: theme.palette.primary.main
-        }
+        },
+        goImage: {
+            height: 25,
+        },
     }))
 
     const classes = useStyles();
@@ -50,8 +53,8 @@ export default function BasicTable({ rows, onDelete, onClick}) {
                             <TableRow key={index} >
                                 <TableCell >{index+1}</TableCell>
                                 <TableCell component="th" onClick={() => onClick(row.TestID)} scope="row">
-                                    <IconButton>
-                                    <PlayArrowIcon color="secondary" />
+                                    <IconButton >
+                                        <img src={logo} className={classes.goImage} />
                                     </IconButton>
                                 </TableCell>
                                 <TableCell align="center">{row.CreatedAt}</TableCell>

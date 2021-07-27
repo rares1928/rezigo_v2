@@ -13,6 +13,7 @@ import Link from '@material-ui/core/Link';
 import IconButton from "@material-ui/core/IconButton";
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -37,11 +38,17 @@ const useStyles = makeStyles((theme)=>({
     }
   }));
 
+
 export default function HomePage() {
     const classes=useStyles();
 
+    const TITLE = "Acasă";
+
     return(
     <div className={classes.wrapperDiv}>
+        <Helmet>
+            <title>{TITLE}</title>
+        </Helmet>
         <Container className={classes.root} maxWidth="lg">
             <Grid 
                 justify="center" 

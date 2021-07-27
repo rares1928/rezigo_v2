@@ -17,6 +17,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -125,8 +126,15 @@ export default function ProfilePage(props) {
         setIsLoading(false);
     }
 
+    const TITLE = 'Profil';
+
     return(
         <Container className={classes.root} maxWidth="sm">
+
+            <Helmet>
+                <title>{ TITLE }</title>
+            </Helmet>
+
             <Paper className={classes.paper}>
                 <Typography className={classes.typographyHeader} variant="h5">Informații personale:</Typography>
                 {!ready? <CircularProgress/> :

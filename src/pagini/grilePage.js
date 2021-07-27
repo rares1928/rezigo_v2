@@ -20,6 +20,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { Helmet } from 'react-helmet';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -215,9 +216,15 @@ export default function GrilePage(props) {
         setReportResponse(0);
       };
     
+    const TITLE = 'Rezolvă testul';
+
     return (
         <>
         <ErrorPopup errorStatus={error} />
+
+        <Helmet>
+            <title>{ TITLE }</title>
+        </Helmet>
 
         <Snackbar open={reportResponse === 200} autoHideDuration={3000} onClose={handleCloseAlert}>
             <Alert onClose={handleCloseAlert} severity="success">

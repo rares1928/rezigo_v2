@@ -22,6 +22,7 @@ import { callApi } from "../utils/callApi";
 import { useHistory } from 'react-router-dom';
 import ErrorPopup from '../componente/errorPopup';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -335,8 +336,13 @@ export default function TestePage() {
         return array.reduce((acc, subArray) => acc + subArray.reduce((subAcc, value) => subAcc + value, 0), 0);
     }
 
+    const TITLE = 'Creează-ți test';
+
     return (
         <div className={classes.root}>
+            <Helmet>
+                <title>{ TITLE }</title>
+            </Helmet>
             <ErrorPopup errorStatus={error} />
             <Container maxWidth="lg" className={classes.containerPart}>
 
