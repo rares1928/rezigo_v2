@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import test from '../poze/test_v4.svg';
 import librarie from '../poze/librarie_v5.svg';
 import grupuri from '../poze/grupuri_v1.svg';
@@ -14,7 +14,9 @@ import IconButton from "@material-ui/core/IconButton";
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import { Helmet } from 'react-helmet';
-
+import UserHelper from '../componente/userHelper.js';
+import Cookies from 'universal-cookie';
+import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles((theme)=>({
@@ -43,14 +45,30 @@ export default function HomePage() {
     const classes=useStyles();
 
     const TITLE = "Acasă";
-
+    const helperCookie = new  Cookies();
+    const [userHelper, setUserHelper] = useState(helperCookie.get('rememberMe') === 'true' ? true : false);
+    
+    console.log(userHelper)
+    const showUserHelper = () => {
+          setUserHelper(!userHelper);
+        helperCookie.set('showUserHelper', !showUserHelper, { path: '/', maxAge: 2592000 })
+    }
     return(
     <div className={classes.wrapperDiv}>
         <Helmet>
             <title>{TITLE}</title>
         </Helmet>
         <Container className={classes.root} maxWidth="lg">
-            <Grid 
+        {!userHelper?
+                <Grid 
+                justify="center"
+                container>
+                <Grid item>
+                    <UserHelper lastClick={showUserHelper}>
+                    </UserHelper>
+                    <Button onClick={() => showUserHelper()}>Close Me</Button></Grid></Grid>
+                : null}
+                <Grid 
                 justify="center" 
                 container 
                 spacing={6} >
@@ -125,6 +143,7 @@ export default function HomePage() {
                         <Link color="secondary" href="/despre_noi">Despre noi</Link>
                         <Link color="secondary" href="/termeni">Termeni și condiții</Link>
                         <Link color="secondary" href="/intrebari_frecvente">Întrebări frecvente</Link>
+                        <Link color="secondary" onClick={() => showUserHelper()}>Deschide Tutorialul</Link>
                     </Grid>
                     <Grid className={classes.footerItem} item>
                         <Typography  variant="h6"  gutterBottom>
