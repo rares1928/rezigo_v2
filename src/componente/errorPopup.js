@@ -25,7 +25,7 @@ export default function ErrorPopup(props) {
     const dictionarText = {
         0 : "Erroare Test",
         401 : "A apărut o eroare de conectivitate. Te rugăm să te autentifici din nou.",
-        403 : "Acest cont este momentan folosit de pe alt dsipozitiv. În cazul în care nu recunoști această autentificare, te rugăm să îți schimbi parola. Dacă vrei să folosești în continuare aplicația de pe acest device, te rugăm să te autentifici din nou.",
+        403 : "Acest cont este sau a fost folosit de pe alt dsipozitiv, pentru a putea folosi site-ul de pe dispozitivul actula te rugăm să te autentifici din nou. În cazul în care nu ai folosit acest cont pe alt dispozitiv te rugăm să îți schimbi parola, sau să ne contactezi prin e-mail.",
         500 : "Se pare că serverul nostru are o problema momentan, te rugăm să încerci din nou mai târziu.",
     }
     return(

@@ -83,25 +83,29 @@ export default function UserHelper(props) {
         src={tutorialSteps[activeStep].imgPath}
         alt={tutorialSteps[activeStep].label}
       />
-    <MobileStepper
-      variant="dots"
-      steps={5}
-      position="static"
-      activeStep={activeStep}
-      className={classes.dots}
-      nextButton={
-        <Button size="small" onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} disabled={activeStep === tutorialSteps.length}>
-          Next
-          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        </Button>
-      }
-      backButton={
-        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-          Back
-        </Button>
-      }
-    />
+      <MobileStepper
+        variant="dots"
+        steps={5}
+        position="static"
+        activeStep={activeStep}
+        className={classes.dots}
+        nextButton={
+          <Button 
+            size="small" 
+            onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
+            disabled={activeStep === tutorialSteps.length}
+            >
+            Next
+            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            Back
+          </Button>
+        }
+      />
     </div>
   );
 }
