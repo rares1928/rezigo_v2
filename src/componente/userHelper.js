@@ -11,6 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid';
 
 const tutorialSteps = [
   {
@@ -54,15 +55,17 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     height: 255,
-    maxWidth: 400,
+    maxWidth: 500,
     overflow: 'hidden',
     display: 'block',
     width: '100%',
   },
-  dialog: {
+  dialogContent: {
       width: '100%',
-    //   flexDirection: 'column',
   },
+  dots: {
+      width: '100%',
+  }
 }));
 
 export default function UserHelper(props) {
@@ -80,48 +83,50 @@ export default function UserHelper(props) {
   };
   return (
     <div className={classes.root}>
-        <Dialog
-            open={true}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            className={classes.dialog}
-        >
-            <DialogContent>
-                <Paper square elevation={0} className={classes.header}>
-                    <Typography>{tutorialSteps[activeStep].label}</Typography>
-                </Paper>
-                <img
-                    className={classes.img}
-                    src={tutorialSteps[activeStep].imgPath}
-                    alt={tutorialSteps[activeStep].label}
-                />
-            </DialogContent>
-            <DialogActions>
-                <MobileStepper
-                    variant="dots"
-                    steps={5}
-                    position="static"
-                    activeStep={activeStep}
-                    className={classes.dots}
-                    nextButton={
-                    <Button 
-                        size="small" 
-                        onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
-                        disabled={activeStep === tutorialSteps.length}
-                    >
-                        {activeStep === tutorialSteps.length-1 ? <div>Close</div>: <div>Next</div>}
-                        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                    </Button>
-                    }
-                    backButton={
-                    <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                        Back
-                    </Button>
-                    }
+        <Grid container direction="column">
+            <Dialog
+                open={true}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                className={classes.dialog}
+            >
+                <DialogContent className={classes.dialogContent}>
+                    <Paper square elevation={0} className={classes.header}>
+                        <Typography>{tutorialSteps[activeStep].label}</Typography>
+                    </Paper>
+                    <img
+                        className={classes.img}
+                        src={tutorialSteps[activeStep].imgPath}
+                        alt={tutorialSteps[activeStep].label}
                     />
-            </DialogActions>
-        </Dialog>
+                </DialogContent>
+                <DialogActions >
+                    <MobileStepper
+                        variant="dots"
+                        steps={5}
+                        position="static"
+                        activeStep={activeStep}
+                        className={classes.dots}
+                        nextButton={
+                        <Button 
+                            size="small" 
+                            onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
+                            disabled={activeStep === tutorialSteps.length}
+                        >
+                            {activeStep === tutorialSteps.length-1 ? <div>Close</div>: <div>Next</div>}
+                            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                        </Button>
+                        }
+                        backButton={
+                        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+                            Back
+                        </Button>
+                        }
+                        />
+                </DialogActions>
+            </Dialog>
+        </Grid>
     </div>
   );
 }
