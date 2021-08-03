@@ -17,6 +17,8 @@ import { Helmet } from 'react-helmet';
 import UserHelper from '../componente/userHelper.js';
 import Cookies from 'universal-cookie';
 import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 const useStyles = makeStyles((theme)=>({
@@ -47,11 +49,16 @@ export default function HomePage() {
     const TITLE = "Acasă";
     const helperCookie = new  Cookies();
     const [userHelper, setUserHelper] = useState(helperCookie.get('rememberMe') === 'true' ? true : false);
-    
+    const [rememberUserHelper, setRememberUserHelper] = useState(helperCookie.get('rememberMe') === 'true' ? true : false);
+
     console.log(userHelper)
     const showUserHelper = () => {
           setUserHelper(!userHelper);
         helperCookie.set('showUserHelper', !showUserHelper, { path: '/', maxAge: 2592000 })
+    }
+
+    const changeTickRememberUserHelper = () => {
+        setRememberUserHelper(!rememberUserHelper);
     }
     return(
     <div className={classes.wrapperDiv}>
@@ -144,6 +151,10 @@ export default function HomePage() {
                         <Link color="secondary" href="/termeni">Termeni și condiții</Link>
                         <Link color="secondary" href="/intrebari_frecvente">Întrebări frecvente</Link>
                         <Link color="secondary" onClick={() => showUserHelper()}>Deschide Tutorialul</Link>
+                        <FormControlLabel
+                        control={<Checkbox checked={rememberUserHelper} onChange={() => changeTickRememberUserHelper()} value="remember" color="secondary" />}
+                        label="Arată mereu tutorialul"
+                        />
                     </Grid>
                     <Grid className={classes.footerItem} item>
                         <Typography  variant="h6"  gutterBottom>

@@ -59,9 +59,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     width: '100%',
   },
-  dots: {
-      maxWidth: 400,
-      flexGrow: 1,
+  dialog: {
+      width: '100%',
+    //   flexDirection: 'column',
   },
 }));
 
@@ -84,6 +84,7 @@ export default function UserHelper(props) {
             open={true}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            className={classes.dialog}
         >
             <DialogContent>
                 <Paper square elevation={0} className={classes.header}>
@@ -107,8 +108,8 @@ export default function UserHelper(props) {
                         size="small" 
                         onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
                         disabled={activeStep === tutorialSteps.length}
-                        >
-                        Next
+                    >
+                        {activeStep === tutorialSteps.length-1 ? <div>Close</div>: <div>Next</div>}
                         {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                     </Button>
                     }
