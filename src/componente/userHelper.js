@@ -6,6 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const tutorialSteps = [
   {
@@ -75,37 +80,70 @@ export default function UserHelper(props) {
   };
   return (
     <div className={classes.root}>
-      <Paper square elevation={0} className={classes.header}>
-        <Typography>{tutorialSteps[activeStep].label}</Typography>
-      </Paper>
-      <img
-        className={classes.img}
-        src={tutorialSteps[activeStep].imgPath}
-        alt={tutorialSteps[activeStep].label}
-      />
-      <MobileStepper
-        variant="dots"
-        steps={5}
-        position="static"
-        activeStep={activeStep}
-        className={classes.dots}
-        nextButton={
-          <Button 
-            size="small" 
-            onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
-            disabled={activeStep === tutorialSteps.length}
-            >
-            Next
-            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-            Back
-          </Button>
-        }
-      />
+        <Dialog
+            open={true}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogContent>
+                <Paper square elevation={0} className={classes.header}>
+                    <Typography>{tutorialSteps[activeStep].label}</Typography>
+                </Paper>
+                <img
+                    className={classes.img}
+                    src={tutorialSteps[activeStep].imgPath}
+                    alt={tutorialSteps[activeStep].label}
+                />
+            </DialogContent>
+            <DialogActions>
+                <MobileStepper
+                    variant="dots"
+                    steps={5}
+                    position="static"
+                    activeStep={activeStep}
+                    className={classes.dots}
+                    nextButton={
+                    <Button 
+                        size="small" 
+                        onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
+                        disabled={activeStep === tutorialSteps.length}
+                        >
+                        Next
+                        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                    </Button>
+                    }
+                    backButton={
+                    <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+                        Back
+                    </Button>
+                    }
+                    />
+            </DialogActions>
+        </Dialog>
     </div>
   );
 }
+{/* <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Let Google help apps determine location. This means sending anonymous location data to
+            Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Disagree
+          </Button>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div> */}
