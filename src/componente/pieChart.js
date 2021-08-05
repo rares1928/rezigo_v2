@@ -16,7 +16,8 @@ export default function Placinta(props) {
           },
           backgroundColor: "none",
           tooltip:{
-            textStyle:{fontSize: 13}
+            textStyle:{fontSize: 13},
+            trigger:"selection"
           },
           legend:{
             textStyle:{fontSize: 14, color: props.darkMode? "#fff" : "#000"},
