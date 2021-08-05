@@ -18,6 +18,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import { Helmet } from 'react-helmet';
+import Placinta from '../componente/pieChart';
 
 
 
@@ -337,6 +338,9 @@ export default function ProfilePage(props) {
                     !ready? <CircularProgress/> :
                     <div className={classes.divAccordion}>
                         <List className={classes.accordion}>
+                            <ListItem>
+                                <Placinta darkMode={props.darkMode} />
+                            </ListItem>
                             <ListItem>
                                 <Typography>Număr de teste începute: {items["lista_teste"].length } </Typography>
                             </ListItem>
