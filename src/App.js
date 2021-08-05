@@ -1,7 +1,7 @@
 import './App.css';
 import React,{ useState } from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import HomePage from './pagini/homePage';
 import LibrariePage from './pagini/librariePage';
 import TestePage from './pagini/testePage';
@@ -22,7 +22,7 @@ function App() {
 
   const [darkMode, setDarkMode] = useState( localStorage.getItem("darkMode") === "false"? false: true);
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     typography: {
       button: {
         textTransform:'none',

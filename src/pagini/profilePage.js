@@ -61,6 +61,18 @@ export default function ProfilePage(props) {
             display: "flex",
             justifyContent: "flex-end"
         },
+        listaItemTextLeft:{
+            height: 170,
+            width: 150,
+            display:"flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            paddingRight: theme.spacing(4),
+        },
+        placinta:{
+            display: "flex",
+            justifyContent: "flex-end",
+        },
     }));
 
     let history = useHistory();
@@ -333,47 +345,74 @@ export default function ProfilePage(props) {
                 </div>
             </Paper>
             <Paper className={classes.paper}>
-                <Typography className={classes.typographyHeader} variant="h5">Statistici: </Typography>
-                    {
-                    !ready? <CircularProgress/> :
-                    <div className={classes.divAccordion}>
-                        <List className={classes.accordion}>
-                            <ListItem>
-                                <Placinta darkMode={props.darkMode} />
-                            </ListItem>
-                            <ListItem>
-                                <Typography>Număr de teste începute: {items["lista_teste"].length } </Typography>
-                            </ListItem>
-                            <Divider />
-                            <ListItem>
-                                <Typography>Număr de teste terminate: {items["lista_teste"].filter((test) => test["Done"] === true).length } </Typography>
-                            </ListItem>
-                            <Divider />
-                            <ListItem>
-                                <Typography>Media scorurilor testelor terminate: {(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).length *100).toPrecision(3) }% (echivalentul a {(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).length *950)}/950) </Typography>
-                            </ListItem>
-                            <Divider />
-                            <ListItem>
-                                <Typography>
-                                    Număr total de grile rezolvate: {items["lista_teste"].reduce((acc, val) => acc + val["NumAnswered"], 0 )}  
-                                </Typography>
-                            </ListItem>
-                            <Divider />
-                            <ListItem>
-                                <Typography>
-                                    Număr total de grile rezolvate greșit: {items["lista_teste"].reduce((acc, val) => acc + (val["NumAnswered"] - val["Score"]), 0 )} (procentual: {(items["lista_teste"].reduce((acc, val) => acc + (val["NumAnswered"] - val["Score"]), 0 )/ items["lista_teste"].reduce((acc, val) => acc + val["NumAnswered"], 0 ) * 100).toPrecision(3) }%)   
-                                </Typography>
-                            </ListItem>
-                            <Divider />
-                            <ListItem>
-                                <Typography>
-                                    Număr total de grile rezolvate corect: {items["lista_teste"].reduce((acc, val) => acc + val["Score"] , 0 )} (procentual: {(items["lista_teste"].reduce((acc, val) => acc + val["Score"] , 0 )/ items["lista_teste"].reduce((acc, val) => acc + val["NumAnswered"], 0 ) * 100).toPrecision(3) }%) 
-                                </Typography>
-                            </ListItem>
-                        </List>
-                    </div>
-                    }
-                </Paper>
+                <Typography className={classes.typographyHeader} variant="h5">Teste: </Typography>
+                {
+                !ready? <CircularProgress/> :
+                <div className={classes.divAccordion}>
+                    <List className={classes.accordion}>
+                        <ListItem className={classes.listItem}>
+                            <Placinta 
+                                className={classes.placinta}
+                                data={[
+                                    ['Teste', 'număr'],
+                                    ['Terminate', items["lista_teste"].filter((test) => test["Done"] === true).length],
+                                    ['Neterminate', items["lista_teste"].filter((test) => test["Done"] === false).length]
+                                ]}
+                                darkMode = {props.darkMode}
+                            />
+                        </ListItem>
+                        <ListItem>
+                            <Typography>Începute: {items["lista_teste"].length } </Typography>
+                        </ListItem>
+                        <Divider />
+                        <ListItem>
+                            <Typography>Terminate: {items["lista_teste"].filter((test) => test["Done"] === true).length } </Typography>
+                        </ListItem>
+                        <Divider />
+                        <ListItem>
+                            <Typography>Neterminate: {items["lista_teste"].filter((test) => test["Done"] === false).length } </Typography>
+                        </ListItem>
+                        <Divider />
+                        <ListItem>
+                            <Typography>Media scorurilor testelor terminate: {(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).length *100).toPrecision(3) }% (echivalentul a {(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).length *950)}/950) </Typography>
+                        </ListItem>
+                    </List>
+                </div>
+                }
+            </Paper>
+            <Paper className={classes.paper}>
+                <Typography className={classes.typographyHeader} variant="h5">Grile rezolvate: </Typography>
+                {
+                !ready? <CircularProgress/> :
+                <div className={classes.divAccordion}>
+                    <List className={classes.accordion}>
+                        <ListItem className={classes.listItem}>
+                            <Placinta 
+                                className={classes.placinta}
+                                data={[
+                                    ['Grile', 'număr'],
+                                    ['Corecte', items["lista_teste"].reduce((acc, val) => acc + val["Score"] , 0 )],
+                                    ['Greșite', items["lista_teste"].reduce((acc, val) => acc + (val["NumAnswered"] - val["Score"]), 0 )]
+                                ]}
+                                darkMode = {props.darkMode}
+                            />
+                        </ListItem>
+                        <ListItem>
+                            <Typography>Total: {items["lista_teste"].reduce((acc, val) => acc + val["NumAnswered"], 0 )} </Typography>
+                        </ListItem>
+                        <Divider />
+                        <ListItem>
+                            <Typography>Corecte: {items["lista_teste"].reduce((acc, val) => acc + val["Score"] , 0 )} </Typography>
+                        </ListItem>
+                        <Divider />
+                        <ListItem>
+                            <Typography>Greșite: {items["lista_teste"].reduce((acc, val) => acc + (val["NumAnswered"] - val["Score"]), 0 )} </Typography>
+                        </ListItem>
+                        <Divider />
+                    </List>
+                </div>
+                }
+            </Paper>
         </Container>
     );
 }
