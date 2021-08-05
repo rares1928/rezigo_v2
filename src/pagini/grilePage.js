@@ -92,6 +92,7 @@ export default function GrilePage(props) {
         setIsSelected([...temporaryList]);
     }
     const handleSliderChange = (_event, newValue) => {
+        setIsSelected(isQuestionSelected);
         setNextQuestion(newValue - 1);
     };
 

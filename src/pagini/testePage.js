@@ -337,7 +337,7 @@ export default function TestePage() {
     }
 
     const TITLE = 'Creează-ți test';
-
+    console.log(loadingTestNeterm)
     return (
         <div className={classes.root}>
             <Helmet>
@@ -427,7 +427,10 @@ export default function TestePage() {
                         timeout={growTimeout}
                     >
         
-                        <div>{displayTestNeterminat()}</div>
+                        <div>{loadingTestNeterm? <CircularProgress/> :
+                        displayTestNeterminat()
+                        }
+                        </div>
                     </Grow>
                 }
                 {
