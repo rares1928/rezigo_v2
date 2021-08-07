@@ -9,8 +9,6 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 
 const tutorialSteps = [
@@ -65,14 +63,18 @@ const useStyles = makeStyles((theme) => ({
   },
   dots: {
       width: '100%',
-  }
+  },
+  dialogActions:{
+    display:"flex",
+    flexDirection:"column",
+    alignItems:"flex-start",
+  },
 }));
 
 export default function UserHelper(props) {
   const classes = useStyles();
-  const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = tutorialSteps.length;
+
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -81,6 +83,7 @@ export default function UserHelper(props) {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+  
   return (
     <div className={classes.root}>
         <Grid container direction="column">
@@ -100,7 +103,7 @@ export default function UserHelper(props) {
                         alt={tutorialSteps[activeStep].label}
                     />
                 </DialogContent>
-                <DialogActions >
+                <DialogActions className={classes.dialogActions}>
                     <MobileStepper
                         variant="dots"
                         steps={5}
@@ -113,43 +116,20 @@ export default function UserHelper(props) {
                             onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
                             disabled={activeStep === tutorialSteps.length}
                         >
-                            {activeStep === tutorialSteps.length-1 ? <div>Close</div>: <div>Next</div>}
-                            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                            {activeStep === tutorialSteps.length-1 ? <div>Închide</div>: <div>Următorul </div>}
+                            {activeStep === tutorialSteps.length-1 ? null : <KeyboardArrowRight />}
                         </Button>
                         }
                         backButton={
                         <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                            Back
+                            <KeyboardArrowLeft /> Înapoi
                         </Button>
                         }
-                        />
+                    />
+                   
                 </DialogActions>
             </Dialog>
         </Grid>
     </div>
   );
 }
-{/* <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div> */}
