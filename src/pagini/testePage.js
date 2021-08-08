@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CategoryAcordion from '../componente/categoryAcordion';
+import CategoryListSimulare from '../componente/categoryListSimulare';
 import Grow from '@material-ui/core/Grow';
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
@@ -84,6 +85,7 @@ export default function TestePage() {
     const [isSinopsis, setSinopsis] = useState(false);
     const [listaselectiisubcat, setListaselectiisubcat] = useState([{}]);
     const [listaselectii, setListaselectii] = useState([]);
+    const [listaSelectiiSimulare, setListaSelectiiSimulare] = useState([]);
     const [ready, setReady] = useState(false);
     const [loadingTestNeterm, setLoadingTestNeterm] = useState(false);
     const [listaCategorii, setListaCategorii] = useState([])
@@ -145,6 +147,7 @@ export default function TestePage() {
         }
         setListaselectiisubcat(lista_temp);
         setListaselectii(lista_temp2);
+        setListaSelectiiSimulare(lista_temp2)
     }, [listaCategorii, ready])
 
     const deleteTest = async (testId) => {
@@ -152,6 +155,11 @@ export default function TestePage() {
         const rememberMe = cookies.get('rememberMe');
         await callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { rememberMe, testId }, () => { }, handleError);        
         await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste, handleError);
+    }
+
+    const creeazaSimulare = async () => {
+        setGoLoading(true)
+        alert("Simulare");
     }
 
     const creeazaTest = async () => {
@@ -172,6 +180,98 @@ export default function TestePage() {
         }
         await callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { rememberMe, lista_categorii }, handleTestIdNou, handleError)
         setGoLoading(false);
+    }
+    console.log(listaselectiisubcat);
+    const displaySimulare = () => {
+        return (
+            <>
+            {!ready? <CircularProgress/> :
+                <div className={classes.bookDiv}>
+                <Typography variant="h6" component="h6" className={classes.instructionsText}>
+                    2.Selecteaza cărțile și capitolele:
+                </Typography>
+                <Grid className={classes.cardGrid} container justify="center" spacing={4}>
+                    <Grid item className={classes.bookLevel}>
+                        <TestsBookCard
+                            isSelected={isKumar}
+                            setCardSelected={setKumar}
+                            imagine={kumar}
+                            title="Kumar și Clark Medicină Clinică"
+                        />
+                        {
+                            isKumar &&
+                            <Grow in={isKumar} timeout={growTimeout}>
+                                <div className={classes.bookSubcatDiv}>
+                                    {/* <CategoryAcordion
+                                        onClickCategorieMare={onClickCategorieMare}
+                                        onClickSubCategorie={onClickSubCategorie}
+                                        listaselectii={listaselectii}
+                                        listaselectiisubcat={listaselectiisubcat}
+                                        setListaselectii={setListaselectii}
+                                        setListaselectiisubcat={setListaselectiisubcat}
+                                        data={listaCategorii}
+                                        book="Kumar"
+                                    /> */}
+                                    <CategoryListSimulare 
+                                        data={listaCategorii} 
+                                        listSelectii={listaselectii} 
+                                        setListaSelectii={setListaselectii}
+                                        onClickCategorieSimulare={onClickCategorieSimulare}
+                                        book="Kumar"
+                                    />
+                                </div>
+                            </Grow>
+                        }
+                    </Grid>
+                <Grid item className={classes.bookLevel}>
+                        <TestsBookCard
+                            isSelected={isLawrence}
+                            setCardSelected={setLawerence}
+                            imagine={lawrence}
+                            title="Chirurgie generală și specialități chirurgicale"
+                        />
+                        {
+                            isLawrence &&
+                            <Grow
+                                in={isLawrence}
+                                timeout={growTimeout}
+                            >
+                                <div className={classes.bookSubcatDiv}>
+                                    <CategoryListSimulare
+                                     data={listaCategorii} 
+                                     listSelectii={listaselectii} 
+                                     setListaSelectii={setListaselectii}
+                                     onClickCategorieSimulare={onClickCategorieSimulare}
+                                     book="Chirurgie"/>
+                                </div>
+                            </Grow>
+                        }
+                    </Grid>
+                    <Grid item className={classes.bookLevel}>
+                        <TestsBookCard
+                            isSelected={isSinopsis}
+                            setCardSelected={setSinopsis}
+                            imagine={sinopsis}
+                            title="Sinopsis de medicină"
+                        />
+                        {
+                            isSinopsis &&
+                            <Grow in={isSinopsis} timeout={growTimeout}>
+                                <div className={classes.bookSubcatDiv}>
+                                    <CategoryListSimulare
+                                        data={listaCategorii}
+                                        listSelectii={listaselectii} 
+                                        setListaSelectii={setListaselectii}
+                                        onClickCategorieSimulare={onClickCategorieSimulare}
+                                        book="Sinopsis"/>
+                                </div>
+                            </Grow>
+                        }
+                    </Grid>
+                </Grid>
+                </div>}
+            </>
+        );
     }
 
     const displayTestNou = () => {
@@ -291,6 +391,17 @@ export default function TestePage() {
             </>
         )
     }
+    
+    const onClickCategorieSimulare = (i) => {
+        const lista_temp_selectii = [...listaSelectiiSimulare];
+        console.log("lista_temp_selectii: ", lista_temp_selectii)
+        console.log(listaSelectiiSimulare)
+        // const selectieTemporara = [...listaSelectiiSimulare[i]];
+        lista_temp_selectii[i] = !listaSelectiiSimulare[i];
+        console.log("lista_temp_selectii: ", lista_temp_selectii)
+        setListaSelectiiSimulare(lista_temp_selectii);
+        console.log("simulare: ", listaSelectiiSimulare)
+    }
 
     const onClickCategorieMare = (i) => {
         const lista_temp_selectii = [...listaselectii];
@@ -330,11 +441,18 @@ export default function TestePage() {
         }
         lista_temporara_mare[i] = lista_temporara;
         setListaselectiisubcat(lista_temporara_mare);
+
     }
 
     const sumaElemArr = (array) => {
         return array.reduce((acc, subArray) => acc + subArray.reduce((subAcc, value) => subAcc + value, 0), 0);
     }
+
+    const sumaCategoriiArray = (array) => {
+        return array.reduce((acc, value) => acc + value, 0)
+    }
+
+    console.log("Suma cat :  ", sumaCategoriiArray(listaSelectiiSimulare))
 
     const TITLE = 'Creează-ți test';
     console.log(loadingTestNeterm)
@@ -373,6 +491,7 @@ export default function TestePage() {
                             imagine={simulareImg}
                             title="Simulare"
                             text="50 de întrebări cu CS și 150 de întrebări cu CM."
+                            ready={ready}
                         />
                     </Grid>
                     <Grid item>
@@ -415,7 +534,7 @@ export default function TestePage() {
                         timeout={growTimeout}
                     >
                         <Typography>
-                            {isCardSelected}
+                            <div>{displaySimulare()}</div>
                         </Typography>
                     </Grow>
                 }
@@ -449,9 +568,9 @@ export default function TestePage() {
             {ready &&
             <>
             {
-            sumaElemArr(listaselectiisubcat) !== 0 &&
+            (sumaElemArr(listaselectiisubcat) !== 0 || sumaCategoriiArray(listaSelectiiSimulare) !== 0) &&
             <Slide 
-            in={(sumaElemArr(listaselectiisubcat)) > 0} 
+            in={isCardSelected==="Test Nou" ? (sumaElemArr(listaselectiisubcat)) > 0 : sumaCategoriiArray(listaSelectiiSimulare)>0}  // cand este selectata mai mult de o grila, apare footerul cu readySetGo
             direction= "up" 
             className={classes.footer}>
             <footer >
@@ -476,7 +595,7 @@ export default function TestePage() {
                         className={classes.footerButton} 
                         color="secondary" variant="contained" 
                         disabled={goLoading}
-                        onClick={() => creeazaTest()} >
+                        onClick={isCardSelected==="Test Nou" ? () => creeazaTest() : () => creeazaSimulare()} >
                             {goLoading? <CircularProgress color="primary" size={25} /> :
                             <Typography >
                                 Ready Set GO!

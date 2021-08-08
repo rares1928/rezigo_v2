@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CategoryAcordion(props) {
     const classes = useStyles();
+    console.log("categoriemareonclick", props)
     return (
         <div className={classes.root}>
             {
