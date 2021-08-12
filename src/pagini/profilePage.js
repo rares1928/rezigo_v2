@@ -19,6 +19,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import { Helmet } from 'react-helmet';
 import Placinta from '../componente/pieChart';
+import ErrorPopup from '../componente/errorPopup';
 
 
 
@@ -147,6 +148,8 @@ export default function ProfilePage(props) {
             <Helmet>
                 <title>{ TITLE }</title>
             </Helmet>
+
+            <ErrorPopup errorStatus={error} />
 
             <Paper className={classes.paper}>
                 <Typography className={classes.typographyHeader} variant="h5">Informații personale:</Typography>

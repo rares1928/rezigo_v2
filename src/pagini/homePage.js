@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import test from '../poze/test_v4.svg';
 import librarie from '../poze/librarie_v5.svg';
 import grupuri from '../poze/grupuri_v1.svg';
+import tutorial from '../poze/tutorial.svg';
 import profil from '../poze/profil_v1.svg';
 import premium from '../poze/premium_v1.svg';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +16,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import { Helmet } from 'react-helmet';
 import UserHelper from '../componente/userHelper.js';
+import TutorialCard from '../componente/tutorialCard';
 
 
 const useStyles = makeStyles((theme)=>({
@@ -57,6 +59,14 @@ export default function HomePage() {
                 container 
                 spacing={6} >
                 <Grid item>
+                    <TutorialCard
+                        imagine={tutorial}
+                        setUserHelper={setUserHelper}
+                        text="Deschide o fereastra cu imagini ce îți arată cum poți folosi site-ul."
+                        title="Tutorial"
+                    />
+                </Grid>
+                <Grid item>
                     <HomeCard
                         imagine={test}
                         sendTo="/creeaza-ti_test" 
@@ -67,7 +77,8 @@ export default function HomePage() {
                 <Grid item>
                     <HomeCard 
                         imagine={librarie}
-                        sendTo="/librarie"
+                        // sendTo="/librarie"
+                        sendTo="/"
                         title="Librărie"
                         text="învață din materialele speciale, flashcarduri și mnemonics"
                     />
@@ -127,7 +138,6 @@ export default function HomePage() {
                         <Link color="secondary" href="/despre_noi">Despre noi</Link>
                         <Link color="secondary" href="/termeni">Termeni și condiții</Link>
                         <Link color="secondary" href="/intrebari_frecvente">Întrebări frecvente</Link>
-                        <Link color="secondary" onClick={() => setUserHelper(true) }>Deschide Tutorialul</Link>
                     </Grid>
                     <Grid className={classes.footerItem} item>
                         <Typography  variant="h6"  gutterBottom>

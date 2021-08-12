@@ -18,7 +18,6 @@ import Grow from '@material-ui/core/Grow';
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
 import DataTable from "../componente/tabel";
-import Cookies from 'universal-cookie';
 import { callApi } from "../utils/callApi";
 import { useHistory } from 'react-router-dom';
 import ErrorPopup from '../componente/errorPopup';
@@ -119,18 +118,14 @@ export default function TestePage() {
 
     const callApiTestNeterminat = async () => {
         setLoadingTestNeterm(true);
-        const cookies = new Cookies();
-        const rememberMe = cookies.get('rememberMe');
-        await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste, handleError);
+        await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { }, handleTeste, handleError);
         setLoadingTestNeterm(false);
     }
 
     useEffect(() => {
-        const cookies = new Cookies();
-        const rememberMe = cookies.get('rememberMe');
 
         if (ready === false) {
-            callApi('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { rememberMe }, handleCategorii, handleError);
+            callApi('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { }, handleCategorii, handleError);
             setReady(true);
         }
 
@@ -151,44 +146,75 @@ export default function TestePage() {
     }, [listaCategorii, ready])
 
     const deleteTest = async (testId) => {
-        const cookies = new Cookies();
-        const rememberMe = cookies.get('rememberMe');
-        await callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { rememberMe, testId }, () => { }, handleError);        
-        await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { rememberMe }, handleTeste, handleError);
+        await callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { testId }, () => { }, handleError);        
+        await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { }, handleTeste, handleError);
     }
 
     const creeazaSimulare = async () => {
-        setGoLoading(true)
-        alert("Simulare");
+        setGoLoading(true);
+        const lista_categorii = [];
+        if(produsScalarListe(listaSelectiiSimulare) >= 200){
+            let numarSubcapitole = 0;
+            for(let i = 0; i < listaSelectiiSimulare.length; i++){
+                if(listaSelectiiSimulare[i]){
+                    numarSubcapitole = numarSubcapitole + listaselectiisubcat[i].length;
+                }
+            }
+            for(let i = 0; i < listaSelectiiSimulare.length; i++){
+                if(listaSelectiiSimulare[i]){
+                    for (let j = 0; j < listaselectiisubcat[i].length; j++){
+                        lista_categorii.push({
+                            nume_categorie: listaCategorii[i]['category_Name'],
+                            nume_subcategorie: listaCategorii[i]['subCategory'][j]['Name'],
+                            numar: Math.floor(200/numarSubcapitole)
+                        })
+                    }
+                }
+            }
+            const randomSubCapitol = Math.floor(Math.random() * numarSubcapitole);
+            lista_categorii[randomSubCapitol]['numar'] = 200 - Math.floor(200/numarSubcapitole) * (numarSubcapitole - 1);
+        }else{
+            for(let i = 0; i < listaSelectiiSimulare.length; i++){
+                if(listaSelectiiSimulare[i]){
+                    for (let j = 0; j < listaselectiisubcat[i].length; j++){
+                        lista_categorii.push({
+                            nume_categorie: listaCategorii[i]['category_Name'],
+                            nume_subcategorie: listaCategorii[i]['subCategory'][j]['Name'],
+                            numar: listaCategorii[i]['subCategory'][j]['Count']
+                        })
+                    }
+                }
+            }
+        }
+        
+        await callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', {lista_categorii}, handleTestIdNou, handleError)
+        setGoLoading(false);
     }
 
     const creeazaTest = async () => {
         setGoLoading(true);
-        const cookies = new Cookies();
-        const rememberMe = cookies.get('rememberMe');
         const lista_categorii = [];
         for (let i = 0; i < listaselectii.length; i++) {
             for (let j = 0; j < listaselectiisubcat[i].length; j++) {
                 if (listaselectiisubcat[i][j] > 0) {
                     lista_categorii.push({
                         nume_categorie: listaCategorii[i]['category_Name'],
-                        nume_subcategorie: listaCategorii[i]['subCategory'][j]['name'],
+                        nume_subcategorie: listaCategorii[i]['subCategory'][j]['Name'],
                         numar: listaselectiisubcat[i][j]
                     })
                 }
             }
         }
-        await callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { rememberMe, lista_categorii }, handleTestIdNou, handleError)
+        await callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', {lista_categorii}, handleTestIdNou, handleError)
         setGoLoading(false);
     }
-    console.log(listaselectiisubcat);
     const displaySimulare = () => {
         return (
             <>
             {!ready? <CircularProgress/> :
                 <div className={classes.bookDiv}>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
-                    2.Selecteaza cărțile și capitolele:
+                    2. Selectează cărțile și capitolele:
                 </Typography>
                 <Grid className={classes.cardGrid} container justify="center" spacing={4}>
                     <Grid item className={classes.bookLevel}>
@@ -202,21 +228,12 @@ export default function TestePage() {
                             isKumar &&
                             <Grow in={isKumar} timeout={growTimeout}>
                                 <div className={classes.bookSubcatDiv}>
-                                    {/* <CategoryAcordion
-                                        onClickCategorieMare={onClickCategorieMare}
-                                        onClickSubCategorie={onClickSubCategorie}
-                                        listaselectii={listaselectii}
-                                        listaselectiisubcat={listaselectiisubcat}
-                                        setListaselectii={setListaselectii}
-                                        setListaselectiisubcat={setListaselectiisubcat}
-                                        data={listaCategorii}
-                                        book="Kumar"
-                                    /> */}
                                     <CategoryListSimulare 
                                         data={listaCategorii} 
                                         listSelectii={listaselectii} 
                                         setListaSelectii={setListaselectii}
                                         onClickCategorieSimulare={onClickCategorieSimulare}
+                                        listaSelectiiSimulare={listaSelectiiSimulare}
                                         book="Kumar"
                                     />
                                 </div>
@@ -242,6 +259,7 @@ export default function TestePage() {
                                      listSelectii={listaselectii} 
                                      setListaSelectii={setListaselectii}
                                      onClickCategorieSimulare={onClickCategorieSimulare}
+                                     listaSelectiiSimulare={listaSelectiiSimulare}
                                      book="Chirurgie"/>
                                 </div>
                             </Grow>
@@ -263,6 +281,7 @@ export default function TestePage() {
                                         listSelectii={listaselectii} 
                                         setListaSelectii={setListaselectii}
                                         onClickCategorieSimulare={onClickCategorieSimulare}
+                                        listaSelectiiSimulare={listaSelectiiSimulare}
                                         book="Sinopsis"/>
                                 </div>
                             </Grow>
@@ -394,13 +413,8 @@ export default function TestePage() {
     
     const onClickCategorieSimulare = (i) => {
         const lista_temp_selectii = [...listaSelectiiSimulare];
-        console.log("lista_temp_selectii: ", lista_temp_selectii)
-        console.log(listaSelectiiSimulare)
-        // const selectieTemporara = [...listaSelectiiSimulare[i]];
         lista_temp_selectii[i] = !listaSelectiiSimulare[i];
-        console.log("lista_temp_selectii: ", lista_temp_selectii)
         setListaSelectiiSimulare(lista_temp_selectii);
-        console.log("simulare: ", listaSelectiiSimulare)
     }
 
     const onClickCategorieMare = (i) => {
@@ -452,10 +466,17 @@ export default function TestePage() {
         return array.reduce((acc, value) => acc + value, 0)
     }
 
-    console.log("Suma cat :  ", sumaCategoriiArray(listaSelectiiSimulare))
-
+    const produsScalarListe = (array) => {
+        let suma = 0;
+        for(let i = 0; i < array.length; i++ ){
+            if(array[i]){
+                suma = suma + listaCategorii[i]['subCategory'].reduce((acc, subCat) => subCat["Count"] + acc, 0);
+            }
+        }
+        return suma;
+    }
     const TITLE = 'Creează-ți test';
-    console.log(loadingTestNeterm)
+
     return (
         <div className={classes.root}>
             <Helmet>
@@ -570,7 +591,7 @@ export default function TestePage() {
             {
             (sumaElemArr(listaselectiisubcat) !== 0 || sumaCategoriiArray(listaSelectiiSimulare) !== 0) &&
             <Slide 
-            in={isCardSelected==="Test Nou" ? (sumaElemArr(listaselectiisubcat)) > 0 : sumaCategoriiArray(listaSelectiiSimulare)>0}  // cand este selectata mai mult de o grila, apare footerul cu readySetGo
+            in={isCardSelected==="Test nou" ? (sumaElemArr(listaselectiisubcat)) > 0 : sumaCategoriiArray(listaSelectiiSimulare)>0}  // cand este selectata mai mult de o grila, apare footerul cu readySetGo
             direction= "up" 
             className={classes.footer}>
             <footer >
@@ -587,7 +608,7 @@ export default function TestePage() {
                             Tip test: {isCardSelected}
                         </Typography>
                         <Typography variant="subtitle2" component="p">
-                            Număr de grile: {sumaElemArr(listaselectiisubcat)}
+                            Număr de grile: {isCardSelected === "Simulare" ? (produsScalarListe(listaSelectiiSimulare) <= 200 ? produsScalarListe(listaSelectiiSimulare) : 200) : sumaElemArr(listaselectiisubcat) }
                         </Typography>
                     </Grid>
                     <Grid className={classes.footerItem} item>
@@ -595,7 +616,7 @@ export default function TestePage() {
                         className={classes.footerButton} 
                         color="secondary" variant="contained" 
                         disabled={goLoading}
-                        onClick={isCardSelected==="Test Nou" ? () => creeazaTest() : () => creeazaSimulare()} >
+                        onClick={isCardSelected==="Test nou" ? () => creeazaTest() : () => creeazaSimulare()} >
                             {goLoading? <CircularProgress color="primary" size={25} /> :
                             <Typography >
                                 Ready Set GO!
