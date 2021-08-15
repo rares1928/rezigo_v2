@@ -229,7 +229,7 @@ export default function GrilePage(props) {
       };
     
     const TITLE = 'Rezolvă testul';
-
+    console.log(items);
     return (
         <>
         <ErrorPopup errorStatus={error} />
@@ -330,7 +330,9 @@ export default function GrilePage(props) {
                                         </Typography>
                                     }
                                 </Button>
-                                <Button variant="contained" color="primary" onClick={()=>{setTestDone(true)}}>
+                                <Button
+                                disabled={!(items.every((question) => (question['Choices'] > 0) ))}
+                                variant="contained" color="primary" onClick={()=>{setTestDone(true)}}>
                                     <Typography>
                                         Finalizează testul
                                     </Typography>
