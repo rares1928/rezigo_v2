@@ -63,7 +63,7 @@ function App() {
               <Route path="/" exact component={HomePage} />
               <Route path="/profil" exact component={() => <ProfilePage darkMode={darkMode} /> } />
               <Route path="/librarie" exact component={LibrariePage} />
-              <Route path="/creeaza-ti_test" exact component={TestePage} />
+              <Route path="/creeaza-ti_test" exact component={()=> <TestePage darkMode={darkMode} ></TestePage>} />
               <Route path="/rezolva_test" exact component={()=> <GrilePage darkMode={darkMode} ></GrilePage>} />
               <Route path="/despre_noi" exact component={DespreNoi}/>
               <Route path="/termeni" exact component={Termeni}/>

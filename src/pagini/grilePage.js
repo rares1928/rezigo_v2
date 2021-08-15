@@ -21,6 +21,8 @@ import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Helmet } from 'react-helmet';
+import legendaDark from '../poze/legenda_dark2.png';
+import legendaLight from '../poze/legenda_light2.png';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -39,6 +41,7 @@ export default function GrilePage(props) {
     const { state } = useLocation();
     const [showAnswer, setShowAnswer] = useState(true);
     const [showReport, setShowReport] = useState(false);
+    const [showLegend, setShowLegend] = useState(false);
     const [reportText, setReportText] = useState("");
     const [reportResponse, setReportResponse] = useState(0);
     
@@ -134,15 +137,17 @@ export default function GrilePage(props) {
     }
 
     const sendReport = async () => {
-        setLoading(true);
-        const data = {
-            grilaId: items[selectedQuestion]["GrilaID"],
-            report: reportText,
-        };
-        const url = "https://grileapiwin.azurewebsites.net/api/ReportGrila?code=aEvkH5jiGEsHUPt0/rAePmAtmihgiOuSs3JFZ1JWU2aCTIxTfBDVcg=="
-        await callApi(url, data, handleResponse, handleError);
-        setLoading(false);
-        setShowReport(false);
+        if(reportText.length >1 ){
+            setLoading(true);
+            const data = {
+                grilaId: items[selectedQuestion]["GrilaID"],
+                report: reportText,
+            };
+            const url = "https://grileapiwin.azurewebsites.net/api/ReportGrila?code=aEvkH5jiGEsHUPt0/rAePmAtmihgiOuSs3JFZ1JWU2aCTIxTfBDVcg=="
+            await callApi(url, data, handleResponse, handleError);
+            setLoading(false);
+            setShowReport(false);
+        }
     }
 
 
@@ -208,6 +213,10 @@ export default function GrilePage(props) {
             width: "100%",
             justifyContent: "flex-end",
             
+        },
+        legendaImg:{
+            margin: 2,
+            marginLeft: 8,
         },
 
     }));
@@ -349,6 +358,15 @@ export default function GrilePage(props) {
                             </Grid>
                         </Paper>
                         <Button
+                            onClick={() => setShowLegend(!showLegend)}  
+                            variant="contained" 
+                            color="primary" 
+                            className={classes.buttonReport}>
+                                <Typography>
+                                    {showLegend? "Închide legenda" : "Deschide legenda"}
+                                </Typography>
+                        </Button>
+                        <Button
                         onClick={() => setShowReport(!showReport)}  
                         variant="contained" 
                         color="primary" 
@@ -357,6 +375,12 @@ export default function GrilePage(props) {
                                 Raportează grila
                             </Typography>
                         </Button>
+                        {   
+                            showLegend?
+                            <Paper className={classes.paperStatistics}>
+                                <img alt = "legend" src={props.darkMode? legendaDark : legendaLight } className={classes.legendaImg} />
+                            </Paper> : null
+                        }
                         {showReport ?
                         <Paper className={classes.paperStatistics}>
                             <Typography className={classes.textReport}>
@@ -380,6 +404,7 @@ export default function GrilePage(props) {
                                 variant="contained" 
                                 color="primary" 
                                 className={classes.buttonReport}
+                                disabled={reportText.length <=1 }
                             >
                             {loading? <CircularProgress color="secondary" /> :
                                 <Typography>

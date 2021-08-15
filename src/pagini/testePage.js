@@ -122,7 +122,7 @@ export default function TestePage() {
         setLoadingTestNeterm(false);
     }
 
-    useEffect(() => {
+    useEffect( () => {
 
         if (ready === false) {
             callApi('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { }, handleCategorii, handleError);
@@ -485,9 +485,11 @@ export default function TestePage() {
             <ErrorPopup errorStatus={error} />
             <Container maxWidth="lg" className={classes.containerPart}>
 
+                {ready?
+                <>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     1. Selectează tipul testului pe care vrei să îl începi:
-            </Typography>
+                </Typography>
                 <Grid
                     className={classes.cardGrid}
                     justify="center"
@@ -536,6 +538,8 @@ export default function TestePage() {
                         />
                     </Grid>
                 </Grid>
+                </> : <CircularProgress/>
+                }
                 <div id="as vrea sa scrolez aici"></div>
                 {
                     (isCardSelected === "Test nou") &&
