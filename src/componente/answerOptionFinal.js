@@ -12,6 +12,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 export default function AnswerOptionFinal(props){
     const useStyles = makeStyles((theme) => ({
         root:{
+            width:"100%",
             backgroundColor: props.darkMode? "#5c5c5c" : "#fafafa",
             display: "flex",
             flexDirection: "row",

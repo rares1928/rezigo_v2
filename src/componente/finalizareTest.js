@@ -18,7 +18,7 @@ import AnswerOptionFinal from './answerOptionFinal';
 export default function FinalizareTest(props) {
     const useStyles = makeStyles((theme) => ({
         root:{
-            
+            width:"100%",
         },
         checkIcon:{
             color: theme.palette.success.main,
@@ -79,31 +79,6 @@ export default function FinalizareTest(props) {
                 }
             </DialogContent>
             <DialogActions>
-            {/* {
-                (props.baza2Converter(props.items[props.selectedQuestion]["Choices"], props.index) === props.items[props.selectedQuestion]['Raspunsuri'][props.index])
-                props.data.map((categorie, index) => (
-                    categorie['book'] === props.book &&
-                    <Accordion key={`book_${props.book}_index_${index}`}>
-                        <AccordionDetails className={classes.subCatDiv}>
-                            {categorie["subCategory"].map((subCategorie, indexSub) => (
-                                <div key={`cat${index}_subcat${indexSub}`}>
-                                    <SubcategoryCard
-                                        onClickSubCategorie={props.onClickSubCategorie}
-                                        setListaselectiisubcat={props.setListaselectiisubcat}
-                                        listaselectiisubcat={props.listaselectiisubcat}
-                                        className={classes.subCat}
-                                        key={`cat${index}_subcat${indexSub}_subcategoryCard`}
-                                        text={subCategorie["Name"]}
-                                        number={subCategorie["Count"]}
-                                        index={index}
-                                        indexSub={indexSub}
-                                    />
-                                </div>
-                            ))}
-                        </AccordionDetails>
-                    </Accordion>
-                ))
-            } */}
             <Button href="/" variant="contained" color="secondary" >
                 Înapoi acasă
             </Button>

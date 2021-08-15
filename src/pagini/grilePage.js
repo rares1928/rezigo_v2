@@ -229,7 +229,6 @@ export default function GrilePage(props) {
       };
     
     const TITLE = 'Rezolvă testul';
-    console.log(items);
 
     return (
         <>
