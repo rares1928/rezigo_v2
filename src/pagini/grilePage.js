@@ -233,14 +233,6 @@ export default function GrilePage(props) {
     return (
         <>
         <ErrorPopup errorStatus={error} />
-        <FinalizareTest 
-            testDone={testDone}
-            result={items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}
-            numQuestions={items.length}
-            questions={items}
-            darkMode={props.darkMode}
-            baza2Converter={baza2Converter}
-        />
         <Helmet>
             <title>{ TITLE }</title>
         </Helmet>
@@ -253,7 +245,16 @@ export default function GrilePage(props) {
             </Alert>
         </Snackbar>
 
-        <Container maxWidth="lg">
+        {testDone? 
+            <FinalizareTest 
+                testDone={testDone}
+                result={items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}
+                numQuestions={items.length}
+                questions={items}
+                darkMode={props.darkMode}
+                baza2Converter={baza2Converter}
+            /> :
+            <Container maxWidth="lg">
             {   !isReady? <CircularProgress/> :
                 <Grid direction="row" spacing={1} >
                     <Grid item >
@@ -426,7 +427,7 @@ export default function GrilePage(props) {
                     </Grid>
                 </Grid>
             }
-        </Container>
+        </Container>}
         </>
     );
 }
