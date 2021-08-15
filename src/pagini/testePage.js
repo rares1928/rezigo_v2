@@ -86,6 +86,7 @@ export default function TestePage() {
     const [listaselectii, setListaselectii] = useState([]);
     const [listaSelectiiSimulare, setListaSelectiiSimulare] = useState([]);
     const [ready, setReady] = useState(false);
+    const [albania, setAlbania] = useState(0);
     const [loadingTestNeterm, setLoadingTestNeterm] = useState(false);
     const [listaCategorii, setListaCategorii] = useState([])
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
@@ -125,6 +126,7 @@ export default function TestePage() {
     useEffect( () => {
 
         if (ready === false) {
+            setAlbania(0);
             callApi('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', { }, handleCategorii, handleError);
             setReady(true);
         }
@@ -142,8 +144,9 @@ export default function TestePage() {
         }
         setListaselectiisubcat(lista_temp);
         setListaselectii(lista_temp2);
-        setListaSelectiiSimulare(lista_temp2)
-    }, [listaCategorii, ready])
+        setListaSelectiiSimulare(lista_temp2);
+        if(albania <2 ){setAlbania(albania + 1);}
+    }, [listaCategorii, ready, albania])
 
     const deleteTest = async (testId) => {
         await callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { testId }, () => { }, handleError);        
@@ -211,7 +214,7 @@ export default function TestePage() {
     const displaySimulare = () => {
         return (
             <>
-            {!ready? <CircularProgress/> :
+            {albania < 2 ? <CircularProgress/> :
                 <div className={classes.bookDiv}>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     2. Selectează cărțile și capitolele:
@@ -296,7 +299,7 @@ export default function TestePage() {
     const displayTestNou = () => {
         return (
             <>
-            {!ready? <CircularProgress/> :
+            {albania < 2 ? <CircularProgress/> :
                 <div className={classes.bookDiv}>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     2. Selectează cărțile, capitolele și subcapitolele:
@@ -485,7 +488,7 @@ export default function TestePage() {
             <ErrorPopup errorStatus={error} />
             <Container maxWidth="lg" className={classes.containerPart}>
 
-                {ready?
+                {albania >= 2?
                 <>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     1. Selectează tipul testului pe care vrei să îl începi:

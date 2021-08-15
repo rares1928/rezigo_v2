@@ -55,7 +55,7 @@ export default function HomePage() {
         <Container className={classes.root} maxWidth="lg">
             {userHelper? <UserHelper lastClick={()=>{setUserHelper(false)}} />: null}
             <Grid 
-                justify="center" 
+                justifyContent="center" 
                 container 
                 spacing={6} >
                 <Grid item>
@@ -118,7 +118,7 @@ export default function HomePage() {
                 <Grid 
                     container
                     direction="row"
-                    justify="space-between"
+                    justifyContent="space-between"
                     spacing={4}
                 >
                     <Grid className={classes.footerItem} item>

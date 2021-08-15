@@ -330,7 +330,7 @@ export default function GrilePage(props) {
                     </Grid>
                     <Grid item >
                         <Paper className={classes.paperStatistics}>
-                            <Grid container justify="space-evenly">
+                            <Grid container justifyContent="space-evenly">
                                 <Grid item className={classes.statisticSubdiv}>
                                     <div className={classes.smallPaper}>
                                         <Typography>Afișează răspunsurile</Typography>
