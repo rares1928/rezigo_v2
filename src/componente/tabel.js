@@ -54,7 +54,7 @@ export default function BasicTable({ rows, onDelete, onClick}) {
                                 <TableCell >{index+1}</TableCell>
                                 <TableCell component="th" onClick={() => onClick(row.TestID)} scope="row">
                                     <IconButton >
-                                        <img src={logo} className={classes.goImage} />
+                                        <img alt="logo" src={logo} className={classes.goImage} />
                                     </IconButton>
                                 </TableCell>
                                 <TableCell align="center">{row.CreatedAt}</TableCell>

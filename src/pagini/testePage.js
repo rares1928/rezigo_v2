@@ -219,7 +219,7 @@ export default function TestePage() {
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     2. Selectează cărțile și capitolele:
                 </Typography>
-                <Grid className={classes.cardGrid} container justify="center" spacing={4}>
+                <Grid className={classes.cardGrid} container justifyContent="center" spacing={4}>
                     <Grid item className={classes.bookLevel}>
                         <TestsBookCard
                             isSelected={isKumar}
@@ -307,7 +307,7 @@ export default function TestePage() {
                 <Grid
                     className={classes.cardGrid}
                     container
-                    justify="center"
+                    justifyContent="center"
                     spacing={4}
                 >
                     <Grid item className={classes.bookLevel}>
@@ -490,151 +490,152 @@ export default function TestePage() {
 
                 {albania >= 2?
                 <>
-                <Typography variant="h6" component="h6" className={classes.instructionsText}>
-                    1. Selectează tipul testului pe care vrei să îl începi:
-                </Typography>
-                <Grid
-                    className={classes.cardGrid}
-                    justify="center"
-                    container
-                    spacing={3}
-                    id="testCard_div"
-                >
-                    <Grid item >
-                        <TestsCard
-                            isSelected={isCardSelected === "Test nou"}
-                            setCardSelected={setCardSelected}
-                            imagine={testNouImg}
-                            title="Test nou"
-                            text="Selectează subcapitolele din care dorești grilele."
-                            ready={ready}
-                        />
+                    <Typography variant="h6" component="h6" className={classes.instructionsText}>
+                        1. Selectează tipul testului pe care vrei să îl începi:
+                    </Typography>
+                    <Grid
+                        className={classes.cardGrid}
+                        justifyContent="center"
+                        container
+                        spacing={3}
+                        id="testCard_div"
+                    >
+                        <Grid item >
+                            <TestsCard
+                                isSelected={isCardSelected === "Test nou"}
+                                setCardSelected={setCardSelected}
+                                imagine={testNouImg}
+                                title="Test nou"
+                                text="Selectează subcapitolele din care dorești grilele."
+                                ready={ready}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TestsCard
+                                isSelected={isCardSelected === "Simulare"}
+                                setCardSelected={setCardSelected}
+                                imagine={simulareImg}
+                                title="Simulare"
+                                text="50 de întrebări cu CS și 150 de întrebări cu CM."
+                                ready={ready}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TestsCard
+                                isSelected={isCardSelected === "Teste neterminate"}
+                                setCardSelected={setCardSelected}
+                                imagine={testNeterminatImg}
+                                title="Teste neterminate"
+                                text="Selectează unul dintre testele neterminate pe care vrei să le continui."
+                                ready={ready}
+                                onClick={callApiTestNeterminat}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TestsCard
+                                isSelected={isCardSelected === "Reparcurge greșeli"}
+                                setCardSelected={setCardSelected}
+                                imagine={reparcurgeGreseliImg}
+                                title="Reparcurge greșeli"
+                                text="Selectează subcapitolele din care ai greșeli pentru a-ți acoperi golurile."
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <TestsCard
-                            isSelected={isCardSelected === "Simulare"}
-                            setCardSelected={setCardSelected}
-                            imagine={simulareImg}
-                            title="Simulare"
-                            text="50 de întrebări cu CS și 150 de întrebări cu CM."
-                            ready={ready}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TestsCard
-                            isSelected={isCardSelected === "Teste neterminate"}
-                            setCardSelected={setCardSelected}
-                            imagine={testNeterminatImg}
-                            title="Teste neterminate"
-                            text="Selectează unul dintre testele neterminate pe care vrei să le continui."
-                            ready={ready}
-                            onClick={callApiTestNeterminat}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TestsCard
-                            isSelected={isCardSelected === "Reparcurge greșeli"}
-                            setCardSelected={setCardSelected}
-                            imagine={reparcurgeGreseliImg}
-                            title="Reparcurge greșeli"
-                            text="Selectează subcapitolele din care ai greșeli pentru a-ți acoperi golurile."
-                        />
-                    </Grid>
-                </Grid>
                 </> : <CircularProgress/>
                 }
                 <div id="as vrea sa scrolez aici"></div>
-                {
-                    (isCardSelected === "Test nou") &&
-                    <Grow
-                        id="bookCard_div"
-                        in={isCardSelected === "Test nou"}
-                        timeout={growTimeout}
-                    >
-                        <div>{displayTestNou()}</div> 
-                    </Grow>
-                }
-                {
-                    (isCardSelected === "Simulare") &&
-                    <Grow
-                        id="bookCard_div"
-                        in={isCardSelected === "Simulare"}
-                        timeout={growTimeout}
-                    >
-                        <Typography>
-                            <div>{displaySimulare()}</div>
-                        </Typography>
-                    </Grow>
-                }
-                {
-                    (isCardSelected === "Teste neterminate") &&
-                    <Grow
-                        id="bookCard_div"
-                        in={isCardSelected === "Teste neterminate"}
-                        timeout={growTimeout}
-                    >
-        
-                        <div>{loadingTestNeterm? <CircularProgress/> :
-                        displayTestNeterminat()
-                        }
-                        </div>
-                    </Grow>
-                }
-                {
-                    (isCardSelected === "Reparcurge greșeli") &&
-                    <Grow
-                        id="bookCard_div"
-                        in={isCardSelected === "Reparcurge greșeli"}
-                        timeout={growTimeout}
-                    >
-                        <Typography>
-                            {isCardSelected}
-                        </Typography>
-                    </Grow>
-                }
+                    {
+                        (isCardSelected === "Test nou") &&
+                        <Grow
+                            id="bookCard_div"
+                            in={isCardSelected === "Test nou"}
+                            timeout={growTimeout}
+                        >
+                            <div>{displayTestNou()}</div> 
+                        </Grow>
+                    }
+                    {
+                        (isCardSelected === "Simulare") &&
+                        <Grow
+                            id="bookCard_div"
+                            in={isCardSelected === "Simulare"}
+                            timeout={growTimeout}
+                        >
+                            <Typography>
+                                <div>{displaySimulare()}</div>
+                            </Typography>
+                        </Grow>
+                    }
+                    {
+                        (isCardSelected === "Teste neterminate") &&
+                        <Grow
+                            id="bookCard_div"
+                            in={isCardSelected === "Teste neterminate"}
+                            timeout={growTimeout}
+                        >
+            
+                            <div>{loadingTestNeterm? <CircularProgress/> :
+                            displayTestNeterminat()
+                            }
+                            </div>
+                        </Grow>
+                    }
+                    {
+                        (isCardSelected === "Reparcurge greșeli") &&
+                        <Grow
+                            id="bookCard_div"
+                            in={isCardSelected === "Reparcurge greșeli"}
+                            timeout={growTimeout}
+                        >
+                            <Typography>
+                                {isCardSelected}
+                            </Typography>
+                        </Grow>
+                    }
             </Container>
+
             {ready &&
             <>
-            {
-            (sumaElemArr(listaselectiisubcat) !== 0 || sumaCategoriiArray(listaSelectiiSimulare) !== 0) &&
-            <Slide 
-            in={isCardSelected==="Test nou" ? (sumaElemArr(listaselectiisubcat)) > 0 : sumaCategoriiArray(listaSelectiiSimulare)>0}  // cand este selectata mai mult de o grila, apare footerul cu readySetGo
-            direction= "up" 
-            className={classes.footer}>
-            <footer >
-                <Container maxWidth="lg">
-                <Grid 
-                    container
-                    direction="row"
-                    justify="space-between"
-                    spacing={4}
-                >
-                    <Grid className={classes.footerItem} item>
-                        
-                        <Typography variant="subtitle2" component="p">
-                            Tip test: {isCardSelected}
-                        </Typography>
-                        <Typography variant="subtitle2" component="p">
-                            Număr de grile: {isCardSelected === "Simulare" ? (produsScalarListe(listaSelectiiSimulare) <= 200 ? produsScalarListe(listaSelectiiSimulare) : 200) : sumaElemArr(listaselectiisubcat) }
-                        </Typography>
-                    </Grid>
-                    <Grid className={classes.footerItem} item>
-                        <Button 
-                        className={classes.footerButton} 
-                        color="secondary" variant="contained" 
-                        disabled={goLoading}
-                        onClick={isCardSelected==="Test nou" ? () => creeazaTest() : () => creeazaSimulare()} >
-                            {goLoading? <CircularProgress color="primary" size={25} /> :
-                            <Typography >
-                                Ready Set GO!
-                            </Typography>}
-                        </Button>
-                    </Grid>
-                </Grid>
-                </Container>
-            </footer>
-            </Slide>
-            }
+                {
+                (sumaElemArr(listaselectiisubcat) !== 0 || sumaCategoriiArray(listaSelectiiSimulare) !== 0) &&
+                <Slide 
+                in={isCardSelected==="Test nou" ? (sumaElemArr(listaselectiisubcat)) > 0 : sumaCategoriiArray(listaSelectiiSimulare)>0}  // cand este selectata mai mult de o grila, apare footerul cu readySetGo
+                direction= "up" 
+                className={classes.footer}>
+                    <footer >
+                        <Container maxWidth="lg">
+                        <Grid 
+                            container
+                            direction="row"
+                            justifyContent="space-between"
+                            spacing={4}
+                        >
+                            <Grid className={classes.footerItem} item>
+                                
+                                <Typography variant="subtitle2" component="p">
+                                    Tip test: {isCardSelected}
+                                </Typography>
+                                <Typography variant="subtitle2" component="p">
+                                    Număr de grile: {isCardSelected === "Simulare" ? (produsScalarListe(listaSelectiiSimulare) <= 200 ? produsScalarListe(listaSelectiiSimulare) : 200) : sumaElemArr(listaselectiisubcat) }
+                                </Typography>
+                            </Grid>
+                            <Grid className={classes.footerItem} item>
+                                <Button 
+                                className={classes.footerButton} 
+                                color="secondary" variant="contained" 
+                                disabled={goLoading}
+                                onClick={isCardSelected==="Test nou" ? () => creeazaTest() : () => creeazaSimulare()} >
+                                    {goLoading? <CircularProgress color="primary" size={25} /> :
+                                    <Typography >
+                                        Ready Set GO!
+                                    </Typography>}
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        </Container>
+                    </footer>
+                </Slide>
+                }
             </>
             }
         </div>

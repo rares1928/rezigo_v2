@@ -23,6 +23,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { Helmet } from 'react-helmet';
 import legendaDark from '../poze/legenda_dark2.png';
 import legendaLight from '../poze/legenda_light2.png';
+import FinalizareTest from '../componente/finalizareTest';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -44,6 +45,7 @@ export default function GrilePage(props) {
     const [showLegend, setShowLegend] = useState(false);
     const [reportText, setReportText] = useState("");
     const [reportResponse, setReportResponse] = useState(0);
+    const [testDone, setTestDone] = useState(false);
     
     
     let history= useHistory();
@@ -227,11 +229,19 @@ export default function GrilePage(props) {
       };
     
     const TITLE = 'Rezolvă testul';
+    console.log(items);
 
     return (
         <>
         <ErrorPopup errorStatus={error} />
-
+        <FinalizareTest 
+            testDone={testDone}
+            result={items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}
+            numQuestions={items.length}
+            questions={items}
+            darkMode={props.darkMode}
+            baza2Converter={baza2Converter}
+        />
         <Helmet>
             <title>{ TITLE }</title>
         </Helmet>
@@ -320,7 +330,7 @@ export default function GrilePage(props) {
                                         </Typography>
                                     }
                                 </Button>
-                                <Button variant="contained" color="primary">
+                                <Button variant="contained" color="primary" onClick={()=>{setTestDone(true)}}>
                                     <Typography>
                                         Finalizează testul
                                     </Typography>
