@@ -16,26 +16,22 @@ import Container from '@material-ui/core/Container';
 export default function FinalizareTest(props) {
     const useStyles = makeStyles((theme) => ({
         root:{
-            width:"100%",
-            margin:theme.spacing(2),
+            margin:theme.spacing(1),
         },
         title:{
             margin:theme.spacing(1),
             marginLeft:theme.spacing(2),
             marginBottom:theme.spacing(2),
             paddingTop:theme.spacing(2),
-            display:"flex",
-            flexDirection:"row",
-            justifyContent:"space-between",
         },
         checkIcon:{
             color: theme.palette.success.main,
         },
         accordion:{
-            width:"100%",
+            
         },
         accordionDiv:{
-            margin:theme.spacing(2),
+            margin:theme.spacing(1),
         },
         answerOptionsDiv:{
             display:"flex",

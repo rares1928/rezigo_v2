@@ -21,8 +21,7 @@ import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Helmet } from 'react-helmet';
-import legendaDark from '../poze/legenda_dark2.png';
-import legendaLight from '../poze/legenda_light2.png';
+import AnswerOptionCardLegend from '../componente/answerOptionCardLegend';
 import FinalizareTest from '../componente/finalizareTest';
 
 function Alert(props) {
@@ -389,7 +388,30 @@ export default function GrilePage(props) {
                         {   
                             showLegend?
                             <Paper className={classes.paperStatistics}>
-                                <img alt = "legend" src={props.darkMode? legendaDark : legendaLight } className={classes.legendaImg} />
+                                <AnswerOptionCardLegend
+                                    isSelected = {true}
+                                    darkMode = {props.darkMode}
+                                    answerOption = "Grilă selectată ce trebuia selectată"
+                                    isCorrect = {true}
+                                />
+                                <AnswerOptionCardLegend
+                                    isSelected = {false}
+                                    darkMode = {props.darkMode}
+                                    answerOption = "Grilă neselectată ce trebuia selectată"
+                                    isCorrect = {false}
+                                />
+                                <AnswerOptionCardLegend
+                                    isSelected = {true}
+                                    darkMode = {props.darkMode}
+                                    answerOption = "Grilă selectată ce nu trebuia selectată"
+                                    isCorrect = {false}
+                                />
+                                <AnswerOptionCardLegend
+                                    isSelected = {false}
+                                    darkMode = {props.darkMode}
+                                    answerOption = "Grilă neselectată ce nu trebuia selectată"
+                                    isCorrect = {true}
+                                />
                             </Paper> : null
                         }
                         {showReport ?
