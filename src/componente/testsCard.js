@@ -41,9 +41,6 @@ export default function TestsCard(props) {
     return (
         <Card className={classes.root}>
             <CardActionArea onClick={async () => {
-                if (props.onClick) {
-                    await props.onClick();
-                }
                 props.setCardSelected(props.title);
                 if (props.ready) {
                     sleep(100).then(() => { document.getElementById("as vrea sa scrolez aici").scrollIntoView(true); });
