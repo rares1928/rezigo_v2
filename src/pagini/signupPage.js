@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,6 +9,9 @@ import logo from '../poze/logo4.svg';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useHistory } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,34 +51,56 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
-  const [apare_aicont, setapare_aicont] = useState(true);
   const [incompleteFields, setIncompleteFields] = useState(false);
   const [errorPwd, setErrorPwd] = useState(false);
   const [error, setError] = useState(0);
+  const [IP, setIP] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  console.log(errorPwd);
-  console.log(password);
-  console.log(repeatPassword);
-  const callSigupApi = ()=>{
-        if(firstName === "" || lastName === "" || email === ""){
-            setIncompleteFields(true);
+  useEffect(() => {
+    const getData = async () => {
+      const res = await axios.get('https://geolocation-db.com/json/')
+      setIP(res.data.IPv4);
+    }  ;
+    console.log("am intrat in useEffect")
+    getData();
+  },[]);
+
+  let history = useHistory();
+
+  const callSigupApi = async ()=>{
+    if(firstName === "" || lastName === "" || email === ""){
+        setIncompleteFields(true);
+    }else{
+        setIncompleteFields(false);
+        if(password !== repeatPassword || password.length < 8){
+            setErrorPwd(true);
         }else{
-            setIncompleteFields(false);
-            if(password !== repeatPassword || password.length < 8){
-                setErrorPwd(true);
-            }else{
-                setErrorPwd(false);
-            }
-            if(!errorPwd){
-                console.log("Prenume:", firstName);
-                console.log("Nume:", lastName);
-                console.log("Email:", email);
-                console.log("Parola:", password);
-                console.log("repeta parola:", repeatPassword);
-            }
+            setErrorPwd(false);
+        }
+        if(!errorPwd){
+          setIsLoading(true);
+          const url="https://prod-245.westeurope.logic.azure.com:443/workflows/58bf6fa43cc54dacb74a5dea876d9807/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=M0m9frlvaNS4nFKP41w3vDJb4KoMLMUeBzh6k0CzEqk"
+          const data = {
+            email: email,
+            nume: lastName,
+            prenume: firstName,
+            parola: password,
+            ip: IP,
+          }
+          try {const result = await axios.post(url, data);
+          console.log(result);
+          setError(result.status);
+          return(history.push({ pathname: "/signup/activare", state: email }));
+          }
+          catch(err){
+            console.log(err);
+            setError(err.response.status);
+          }
+          setIsLoading(false);
+        }
     }
-    }
-
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -171,16 +196,27 @@ export default function SignUp() {
             color="secondary"
             className={classes.submit}
             onClick={()=>{callSigupApi()}}
+            disabled = {isLoading}
           >
-            Creează cont!
+            {isLoading? 
+            <Typography>Trimitem email <CircularProgress color="primary" size={25} /></Typography> : 
+            <Typography>Creează cont!</Typography>}
           </Button>
           <Grid container >
+            {
+              (error === 418) &&
+              <Grid item>
+                <Typography variant="subtitle1" color="error" >
+                    Există deja un cont activat cu acest email!
+                </Typography>
+              </Grid>
+            }
             {incompleteFields &&
-                <Grid item>
+              <Grid item>
                     <Typography variant="subtitle1" color="error" >
                         Nu ai completat toate câmpurile!
                     </Typography>
-            </Grid>
+              </Grid>
             }
             {errorPwd &&
             <Grid item>
@@ -191,7 +227,7 @@ export default function SignUp() {
             }
           </Grid>
           <Grid container justify="flex-end">
-            {apare_aicont &&
+            {!isLoading &&
             <Grid item>
               <Link  href="/login" variant="body2" color="secondary">
                 Deja ai cont? Autentifică-te

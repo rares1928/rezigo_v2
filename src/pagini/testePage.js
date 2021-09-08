@@ -87,7 +87,6 @@ export default function TestePage() {
     const [listaSelectiiSimulare, setListaSelectiiSimulare] = useState([]);
     const [ready, setReady] = useState(false);
     const [albania, setAlbania] = useState(0);
-    const [loadingTestNeterm, setLoadingTestNeterm] = useState(false);
     const [listaCategorii, setListaCategorii] = useState([])
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
     const [error, setError] = useState(0);
@@ -403,8 +402,6 @@ export default function TestePage() {
 
     const displayTestNeterminat = () => {
         return (
-            <>
-            {loadingTestNeterm? <CircularProgress/> :
             <div>
                 <Typography variant="h6" component="h6" className={classes.instructionsText} >
                     2. Selectează testul pe care dorești să îl continui:
@@ -414,8 +411,7 @@ export default function TestePage() {
                         <DataTable rows={listatTesteNeterm} onDelete={(id) => deleteTest(id) } onClick={(id) => handleTestId(id)} />
                     }
                 </div>
-            </div>}
-            </>
+            </div>
         )
     }
     
@@ -578,9 +574,8 @@ export default function TestePage() {
                             timeout={growTimeout}
                         >
             
-                            <div>{loadingTestNeterm? <CircularProgress/> :
-                            displayTestNeterminat()
-                            }
+                            <div>
+                                {displayTestNeterminat()}
                             </div>
                         </Grow>
                     }

@@ -16,6 +16,7 @@ import ProtectedRoute from './utils/protectedRoute';
 import DespreNoi from './pagini/despreNoi';
 import Termeni from './pagini/termeni';
 import Intrebari from './pagini/intrebari';
+import ActivareSignUpPage from './pagini/activareSignUp';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
           <Switch>
             <Route path="/login" exact component={LoginPage} />
             <Route path="/signup" exact component={SignupPage} />
+            <Route path="/signup/activare" exact component={ActivareSignUpPage} />
             <ProtectedRoute>
               <Switch>
               <Route path="/" exact component={HomePage} />
