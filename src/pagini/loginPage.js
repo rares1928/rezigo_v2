@@ -150,7 +150,7 @@ export default function SignIn() {
                     {!loading &&
                         <Grid container>
                             <Grid item xs>
-                                <Link color="secondary" href="#" variant="body2">
+                                <Link color="secondary" href="/resetare_parola" variant="body2">
                                     Ai uitat parola?
               </Link>
                             </Grid>
