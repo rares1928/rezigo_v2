@@ -20,8 +20,12 @@ import Divider from '@material-ui/core/Divider';
 import { Helmet } from 'react-helmet';
 import Placinta from '../componente/pieChart';
 import ErrorPopup from '../componente/errorPopup';
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 
-
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 export default function ProfilePage(props) {
 
@@ -84,6 +88,7 @@ export default function ProfilePage(props) {
     const [error, setError] = useState(0);
     const [errorPassword, setErrorPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [succes, setSucces] = useState(false);
 
     const [changeLastName, setChangeLastName] = useState('');
     const [changeFirstName, setChangeFirstName] = useState('');
@@ -105,6 +110,10 @@ export default function ProfilePage(props) {
         setReady(true);
         setIsLoading(false);
     };
+
+    const handleUpdateInfo = () => {
+        setSucces(true);
+    }
 
     useEffect( () => {
         setIsLoading(true);
@@ -135,14 +144,26 @@ export default function ProfilePage(props) {
         }
         const url = "https://grileapiwin.azurewebsites.net/api/updatepersonainfo?code=ii/dJ8ix8TdHZc6baLlJ7yLdYy1LeNVG7gRnQZJKzZEZIb9ISQJ8Nw==";
         const url2 = "https://grileapiwin.azurewebsites.net/api/GetProfil?code=an7l2kCHdoYlNw006LoBdCzHB5U4qSVbNvpQ1r1V3TgSHtAYuMbkyw==";
-        await callApi(url, data, () => {} , handleError);
+        await callApi(url, data, handleUpdateInfo , handleError);
         await callApi(url2, {}, handleItems, handleError);
         setIsLoading(false);
     }
 
+    const handleCloseAlert = () => {
+        setSucces(false);
+    };
+
     const TITLE = 'Profil';
 
     return(
+        <>
+        <Snackbar open={succes === true && isLoading === false } autoHideDuration={3000} onClose={handleCloseAlert}>
+            <Alert onClose={handleCloseAlert} severity="success">
+                <Typography>
+                    Informația a fost actualizată cu succes!
+                </Typography>
+            </Alert>
+        </Snackbar>
         <Container className={classes.root} maxWidth="sm">
 
             <Helmet>
@@ -417,5 +438,6 @@ export default function ProfilePage(props) {
                 }
             </Paper>
         </Container>
+        </>
     );
 }

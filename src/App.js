@@ -17,6 +17,7 @@ import DespreNoi from './pagini/despreNoi';
 import Termeni from './pagini/termeni';
 import Intrebari from './pagini/intrebari';
 import ActivareSignUpPage from './pagini/activareSignUp';
+import ResetareParola from './pagini/resetareParola';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
         <LayoutSite darkMode= {darkMode} setDarkMode={setDarkMode} >
           <Switch>
             <Route path="/login" exact component={LoginPage} />
+            <Route path="/resetare_parola" exact component={ResetareParola}/> 
             <Route path="/signup" exact component={SignupPage} />
             <Route path="/signup/activare" exact component={ActivareSignUpPage} />
             <ProtectedRoute>
