@@ -73,6 +73,10 @@ const useStyles = makeStyles((theme) => ({
     footerButton: {
         padding: theme.spacing(1.5),
     },
+    errorTooManyQ: {
+        color: "#661706",
+        paddingTop: theme.spacing(1),
+    }
 }));
 
 export default function TestePage() {
@@ -91,6 +95,8 @@ export default function TestePage() {
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
     const [error, setError] = useState(0);
     const [goLoading, setGoLoading] = useState(false);
+    const [questionRemaining, setQuestionRemaining] = useState(200);
+    const [tipCont, setTipCont] = useState("");
     
     // delay la grow in milisecunde
     const growTimeout = 700;
@@ -106,6 +112,11 @@ export default function TestePage() {
 
     const handleCategorii = (e) => {
         setListaCategorii(e.data["lista"]);
+        setTipCont(e.data["tip_cont"]);
+        if(e.data["tip_cont"] === "Standard"){
+            setQuestionRemaining(e.data["intrebariRamase"]);
+        }
+
     };
 
     const handleTeste = (e) => {
@@ -492,6 +503,9 @@ export default function TestePage() {
                 {albania >= 2?
                 <>
                     <Typography variant="h6" component="h6" className={classes.instructionsText}>
+                        Tipul contului tău: {tipCont} {tipCont === "Standard" && <div> (Întrebări rămase: {questionRemaining}) </div>}
+                    </Typography>
+                    <Typography variant="h6" component="h6" className={classes.instructionsText}>
                         1. Selectează tipul testului pe care vrei să îl începi:
                     </Typography>
                     <Grid
@@ -622,13 +636,28 @@ export default function TestePage() {
                                 <Button 
                                 className={classes.footerButton} 
                                 color="secondary" variant="contained" 
-                                disabled={goLoading}
+                                disabled={goLoading || sumaElemArr(listaselectiisubcat) > questionRemaining }
                                 onClick={isCardSelected==="Test nou" ? () => creeazaTest() : () => creeazaSimulare()} >
                                     {goLoading? <CircularProgress color="primary" size={25} /> :
                                     <Typography >
                                         Ready Set GO!
                                     </Typography>}
                                 </Button>
+                                {
+                                    sumaElemArr(listaselectiisubcat) > questionRemaining &&
+                                    <>
+                                        <Typography variant="subtitle2" className={classes.errorTooManyQ}>
+                                            Ai selectat prea multe întrebări!
+                                        </Typography>
+
+                                        {
+                                        tipCont === "Premium" &&
+                                        <Typography variant="subtitle2" className={classes.errorTooManyQ}>
+                                            Numărul maxim de întrebări dintr-un test este 200.
+                                        </Typography>
+                                        }
+                                    </>
+                                }
                             </Grid>
                         </Grid>
                         </Container>

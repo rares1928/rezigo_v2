@@ -351,7 +351,7 @@ export default function ProfilePage(props) {
                         <Grid container direction="row">
                             {(items["tip_profil"] === "Premium") ?
 
-                                <Typography> Valabil până la: {items.createdAt} </Typography> :
+                                <Typography> Valabil până la: {items.zi}/{items.luna}/{items.an} </Typography> :
                                 null
                             }
                             {!(items["tip_profil"] === "Premium") ?
