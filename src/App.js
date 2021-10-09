@@ -16,6 +16,7 @@ import ProtectedRoute from './utils/protectedRoute';
 import DespreNoi from './pagini/despreNoi';
 import Termeni from './pagini/termeni';
 import Intrebari from './pagini/intrebari';
+import Users from './pagini/users';
 import ActivareSignUpPage from './pagini/activareSignUp';
 import ResetareParola from './pagini/resetareParola';
 
@@ -72,6 +73,7 @@ function App() {
               <Route path="/despre_noi" exact component={DespreNoi}/>
               <Route path="/termeni" exact component={Termeni}/>
               <Route path="/intrebari_frecvente" exact component={Intrebari}/>
+              <Route path="/users" exact component={Users}/>
               <Route component={NoMatch}/>
               </Switch>
             </ProtectedRoute>
