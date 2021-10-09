@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "start",
+        backgroundColor: "black",
     },
     cardFront: {
         position: "absolute",
@@ -56,7 +57,7 @@ export default function LibrariePage() {
             className={classes.cardFront}
             in={checked[0]}
             collapsedSize={0}
-            orientation="vertical"
+            orientation="horizontal"
         >
             <Box
             onClick={() => handleChange(0)}

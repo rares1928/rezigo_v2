@@ -10,39 +10,62 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from '@material-ui/core/Grid';
+import home1 from '../poze/homepage1.svg';
+import home2 from '../poze/homepage2.svg';
+import home3 from '../poze/homepage3.svg';
+import home4 from '../poze/homepage4.svg';
+import home5 from '../poze/homepage5.svg';
+import home6 from '../poze/homepage6.svg';
+import home7 from '../poze/homepage7.svg';
+import testepage1 from '../poze/testepage1.svg';
+import testepage2 from '../poze/testepage2.svg';
+
 
 const tutorialSteps = [
   {
-    label: 'San Francisco – Oakland Bay Bridge, United States',
-    imgPath:
-      'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
+    label: ' Home',
+    imgPath: home1 ,  
   },
   {
-    label: 'Bird',
-    imgPath:
-      'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
+    label: ' Home',
+    imgPath: home2 ,  
   },
   {
-    label: 'Bali, Indonesia',
-    imgPath:
-      'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80',
+    label: ' Home',
+    imgPath: home3 ,  
   },
   {
-    label: 'NeONBRAND Digital Marketing, Las Vegas, United States',
-    imgPath:
-      'https://images.unsplash.com/photo-1518732714860-b62714ce0c59?auto=format&fit=crop&w=400&h=250&q=60',
+    label: ' Home',
+    imgPath: home4 ,  
   },
   {
-    label: 'Goč, Serbia',
-    imgPath:
-      'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
+    label: ' Home',
+    imgPath: home5 ,  
+  },
+  {
+    label: ' Home',
+    imgPath: home6 ,  
+  },
+  {
+    label: ' Home',
+    imgPath: home7 ,  
+  },
+  {
+    label: ' Teste',
+    imgPath: testepage1 ,  
+  },
+  {
+    label: ' Teste',
+    imgPath: testepage2 ,  
   },
 ];
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 400,
     flexGrow: 1,
+  },
+  dialog: {
+    
   },
   header: {
     display: 'flex',
@@ -52,8 +75,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   img: {
-    height: 255,
-    maxWidth: 500,
+
+    maxWidth: '90vw',
     overflow: 'hidden',
     display: 'block',
     width: '100%',
@@ -88,46 +111,45 @@ export default function UserHelper(props) {
     <div className={classes.root}>
         <Grid container direction="column">
             <Dialog
-                open={true}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-                className={classes.dialog}
+              open={true}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+              className={classes.dialog}
             >
-                <DialogContent className={classes.dialogContent}>
-                    <Paper square elevation={0} className={classes.header}>
-                        <Typography>{tutorialSteps[activeStep].label}</Typography>
-                    </Paper>
-                    <img
-                        className={classes.img}
-                        src={tutorialSteps[activeStep].imgPath}
-                        alt={tutorialSteps[activeStep].label}
-                    />
-                </DialogContent>
-                <DialogActions className={classes.dialogActions}>
-                    <MobileStepper
-                        variant="dots"
-                        steps={5}
-                        position="static"
-                        activeStep={activeStep}
-                        className={classes.dots}
-                        nextButton={
-                        <Button 
-                            size="small" 
-                            onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
-                            disabled={activeStep === tutorialSteps.length}
-                        >
-                            {activeStep === tutorialSteps.length-1 ? <div>Închide</div>: <div>Următorul </div>}
-                            {activeStep === tutorialSteps.length-1 ? null : <KeyboardArrowRight />}
-                        </Button>
-                        }
-                        backButton={
-                        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                            <KeyboardArrowLeft /> Înapoi
-                        </Button>
-                        }
-                    />
-                   
-                </DialogActions>
+              <DialogContent className={classes.dialogContent}>
+                <Paper square elevation={0} className={classes.header}>
+                    <Typography>{tutorialSteps[activeStep].label}</Typography>
+                </Paper>
+                <img
+                    className={classes.img}
+                    src={tutorialSteps[activeStep].imgPath}
+                    alt={tutorialSteps[activeStep].label}
+                />
+              </DialogContent>
+              <DialogActions className={classes.dialogActions}>
+                <MobileStepper
+                    variant="dots"
+                    steps={tutorialSteps.length}
+                    position="static"
+                    activeStep={activeStep}
+                    className={classes.dots}
+                    nextButton={
+                    <Button 
+                        size="small" 
+                        onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
+                        disabled={activeStep === tutorialSteps.length}
+                    >
+                        {activeStep === tutorialSteps.length-1 ? <div>Închide</div>: <div>Următorul </div>}
+                        {activeStep === tutorialSteps.length-1 ? null : <KeyboardArrowRight />}
+                    </Button>
+                    }
+                    backButton={
+                    <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                        <KeyboardArrowLeft /> Înapoi
+                    </Button>
+                    }
+                />
+              </DialogActions>
             </Dialog>
         </Grid>
     </div>

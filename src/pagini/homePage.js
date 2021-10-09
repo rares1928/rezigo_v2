@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme)=>({
     },
     footerItem: {
         maxWidth: 300,
+    },
+    userHelperDialog: {
+        maxwidth: '80vw',
     }
   }));
 
@@ -53,7 +56,7 @@ export default function HomePage() {
             <title>{TITLE}</title>
         </Helmet>
         <Container className={classes.root} maxWidth="lg">
-            {userHelper? <UserHelper lastClick={()=>{setUserHelper(false)}} />: null}
+            {userHelper? <UserHelper  lastClick={()=>{setUserHelper(false)}} />: null}
             <Grid 
                 justifyContent="center" 
                 container 
