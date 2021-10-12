@@ -106,6 +106,7 @@ export default function LayoutSite(props) {
                     </Button>
                     <Button
                     disableElevation
+                    disabled
                     startIcon= {<LibraryBooksRoundedIcon/>}
                     variant={(location.pathname === "/librarie")? "contained": "outlined"} 
                     href="/librarie"> 
@@ -180,6 +181,7 @@ export default function LayoutSite(props) {
                         </Button>
                         <Button
                         disableElevation
+                        disabled
                         startIcon= {<LibraryBooksRoundedIcon/>}
                         variant={(location.pathname === "/librarie")? "contained": "outlined"} 
                         href="/librarie"> 

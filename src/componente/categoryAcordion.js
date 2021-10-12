@@ -46,7 +46,7 @@ export default function CategoryAcordion(props) {
                                     onClick={(event) => event.stopPropagation()}
                                     onFocus={(event) => event.stopPropagation()}
                                 />
-                                <Typography variant="subtitle1">{categorie.category_Name}</Typography>
+                                <Typography variant="subtitle2">{categorie.category_Name}</Typography>
                             </div>
                         </AccordionSummary>
                         <AccordionDetails className={classes.subCatDiv}>

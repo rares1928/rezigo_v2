@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2, 0, 0)
     },
     bookDiv: {
-        marginBottom: theme.spacing(11),
+        marginBottom: theme.spacing(20),
 
     },
     bookLevel: {
@@ -95,7 +95,7 @@ export default function TestePage() {
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
     const [error, setError] = useState(0);
     const [goLoading, setGoLoading] = useState(false);
-    const [questionRemaining, setQuestionRemaining] = useState(200);
+    const [questionRemaining, setQuestionRemaining] = useState(400);
     const [tipCont, setTipCont] = useState("");
     
     // delay la grow in milisecunde
@@ -537,15 +537,15 @@ export default function TestePage() {
                         </Grid>
                         <Grid item>
                             <TestsCard
-                                isSelected={isCardSelected === "Teste neterminate"}
+                                isSelected={isCardSelected === "Teste începute"}
                                 setCardSelected={setCardSelected}
                                 imagine={testNeterminatImg}
-                                title="Teste neterminate"
+                                title="Teste începute"
                                 text="Selectează unul dintre testele neterminate pe care vrei să le continui."
                                 ready={ready}
                             />
                         </Grid>
-                        <Grid item>
+                        {/* <Grid item>
                             <TestsCard
                                 isSelected={isCardSelected === "Reparcurge greșeli"}
                                 setCardSelected={setCardSelected}
@@ -553,7 +553,7 @@ export default function TestePage() {
                                 title="Reparcurge greșeli"
                                 text="Selectează subcapitolele din care ai greșeli pentru a-ți acoperi golurile."
                             />
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </> : <CircularProgress/>
                 }
@@ -581,10 +581,10 @@ export default function TestePage() {
                         </Grow>
                     }
                     {
-                        (isCardSelected === "Teste neterminate") &&
+                        (isCardSelected === "Teste începute") &&
                         <Grow
                             id="bookCard_div"
-                            in={isCardSelected === "Teste neterminate"}
+                            in={isCardSelected === "Teste începute"}
                             timeout={growTimeout}
                         >
             
@@ -647,15 +647,8 @@ export default function TestePage() {
                                     sumaElemArr(listaselectiisubcat) > questionRemaining &&
                                     <>
                                         <Typography variant="subtitle2" className={classes.errorTooManyQ}>
-                                            Ai selectat prea multe întrebări!
+                                            Poți selecta maxim {questionRemaining} întrebări.
                                         </Typography>
-
-                                        {
-                                        tipCont === "Premium" &&
-                                        <Typography variant="subtitle2" className={classes.errorTooManyQ}>
-                                            Numărul maxim de întrebări dintr-un test este 200.
-                                        </Typography>
-                                        }
                                     </>
                                 }
                             </Grid>

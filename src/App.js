@@ -13,12 +13,14 @@ import LayoutSite from './componente/layoutSite';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ProfilePage from './pagini/profilePage';
 import ProtectedRoute from './utils/protectedRoute';
+import ProtectedRouteAdmins from './utils/protectedRouteAdmins';
 import DespreNoi from './pagini/despreNoi';
 import Termeni from './pagini/termeni';
 import Intrebari from './pagini/intrebari';
 import Users from './pagini/users';
 import ActivareSignUpPage from './pagini/activareSignUp';
 import ResetareParola from './pagini/resetareParola';
+import AdminsHomePage from './pagini/adminsHomePage';
 
 
 function App() {
@@ -74,6 +76,11 @@ function App() {
               <Route path="/termeni" exact component={Termeni}/>
               <Route path="/intrebari_frecvente" exact component={Intrebari}/>
               <Route path="/users" exact component={Users}/>
+              <ProtectedRouteAdmins>
+                <Switch>
+                  <Route path="/admins" exact component ={AdminsHomePage} />
+                </Switch>
+              </ProtectedRouteAdmins>
               <Route component={NoMatch}/>
               </Switch>
             </ProtectedRoute>
