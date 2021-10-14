@@ -159,7 +159,7 @@ export default function TestePage() {
 
     const deleteTest = async (testId) => {
         await callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { testId }, () => { }, handleError);        
-        await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { }, handleTeste, handleError);
+        await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { "greseli": false }, handleTeste, handleError);
     }
 
     const creeazaSimulare = async () => {
