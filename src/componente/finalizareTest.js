@@ -45,7 +45,10 @@ export default function FinalizareTest(props) {
             <Paper className={classes.root}>
                 <div className={classes.title}>
                     <Typography variant="h5" >
-                        Felicitări! Scorul tău este: {props.result}/{props.numQuestions}, echivalent cu {Math.round(props.result/props.numQuestions*950)}/950
+                        Felicitări! Scorul tău este: {props.resultScor}/{props.scorPosibil}, echivalent cu {Math.round(props.resultScor/props.scorPosibil*950)}/950
+                    </Typography>
+                    <Typography variant="h5" >
+                        Ai răspuns corect la {props.raspunsuriCorecte} întrebări din {props.numarIntrebari}.
                     </Typography>
                     <Button href="/" variant="contained" color="secondary" >
                         Înapoi acasă
@@ -68,7 +71,7 @@ export default function FinalizareTest(props) {
                                         <CheckCircleIcon className={classes.checkIcon} /> :
                                         <CancelIcon color="error" />
                                     }
-                                    <Typography variant="subtitle1">{indexQuestion + 1}) {question["Intrebare"]}</Typography>
+                                    <Typography variant="subtitle1">{indexQuestion + 1}) [{question["TipGrile"]}, {question["Carte"]}] {question["Intrebare"]}</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <div className={classes.answerOptionsDiv}>

@@ -45,6 +45,7 @@ export default function GrilePage(props) {
     const [reportText, setReportText] = useState("");
     const [reportResponse, setReportResponse] = useState(0);
     const [testDone, setTestDone] = useState(false);
+    const [result, setResult] = useState({});
     
     
     let history= useHistory();
@@ -226,8 +227,43 @@ export default function GrilePage(props) {
     const handleCloseAlert = () => {
         setReportResponse(0);
       };
-    
     const TITLE = 'Rezolvă testul';
+    const calculeazaScorAcumulat = (acc, value) => {
+        if(value["TipGrile"] === "CS"){
+            if(value["Correct"] === 31){
+                return acc + 4;
+            }else{
+                return acc;
+            }
+        }else{
+            if(value["Correct"] === 31){
+                return acc + 5;
+            }
+            if([15, 23, 27, 29, 30].includes(value["Correct"])){
+                return acc + 4;
+            }
+            if([7, 11, 13, 19, 21, 25, 14, 22, 26, 28].includes(value["Correct"])){
+                return acc + 3;
+            }
+            if([3, 5, 9, 17, 6, 10, 18, 12, 20, 24].includes(value["Correct"])){
+                return acc + 2;
+            }
+            if([1, 23, 4, 8, 16].includes(value["Correct"])){
+                return acc + 1;
+            }
+            if(value["Correct"] === 0){
+                return acc;
+            }
+
+        }
+    }
+    const calculeazaScorPosibil = (acc, value) => {
+        if(value["TipGrile"] === "CS"){
+            return acc + 4;
+        }else{
+            return acc + 5;
+        }
+    }
     return (
         <>
         <ErrorPopup errorStatus={error} />
@@ -246,7 +282,10 @@ export default function GrilePage(props) {
         {testDone? 
             <FinalizareTest 
                 testDone={testDone}
-                result={items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}
+                resultScor={items.reduce((acc, val) => calculeazaScorAcumulat(acc, val), 0)}
+                scorPosibil={items.reduce((acc, val) => calculeazaScorPosibil(acc, val), 0)}
+                raspunsuriCorecte={items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}
+                numarIntrebari={items.length}
                 numQuestions={items.length}
                 questions={items}
                 darkMode={props.darkMode}
@@ -286,7 +325,7 @@ export default function GrilePage(props) {
                             </div>
                             
                                 <Typography className={classes.questionDetails} variant="body2" color="textSecondary">
-                                    Tip Grilă: {items[selectedQuestion]["TipGrile"]}; Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
+                                    Tip Grilă: {items[selectedQuestion]["TipGrile"]}; Carte: {items[selectedQuestion]["Carte"]}; Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
                                 </Typography>
                             <div className="grileQuestionTypography">    
                                 <Typography className={classes.question} variant="subtitle1">

@@ -73,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
     footerButton: {
         padding: theme.spacing(1.5),
     },
+    footerAleator:{
+        marginTop: theme.spacing(0.5),
+    },
     errorTooManyQ: {
         color: "#661706",
         paddingTop: theme.spacing(1),
@@ -97,14 +100,15 @@ export default function TestePage() {
     const [goLoading, setGoLoading] = useState(false);
     const [questionRemaining, setQuestionRemaining] = useState(400);
     const [tipCont, setTipCont] = useState("");
+    const [aleator, setAleator] = useState(true);
     
     // delay la grow in milisecunde
     const growTimeout = 700;
     let history = useHistory();
 
-    // const clearMemory = () => {
-
-    // }
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     const handleError = (e) => {
         setError(e);
@@ -154,7 +158,7 @@ export default function TestePage() {
         setListaselectiisubcat(lista_temp);
         setListaselectii(lista_temp2);
         setListaSelectiiSimulare(lista_temp2);
-        if(albania <2 ){setAlbania(albania + 1);}
+        sleep(250).then(() => {if(albania <2 ){setAlbania(albania + 1);}});
     }, [listaCategorii, ready, albania])
 
     const deleteTest = async (testId) => {
@@ -217,7 +221,7 @@ export default function TestePage() {
                 }
             }
         }
-        await callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { lista_categorii, "aleator": true }, handleTestIdNou, handleError)
+        await callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', { lista_categorii, "aleator": aleator }, handleTestIdNou, handleError)
         setGoLoading(false);
     }
     const displaySimulare = () => {
@@ -497,7 +501,7 @@ export default function TestePage() {
                 {albania >= 2?
                 <>
                     <Typography variant="h6" component="h6" className={classes.instructionsText}>
-                        Tipul contului tău: {tipCont} {tipCont === "Standard" && <div> (Întrebări rămase: {questionRemaining}) </div>}
+                        Tipul contului tău: {albania<2? <CircularProgress/>: tipCont} {tipCont === "Standard" && <div> (Întrebări rămase: {questionRemaining}) </div>}
                     </Typography>
                     <Typography variant="h6" component="h6" className={classes.instructionsText}>
                         1. Selectează tipul testului pe care vrei să îl începi:
@@ -625,6 +629,17 @@ export default function TestePage() {
                                 <Typography variant="subtitle2" component="p">
                                     Număr de grile: {isCardSelected === "Simulare" ? (produsScalarListe(listaSelectiiSimulare) <= 200 ? produsScalarListe(listaSelectiiSimulare) : 200) : sumaElemArr(listaselectiisubcat) }
                                 </Typography>
+                                {isCardSelected === "Test nou" &&
+                                <Button className={classes.footerAleator} variant="contained"  color = "secondary" onClick = {()=>{setAleator(!aleator)}}>
+                                    {aleator?
+                                    <Typography variant="subtitle2">
+                                        Grile randomizate
+                                    </Typography>:
+                                    <Typography variant="subtitle2">
+                                        Grile ordonate
+                                    </Typography>
+                                    }
+                                </Button>}
                             </Grid>
                             <Grid className={classes.footerItem} item>
                                 <Button 
