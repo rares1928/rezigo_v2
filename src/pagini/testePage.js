@@ -163,7 +163,7 @@ export default function TestePage() {
 
     const deleteTest = async (testId) => {
         await callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { testId }, () => { }, handleError);        
-        await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { "greseli": false }, handleTeste, handleError);
+        await callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', {}, handleTeste, handleError);
     }
 
     const creeazaSimulare = async () => {
@@ -417,7 +417,21 @@ export default function TestePage() {
                 </Typography>
                 <div>
                     {
-                        <DataTable rows={listatTesteNeterm} onDelete={(id) => deleteTest(id) } onClick={(id) => handleTestId(id)} />
+                        <DataTable rows={listatTesteNeterm.filter(test => test["ReparcurgeGreseli"] === false)} onDelete={(id) => deleteTest(id) } onClick={(id) => handleTestId(id)} />
+                    }
+                </div>
+            </div>
+        )
+    }
+    const displayReparcurgeGreseli = () => {
+        return (
+            <div>
+                <Typography variant="h6" component="h6" className={classes.instructionsText} >
+                    2. Selectează testul din care dorești să reparcurgi greșelile:
+                </Typography>
+                <div>
+                    {
+                        <DataTable rows={listatTesteNeterm.filter(test => (test["ReparcurgeGreseli"] === true && test["Done"] === false ) )} onDelete={(id) => deleteTest(id) } onClick={(id) => handleTestId(id)} />
                     }
                 </div>
             </div>
@@ -543,15 +557,15 @@ export default function TestePage() {
                                 ready={ready}
                             />
                         </Grid>
-                        {/* <Grid item>
+                        <Grid item>
                             <TestsCard
                                 isSelected={isCardSelected === "Reparcurge greșeli"}
                                 setCardSelected={setCardSelected}
                                 imagine={reparcurgeGreseliImg}
                                 title="Reparcurge greșeli"
-                                text="Selectează subcapitolele din care ai greșeli pentru a-ți acoperi golurile."
+                                text="Selectează unul dintre testele cu greșelile tale de-a lungul timpului"
                             />
-                        </Grid> */}
+                        </Grid>
                     </Grid>
                 </> : <CircularProgress/>
                 }
@@ -598,9 +612,7 @@ export default function TestePage() {
                             in={isCardSelected === "Reparcurge greșeli"}
                             timeout={growTimeout}
                         >
-                            <Typography>
-                                {isCardSelected}
-                            </Typography>
+                            <div> {displayReparcurgeGreseli()} </div>
                         </Grow>
                     }
             </Container>
