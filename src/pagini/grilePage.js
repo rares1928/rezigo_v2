@@ -45,7 +45,6 @@ export default function GrilePage(props) {
     const [reportText, setReportText] = useState("");
     const [reportResponse, setReportResponse] = useState(0);
     const [testDone, setTestDone] = useState(false);
-    const [result, setResult] = useState({});
     
     
     let history= useHistory();
@@ -62,16 +61,16 @@ export default function GrilePage(props) {
     const handleError = (e) => {
         setError(e);
     };
-
     
     useEffect(() => {
-        const testId = state;
+        const testId = state.testId;
+        const aleator = state.aleator;
         if(!testId){
             history.push("/creeaza-ti_test")
         }else{
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
-        callApi('https://grileapiwin.azurewebsites.net/api/GetGrileWin?code=PrwHilYKYJLV46PoT12sMacgZkpYr7XsWKrjeZF3Hc9aSIZSqnsipQ==', { rememberMe, testId }, handleItems, handleError)
+        callApi('https://grileapiwin.azurewebsites.net/api/GetGrileWin?code=PrwHilYKYJLV46PoT12sMacgZkpYr7XsWKrjeZF3Hc9aSIZSqnsipQ==', { rememberMe, testId, aleator }, handleItems, handleError)
         }
     }, [history, state])
 

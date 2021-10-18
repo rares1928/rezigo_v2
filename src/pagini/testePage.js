@@ -132,7 +132,7 @@ export default function TestePage() {
     };
 
     const handleTestIdNou = (testId) => {
-        return(history.push({ pathname: "/rezolva_test", state: testId.data["lista"] }));
+        return(history.push({ pathname: "/rezolva_test", state: {testId: testId.data["lista"], aleator: aleator} }));
     };
 
     useEffect( () => {
