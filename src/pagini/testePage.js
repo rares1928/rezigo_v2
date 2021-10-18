@@ -128,7 +128,8 @@ export default function TestePage() {
     };
 
     const handleTestId = (testId) => {
-        return(history.push({ pathname: "/rezolva_test", state: testId }));
+        console.log(testId);
+        return(history.push({ pathname: "/rezolva_test", state: {testId: testId, aleator:aleator} }));
     };
 
     const handleTestIdNou = (testId) => {
