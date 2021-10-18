@@ -65,6 +65,7 @@ export default function GrilePage(props) {
     useEffect(() => {
         const testId = state.testId;
         const aleator = state.aleator;
+        console.log(testId);
         if(!testId){
             history.push("/creeaza-ti_test")
         }else{
@@ -107,7 +108,7 @@ export default function GrilePage(props) {
     const trimiteRaspuns = (listaRaspunsuri, currentQuestion) => {
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
-        const testId = state;
+        const testId = state.testId;
 
         if (items[selectedQuestion]["Choices"] === 0) {
             let choice = 0;
