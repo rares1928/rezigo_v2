@@ -204,7 +204,7 @@ export default function TestePage() {
             }
         }
         
-        await callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', {lista_categorii}, handleTestIdNou, handleError)
+        await callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', {lista_categorii, "aleator": true }, handleTestIdNou, handleError)
         setGoLoading(false);
     }
 
