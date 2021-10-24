@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme)=>({
 
 export default function AdminsHomePage() {
     const classes=useStyles();
-    const TITLE = "Acasă";
+    const TITLE = "admins";
     return(
         <div className={classes.wrapperDiv}>
         <Helmet>
@@ -43,6 +43,7 @@ export default function AdminsHomePage() {
                         className = {classes.buttons}
                         variant="contained"
                         color="secondary" 
+                        href="/admins/conturi"
                     >
                         <Typography>
                             Listă conturi

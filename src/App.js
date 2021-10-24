@@ -21,6 +21,8 @@ import Users from './pagini/users';
 import ActivareSignUpPage from './pagini/activareSignUp';
 import ResetareParola from './pagini/resetareParola';
 import AdminsHomePage from './pagini/adminsHomePage';
+import AdminsConturi from './pagini/adminsConturi';
+import AdminsContDetails from './pagini/adminsContDetails';
 
 
 function App() {
@@ -79,6 +81,8 @@ function App() {
               <ProtectedRouteAdmins>
                 <Switch>
                   <Route path="/admins" exact component ={AdminsHomePage} />
+                  <Route path="/admins/conturi" exact component ={AdminsConturi} />
+                  <Route path="/admins/conturi/*" component ={AdminsContDetails} />
                 </Switch>
               </ProtectedRouteAdmins>
               <Route component={NoMatch}/>
