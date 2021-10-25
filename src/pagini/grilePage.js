@@ -64,7 +64,6 @@ export default function GrilePage(props) {
     
     useEffect(() => {
         const testId = state.testId;
-        const aleator = state.aleator;
         console.log(testId);
         if(!testId){
             history.push("/creeaza-ti_test")

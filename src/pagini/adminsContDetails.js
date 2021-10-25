@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -98,7 +97,7 @@ export default function AdminsContDetails() {
         const url = "https://grileapiwin.azurewebsites.net/api/GetProfilAdmin?code=4kUVuDFwhhoIo5Mwmt16/O0vjwdo1syvaHvRHrj4TYAD5JGXqiyWVQ==";
         const data = {email: state};
         callApi(url, data , handleItems, handleError);
-    }, [])
+    }, [history, state])
     const classes=useStyles();
     const TITLE = "Detalii cont";
     return(
