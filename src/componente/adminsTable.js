@@ -1,12 +1,13 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 
 
 
 
 
-export default function BasicTable({ rows, onClick}) {
+export default function AdminsTable({ rows}) {
 
     const useStyles = makeStyles((theme) => ({
         body : {
@@ -15,7 +16,7 @@ export default function BasicTable({ rows, onClick}) {
             marginBottom: theme.spacing(4),
         },
         tabel:{
-            height: "40vh",
+            height: "70vh",
             minHeight: 320,
         },
         header: {
@@ -25,6 +26,12 @@ export default function BasicTable({ rows, onClick}) {
             height: 25,
         },
     }))
+    let history = useHistory();
+
+    const detailsCont = (mail) => {
+        return(history.push({ pathname: "/admins/conturi/"+mail, state: mail }));
+    }
+
 
     const classes = useStyles();
 
@@ -36,10 +43,11 @@ export default function BasicTable({ rows, onClick}) {
                         <TableRow >
                             <TableCell className={classes.header}> # </TableCell>
                             <TableCell className={classes.header} align="center">Email</TableCell>
+                            <TableCell className={classes.header} align="center">Nume</TableCell>
                             <TableCell className={classes.header} align="center">Tip cont</TableCell>
+                            <TableCell className={classes.header} align="center">Creat la:</TableCell>
                             <TableCell className={classes.header} align="center">Premium până la:</TableCell>
                             <TableCell className={classes.header} align="center">Ultima activitate</TableCell>
-                            <TableCell className={classes.header} align="center">Nr. teste începute</TableCell>
                             <TableCell className={classes.header}> Detalii </TableCell>
                         </TableRow>
                     </TableHead>
@@ -47,16 +55,18 @@ export default function BasicTable({ rows, onClick}) {
                         {rows.map((row, index) => (
                             <TableRow key={index} >
                                 <TableCell >{index+1}</TableCell>
-                                <TableCell align="center">{row.CreatedAt}</TableCell>
-                                <TableCell align="center" >{row.tipCont}</TableCell>
-                                <TableCell align="center" >{row.premiumUntil}</TableCell>
-                                <TableCell align="center" >{row.lastActivity}</TableCell>
-                                <TableCell align="center" >{row.numTests}</TableCell>
+                                <TableCell align="center">{row.Email}</TableCell>
+                                <TableCell align="center">{row.LastName} {row.FirstName}</TableCell>
+                                <TableCell align="center" >{row.Premium}</TableCell>
+                                <TableCell align="center">{row.CreatedOn}</TableCell>
+                                <TableCell align="center" >{row.ZileRamase}</TableCell>
+                                <TableCell align="center" >{row.LastOnline}</TableCell>
                                 <TableCell align="center">
                                     <Button
                                     variant="contained" 
+                                    color="secondary"
                                     aria-label="details" 
-                                    onClick={ () => {onClick()} }
+                                    onClick={ () => {detailsCont(row.Email)} }
                                     >
                                         <Typography>Detalii</Typography>
                                     </Button>

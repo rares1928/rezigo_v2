@@ -62,7 +62,7 @@ export default function ActivareSignUpPage() {
     setIsLoading(true);
     const url="https://prod-131.westeurope.logic.azure.com:443/workflows/e3dc56acb65443d7a3ede5493a82a3e9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xJXnIq7-MqvccRwFdsm98RyiOmd3iOw5wcpg7-sYiHs"
     const data = {
-    email: state,
+    email: state.email,
     code: activare,
     }
     try{const result = await axios.post(url, data);

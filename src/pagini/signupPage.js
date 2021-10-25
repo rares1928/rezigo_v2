@@ -62,7 +62,7 @@ export default function SignUp() {
       const res = await axios.get('https://geolocation-db.com/json/')
       setIP(res.data.IPv4);
     }  ;
-    console.log("am intrat in useEffect")
+
     getData();
   },[]);
 
@@ -91,7 +91,7 @@ export default function SignUp() {
           try {const result = await axios.post(url, data);
           console.log(result);
           setError(result.status);
-          return(history.push({ pathname: "/signup/activare", state: email }));
+          return(history.push({ pathname: "/signup/activare", state: {email: email, password: password} }));
           }
           catch(err){
             console.log(err);

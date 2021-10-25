@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import AdminsTable from '../componente/adminsTable';
 
 const useStyles = makeStyles((theme)=>({
     wrapperDiv:{
@@ -30,7 +31,6 @@ export default function AdminsConturi() {
     const [ready, setReady] = useState(false);
     const [items, setItems] = useState({});
 
-
     const handleError = (e) => {
         setError(e);
     }
@@ -42,7 +42,7 @@ export default function AdminsConturi() {
     console.log(error);
     console.log(items);
     useEffect( () => {
-        const url = "https://grileapiwin.azurewebsites.net/api/GetProfil?code=an7l2kCHdoYlNw006LoBdCzHB5U4qSVbNvpQ1r1V3TgSHtAYuMbkyw==";
+        const url = "https://grileapiwin.azurewebsites.net/api/GetConturi?code=hafa9xHxX8lJAehKzLkzru6jGHfwF8UcaR85cWIZSwU8eanY/srhhA==";
         callApi(url, {}, handleItems, handleError);
     }, [])
     const classes=useStyles();
@@ -52,10 +52,12 @@ export default function AdminsConturi() {
         <Helmet>
             <title>{TITLE}</title>
         </Helmet>
-        <Container className={classes.root} maxWidth="md">
+        <Container className={classes.root} maxWidth="lg">
            {!ready? <CircularProgress/>:
                 <div>
-                    {items['firstName']}
+                    <AdminsTable
+                    rows = {items['lista']}
+                    />
                 </div> 
             }
         </Container>
