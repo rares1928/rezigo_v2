@@ -161,7 +161,7 @@ export default function AdminsContDetails() {
                                 />
                             </div>
                             <Button 
-                            disabled={bonusPremium === 0}
+                            disabled={bonusPremium === 0 || items.tip_profil === 'Dio'}
                             onClick={adaugaZile}
                             className={classes.button} 
                             color="secondary" 
