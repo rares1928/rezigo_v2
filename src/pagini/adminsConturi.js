@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AdminsTable from '../componente/adminsTable';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme)=>({
     wrapperDiv:{
@@ -28,17 +29,16 @@ export default function AdminsConturi() {
     const [error, setError] = useState(0);
     const [ready, setReady] = useState(false);
     const [items, setItems] = useState({});
+    let history = useHistory();
 
     const handleError = (e) => {
-        setError(e);
+        history.push({ pathname: "/" });
     }
 
     const handleItems = (e) => {
         setItems(e.data);
         setReady(true);
     };
-    console.log(error);
-    console.log(items);
     useEffect( () => {
         const url = "https://grileapiwin.azurewebsites.net/api/GetConturi?code=hafa9xHxX8lJAehKzLkzru6jGHfwF8UcaR85cWIZSwU8eanY/srhhA==";
         callApi(url, {}, handleItems, handleError);

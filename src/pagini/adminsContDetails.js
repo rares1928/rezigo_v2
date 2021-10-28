@@ -61,15 +61,19 @@ export default function AdminsContDetails() {
     let history = useHistory();
     const { state } = useLocation();
 
+    const handleErrorDeleteCont = (e) => { 
+        history.push({ pathname: "/" });
+    }
+
     const adaugaZile = async () => {
         const url = "https://grileapiwin.azurewebsites.net/api/AdaugaPremium?code=OZAIohuveOx7jZrRajoybvxIf5/oHgZqS8lomQY0gx9S1Ttqm5Q4XA==";
-        await callApi(url, {email: items.email, adaugaPremium: bonusPremium}, () => {}, () => {} );
+        await callApi(url, {email: items.email, zile: bonusPremium}, () => {}, () => {} );
         window.location.reload();
     }
 
     const deleteCont = async () => {
         const url = "https://grileapiwin.azurewebsites.net/api/DeleteCont?code=zA/JjdpHkS0NCVpMAk3LkGT7BMw5NhHOl5l6yQtPpC4eza7lGXWQsQ==";
-        await callApi(url, {email: items.email}, ()=>{}, ()=>{});
+        await callApi(url, {email: items.email}, ()=>{}, handleErrorDeleteCont);
         history.push({ pathname: "/admins/conturi" });
     }
 
