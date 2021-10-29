@@ -207,7 +207,7 @@ export default function SignUp() {
               (error === 418) &&
               <Grid item>
                 <Typography variant="subtitle1" color="error" >
-                    Există deja un cont activat cu acest email!
+                    Există deja un cont cu acest email!
                 </Typography>
               </Grid>
             }
