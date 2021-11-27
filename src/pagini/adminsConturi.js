@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme)=>({
 
 
 export default function AdminsConturi() {
-    const [error, setError] = useState(0);
     const [ready, setReady] = useState(false);
     const [items, setItems] = useState({});
     let history = useHistory();
