@@ -23,6 +23,7 @@ import ResetareParola from './pagini/resetareParola';
 import AdminsHomePage from './pagini/adminsHomePage';
 import AdminsConturi from './pagini/adminsConturi';
 import AdminsContDetails from './pagini/adminsContDetails';
+import AdminsDisplayGrile from './pagini/adminsDisplayGrile';
 
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
             <Route path="/resetare_parola" exact component={ResetareParola}/> 
             <Route path="/signup" exact component={SignupPage} />
             <Route path="/signup/activare" exact component={ActivareSignUpPage} />
+            <Route path="/admins/grile" component ={AdminsDisplayGrile} />
             <ProtectedRoute>
               <Switch>
               <Route path="/" exact component={HomePage} />
