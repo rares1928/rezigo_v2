@@ -52,7 +52,8 @@ export default function AdminsHomePage() {
                 </Grid>
                 <Grid item>
                     <Button
-                    className = {classes.buttons}
+                        href="/admins/grile"
+                        className = {classes.buttons}
                         variant="contained"
                         color="secondary" 
                     >

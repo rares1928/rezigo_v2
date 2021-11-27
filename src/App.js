@@ -68,7 +68,6 @@ function App() {
             <Route path="/resetare_parola" exact component={ResetareParola}/> 
             <Route path="/signup" exact component={SignupPage} />
             <Route path="/signup/activare" exact component={ActivareSignUpPage} />
-            <Route path="/admins/grile" component ={AdminsDisplayGrile} />
             <ProtectedRoute>
               <Switch>
               <Route path="/" exact component={HomePage} />
@@ -85,6 +84,7 @@ function App() {
                   <Route path="/admins" exact component ={AdminsHomePage} />
                   <Route path="/admins/conturi" exact component ={AdminsConturi} />
                   <Route path="/admins/conturi/*" component ={AdminsContDetails} />
+                  <Route path="/admins/grile" component ={AdminsDisplayGrile} />
                 </Switch>
               </ProtectedRouteAdmins>
               <Route component={NoMatch}/>

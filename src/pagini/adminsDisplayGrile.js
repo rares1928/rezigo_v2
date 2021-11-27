@@ -9,6 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme)=>({
     wrapperDiv:{
@@ -25,18 +26,35 @@ const useStyles = makeStyles((theme)=>({
         paddingTop: theme.spacing(6),
         paddingBottom: theme.spacing(6),
     },
-    paper:{
-        marginBottom: theme.spacing(3),
+    selectDiv:{
+        marginBottom: theme.spacing(1),
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
+    },
+    paper:{
+        marginBottom: theme.spacing(3),
+    },
+    textFieldDiv: {
+        width: "95%",
+        margin: theme.spacing(1),
+    },
+    typography:{
+        marginLeft: theme.spacing(1),
     },
     selectInstructions: {
         marginBottom: theme.spacing(2),
         marginTop: theme.spacing(2),
     },
-    button:{
+    divButton:{
         margin: theme.spacing(1),
+        width: "95%",
+        display: "flex",
+        justifyContent: "space-between",
+    },
+    button:{
+        marginBottom: theme.spacing(1),
+        marginLeft: theme.spacing(1),
     },
   }));
 
@@ -46,6 +64,7 @@ export default function AdminsDisplayGrile() {
     const [capitol, setCapitol] =useState('');
     const [subCapitol, setSubCapitol] =useState('');
     const [ordine, setOrdine] =useState('');
+    const [textPartialGrila, setTextPartialGrila] = useState("");
 
     const handleChangeCarte = (event) => {
         setCarte(event.target.value);
@@ -70,7 +89,7 @@ export default function AdminsDisplayGrile() {
         <Container className={classes.root} maxWidth="md">
             <Typography className={classes.selectInstructions}>Alege, in aceasta ordine cartea, capitolul, subcapitolul. Ordinea repriznta modul in care vor fi afisate grilele.</Typography>
             <Paper className={classes.paper}>
-                <div>
+                <div className={classes.paper}>
                 <FormControl variant="outlined" color="secondary" className={classes.formControl}>
                     <InputLabel id="demo-simple-select-outlined-label">Cartea</InputLabel>
                     <Select
@@ -145,13 +164,32 @@ export default function AdminsDisplayGrile() {
                     </Select>
                 </FormControl>
                 </div>
-                <Button 
-                disabled={carte === "" || capitol === "" || subCapitol === "" || ordine === "" }
-                variant="contained" 
-                color="secondary" 
-                className={classes.button}>
-                    Cauta
-                </Button>
+                <Typography className={classes.typography}>
+                    Vreau ca enuntul grilei sa contina acest pasaj: (lasa necompletat daca doresti sa vezi toate grilele)
+                </Typography>
+                <div className={classes.textFieldDiv}>
+                    <TextField
+                        color="secondary"
+                        variant="outlined"
+                        fullWidth
+                        name="enuntPartialGrile"
+                        label="Enunt partial grila"
+                        id="enunt_partial_grila"
+                        value={textPartialGrila}
+                        onInput={e => setTextPartialGrila(e.target.value)}
+                        
+                    />
+                </div>
+                <div className={classes.divButton}>
+                    <div/>
+                    <Button 
+                    disabled={carte === "" || capitol === "" || subCapitol === "" || ordine === "" }
+                    variant="contained" 
+                    color="secondary" 
+                    className={classes.button}>
+                        Cauta
+                    </Button>
+                </div>
             </Paper>
             <Paper className={classes.paper}>
                 Aici vor veni grilele
