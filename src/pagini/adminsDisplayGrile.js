@@ -75,7 +75,7 @@ export default function AdminsDisplayGrile() {
     const [carte, setCarte] = useState('');
     const [capitol, setCapitol] =useState(-1);
     const [subCapitol, setSubCapitol] =useState(-1);
-    const [ordine, setOrdine] =useState('');
+    // const [ordine, setOrdine] =useState('');
     const [textPartialGrila, setTextPartialGrila] = useState("");
     const [listaCat, setListaCat] = useState([]);
     const [items, setItems] = useState({});
@@ -127,9 +127,9 @@ export default function AdminsDisplayGrile() {
         setItems({});
         setSubCapitol(event.target.value);
     };
-    const handleChangeOrdine = (event) => {
-        setOrdine(event.target.value);
-    };
+    // const handleChangeOrdine = (event) => {
+    //     setOrdine(event.target.value);
+    // };
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
