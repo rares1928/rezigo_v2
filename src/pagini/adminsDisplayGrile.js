@@ -78,7 +78,7 @@ export default function AdminsDisplayGrile() {
     const [ordine, setOrdine] =useState('');
     const [textPartialGrila, setTextPartialGrila] = useState("");
     const [listaCat, setListaCat] = useState([]);
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState({});
     const [loading, setLoading] = useState(false);
     const [showGrileList, setShowGrileList] = useState(false);
     const [ready, setReady] = useState(false);
@@ -111,26 +111,42 @@ export default function AdminsDisplayGrile() {
 
     const handleChangeCarte = (event) => {
         setCarte(event.target.value);
+        setShowGrileList(false);
+        setItems({});
+        setCapitol(-1);
+        setSubCapitol(-1);
     };
     const handleChangeCapitol = (event) => {
         setCapitol(event.target.value);
+        setShowGrileList(false);
+        setItems({});
+        setSubCapitol(-1);
     };
     const handleChangeSubCapitol = (event) => {
+        setShowGrileList(false);
+        setItems({});
         setSubCapitol(event.target.value);
     };
     const handleChangeOrdine = (event) => {
         setOrdine(event.target.value);
     };
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
     const cautaGrile = () => {
+        setLoading(true);
+        setShowGrileList(false);
+        setItems({});
         const data = {
             carte: carte, 
             capitol: listaCat[capitol]["category_Name"], 
             subcapitol: listaCat[capitol]["subCategory"][subCapitol]["Name"],
             textPartialGrila: textPartialGrila,
         }
-        const url = "";
-        console.log(data);
-        setShowGrileList(true);
+        const url = "https://grileapiwin.azurewebsites.net/api/CautaGrileAdmin?code=ip64oSUrfBheQN110qwIjK/jQsx7hmxgQrb0Tpy6BDmIG8TBPE/nag==";
+        sleep(100).then(()=>callApi(url, data, handleItems, handleError));
+        sleep(1000).then(() => setShowGrileList(true));
+        setLoading(false);
     }
 
     const classes=useStyles();
@@ -198,7 +214,7 @@ export default function AdminsDisplayGrile() {
                             {capitol === -1? null : listaCat[capitol]["subCategory"].map((subcategorie, index) => <MenuItem key={carte+"."+String(capitol)+"."+String(index)} value={index}>{subcategorie["Name"]}</MenuItem>)}
                         </Select>
                     </FormControl>
-                    <FormControl variant="outlined" color="secondary" className={classes.formControl}>
+                    {/* <FormControl variant="outlined" color="secondary" className={classes.formControl}>
                         <InputLabel id="demo-simple-select-outlined-label">Ordoneaza</InputLabel>
                         <Select
                         labelId="demo-simple-select-outlined-label"
@@ -211,10 +227,10 @@ export default function AdminsDisplayGrile() {
                             <MenuItem value="" disabled>
                                 Ordoneaza dupa
                             </MenuItem>
-                            <MenuItem value={10}>Nr. rapoarte</MenuItem>
-                            <MenuItem value={20}>Nr. ID</MenuItem>
+                            <MenuItem value={"NumReport"}>Nr. rapoarte</MenuItem>
+                            <MenuItem value={"GrilaID"}>Nr. ID</MenuItem>
                         </Select>
-                    </FormControl>
+                    </FormControl> */}
                     </div>
                     <Typography className={classes.typography}>
                         Vreau ca enuntul grilei sa contina acest pasaj: (lasa necompletat daca doresti sa vezi toate grilele)
@@ -235,7 +251,7 @@ export default function AdminsDisplayGrile() {
                     <div className={classes.divButton}>
                         <div/>
                         <Button 
-                        disabled={carte === "" || capitol === "" || subCapitol === "" || ordine === "" }
+                        disabled={carte === "" || capitol === "" || subCapitol === "" }
                         variant="contained" 
                         color="secondary" 
                         className={classes.button}
@@ -246,30 +262,56 @@ export default function AdminsDisplayGrile() {
                     </div>
                 </Paper>
                 {
-                    showGrileList?
+                    loading? <CircularProgress/> :
                     <Paper className={classes.paper}>
                     {
-                        loading? <CircularProgress/> :
+                        showGrileList?
                         <div className={classes.grileListDiv}>
                         {
-                            <div className={classes.grilaDiv}>
-                                <div className={classes.divButton}>
-                                    <div/>
-                                    <Button 
-                                    variant="contained" 
-                                    color="secondary" 
-                                    className={classes.button}
-                                    
-                                    >
-                                        Editeaza grila
-                                    </Button>
+                            items["lista"].sort((a,b) => b["NumReport"] - a["NumReport"]).map((grilaPrimita, index)=> 
+                                <div className={classes.grilaDiv} key= {"capitolul_"+capitol+"_grila:"+String(index)}>
+                                    <Typography variant = "h6">
+                                        Numar reports: {grilaPrimita.NumReport}
+                                    </Typography>
+                                    <Typography variant = "h6">
+                                        Id grila: {grilaPrimita.GrilaID}
+                                    </Typography>
+                                    <Typography >
+                                        {grilaPrimita.Intrebare}
+                                    </Typography>
+                                    <Typography >
+                                        a) {grilaPrimita.Variante_a}
+                                    </Typography>
+                                    <Typography >
+                                        b) {grilaPrimita.Variante_b}
+                                    </Typography>
+                                    <Typography >
+                                        c) {grilaPrimita.Variante_c}
+                                    </Typography>
+                                    <Typography >
+                                        d) {grilaPrimita.Variante_d}
+                                    </Typography>
+                                    <Typography >
+                                        e) {grilaPrimita.Variante_e}
+                                    </Typography>
+                                    <div className={classes.divButton}>
+                                        <div/>
+                                        <Button 
+                                        variant="contained" 
+                                        color="secondary" 
+                                        className={classes.button}
+                                        
+                                        >
+                                            Editeaza grila
+                                        </Button>
+                                    </div>
+                                    <Divider/>
                                 </div>
-                                <Divider/>
-                            </div>
+                            )
                         }
-                        </div>
+                        </div> : null
                     }
-                    </Paper> : null
+                    </Paper> 
                     }
                 </>
             }
