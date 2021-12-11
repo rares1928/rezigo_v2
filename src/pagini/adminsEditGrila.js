@@ -35,6 +35,15 @@ const useStyles = makeStyles((theme)=>({
         justifyContent: "space-between",
         alignItems: "center",
     },
+    tipGrileDiv:{
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+        width: "30%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
     paper:{
         marginBottom: theme.spacing(3),
         padding: theme.spacing(1),
@@ -74,18 +83,19 @@ const useStyles = makeStyles((theme)=>({
 export default function AdminsEditGrila() {
     const [loading, setLoading] = useState(false);
     const [items, setItems] = useState({});
+    const [itemsModificate, setItemsModificate] = useState({});
     const [ready, setReady] = useState(false);
     const { state } = useLocation();
     let history = useHistory();
 
-    // useEffect( () => {
-    //     if(state === undefined){
-    //         return(history.push({ pathname: "/admins/grile" }));
-    //     }
-    //     const url = "";
-    //     const data = {grilaId: state};
-    //     callApi(url, data , handleItems, handleError);
-    // }, [])
+    useEffect( () => {
+        if(state === undefined){
+            return(history.push({ pathname: "/admins/grile" }));
+        }
+        const url = "https://grileapiwin.azurewebsites.net/api/GetGrilaAdmin?code=CCuH1t1ZUm70fO52wBiKbTcVFiEjFuZVOH7rBShs0cuJOaI1qdWt9Q==";
+        const data = {grilaId: state};
+        callApi(url, data , handleItems, handleError);
+    }, [])
 
     const handleError = (e) => {
         if(e === 403){
@@ -98,9 +108,15 @@ export default function AdminsEditGrila() {
     }
     const handleItems = (e) => {
         setItems(e.data);
-        setReady(false);
+        setItemsModificate(e.data);
+        sleep(100).then(() => setReady(true));
     }
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    console.log(items.lista);
     const classes=useStyles();
     const TITLE = "admins";
     return(
@@ -109,7 +125,7 @@ export default function AdminsEditGrila() {
             <title>{TITLE}</title>
         </Helmet>
         <Container className={classes.root} maxWidth="md">
-            {
+            {ready?
                 <>
                 <Typography variant = "h6" className={classes.typography}>
                     Cum apare grila in baza de date:
@@ -118,44 +134,58 @@ export default function AdminsEditGrila() {
                     <Typography >
                         Id grila: {state}
                     </Typography>
+                    <div className={classes.tipGrileDiv}>
+                        <Typography>
+                            Tip Grila:
+                        </Typography>
+                        <Button variant='contained' color={items.lista["TipGrile"] === "CS" ? "secondary" : ""}>
+                            CS
+                        </Button>
+                        <Button variant='contained' color={items.lista["TipGrile"] === "CM" ? "secondary" : ""}>
+                            CM
+                        </Button>
+                    </div>
                     <Typography >
-                        intrebare
+                        {items.lista["Intrebare"]}
                     </Typography>
                     <Typography >
-                        a){/* a) {grilaPrimita.Variante_a} */}
+                        a){items.lista["Variante"][0]}
                     </Typography>
                     <Typography >
-                        b){/* b) {grilaPrimita.Variante_b} */}
+                        b){items.lista["Variante"][1]}
                     </Typography>
                     <Typography >
-                        c){/* c) {grilaPrimita.Variante_c} */}
+                        c){items.lista["Variante"][2]}
                     </Typography>
                     <Typography >
-                        d){/* d) {grilaPrimita.Variante_d} */}
+                        d){items.lista["Variante"][3]}
                     </Typography>
                     <Typography >
-                        e){/* e) {grilaPrimita.Variante_e} */}
+                        e){items.lista["Variante"][4]}
                     </Typography>
                     <Typography >
                         Explicatii: {/* e) {grilaPrimita.Variante_e} */}
+                    </Typography>
+                    <Typography >
+                        Raspunsuri numar: {items.lista["Raspunsuri_numar"]}
                     </Typography>
                     <div className={classes.raspunsuriDiv}>
                         <Typography>
                             Raspunsuri corecte:
                         </Typography>
-                        <Button variant='contained' disabled>
+                        <Button variant='contained' color={items.lista["Raspunsuri"][0] === 1 ? "secondary" : ""}>
                             a)
                         </Button>
-                        <Button variant='contained' disabled>
+                        <Button variant='contained' color={items.lista["Raspunsuri"][1] === 1 ? "secondary" : ""}>
                             b)
                         </Button>
-                        <Button variant='contained' disabled>
+                        <Button variant='contained' color={items.lista["Raspunsuri"][2] === 1 ? "secondary" : ""}>
                             c)
                         </Button>
-                        <Button variant='contained' disabled>
+                        <Button variant='contained' color={items.lista["Raspunsuri"][3] === 1 ? "secondary" : ""}>
                             d)
                         </Button>
-                        <Button variant='contained' disabled>
+                        <Button variant='contained' color={items.lista["Raspunsuri"][4] === 1 ? "secondary" : ""}>
                             e)
                         </Button>
                     </div>
@@ -167,8 +197,19 @@ export default function AdminsEditGrila() {
                     <Typography >
                         Id grila: {state}
                     </Typography>
+                    <div className={classes.tipGrileDiv}>
+                        <Typography>
+                            Tip Grila:
+                        </Typography>
+                        <Button variant='contained' color={itemsModificate.lista["TipGrile"] === "CS" ? "secondary" : ""}>
+                            CS
+                        </Button>
+                        <Button variant='contained' color={itemsModificate.lista["TipGrile"] === "CM" ? "secondary" : ""}>
+                            CM
+                        </Button>
+                    </div>
                     <Typography >
-                        intrebare
+                        
                     </Typography>
                     <Typography >
                         a){/* a) {grilaPrimita.Variante_a} */}
@@ -223,7 +264,7 @@ export default function AdminsEditGrila() {
                 <Paper className={classes.paper}>
                     aici vor veni reports-urile
                 </Paper>
-                </>
+                </> : null
             }
         </Container>
     </div>

@@ -130,9 +130,7 @@ export default function AdminsDisplayGrile() {
     // const handleChangeOrdine = (event) => {
     //     setOrdine(event.target.value);
     // };
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    
     const cautaGrile = async () => {
         setLoading(true);
         setShowGrileList(false);
