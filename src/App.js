@@ -24,6 +24,7 @@ import AdminsHomePage from './pagini/adminsHomePage';
 import AdminsConturi from './pagini/adminsConturi';
 import AdminsContDetails from './pagini/adminsContDetails';
 import AdminsDisplayGrile from './pagini/adminsDisplayGrile';
+import AdminsEditGrila from './pagini/adminsEditGrila';
 
 
 function App() {
@@ -84,7 +85,8 @@ function App() {
                   <Route path="/admins" exact component ={AdminsHomePage} />
                   <Route path="/admins/conturi" exact component ={AdminsConturi} />
                   <Route path="/admins/conturi/*" component ={AdminsContDetails} />
-                  <Route path="/admins/grile" component ={AdminsDisplayGrile} />
+                  <Route path="/admins/grile" exact component ={AdminsDisplayGrile} />
+                  <Route path="/admins/grile/id*" component ={AdminsEditGrila} />
                 </Switch>
               </ProtectedRouteAdmins>
               <Route component={NoMatch}/>

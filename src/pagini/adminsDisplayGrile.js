@@ -12,7 +12,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import { callApi } from '../utils/callApi';
 import { useHistory } from 'react-router-dom';
-import { CircularProgress, Divider, ListItemSecondaryAction } from '@material-ui/core';
+import { CircularProgress, Divider } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme)=>({
@@ -147,6 +147,10 @@ export default function AdminsDisplayGrile() {
         sleep(100).then(()=>callApi(url, data, handleItems, handleError));
         sleep(1000).then(() => setShowGrileList(true));
         setLoading(false);
+    }
+
+    const editGrila = (id) => {
+        return(history.push({ pathname: "/admins/grile/id"+id, state: id }));
     }
 
     const classes=useStyles();
@@ -300,6 +304,7 @@ export default function AdminsDisplayGrile() {
                                         variant="contained" 
                                         color="secondary" 
                                         className={classes.button}
+                                        onClick={() => editGrila(grilaPrimita.GrilaID)}
                                         
                                         >
                                             Editeaza grila
