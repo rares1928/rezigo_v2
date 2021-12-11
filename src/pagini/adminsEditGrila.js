@@ -11,7 +11,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import { callApi } from '../utils/callApi';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { CircularProgress, Divider } from '@material-ui/core';
 
 
@@ -22,22 +22,22 @@ const useStyles = makeStyles((theme)=>({
         minHeight: "calc(100vh - calc(8 * 8px))",
         justifyContent: "space-between",
     },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: theme.spacing(16),
-      },
     root: {
         paddingTop: theme.spacing(6),
         paddingBottom: theme.spacing(6),
     },
-    selectDiv:{
+    raspunsuriDiv:{
+        marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
+        width: "70%",
         display: "flex",
+        flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
     },
     paper:{
         marginBottom: theme.spacing(3),
+        padding: theme.spacing(1),
     },
     textFieldDiv: {
         width: "95%",
@@ -72,8 +72,34 @@ const useStyles = makeStyles((theme)=>({
 
 
 export default function AdminsEditGrila() {
+    const [loading, setLoading] = useState(false);
+    const [items, setItems] = useState({});
     const [ready, setReady] = useState(false);
     const { state } = useLocation();
+    let history = useHistory();
+
+    // useEffect( () => {
+    //     if(state === undefined){
+    //         return(history.push({ pathname: "/admins/grile" }));
+    //     }
+    //     const url = "";
+    //     const data = {grilaId: state};
+    //     callApi(url, data , handleItems, handleError);
+    // }, [])
+
+    const handleError = (e) => {
+        if(e === 403){
+            history.push({ pathname: "/" });
+        }
+        else{
+            console.log(e);
+        }
+        setLoading(false);
+    }
+    const handleItems = (e) => {
+        setItems(e.data);
+        setReady(false);
+    }
 
     const classes=useStyles();
     const TITLE = "admins";
@@ -110,6 +136,29 @@ export default function AdminsEditGrila() {
                     <Typography >
                         e){/* e) {grilaPrimita.Variante_e} */}
                     </Typography>
+                    <Typography >
+                        Explicatii: {/* e) {grilaPrimita.Variante_e} */}
+                    </Typography>
+                    <div className={classes.raspunsuriDiv}>
+                        <Typography>
+                            Raspunsuri corecte:
+                        </Typography>
+                        <Button variant='contained' disabled>
+                            a)
+                        </Button>
+                        <Button variant='contained' disabled>
+                            b)
+                        </Button>
+                        <Button variant='contained' disabled>
+                            c)
+                        </Button>
+                        <Button variant='contained' disabled>
+                            d)
+                        </Button>
+                        <Button variant='contained' disabled>
+                            e)
+                        </Button>
+                    </div>
                 </Paper>
                 <Typography variant = "h6" className={classes.typography}>
                    Cum vrei sa schimbi grila:
@@ -136,6 +185,26 @@ export default function AdminsEditGrila() {
                     <Typography >
                         e){/* e) {grilaPrimita.Variante_e} */}
                     </Typography>
+                    <div className={classes.raspunsuriDiv}>
+                        <Typography>
+                            Raspunsuri corecte:
+                        </Typography>
+                        <Button variant='contained' disabled>
+                            a)
+                        </Button>
+                        <Button variant='contained' disabled>
+                            b)
+                        </Button>
+                        <Button variant='contained' disabled>
+                            c)
+                        </Button>
+                        <Button variant='contained' disabled>
+                            d)
+                        </Button>
+                        <Button variant='contained' disabled>
+                            e)
+                        </Button>
+                    </div>
                     <div className={classes.divButton}>
                         <div/>
                         <Button 
@@ -151,7 +220,7 @@ export default function AdminsEditGrila() {
                 <Typography variant = "h6" className={classes.typography}>
                    Complaints:
                 </Typography>
-                <Paper>
+                <Paper className={classes.paper}>
                     aici vor veni reports-urile
                 </Paper>
                 </>

@@ -101,7 +101,7 @@ export default function AdminsContDetails() {
         const url = "https://grileapiwin.azurewebsites.net/api/GetProfilAdmin?code=4kUVuDFwhhoIo5Mwmt16/O0vjwdo1syvaHvRHrj4TYAD5JGXqiyWVQ==";
         const data = {email: state};
         callApi(url, data , handleItems, handleError);
-    }, [history, state])
+        }, [history, state])
     const classes=useStyles();
     const TITLE = "Detalii cont";
     return(
