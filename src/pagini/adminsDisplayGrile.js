@@ -133,7 +133,7 @@ export default function AdminsDisplayGrile() {
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-    const cautaGrile = () => {
+    const cautaGrile = async () => {
         setLoading(true);
         setShowGrileList(false);
         setItems({});
@@ -144,8 +144,9 @@ export default function AdminsDisplayGrile() {
             textPartialGrila: textPartialGrila,
         }
         const url = "https://grileapiwin.azurewebsites.net/api/CautaGrileAdmin?code=ip64oSUrfBheQN110qwIjK/jQsx7hmxgQrb0Tpy6BDmIG8TBPE/nag==";
-        sleep(100).then(()=>callApi(url, data, handleItems, handleError));
-        sleep(1000).then(() => setShowGrileList(true));
+        await callApi(url, data, handleItems, handleError);
+        //sleep(1000).then(() => setShowGrileList(true));
+        setShowGrileList(true);
         setLoading(false);
     }
 
