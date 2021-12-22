@@ -16,7 +16,6 @@ import ProtectedRoute from './utils/protectedRoute';
 import ProtectedRouteAdmins from './utils/protectedRouteAdmins';
 import DespreNoi from './pagini/despreNoi';
 import Termeni from './pagini/termeni';
-import Intrebari from './pagini/intrebari';
 import Users from './pagini/users';
 import ActivareSignUpPage from './pagini/activareSignUp';
 import ResetareParola from './pagini/resetareParola';
@@ -25,6 +24,8 @@ import AdminsConturi from './pagini/adminsConturi';
 import AdminsContDetails from './pagini/adminsContDetails';
 import AdminsDisplayGrile from './pagini/adminsDisplayGrile';
 import AdminsEditGrila from './pagini/adminsEditGrila';
+import IntrebariFrecventePage from './pagini/intrebariFrecvente';
+import PrezentarePage from './pagini/prezentare';
 
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
         <LayoutSite darkMode= {darkMode} setDarkMode={setDarkMode} >
           <Switch>
             <Route path="/login" exact component={LoginPage} />
+            <Route path="/prezentare" exact component={PrezentarePage} />
             <Route path="/resetare_parola" exact component={ResetareParola}/> 
             <Route path="/signup" exact component={SignupPage} />
             <Route path="/signup/activare" exact component={ActivareSignUpPage} />
@@ -78,7 +80,7 @@ function App() {
               <Route path="/rezolva_test" exact component={()=> <GrilePage darkMode={darkMode} ></GrilePage>} />
               <Route path="/despre_noi" exact component={DespreNoi}/>
               <Route path="/termeni" exact component={Termeni}/>
-              <Route path="/intrebari_frecvente" exact component={Intrebari}/>
+              <Route path="/intrebari_frecvente" exact component={IntrebariFrecventePage}/>
               <Route path="/users" exact component={Users}/>
               <ProtectedRouteAdmins>
                 <Switch>

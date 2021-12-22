@@ -228,7 +228,7 @@ export default function LayoutSite(props) {
         component="main"            
         >
             {
-            !(location.pathname.includes("/login") || location.pathname.includes("/signup") || location.pathname.includes("/resetare_parola")) &&
+            !(location.pathname.includes("/login") || location.pathname.includes("/signup") || location.pathname.includes("/resetare_parola")|| location.pathname.includes("/prezentare")) &&
             <AppBar className={classes.rootNavBar} position="relative" elevation={0}  >
                 {mobileView ? displayMobileView() : displayDesktop()} 
             </AppBar>
