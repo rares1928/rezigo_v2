@@ -81,7 +81,6 @@ const useStyles = makeStyles((theme)=>({
 
 export default function AdminsEditGrila() {
 
-    const [loading, setLoading] = useState(false);
     const [items, setItems] = useState({});
     const [ready, setReady] = useState(false);
     const [tipGrila, setTipGrila] = useState("");
@@ -100,42 +99,50 @@ export default function AdminsEditGrila() {
     let history = useHistory();
 
     useEffect( () => {
+        const handleError = (e) => {
+            if(e === 403){
+                history.push({ pathname: "/" });
+            }
+            else{
+                console.log(e);
+            }
+            setReady(false);
+        }
+        const handleItems = (e) => {
+            setItems(e.data);
+            setTipGrila(e.data.lista["TipGrile"]);
+            setIntrebare(e.data.lista["Intrebare"]);
+            setVarA(e.data.lista["Variante"][0]);
+            setVarB(e.data.lista["Variante"][1]);
+            setVarC(e.data.lista["Variante"][2]);
+            setVarD(e.data.lista["Variante"][3]);
+            setVarE(e.data.lista["Variante"][4]);
+            setRaspA(e.data.lista["Raspunsuri"][0]);
+            setRaspB(e.data.lista["Raspunsuri"][1]);
+            setRaspC(e.data.lista["Raspunsuri"][2]);
+            setRaspD(e.data.lista["Raspunsuri"][3]);
+            setRaspE(e.data.lista["Raspunsuri"][4]);
+            setReady(true);
+        }
         if(state === undefined){
             return(history.push({ pathname: "/admins/grile" }));
         }
         const url = "https://grileapiwin.azurewebsites.net/api/GetGrilaAdmin?code=CCuH1t1ZUm70fO52wBiKbTcVFiEjFuZVOH7rBShs0cuJOaI1qdWt9Q==";
         const data = {grilaId: state};
         callApi(url, data , handleItems, handleError);
-    }, [])
+    }, [history, state])
 
-    const handleError = (e) => {
-        if(e === 403){
-            history.push({ pathname: "/" });
-        }
-        else{
-            console.log(e);
-        }
-        setReady(false);
-    }
-    const handleItems = (e) => {
-        setItems(e.data);
-        setTipGrila(e.data.lista["TipGrile"]);
-        setIntrebare(e.data.lista["Intrebare"]);
-        setVarA(e.data.lista["Variante"][0]);
-        setVarB(e.data.lista["Variante"][1]);
-        setVarC(e.data.lista["Variante"][2]);
-        setVarD(e.data.lista["Variante"][3]);
-        setVarE(e.data.lista["Variante"][4]);
-        setRaspA(e.data.lista["Raspunsuri"][0]);
-        setRaspB(e.data.lista["Raspunsuri"][1]);
-        setRaspC(e.data.lista["Raspunsuri"][2]);
-        setRaspD(e.data.lista["Raspunsuri"][3]);
-        setRaspE(e.data.lista["Raspunsuri"][4]);
-        sleep(100).then(() => setReady(true));
-    }
 
     const updateGrila = () => {
-        setLoading(true);
+        const handleError = (e) => {
+            if(e === 403){
+                history.push({ pathname: "/" });
+            }
+            else{
+                console.log(e);
+            }
+            setReady(false);
+        }
         const url = "https://grileapiwin.azurewebsites.net/api/EditeazaGrila?code=Mik8i81eKx/6UL8G21W3LRpNSgm2naWAT07Ub4FB7rQreyHgm/OkVQ==";
         const data = {
             GrilaId: state,
@@ -151,9 +158,6 @@ export default function AdminsEditGrila() {
         window.location.reload();
     }
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 
     const classes=useStyles();
     const TITLE = "admins";

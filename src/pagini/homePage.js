@@ -65,7 +65,7 @@ export default function HomePage() {
                     <TutorialCard
                         imagine={tutorial}
                         setUserHelper={setUserHelper}
-                        text="Deschide o fereastra cu imagini ce îți arată cum poți folosi site-ul."
+                        text="Deschide o fereastră cu imagini ce îți arată cum poți folosi site-ul."
                         title="Tutorial"
                     />
                 </Grid>
@@ -129,7 +129,7 @@ export default function HomePage() {
                             Contact
                         </Typography>
                     <Typography variant="p" component="p">
-                        Pentru orice fel intrebări sau sugestii,
+                        Pentru orice fel întrebări sau sugestii,
                         vă rugam să ne contactați la adresa de mail:
                         rezigo.contact@gmail.com
                     </Typography>

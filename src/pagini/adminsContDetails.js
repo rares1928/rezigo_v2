@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme)=>({
 
 
 export default function AdminsContDetails() {
-    const [error, setError] = useState(0);
     const [stergeCont, setStergeCont] = useState(false);
     const [ready, setReady] = useState(false);
     const [items, setItems] = useState({});
@@ -85,19 +84,18 @@ export default function AdminsContDetails() {
         setStergeCont(false);
       };
 
-    const handleError = (e) => {
-        setError(e);
-    }
-
-    const handleItems = (e) => {
-        setItems(e.data);
-        setReady(true);
-    };
-
     useEffect( () => {
         if(state === undefined){
             return(history.push({ pathname: "/admins/conturi" }));
         }
+        const handleError = (e) => {
+            console.log(e);
+        }
+    
+        const handleItems = (e) => {
+            setItems(e.data);
+            setReady(true);
+        };
         const url = "https://grileapiwin.azurewebsites.net/api/GetProfilAdmin?code=4kUVuDFwhhoIo5Mwmt16/O0vjwdo1syvaHvRHrj4TYAD5JGXqiyWVQ==";
         const data = {email: state};
         callApi(url, data , handleItems, handleError);

@@ -30,18 +30,19 @@ export default function AdminsConturi() {
     const [items, setItems] = useState({});
     let history = useHistory();
 
-    const handleError = (e) => {
-        history.push({ pathname: "/" });
-    }
 
-    const handleItems = (e) => {
-        setItems(e.data);
-        setReady(true);
-    };
     useEffect( () => {
+        const handleError = () => {
+            history.push({ pathname: "/" });
+        }
+    
+        const handleItems = (e) => {
+            setItems(e.data);
+            setReady(true);
+        };
         const url = "https://grileapiwin.azurewebsites.net/api/GetConturi?code=hafa9xHxX8lJAehKzLkzru6jGHfwF8UcaR85cWIZSwU8eanY/srhhA==";
         callApi(url, {}, handleItems, handleError);
-    }, [])
+    }, [history])
     const classes=useStyles();
     const TITLE = "Conturi";
     return(

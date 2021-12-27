@@ -85,10 +85,19 @@ export default function AdminsDisplayGrile() {
     let history = useHistory();
 
     useEffect( () => {
+        const handleError1 = (e) => {
+            if(e === 403){
+                history.push({ pathname: "/" });
+            }
+            else{
+                console.log(e);
+            }
+            setLoading(false);
+        }
         const url = "https://grileapiwin.azurewebsites.net/api/GetCategoriiAdmin?code=S5MkCQa6aai1rR47PEL1AB3QwiaG2Fe522pJLONtsmhHGmPj6re45w==";
         const data = {};
-        callApi(url, data , handleListaCat, handleError);
-    }, [])
+        callApi(url, data , handleListaCat, handleError1);
+    }, [history])
 
     const handleError = (e) => {
         if(e === 403){
