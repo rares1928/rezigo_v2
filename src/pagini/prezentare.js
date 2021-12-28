@@ -11,6 +11,12 @@ import Fade from '@material-ui/core/Fade';
 import rezolva_invata from '../poze/rezolva_invata.svg';
 import oriunde_oricand from '../poze/oriunde_oricand.svg';
 import statistici from '../poze/statistici.svg';
+import gratis from '../poze/gratis.svg';
+import FAQ from '../componente/faq';
+import Grid from '@material-ui/core/Grid';
+import IconButton from "@material-ui/core/IconButton";
+import FacebookIcon from '@material-ui/icons/Facebook';
+import InstagramIcon from '@material-ui/icons/Instagram';
 
 
 
@@ -56,8 +62,10 @@ const useStyles = makeStyles((theme)=>({
         display: "flex",
         alignItems:"center",
         backgroundColor: theme.palette.primary.main,
-        height: 320,
+        minHeight: 320,
         width: "100%",
+        paddingBottom: theme.spacing(2),
+        paddingTop: theme.spacing(2),
     },
     divTextImage: {
         display: "flex",
@@ -70,11 +78,29 @@ const useStyles = makeStyles((theme)=>({
         justifyContent: "center",
     },
     pozeMici: {
-        maxHeight: 220,
+        maxHeight: 200,
         maxWidth: "40vw"
     },
     divTextTitle: {
         paddingBottom: theme.spacing(1),
+    },
+    titluFaq: {
+        marginBottom: theme.spacing(3),
+        width: "100%",
+        justifyContent: "center",
+        display: "flex",
+    },
+    footerText:{
+        maxWidth: theme.spacing(30),
+    },
+    textAndImageWrapperFooter: {
+        display: "flex",
+        alignItems:"center",
+        backgroundColor: theme.palette.text.disabled,
+        minHeight: 200,
+        width: "100%",
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
     },
   }));
 
@@ -136,14 +162,14 @@ export default function PrezentarePage() {
                 <Container maxWidth="md">
                     <div className={classes.divTextImage}>
                         <div className={classes.divText}>
-                            <Typography variant = "h5" className={classes.divTextTitle}>
+                            <Typography variant = "h4" className={classes.divTextTitle}>
                                 Rezolvă teste. Învață din greșeli.
                             </Typography>
                             <Typography variant = "h6">
                                 Testează-ți cunoștințele rezolvând grile, reparcurge greșelile și aprofundează materia.
                             </Typography>
                         </div>
-                        <img src={rezolva_invata} className={classes.pozeMici} />
+                        <img alt="tests" src={rezolva_invata} className={classes.pozeMici} />
                     </div>
                 </Container>
             </div>
@@ -151,9 +177,9 @@ export default function PrezentarePage() {
             <div className={classes.textAndImageWrapper1}>
                 <Container maxWidth="md">
                     <div className={classes.divTextImage}>
-                        <img src={oriunde_oricand} className={classes.pozeMici} />
+                        <img alt="cloud" src={oriunde_oricand} className={classes.pozeMici} />
                         <div className={classes.divText}>
-                            <Typography variant = "h5" className={classes.divTextTitle}>
+                            <Typography variant = "h4" className={classes.divTextTitle}>
                                 Oriunde, oricând.
                             </Typography>
                             <Typography variant = "h6">
@@ -168,19 +194,76 @@ export default function PrezentarePage() {
                 <Container maxWidth="md">
                     <div className={classes.divTextImage}>
                         <div className={classes.divText}>
-                            <Typography variant = "h5" className={classes.divTextTitle}>
+                            <Typography variant = "h4" className={classes.divTextTitle}>
                                 Urmărește-ți evoluția prin statistici.
                             </Typography>
                             <Typography variant = "h6">
                                 Compară statisticile testelor tale cu media utilizatorilor site-ului.
                             </Typography>
                         </div>
-                        <img src={statistici} className={classes.pozeMici} />
+                        <img alt="statistics" src={statistici} className={classes.pozeMici} />
                     </div>
                 </Container>
             </div>
             <hr class="rounded"></hr>
-            
+            <div className={classes.textAndImageWrapper1}>
+                <Container maxWidth="md">
+                    <div className={classes.divTextImage}>
+                        <img alt="cloud" src={gratis} className={classes.pozeMici} />
+                        <div className={classes.divText}>
+                            <Typography variant = "h4" className={classes.divTextTitle}>
+                                Gratuit până în aprilie!
+                            </Typography>
+                            <Typography variant = "h6">
+                                Fă-ți cont acum și beneficiezi gratuit de cont premium până în luna aprilie 2022!
+                            </Typography>
+                        </div>
+                    </div>
+                </Container>
+            </div>
+            <hr class="rounded"></hr>
+            <div className={classes.textAndImageWrapper1}>
+                <Container maxWidth="md">
+                    <Typography variant='h4' className={classes.titluFaq}>
+                        Întrebări frecvente:
+                    </Typography>
+                    <FAQ/>
+                </Container>
+            </div>
+            <hr class="rounded"></hr>
+            <div className={classes.textAndImageWrapperFooter}>
+                <Container maxWidth="sm">
+                    <Grid 
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        spacing={2}
+                    >
+                        <Grid className={classes.footerItem} item>
+                            <Typography variant="h6"  gutterBottom>
+                                Contact
+                            </Typography>
+                        <Typography className={classes.footerText}  variant="p" component="p">
+                            Pentru orice fel întrebări sau sugestii,
+                            vă rugam să ne contactați la adresa de mail:
+                            rezigo.contact@gmail.com
+                        </Typography>
+                        </Grid>
+                        <Grid className={classes.footerItem} item>
+                            <Typography  variant="h6"  gutterBottom>
+                                Ne puteți găsi și pe:
+                            </Typography>
+                            <IconButton >
+                                <FacebookIcon color="secondary"  fontSize="large" />
+                            </IconButton>
+                            <IconButton >
+                                <InstagramIcon color="secondary" fontSize="large" />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
+                </Container>
+            </div>
         </div>
     );
 }
+

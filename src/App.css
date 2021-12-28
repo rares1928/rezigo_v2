@@ -20,9 +20,9 @@ html{
   height: 320px;
 }
 hr.rounded {
-  color: black;
+  color: rgba(0, 0, 0, 0.418);
   border: 0;
-  border-top: 2px solid;
+  border-top: 5px solid;
   border-radius: 5px;
   margin: 0;
 }
