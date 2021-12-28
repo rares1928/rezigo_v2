@@ -14,7 +14,7 @@ function ProtectedRoute (props){
                     )
                 }else{
                     return(
-                        <Redirect to="/login"/>
+                        <Redirect to="/prezentare"/>
                     )
                 }
             }}

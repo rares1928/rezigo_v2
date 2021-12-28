@@ -124,13 +124,13 @@ export default function PrezentarePage() {
                         />
                     </Box>  
                     <div className={classes.divButoane} >
-                        <Button className={classes.buton} variant="contained" color = "secondary" >
+                        <Button href = "/login" className={classes.buton} variant="contained" color = "secondary" >
                             <Typography>
                                 Autentificare
                             </Typography>
                         </Button>
 
-                        <Button className={classes.buton} variant="contained" color = "secondary" >
+                        <Button href = "/signup" className={classes.buton} variant="contained" color = "secondary" >
                             <Typography>
                                 Creează cont
                             </Typography>
@@ -230,7 +230,6 @@ export default function PrezentarePage() {
                     <FAQ/>
                 </Container>
             </div>
-            <hr class="rounded"></hr>
             <div className={classes.textAndImageWrapperFooter}>
                 <Container maxWidth="sm">
                     <Grid 
@@ -253,10 +252,10 @@ export default function PrezentarePage() {
                             <Typography  variant="h6"  gutterBottom>
                                 Ne puteți găsi și pe:
                             </Typography>
-                            <IconButton >
+                            <IconButton disabled >
                                 <FacebookIcon color="secondary"  fontSize="large" />
                             </IconButton>
-                            <IconButton >
+                            <IconButton disabled >
                                 <InstagramIcon color="secondary" fontSize="large" />
                             </IconButton>
                         </Grid>
