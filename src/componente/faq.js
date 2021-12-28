@@ -75,7 +75,7 @@ export default function FAQ() {
             aria-controls="panel3bh-content"
             id="panel3bh-header"
             >
-            <Typography variant = "h6">Primești eroare sau întâmpini probleme pe site?</Typography>
+            <Typography variant = "h6">Primești eroare sau întâlnești probleme pe site?</Typography>
 
             </AccordionSummary>
             <AccordionDetails>
@@ -95,7 +95,7 @@ export default function FAQ() {
             </AccordionSummary>
             <AccordionDetails>
             <Typography>
-                Suntem un proiect în creștere și adaptare și dorim să îmbunătățim permanent serviciile pe care le oferim. Din acest motiv, ne propunem să învățăm tot ce putem de la utilizatorii noștri. Orice idei, sugestii, critici (de la propuneri de grile, la propuneri de noi funcții pe care să le ofere site-ul, la preferințe de organizare) sunt bine venite și le așteptăm la adresa noatră de mail rezigo.contact@gmail.com.
+                Suntem un proiect în creștere și adaptare și dorim să îmbunătățim permanent serviciile pe care le oferim. Din acest motiv, ne propunem să învățăm tot ce putem de la utilizatorii noștri. Orice idei, sugestii, critici (de la propuneri de grile, la propuneri de noi funcții pe care să le ofere site-ul, la preferințe de organizare) sunt bine venite și le așteptăm la adresa noastră de mail rezigo.contact@gmail.com.
             </Typography>
             </AccordionDetails>
         </Accordion>
@@ -110,7 +110,7 @@ export default function FAQ() {
             </AccordionSummary>
             <AccordionDetails>
             <Typography>
-                Da! Atât arola cât și alte date personale pot fi schimbate din pagina de profil.
+                Da! Atât parola cât și alte date personale pot fi schimbate din pagina de profil.
             </Typography>
             </AccordionDetails>
         </Accordion>
