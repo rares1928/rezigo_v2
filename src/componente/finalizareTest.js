@@ -27,15 +27,19 @@ export default function FinalizareTest(props) {
         checkIcon:{
             color: theme.palette.success.main,
         },
-        accordion:{
-            
-        },
+
         accordionDiv:{
             margin:theme.spacing(1),
         },
         answerOptionsDiv:{
             display:"flex",
             flexDirection:"column",
+        },
+        divButon: {
+            marginTop: theme.spacing(2),
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
         },
     }));
 
@@ -50,9 +54,17 @@ export default function FinalizareTest(props) {
                     <Typography variant="h5" >
                         Ai răspuns corect la {props.raspunsuriCorecte} întrebări din {props.numarIntrebari}.
                     </Typography>
-                    <Button href="/" variant="contained" color="secondary" >
-                        Înapoi acasă
-                    </Button>
+                    <Typography variant="subtitle1" >
+                        Dacă dorești să raportezi o grilă, te rugăm să te întorci la meniul de reolvare a testului.
+                    </Typography>
+                    <div className={classes.divButon}>
+                        <Button onClick={()=>{ props.setTestDone(false) }} variant="contained" color="secondary" >
+                            Întoarce-te la test
+                        </Button>
+                        <Button href="/" variant="contained" color="secondary" >
+                            Înapoi acasă
+                        </Button>
+                    </div>
                 </div>
                 <div className={classes.accrodionDiv}>
                     {

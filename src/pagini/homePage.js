@@ -75,6 +75,7 @@ export default function HomePage() {
                         sendTo="/creeaza-ti_test" 
                         title="Test"
                         text="Creează-ți un test, încearcă-ți puterile cu o simulare sau reparcurge greșelile"
+                        disabled = {false}
                     />
                 </Grid>
                 <Grid item>
@@ -84,6 +85,7 @@ export default function HomePage() {
                         sendTo="/"
                         title="Librărie"
                         text="învață din materialele speciale, flashcarduri și mnemonics"
+                        disabled = {true}
                     />
                 </Grid>
 
@@ -111,6 +113,7 @@ export default function HomePage() {
                         sendTo="/"
                         title="Premium"
                         text="Investește în tine! Activează-ți contul premium "
+                        disabled = {true}
                     />
                 </Grid>
                 
@@ -138,18 +141,20 @@ export default function HomePage() {
                         <Typography variant="h6"  gutterBottom>
                             Link-uri utile
                         </Typography>
-                        <Link color="secondary" href="/despre_noi">Despre noi</Link>
-                        <Link color="secondary" href="/termeni">Termeni și condiții</Link>
+                        {/* <Link color="secondary" href="/despre_noi">Despre noi</Link> */}
+                        <Link color="secondary">Despre noi</Link>
+                        {/* <Link color="secondary" href="/termeni">Termeni și condiții</Link> */}
+                        <Link color="secondary">Termeni și condiții</Link>
                         <Link color="secondary" href="/intrebari_frecvente">Întrebări frecvente</Link>
                     </Grid>
                     <Grid className={classes.footerItem} item>
                         <Typography  variant="h6"  gutterBottom>
                             Păstrează legătura
                         </Typography>
-                        <IconButton href="/">
+                        <IconButton disabled href="/">
                             <FacebookIcon color="secondary"  fontSize="large" />
                         </IconButton>
-                        <IconButton href="/">
+                        <IconButton disabled href="/">
                             <InstagramIcon color="secondary" fontSize="large" />
                         </IconButton>
                     </Grid>

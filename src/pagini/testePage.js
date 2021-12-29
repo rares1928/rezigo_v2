@@ -23,6 +23,7 @@ import { useHistory } from 'react-router-dom';
 import ErrorPopup from '../componente/errorPopup';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Helmet } from 'react-helmet';
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -66,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: "2.5vh",
         position: "fixed",
         bottom: 0,
+        zIndex: 1000,
     },
     footerItem: {
         maxWidth: 300,
@@ -84,6 +86,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TestePage() {
 
+    // delay la grow in milisecunde
+    const growTimeout = 700;
+    let history = useHistory();
+    const { state } = useLocation();
+
     const classes = useStyles();
     const [isCardSelected, setCardSelected] = useState("");
     const [isKumar, setKumar] = useState(false);
@@ -101,10 +108,6 @@ export default function TestePage() {
     const [questionRemaining, setQuestionRemaining] = useState(400);
     const [tipCont, setTipCont] = useState("");
     const [aleator, setAleator] = useState(true);
-    
-    // delay la grow in milisecunde
-    const growTimeout = 700;
-    let history = useHistory();
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -160,7 +163,12 @@ export default function TestePage() {
         setListaselectii(lista_temp2);
         setListaSelectiiSimulare(lista_temp2);
         sleep(250).then(() => {if(albania <2 ){setAlbania(albania + 1);}});
-    }, [listaCategorii, ready, albania])
+        if(state !== undefined){
+            if(state.from === "profile"){
+                setCardSelected("Teste începute");
+            }
+        }
+    }, [listaCategorii, ready, albania, state])
 
     const deleteTest = async (testId) => {
         await callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { testId }, () => { }, handleError);        

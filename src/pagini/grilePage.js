@@ -11,7 +11,7 @@ import Slider from '@material-ui/core/Slider';
 import Switch from '@material-ui/core/Switch';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { callApi } from "../utils/callApi";
 import ErrorPopup from '../componente/errorPopup';
@@ -281,6 +281,7 @@ export default function GrilePage(props) {
         {testDone? 
             <FinalizareTest 
                 testDone={testDone}
+                setTestDone={setTestDone}
                 resultScor={items.reduce((acc, val) => calculeazaScorAcumulat(acc, val), 0)}
                 scorPosibil={items.reduce((acc, val) => calculeazaScorPosibil(acc, val), 0)}
                 raspunsuriCorecte={items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}
@@ -470,18 +471,18 @@ export default function GrilePage(props) {
                                 required
                             />
                             <div className={classes.reportButtonDiv}>
-                            <Button
-                                onClick={() => sendReport()}  
-                                variant="contained" 
-                                color="primary" 
-                                className={classes.buttonReport}
-                                disabled={reportText.length <=1 }
-                            >
-                            {loading? <CircularProgress color="secondary" /> :
-                                <Typography>
-                                    Trimite raportul
-                                </Typography>}
-                        </Button>
+                                <Button
+                                    onClick={() => sendReport()}  
+                                    variant="contained" 
+                                    color="primary" 
+                                    className={classes.buttonReport}
+                                    disabled={reportText.length <=1 }
+                                >
+                                {loading? <CircularProgress color="secondary" /> :
+                                    <Typography>
+                                        Trimite raportul
+                                    </Typography>}
+                                </Button>
                             </div>
                         </Paper> : null
                         }

@@ -22,6 +22,7 @@ import Placinta from '../componente/pieChart';
 import ErrorPopup from '../componente/errorPopup';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import Link from '@material-ui/core/Link';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -77,6 +78,9 @@ export default function ProfilePage(props) {
         placinta:{
             display: "flex",
             justifyContent: "flex-end",
+        },
+        linkNeterminate:{
+            cursor: "pointer",
         },
     }));
 
@@ -386,15 +390,24 @@ export default function ProfilePage(props) {
                             />
                         </ListItem>
                         <ListItem>
-                            <Typography>Începute: {items["lista_teste"].length } </Typography>
+                            <Typography>
+                                Începute: {items["lista_teste"].length } 
+                            </Typography>
                         </ListItem>
                         <Divider />
                         <ListItem>
-                            <Typography>Terminate: {items["lista_teste"].filter((test) => test["Done"] === true).length } </Typography>
+                            <Typography>
+                                Terminate: {items["lista_teste"].filter((test) => test["Done"] === true).length } 
+                            </Typography>
                         </ListItem>
                         <Divider />
                         <ListItem>
-                            <Typography>Neterminate: {items["lista_teste"].filter((test) => test["Done"] === false).length } </Typography>
+                            <Typography>
+                            <Link className={classes.linkNeterminate} color = "secondary" onClick = {() => {history.push({ pathname: "/creeaza-ti_test", state: {from: "profile"} })}}> 
+                                Neterminate
+                            </Link>
+                            : {items["lista_teste"].filter((test) => test["Done"] === false).length } 
+                            </Typography>
                         </ListItem>
                         <Divider />
                         <ListItem>

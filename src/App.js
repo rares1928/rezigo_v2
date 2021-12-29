@@ -16,7 +16,6 @@ import ProtectedRoute from './utils/protectedRoute';
 import ProtectedRouteAdmins from './utils/protectedRouteAdmins';
 import DespreNoi from './pagini/despreNoi';
 import Termeni from './pagini/termeni';
-import Users from './pagini/users';
 import ActivareSignUpPage from './pagini/activareSignUp';
 import ResetareParola from './pagini/resetareParola';
 import AdminsHomePage from './pagini/adminsHomePage';
@@ -75,13 +74,12 @@ function App() {
               <Switch>
               <Route path="/" exact component={HomePage} />
               <Route path="/profil" exact component={() => <ProfilePage darkMode={darkMode} /> } />
-              <Route path="/librarie" exact component={LibrariePage} />
+              {/* <Route path="/librarie" exact component={LibrariePage} /> */}
               <Route path="/creeaza-ti_test" exact component={()=> <TestePage darkMode={darkMode} ></TestePage>} />
               <Route path="/rezolva_test" exact component={()=> <GrilePage darkMode={darkMode} ></GrilePage>} />
               <Route path="/despre_noi" exact component={DespreNoi}/>
               <Route path="/termeni" exact component={Termeni}/>
               <Route path="/intrebari_frecvente" exact component={IntrebariFrecventePage}/>
-              <Route path="/users" exact component={Users}/>
               <ProtectedRouteAdmins>
                 <Switch>
                   <Route path="/admins" exact component ={AdminsHomePage} />

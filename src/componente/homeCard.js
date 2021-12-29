@@ -33,10 +33,10 @@ export default function HomeCard(props) {
 
   return (
     <Card className={classes.root}>
-        <CardActionArea href={props.sendTo}>
+        <CardActionArea href={props.sendTo} disabled = {props.disabled}>
             <CardMedia 
-                className={classes.media}
-                image={props.imagine}
+              className={classes.media}
+              image={props.imagine}
             />
         </CardActionArea>
         <CardContent className={classes.textSide}>

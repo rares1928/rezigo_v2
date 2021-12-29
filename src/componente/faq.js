@@ -39,6 +39,20 @@ export default function FAQ() {
             </Typography>
             </AccordionDetails>
         </Accordion>
+        {/* <Accordion className={classes.acordeon} expanded={expanded === 'panel7'} onChange={handleChange('panel7')}>
+            <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+            >
+            <Typography variant = "h6">Pot rezolva grile din toată materia? </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+            <Typography>
+
+            </Typography>
+            </AccordionDetails>
+        </Accordion> */}
         <Accordion className={classes.acordeon} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
             <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
