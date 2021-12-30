@@ -7,7 +7,7 @@ import logo from '../poze/mini_logo4.svg';
 
 
 
-export default function BasicTable({ rows, onDelete, onClick}) {
+export default function DataTable({ rows, onDelete, onClick}) {
 
     const useStyles = makeStyles((theme) => ({
         body : {

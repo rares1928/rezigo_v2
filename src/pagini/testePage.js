@@ -394,7 +394,7 @@ export default function TestePage() {
                 </Typography>
                 <div>
                     {
-                        <DataTable rows={listatTesteNeterm.filter(test => test["ReparcurgeGreseli"] === false)} onDelete={(id) => deleteTest(id) } onClick={(id) => handleTestId(id)} />
+                        <DataTable rows={listatTesteNeterm.sort((a,b) => a.Done - b.Done ).filter(test => test["ReparcurgeGreseli"] === false)} onDelete={(id) => deleteTest(id) } onClick={(id) => handleTestId(id)} />
                     }
                 </div>
             </div>
