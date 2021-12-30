@@ -101,7 +101,6 @@ export default function TestePage() {
     const [listaSelectiiSimulare, setListaSelectiiSimulare] = useState([]);
     const [readyCat, setReadyCat] = useState(false);
     const [readyTest, setReadyTest] = useState(false);
-    const [albania, setAlbania] = useState(0);
     const [listaCategorii, setListaCategorii] = useState([])
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
     const [error, setError] = useState(0);
@@ -207,8 +206,7 @@ export default function TestePage() {
     const displaySimulare = () => {
         return (
             <>
-            {(!readyTest || !readyCat) ? <CircularProgress/> :
-                <div className={classes.bookDiv}>
+            <div className={classes.bookDiv}>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     2. Selectează cărțile și capitolele:
                 </Typography>
@@ -284,7 +282,7 @@ export default function TestePage() {
                         }
                     </Grid>
                 </Grid>
-                </div>}
+            </div>
             </>
         );
     }
@@ -292,8 +290,7 @@ export default function TestePage() {
     const displayTestNou = () => {
         return (
             <>
-            {readyCat && readyTest ? <CircularProgress/> :
-                <div className={classes.bookDiv}>
+            <div className={classes.bookDiv}>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     2. Selectează cărțile, capitolele și subcapitolele:
                 </Typography>
@@ -384,7 +381,7 @@ export default function TestePage() {
                         }
                     </Grid>
                 </Grid>
-            </div>}
+            </div>
             </>
         );
     }
