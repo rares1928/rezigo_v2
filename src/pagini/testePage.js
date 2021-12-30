@@ -99,7 +99,8 @@ export default function TestePage() {
     const [listaselectiisubcat, setListaselectiisubcat] = useState([{}]);
     const [listaselectii, setListaselectii] = useState([]);
     const [listaSelectiiSimulare, setListaSelectiiSimulare] = useState([]);
-    const [ready, setReady] = useState(false);
+    const [readyCat, setReadyCat] = useState(false);
+    const [readyTest, setReadyTest] = useState(false);
     const [albania, setAlbania] = useState(0);
     const [listaCategorii, setListaCategorii] = useState([])
     const [listatTesteNeterm, setListaTesteNeterm] = useState([])
@@ -109,12 +110,10 @@ export default function TestePage() {
     const [tipCont, setTipCont] = useState("");
     const [aleator, setAleator] = useState(true);
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     const handleError = (e) => {
-        setError(e);
+        setError(e.status);
+        setReadyCat(false);
+        setReadyTest(false);
     }
 
     const handleCategorii = (e) => {
@@ -123,37 +122,12 @@ export default function TestePage() {
         if(e.data["tip_cont"] === "Standard"){
             setQuestionRemaining(e.data["intrebariRamase"]);
         }
-
-    };
-
-    const handleTeste = (e) => {
-        setListaTesteNeterm(e.data["lista"]);
-    };
-
-    const handleTestId = (testId) => {
-        console.log(testId);
-        return(history.push({ pathname: "/rezolva_test", state: {testId: testId, aleator:aleator} }));
-    };
-
-    const handleTestIdNou = (testId) => {
-        return(history.push({ pathname: "/rezolva_test", state: {testId: testId.data["lista"], aleator: aleator} }));
-    };
-
-    useEffect( () => {
-
-        if (ready === false) {
-            setAlbania(0);
-            callApi('https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==', {}, handleCategorii, handleError);
-            callApi('https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==', { "greseli": false }, handleTeste, handleError);
-            setReady(true);
-        }
-
         let lista_temp = [];
         let lista_temp2 = [];
 
-        for (let i = 0; i < listaCategorii.length; ++i) {
+        for (let i = 0; i < e.data["lista"].length; ++i) {
             const lista_temp_temp = [];
-            for (let j = 0; j < listaCategorii[i].subCategory.length; ++j) {
+            for (let j = 0; j < e.data["lista"][i]["subCategory"].length; ++j) {
                 lista_temp_temp.push(0);
             }
             lista_temp.push(lista_temp_temp);
@@ -162,13 +136,33 @@ export default function TestePage() {
         setListaselectiisubcat(lista_temp);
         setListaselectii(lista_temp2);
         setListaSelectiiSimulare(lista_temp2);
-        sleep(350).then(() => {if(albania <2 ){setAlbania(albania + 1);}});
+        setReadyCat(true);
+    };
+
+    const handleTeste = (e) => {
+        setListaTesteNeterm(e.data["lista"]);
+        setReadyTest(true);
+    };
+
+    const handleTestId = (testId) => {
+        return(history.push({ pathname: "/rezolva_test", state: {testId: testId, aleator:aleator} }));
+    };
+
+    const handleTestIdNou = (testId) => {
+        return(history.push({ pathname: "/rezolva_test", state: {testId: testId.data["lista"], aleator: aleator} }));
+    };
+
+    useEffect( () => {
+        let url_categorii = 'https://grileapiwin.azurewebsites.net/api/GetCategoriiWin?code=2PyRLKAmFmY9m2QCC2t3iRuMRwDF58dxkyYavc/eFowHS44pFQgrqA==';
+        callApi(url_categorii, {}, handleCategorii, handleError);
+        let url_teste = 'https://grileapiwin.azurewebsites.net/api/ReturnTestWin?code=a4f9SUIh9j7zkFgmFTeGjiDgWCURrkcaj3uaLWUpoGnTQ/aCJKBkjQ==';
+        callApi(url_teste, { "greseli": false }, handleTeste, handleError);
         if(state !== undefined){
             if(state.from === "profile"){
                 setCardSelected("Teste începute");
             }
         }
-    }, [listaCategorii, ready, albania, state])
+    }, [state])
 
     const deleteTest = async (testId) => {
         await callApi('https://grileapiwin.azurewebsites.net/api/DeleteTestWin?code=E756BkprUyE3sBtZAU8ltkrwRebaSickMOE3NXaIv3cn3Ls8zNYQiA==', { testId }, () => { }, handleError);        
@@ -213,7 +207,7 @@ export default function TestePage() {
     const displaySimulare = () => {
         return (
             <>
-            {albania < 2 ? <CircularProgress/> :
+            {(!readyTest || !readyCat) ? <CircularProgress/> :
                 <div className={classes.bookDiv}>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     2. Selectează cărțile și capitolele:
@@ -298,7 +292,7 @@ export default function TestePage() {
     const displayTestNou = () => {
         return (
             <>
-            {albania < 2 ? <CircularProgress/> :
+            {readyCat && readyTest ? <CircularProgress/> :
                 <div className={classes.bookDiv}>
                 <Typography variant="h6" component="h6" className={classes.instructionsText}>
                     2. Selectează cărțile, capitolele și subcapitolele:
@@ -495,13 +489,13 @@ export default function TestePage() {
             <Helmet>
                 <title>{ TITLE }</title>
             </Helmet>
-            <ErrorPopup errorStatus={error} />
+            <ErrorPopup errorStatus={error} setError = {setError} />
             <Container maxWidth="lg" className={classes.containerPart}>
 
-                {albania >= 2?
+                {readyCat && readyTest ?
                 <>
                     <Typography variant="h6" component="h6" className={classes.instructionsText}>
-                        Tipul contului tău: {albania<2? <CircularProgress/>: tipCont} {tipCont === "Standard" && <div> (Întrebări rămase: {questionRemaining}) </div>}
+                        Tipul contului tău: {tipCont} {tipCont === "Standard" && <div> (Întrebări rămase: {questionRemaining}) </div>}
                     </Typography>
                     <Typography variant="h6" component="h6" className={classes.instructionsText}>
                         1. Selectează tipul testului pe care vrei să îl începi:
@@ -520,7 +514,7 @@ export default function TestePage() {
                                 imagine={testNouImg}
                                 title="Test nou"
                                 text="Selectează subcapitolele din care dorești grilele."
-                                ready={ready}
+                                ready={readyCat}
                             />
                         </Grid>
                         <Grid item>
@@ -530,7 +524,7 @@ export default function TestePage() {
                                 imagine={simulareImg}
                                 title="Simulare"
                                 text="50 de întrebări cu CS și 150 de întrebări cu CM."
-                                ready={ready}
+                                ready={readyCat}
                             />
                         </Grid>
                         <Grid item>
@@ -540,7 +534,7 @@ export default function TestePage() {
                                 imagine={testNeterminatImg}
                                 title="Teste începute"
                                 text="Selectează unul dintre testele neterminate pe care vrei să le continui."
-                                ready={ready}
+                                ready={readyTest}
                             />
                         </Grid>
                         <Grid item>
@@ -603,7 +597,7 @@ export default function TestePage() {
                     }
             </Container>
 
-            {ready &&
+            {readyTest && readyCat &&
             <>
                 {
                 (sumaElemArr(listaselectiisubcat) !== 0 || sumaCategoriiArray(listaSelectiiSimulare) !== 0) &&

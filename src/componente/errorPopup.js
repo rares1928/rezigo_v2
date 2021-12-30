@@ -7,11 +7,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Cookies from 'universal-cookie';
 import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 
 export default function ErrorPopup(props) {
     let history = useHistory();
+    let location = useLocation();
     const delogare = () => {
         const cookies = new Cookies();
         cookies.remove('estiLogat');
@@ -44,6 +46,14 @@ export default function ErrorPopup(props) {
             </DialogContentText>
             </DialogContent>
             <DialogActions>
+
+            <Button onClick={()=> location.reload()} variant="contained" color="primary" >
+                Refresh
+            </Button>
+
+            <Button onClick={()=> props.setError(0)} variant="contained" color="primary" >
+                Închide eroarea
+            </Button>
 
             <Button onClick={()=> delogare()} variant="contained" color="secondary" >
                 Delogare

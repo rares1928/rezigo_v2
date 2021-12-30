@@ -19,6 +19,8 @@ import home6 from '../poze/homepage6.svg';
 import home7 from '../poze/homepage7.svg';
 import testepage1 from '../poze/testepage1.svg';
 import testepage2 from '../poze/testepage2.svg';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from "@material-ui/core/IconButton";
 
 
 const tutorialSteps = [
@@ -64,14 +66,18 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  dialog: {
-    
+  cancelButton:{
+    color: "#f44336",
+  },
+  buttons:{
+    width: theme.spacing(14),
   },
   header: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: "space-between",
     height: 50,
-    paddingLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(1),
     backgroundColor: theme.palette.background.default,
   },
   img: {
@@ -111,6 +117,8 @@ export default function UserHelper(props) {
     <div className={classes.root}>
         <Grid container direction="column">
             <Dialog
+              fullWidth
+              maxWidth = "md"
               open={true}
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
@@ -119,6 +127,9 @@ export default function UserHelper(props) {
               <DialogContent className={classes.dialogContent}>
                 <Paper square elevation={0} className={classes.header}>
                     <Typography>{tutorialSteps[activeStep].label}</Typography>
+                    <IconButton  className={classes.cancelButton} onClick={props.lastClick}>
+                      <CloseIcon/>
+                    </IconButton>
                 </Paper>
                 <img
                     className={classes.img}
@@ -135,16 +146,17 @@ export default function UserHelper(props) {
                     className={classes.dots}
                     nextButton={
                     <Button 
-                        size="small" 
-                        onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
-                        disabled={activeStep === tutorialSteps.length}
+                      className={classes.buttons}
+                      size="small" 
+                      onClick={activeStep === tutorialSteps.length-1 ? props.lastClick : handleNext} 
+                      disabled={activeStep === tutorialSteps.length}
                     >
                         {activeStep === tutorialSteps.length-1 ? <div>Închide</div>: <div>Următorul </div>}
                         {activeStep === tutorialSteps.length-1 ? null : <KeyboardArrowRight />}
                     </Button>
                     }
                     backButton={
-                    <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                    <Button className={classes.buttons} size="small" onClick={handleBack} disabled={activeStep === 0}>
                         <KeyboardArrowLeft /> Înapoi
                     </Button>
                     }

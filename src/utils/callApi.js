@@ -27,5 +27,5 @@ export const callApi = async (url, data, handle, handleError) => {
             }
         }
         handle(response);
-    } catch (err) { handleError(err.response.status) }
+    } catch (err) {handleError(err.response) }
 };
