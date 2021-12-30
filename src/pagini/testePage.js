@@ -162,7 +162,7 @@ export default function TestePage() {
         setListaselectiisubcat(lista_temp);
         setListaselectii(lista_temp2);
         setListaSelectiiSimulare(lista_temp2);
-        sleep(250).then(() => {if(albania <2 ){setAlbania(albania + 1);}});
+        sleep(350).then(() => {if(albania <2 ){setAlbania(albania + 1);}});
         if(state !== undefined){
             if(state.from === "profile"){
                 setCardSelected("Teste începute");

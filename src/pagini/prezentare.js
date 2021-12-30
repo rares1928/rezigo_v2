@@ -114,7 +114,7 @@ export default function PrezentarePage() {
             <Helmet>
                 <title>{TITLE}</title>
             </Helmet>
-            <div className = 'prezentare_header'>
+            <div className = 'prezentare_header' loading = "eager">
                 <div className={classes.divWrapperButoane} >
                     <Box className={classes.logoBox}>
                         <img  
