@@ -22,6 +22,9 @@ export default function DataTable({ rows, onDelete, onClick}) {
         header: {
             backgroundColor: theme.palette.primary.main
         },
+        tableBody:{
+            backgroundColor: theme.palette.background.paper,
+        },
         goImage: {
             height: 25,
         },
@@ -48,22 +51,22 @@ export default function DataTable({ rows, onDelete, onClick}) {
                             <TableCell className={classes.header} align="center">Șterge</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody >
                         {rows.map((row, index) => (
                             <TableRow key={index} >
-                                <TableCell >{index+1}</TableCell>
-                                <TableCell component="th" onClick={() => onClick(row.TestID)} scope="row">
+                                <TableCell className={classes.tableBody} >{index+1}</TableCell>
+                                <TableCell className={classes.tableBody} component="th" onClick={() => onClick(row.TestID)} scope="row">
                                     <IconButton >
                                         <img alt="logo" src={logo} className={classes.goImage} />
                                     </IconButton>
                                 </TableCell>
-                                <TableCell align="center">{row.CreatedAt}</TableCell>
-                                <TableCell align="center" >{row.NumAnswered + row.NumUnanswered}</TableCell>
-                                <TableCell align="center" >{row.NumAnswered}</TableCell>
-                                <TableCell align="center" >{row.NumUnanswered}</TableCell>
-                                <TableCell align="center" >{row.Score}</TableCell>
-                                <TableCell align="center" >{row.Done ? "Da" : "Nu"}</TableCell>
-                                <TableCell align="center">
+                                <TableCell className={classes.tableBody} align="center">{row.CreatedAt}</TableCell>
+                                <TableCell className={classes.tableBody} align="center" >{row.NumAnswered + row.NumUnanswered}</TableCell>
+                                <TableCell className={classes.tableBody} align="center" >{row.NumAnswered}</TableCell>
+                                <TableCell className={classes.tableBody} align="center" >{row.NumUnanswered}</TableCell>
+                                <TableCell className={classes.tableBody} align="center" >{row.Score}</TableCell>
+                                <TableCell className={classes.tableBody} align="center" >{row.Done ? "Da" : "Nu"}</TableCell>
+                                <TableCell className={classes.tableBody} align="center">
                                     <IconButton 
                                     aria-label="delete" 
                                     onClick={async () => {setLoadingDelete(true); await onDelete(row.TestID); setLoadingDelete(false)} } >
