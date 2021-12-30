@@ -255,7 +255,7 @@ export default function PrezentarePage() {
                             <IconButton disabled >
                                 <FacebookIcon color="secondary"  fontSize="large" />
                             </IconButton>
-                            <IconButton disabled >
+                            <IconButton href="https://www.instagram.com/rezigo.oficial/" >
                                 <InstagramIcon color="secondary" fontSize="large" />
                             </IconButton>
                         </Grid>

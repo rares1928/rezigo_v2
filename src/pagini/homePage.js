@@ -154,7 +154,7 @@ export default function HomePage() {
                         <IconButton disabled href="/">
                             <FacebookIcon color="secondary"  fontSize="large" />
                         </IconButton>
-                        <IconButton disabled href="/">
+                        <IconButton href="https://www.instagram.com/rezigo.oficial/">
                             <InstagramIcon color="secondary" fontSize="large" />
                         </IconButton>
                     </Grid>
