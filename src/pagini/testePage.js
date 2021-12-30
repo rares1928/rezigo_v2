@@ -178,40 +178,17 @@ export default function TestePage() {
     const creeazaSimulare = async () => {
         setGoLoading(true);
         const lista_categorii = [];
-        if(produsScalarListe(listaSelectiiSimulare) >= 200){
-            let numarSubcapitole = 0;
-            for(let i = 0; i < listaSelectiiSimulare.length; i++){
-                if(listaSelectiiSimulare[i]){
-                    numarSubcapitole = numarSubcapitole + listaselectiisubcat[i].length;
+        for(let i = 0; i < listaSelectiiSimulare.length; i++){
+            if(listaSelectiiSimulare[i]){
+                for (let j = 0; j < listaselectiisubcat[i].length; j++){
+                    lista_categorii.push({
+                        nume_categorie: listaCategorii[i]['category_Name'],
+                        nume_subcategorie: listaCategorii[i]['subCategory'][j]['Name'],
+                        numar: listaCategorii[i]['subCategory'][j]['Count']
+                    })
                 }
             }
-            for(let i = 0; i < listaSelectiiSimulare.length; i++){
-                if(listaSelectiiSimulare[i]){
-                    for (let j = 0; j < listaselectiisubcat[i].length; j++){
-                        lista_categorii.push({
-                            nume_categorie: listaCategorii[i]['category_Name'],
-                            nume_subcategorie: listaCategorii[i]['subCategory'][j]['Name'],
-                            numar: Math.floor(200/numarSubcapitole)
-                        })
-                    }
-                }
-            }
-            const randomSubCapitol = Math.floor(Math.random() * numarSubcapitole);
-            lista_categorii[randomSubCapitol]['numar'] = 200 - Math.floor(200/numarSubcapitole) * (numarSubcapitole - 1);
-        }else{
-            for(let i = 0; i < listaSelectiiSimulare.length; i++){
-                if(listaSelectiiSimulare[i]){
-                    for (let j = 0; j < listaselectiisubcat[i].length; j++){
-                        lista_categorii.push({
-                            nume_categorie: listaCategorii[i]['category_Name'],
-                            nume_subcategorie: listaCategorii[i]['subCategory'][j]['Name'],
-                            numar: listaCategorii[i]['subCategory'][j]['Count']
-                        })
-                    }
-                }
-            }
-        }
-        
+        }   
         await callApi('https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==', {lista_categorii, "aleator": true }, handleTestIdNou, handleError)
         setGoLoading(false);
     }
@@ -648,9 +625,9 @@ export default function TestePage() {
                                     Tip test: {isCardSelected}
                                 </Typography>
                                 <Typography variant="subtitle2" component="p">
-                                    Număr de grile: {isCardSelected === "Simulare" ? (produsScalarListe(listaSelectiiSimulare) <= 200 ? produsScalarListe(listaSelectiiSimulare) : 200) : sumaElemArr(listaselectiisubcat) }
+                                    Număr de grile: {isCardSelected === "Simulare" ? produsScalarListe(listaSelectiiSimulare) : sumaElemArr(listaselectiisubcat) }
                                 </Typography>
-                                {isCardSelected === "Test nou" &&
+                                {isCardSelected === "Test nou" ?
                                 <Button className={classes.footerAleator} variant="contained"  color = "secondary" onClick = {()=>{setAleator(!aleator)}}>
                                     {aleator?
                                     <Typography variant="subtitle2">
@@ -660,13 +637,17 @@ export default function TestePage() {
                                         Grile ordonate
                                     </Typography>
                                     }
-                                </Button>}
+                                </Button> :
+                                <Typography variant="subtitle2">
+                                    Ordinea grilelor: aleatoare
+                                </Typography>
+                                }
                             </Grid>
                             <Grid className={classes.footerItem} item>
                                 <Button 
                                 className={classes.footerButton} 
                                 color="secondary" variant="contained" 
-                                disabled={goLoading || sumaElemArr(listaselectiisubcat) > questionRemaining }
+                                disabled={goLoading || (isCardSelected === "Simulare" ? produsScalarListe(listaSelectiiSimulare) > questionRemaining : sumaElemArr(listaselectiisubcat) > questionRemaining) }
                                 onClick={isCardSelected==="Test nou" ? () => creeazaTest() : () => creeazaSimulare()} >
                                     {goLoading? <CircularProgress color="primary" size={25} /> :
                                     <Typography >
@@ -674,7 +655,7 @@ export default function TestePage() {
                                     </Typography>}
                                 </Button>
                                 {
-                                    sumaElemArr(listaselectiisubcat) > questionRemaining &&
+                                    (isCardSelected === "Simulare" ? produsScalarListe(listaSelectiiSimulare) > questionRemaining : sumaElemArr(listaselectiisubcat) > questionRemaining) &&
                                     <>
                                         <Typography variant="subtitle2" className={classes.errorTooManyQ}>
                                             Poți selecta maxim {questionRemaining} întrebări.
