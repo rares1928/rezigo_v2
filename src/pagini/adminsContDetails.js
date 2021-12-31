@@ -15,6 +15,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import AdminsDataTable from '../componente/adminsTestsTable';
 
 const useStyles = makeStyles((theme)=>({
     wrapperDiv:{
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme)=>({
     },
     papper:{
         padding: theme.spacing(3),
+        marginBottom: theme.spacing(3),
     },
     inputDiv:{
         display: "flex",
@@ -102,6 +104,7 @@ export default function AdminsContDetails() {
         }, [history, state])
     const classes=useStyles();
     const TITLE = "Detalii cont";
+    console.log(items["lista_teste"]);
     return(
         <div className={classes.wrapperDiv}>
         <Helmet>
@@ -137,6 +140,10 @@ export default function AdminsContDetails() {
                         <Divider/>
                         <Typography>
                             Numar de teste incepute: {items['lista_teste'].length}
+                        </Typography>
+                        <Divider/>
+                        <Typography>
+                            Numar de teste terminate: {items['lista_teste'].filter(test => test.Done === true).length}
                         </Typography>
                         <Divider/>
 
@@ -182,6 +189,9 @@ export default function AdminsContDetails() {
                                 Sterge contul {items.Email} 
                             </Button>
                         </div>
+                    </Paper>
+                    <Paper className={classes.papper}>
+                        <AdminsDataTable rows ={items["lista_teste"].sort((a,b) => a.Done - b.Done )} />
                     </Paper>
                 </div> : <CircularProgress/>
             }
