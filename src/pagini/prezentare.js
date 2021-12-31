@@ -252,7 +252,7 @@ export default function PrezentarePage() {
                             <Typography  variant="h6"  gutterBottom>
                                 Ne puteți găsi și pe:
                             </Typography>
-                            <IconButton disabled >
+                            <IconButton  href = 'https://www.facebook.com/rezigo.ro' >
                                 <FacebookIcon color="secondary"  fontSize="large" />
                             </IconButton>
                             <IconButton href="https://www.instagram.com/rezigo.oficial/" >

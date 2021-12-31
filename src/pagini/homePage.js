@@ -151,7 +151,7 @@ export default function HomePage() {
                         <Typography  variant="h6"  gutterBottom>
                             Păstrează legătura
                         </Typography>
-                        <IconButton disabled href="/">
+                        <IconButton  href = 'https://www.facebook.com/rezigo.ro' >
                             <FacebookIcon color="secondary"  fontSize="large" />
                         </IconButton>
                         <IconButton href="https://www.instagram.com/rezigo.oficial/">
