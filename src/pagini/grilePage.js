@@ -45,9 +45,9 @@ export default function GrilePage(props) {
     const [reportText, setReportText] = useState("");
     const [reportResponse, setReportResponse] = useState(0);
     const [testDone, setTestDone] = useState(false);
-    
-    
-    let history= useHistory();
+    let history = useHistory();
+    var CryptoJS = require("crypto-js");
+
 
     const handleItems = (e) => {
         setItems(e.data["lista"]);
@@ -64,13 +64,12 @@ export default function GrilePage(props) {
     
     useEffect(() => {
         const testId = state.testId;
-        console.log(testId);
         if(!testId){
             history.push("/creeaza-ti_test")
         }else{
         const cookies = new Cookies();
         const rememberMe = cookies.get('rememberMe');
-        callApi('https://grileapiwin.azurewebsites.net/api/GetGrileWin?code=PrwHilYKYJLV46PoT12sMacgZkpYr7XsWKrjeZF3Hc9aSIZSqnsipQ==', { rememberMe, testId }, handleItems, handleError)
+            callApi('https://grileapiwin.azurewebsites.net/api/GetGrileWin?code=PrwHilYKYJLV46PoT12sMacgZkpYr7XsWKrjeZF3Hc9aSIZSqnsipQ==', { rememberMe, testId }, handleItems, handleError)
         }
     }, [history, state])
 
@@ -151,6 +150,22 @@ export default function GrilePage(props) {
         }
     }
 
+    const decrypt = (data) => {
+        var key = "WF6euCnMEJWgHLWzeFKC9CezMOVZq42K";
+        var iv = "qwgNLFpgVBsDLQ6h";
+
+        var result = CryptoJS.AES.decrypt(
+            data,
+            CryptoJS.enc.Utf8.parse(key),
+            {
+                iv: CryptoJS.enc.Utf8.parse(iv),
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            }
+        );
+        console.log(result.toString(CryptoJS.enc.Utf8))
+        return result.toString(CryptoJS.enc.Utf8);
+    }
 
     const useStyles = makeStyles((theme) => ({
 
@@ -329,7 +344,7 @@ export default function GrilePage(props) {
                                 </Typography>
                             <div className="grileQuestionTypography">    
                                 <Typography className={classes.question} variant="subtitle1">
-                                    {selectedQuestion + 1}. {items[selectedQuestion]['Intrebare']}
+                                    {selectedQuestion + 1}. {decrypt(items[selectedQuestion]['Intrebare'])}
                                 </Typography>
                             </div>
                             <div>
