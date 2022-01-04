@@ -12,6 +12,8 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from 'react-router-dom';
+import { callApi } from '../utils/callApi';
+import Cookies from 'universal-cookie';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,6 +41,14 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  activareDiv:{
+    marginTop: theme.spacing(3),
+  },
+  textContDiv: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
 }));
 
 
@@ -56,6 +66,10 @@ export default function SignUp() {
   const [error, setError] = useState(0);
   const [IP, setIP] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingActivare, setLoadingActivare] = useState(false);
+  const [activateField, setActivateField] = useState(false);
+  const [activare, setActivare] = useState("");
+  const [errorActivare, setErrorActivare] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -67,6 +81,36 @@ export default function SignUp() {
   },[]);
 
   let history = useHistory();
+
+  const callLoginApi = async () => {
+    const url = 'https://grileapiwin.azurewebsites.net/api/Login?code=D2p6Wi0brJT9iDnRObOnEfKqJLZbEhKse5Ze0ac9T745hJSuyiimuQ==';
+    const data = {
+      email: email,
+      password: password,
+      tip_login: "autohton",
+      rememberMe: false,
+    }
+    await callApi( url, data, handleLogin, handleError);
+}
+  const handleLogin = (e) => {
+      const cookies = new Cookies();
+      let rememberMeSeconds = null;
+      const firstname = e.data['first_name'];
+      const lastname = e.data['last_name'];
+      const plan = e.data['plan'];
+      const accessToken = e.data['access'];
+      const refreshToken = e.data["refreshToken"];
+      cookies.set('estiLogat', "rapid", { path: '/', maxAge: rememberMeSeconds });
+      cookies.set('firstname', firstname, { path: '/', maxAge: rememberMeSeconds });
+      cookies.set('lastname', lastname, { path: '/', maxAge: rememberMeSeconds });
+      cookies.set('plan', plan, { path: '/', maxAge: rememberMeSeconds });
+      cookies.set('accessToken', accessToken, { path: '/', maxAge: rememberMeSeconds });
+      cookies.set('refreshToken', refreshToken, { path: '/', maxAge: rememberMeSeconds });
+      history.push("/")
+  }
+  const handleError = (e) => {
+      console.log(e);
+  }
 
   const callSigupApi = async ()=>{
     if(firstName === "" || lastName === "" || email === ""){
@@ -88,10 +132,9 @@ export default function SignUp() {
             parola: password,
             ip: IP,
           }
-          try {const result = await axios.post(url, data);
-          console.log(result);
-          setError(result.status);
-          return(history.push({ pathname: "/signup/activare", state: {email: email, password: password} }));
+          try {await axios.post(url, data);
+          setActivateField(true);
+          // return(history.push({ pathname: "/signup/activare", state: {email: email, password: password} }));
           }
           catch(err){
             console.log(err);
@@ -101,6 +144,24 @@ export default function SignUp() {
         }
     }
   }
+
+  const callActivareApi = async ()=>{
+    setLoadingActivare(true);
+    const url="https://prod-131.westeurope.logic.azure.com:443/workflows/e3dc56acb65443d7a3ede5493a82a3e9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xJXnIq7-MqvccRwFdsm98RyiOmd3iOw5wcpg7-sYiHs"
+    const data = {
+    email: email,
+    code: activare,
+    }
+    try{await axios.post(url, data);
+    await callLoginApi();
+    }catch(err){
+        console.log(err);
+        setErrorActivare(err.response.status);
+    }
+    setLoadingActivare(false);
+  }
+
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -115,6 +176,7 @@ export default function SignUp() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
+                disabled = {activateField}
                 color="secondary"
                 autoComplete="fname"
                 name="firstName"
@@ -130,6 +192,7 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                disabled = {activateField}
                 color="secondary"
                 variant="outlined"
                 required
@@ -144,6 +207,7 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                disabled = {activateField}
                 color="secondary"
                 variant="outlined"
                 required
@@ -159,6 +223,7 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                disabled = {activateField}
                 color="secondary"
                 variant="outlined"
                 required
@@ -175,6 +240,7 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                disabled = {activateField}
                 color="secondary"
                 variant="outlined"
                 required
@@ -196,7 +262,7 @@ export default function SignUp() {
             color="secondary"
             className={classes.submit}
             onClick={()=>{callSigupApi()}}
-            disabled = {isLoading}
+            disabled = {isLoading || activateField}
           >
             {isLoading? 
             <Typography>Trimitem email <CircularProgress color="primary" size={25} /></Typography> : 
@@ -226,15 +292,78 @@ export default function SignUp() {
             </Grid>
             }
           </Grid>
-          <Grid container justify="flex-end">
-            {!isLoading &&
-            <Grid item>
-              <Link  href="/login" variant="body2" color="secondary">
+          <Grid container className={classes.textContDiv}>
+            <div></div>
+            {!isLoading && !activateField &&
+            <>
+              <Link href="/login" variant="body2" color="secondary">
                 Deja ai cont? Autentifică-te
               </Link>
-            </Grid>
+            </>
             }
           </Grid>
+
+          {activateField &&
+            <div className={classes.activareDiv}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={ ()=> setActivateField(false)}
+              >
+                <Typography href="/login" > Vreau sa introduc alte date </Typography>
+              </Button> 
+              <Grid item xs={12} >
+                <TextField
+                  color="secondary"
+                  autoComplete="code"
+                  name="activare"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="activare"
+                  label="Cod activare"
+                  autoFocus
+                  value={activare}
+                  onInput={e => setActivare(e.target.value)} 
+                />
+              </Grid>
+              
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  className={classes.submit}
+                  disabled = {loadingActivare}
+                  onClick={()=>{callActivareApi()}}
+                >
+                  {/* {errorActivare === 200 ? 
+                  <Typography href="/login" > Mergi la autentificare </Typography>: */}
+                  {
+                  loadingActivare? 
+                  <CircularProgress color="primary" size={25} /> : 
+                  <Typography>Activează contul!</Typography>
+                  }
+                </Button>
+              <Grid container >
+                {(errorActivare === 400) &&
+                <Grid item>
+                  <Typography variant="subtitle1" color="error" >
+                    Codul introdus nu este corect!
+                  </Typography>
+                </Grid>
+                }
+                {/* {(errorActivare === 200) &&
+                <Grid item>
+                  <Typography variant="subtitle1" className={classes.successText} >
+                    Felicitări! Contul tău este activat!
+                  </Typography>
+                </Grid>
+                } */}
+              </Grid>
+            </div>
+          }
         </form>
       </div>
       

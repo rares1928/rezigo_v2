@@ -3,7 +3,7 @@ import React,{ useState } from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import HomePage from './pagini/homePage';
-import LibrariePage from './pagini/librariePage';
+// import LibrariePage from './pagini/librariePage';
 import TestePage from './pagini/testePage';
 import NoMatch from './pagini/noMatch';
 import GrilePage from './pagini/grilePage';
@@ -16,7 +16,7 @@ import ProtectedRoute from './utils/protectedRoute';
 import ProtectedRouteAdmins from './utils/protectedRouteAdmins';
 import DespreNoi from './pagini/despreNoi';
 import Termeni from './pagini/termeni';
-import ActivareSignUpPage from './pagini/activareSignUp';
+// import ActivareSignUpPage from './pagini/activareSignUp';
 import ResetareParola from './pagini/resetareParola';
 import AdminsHomePage from './pagini/adminsHomePage';
 import AdminsConturi from './pagini/adminsConturi';
@@ -69,7 +69,7 @@ function App() {
             <Route path="/prezentare" exact component={PrezentarePage} />
             <Route path="/resetare_parola" exact component={ResetareParola}/> 
             <Route path="/signup" exact component={SignupPage} />
-            <Route path="/signup/activare" exact component={ActivareSignUpPage} />
+            {/* <Route path="/signup/activare" exact component={ActivareSignUpPage} /> */}
             <ProtectedRoute>
               <Switch>
               <Route path="/" exact component={HomePage} />
