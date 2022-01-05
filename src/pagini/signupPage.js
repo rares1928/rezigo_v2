@@ -11,9 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useHistory } from 'react-router-dom';
-import { callApi } from '../utils/callApi';
-import Cookies from 'universal-cookie';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -66,10 +63,7 @@ export default function SignUp() {
   const [error, setError] = useState(0);
   const [IP, setIP] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingActivare, setLoadingActivare] = useState(false);
   const [activateField, setActivateField] = useState(false);
-  const [activare, setActivare] = useState("");
-  const [errorActivare, setErrorActivare] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -80,37 +74,6 @@ export default function SignUp() {
     getData();
   },[]);
 
-  let history = useHistory();
-
-  const callLoginApi = async () => {
-    const url = 'https://grileapiwin.azurewebsites.net/api/Login?code=D2p6Wi0brJT9iDnRObOnEfKqJLZbEhKse5Ze0ac9T745hJSuyiimuQ==';
-    const data = {
-      email: email,
-      password: password,
-      tip_login: "autohton",
-      rememberMe: false,
-    }
-    await callApi( url, data, handleLogin, handleError);
-}
-  const handleLogin = (e) => {
-      const cookies = new Cookies();
-      let rememberMeSeconds = null;
-      const firstname = e.data['first_name'];
-      const lastname = e.data['last_name'];
-      const plan = e.data['plan'];
-      const accessToken = e.data['access'];
-      const refreshToken = e.data["refreshToken"];
-      cookies.set('estiLogat', "rapid", { path: '/', maxAge: rememberMeSeconds });
-      cookies.set('firstname', firstname, { path: '/', maxAge: rememberMeSeconds });
-      cookies.set('lastname', lastname, { path: '/', maxAge: rememberMeSeconds });
-      cookies.set('plan', plan, { path: '/', maxAge: rememberMeSeconds });
-      cookies.set('accessToken', accessToken, { path: '/', maxAge: rememberMeSeconds });
-      cookies.set('refreshToken', refreshToken, { path: '/', maxAge: rememberMeSeconds });
-      history.push("/")
-  }
-  const handleError = (e) => {
-      console.log(e);
-  }
 
   const callSigupApi = async ()=>{
     if(firstName === "" || lastName === "" || email === ""){
@@ -124,7 +87,7 @@ export default function SignUp() {
         }
         if(!errorPwd){
           setIsLoading(true);
-          const url="https://prod-245.westeurope.logic.azure.com:443/workflows/58bf6fa43cc54dacb74a5dea876d9807/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=M0m9frlvaNS4nFKP41w3vDJb4KoMLMUeBzh6k0CzEqk"
+          const url="https://grileapiwin.azurewebsites.net/api/SingUpEncrypt?code=y8RZs3SfCrHH67iTLoYW4vhr/n4Hbu1l6P62EsTDGR3s7bPOk48DKw==";
           const data = {
             email: email,
             nume: lastName,
@@ -134,7 +97,6 @@ export default function SignUp() {
           }
           try {await axios.post(url, data);
           setActivateField(true);
-          // return(history.push({ pathname: "/signup/activare", state: {email: email, password: password} }));
           }
           catch(err){
             console.log(err);
@@ -143,22 +105,6 @@ export default function SignUp() {
           setIsLoading(false);
         }
     }
-  }
-
-  const callActivareApi = async ()=>{
-    setLoadingActivare(true);
-    const url="https://prod-131.westeurope.logic.azure.com:443/workflows/e3dc56acb65443d7a3ede5493a82a3e9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xJXnIq7-MqvccRwFdsm98RyiOmd3iOw5wcpg7-sYiHs"
-    const data = {
-    email: email,
-    code: activare,
-    }
-    try{await axios.post(url, data);
-    await callLoginApi();
-    }catch(err){
-        console.log(err);
-        setErrorActivare(err.response.status);
-    }
-    setLoadingActivare(false);
   }
 
   
@@ -277,6 +223,14 @@ export default function SignUp() {
                 </Typography>
               </Grid>
             }
+            {
+              (error === 419) &&
+              <Grid item>
+                <Typography variant="subtitle1" color="error" >
+                    Există un cont neactivat pe acest email. Te rugăm să îți verifici emailul, inclusiv in spam. În cazul în care nu ai primit link-ul de activare, te rugăm să ne contactezi pe Facebook, Instagram sau la adresa rezigo.contact@gmail.com.
+                </Typography>
+              </Grid>
+            }
             {incompleteFields &&
               <Grid item>
                     <Typography variant="subtitle1" color="error" >
@@ -305,7 +259,11 @@ export default function SignUp() {
 
           {activateField &&
             <div className={classes.activareDiv}>
-              <Button
+              {isLoading? <CircularProgress/>:
+                <Typography>
+                Am trimis un link de activare la adresa specificată de tine mai sus. E posibil ca mailul să intre în spam.
+              </Typography>}
+              {/* <Button
                 fullWidth
                 variant="contained"
                 color="primary"
@@ -338,8 +296,6 @@ export default function SignUp() {
                   disabled = {loadingActivare}
                   onClick={()=>{callActivareApi()}}
                 >
-                  {/* {errorActivare === 200 ? 
-                  <Typography href="/login" > Mergi la autentificare </Typography>: */}
                   {
                   loadingActivare? 
                   <CircularProgress color="primary" size={25} /> : 
@@ -354,14 +310,7 @@ export default function SignUp() {
                   </Typography>
                 </Grid>
                 }
-                {/* {(errorActivare === 200) &&
-                <Grid item>
-                  <Typography variant="subtitle1" className={classes.successText} >
-                    Felicitări! Contul tău este activat!
-                  </Typography>
-                </Grid>
-                } */}
-              </Grid>
+              </Grid> */}
             </div>
           }
         </form>

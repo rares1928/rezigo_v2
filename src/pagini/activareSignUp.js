@@ -1,141 +1,89 @@
-import React, { useState} from 'react';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
+import React, { useState, useEffect} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import { useLocation } from 'react-router-dom'
-import Grid from '@material-ui/core/Grid';
-import logo from '../poze/logo4.svg';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { callApi } from "../utils/callApi";
 import { useHistory } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingBottom: theme.spacing(3),
-  },
-  logoBox: {
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: "25px",
-    paddingLeft: "10px",
-    marginBottom: theme.spacing(3),
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
+  text: {
     marginTop: theme.spacing(3),
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  successText:{
-      color: "#388e3c",
-  }
+  
 }));
 
 
 export default function ActivareSignUpPage() {
 
   const classes = useStyles();
+  const [text, setText] = useState("Verificam link-ul...");
+  const [loadingLink, setLoadingLink] = useState(false);
+  const [loadingLogin, setLoadingLogin] = useState(false);
 
-  const [activare, setActivare] = useState("");
-  const [error, setError] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const { state } = useLocation();
-  let history = useHistory();
-
-  const callSigupApi = async ()=>{
-    if(error === 200){
-        return(history.push({ pathname: "/login" }));
-    }
-    setIsLoading(true);
-    const url="https://prod-131.westeurope.logic.azure.com:443/workflows/e3dc56acb65443d7a3ede5493a82a3e9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xJXnIq7-MqvccRwFdsm98RyiOmd3iOw5wcpg7-sYiHs"
+  const handleItems = (e) => {
+    setText(e.statusText+" redirecționare...");
+    setLoadingLink(false);
     const data = {
-    email: state.email,
-    code: activare,
+      email: e.data.email,
+      password: e.data.parola,
+      tip_login: "autohton",
+      rememberMe: false,
     }
-    try{const result = await axios.post(url, data);
-    setError(result.status);
-    }catch(err){
-        console.log(err);
-        setError(err.response.status);
-    }
-    setIsLoading(false);
+    setLoadingLogin(true);
+    callLoginApi(data);
   }
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Box className={classes.logoBox}>
-            <img 
-                src={logo} 
-                alt="logo" 
-            />
-        </Box>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} >
-              <TextField
-                color="secondary"
-                autoComplete="code"
-                name="activare"
-                variant="outlined"
-                required
-                fullWidth
-                id="activare"
-                label="Cod activare"
-                autoFocus
-                value={activare}
-                onInput={e => setActivare(e.target.value)} 
-              />
-            </Grid>
-            
-          </Grid>
-          <Button
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.submit}
-            disabled = {isLoading}
-            onClick={()=>{callSigupApi()}}
-          >
-            {error === 200 ? 
-            <Typography href="/login" > Mergi la autentificare </Typography>:
-            isLoading? 
-            <CircularProgress color="primary" size={25} /> : 
-            <Typography>Creează cont!</Typography>
-            }
-          </Button>
-          <Grid container >
-            {(error === 400) &&
-            <Grid item>
-              <Typography variant="subtitle1" color="error" >
-                Codun introdus nu este corect!
-              </Typography>
-            </Grid>
-            }
-            {(error === 200) &&
-            <Grid item>
-              <Typography variant="subtitle1" className={classes.successText} >
-                Felicitări! Contul tău este activat! Te rugăm să te autentifici!
-              </Typography>
-            </Grid>
-            }
-          </Grid>
 
-        </form>
-      </div>
+  const handleError = (e) => {
+    console.log(e);
+    setLoadingLink(false);
+  }
+
+  useEffect(() => {
+    setLoadingLink(true);
+    const link = window.location.pathname.replace('/signup/','');
+    const url = "https://grileapiwin.azurewebsites.net/api/Activare?code=bljtAbl/YJ1sJcZH1vrYdduyvdp9sotSqGipEaosUV85aO5KLXgwPQ==";
+    callApi(url, { cod: link }, handleItems, handleError );
+}, []);
+
+let history = useHistory();
+
+const callLoginApi = async (data) => {
+  const url = 'https://grileapiwin.azurewebsites.net/api/Login?code=D2p6Wi0brJT9iDnRObOnEfKqJLZbEhKse5Ze0ac9T745hJSuyiimuQ==';
+  await callApi( url, data, handleLogin, handleError2);
+}
+const handleLogin = (e) => {
+    const cookies = new Cookies();
+    let rememberMeSeconds = null;
+    const firstname = e.data['first_name'];
+    const lastname = e.data['last_name'];
+    const plan = e.data['plan'];
+    const accessToken = e.data['access'];
+    const refreshToken = e.data["refreshToken"];
+    cookies.set('estiLogat', "rapid", { path: '/', maxAge: rememberMeSeconds });
+    cookies.set('firstname', firstname, { path: '/', maxAge: rememberMeSeconds });
+    cookies.set('lastname', lastname, { path: '/', maxAge: rememberMeSeconds });
+    cookies.set('plan', plan, { path: '/', maxAge: rememberMeSeconds });
+    cookies.set('accessToken', accessToken, { path: '/', maxAge: rememberMeSeconds });
+    cookies.set('refreshToken', refreshToken, { path: '/', maxAge: rememberMeSeconds });
+    setLoadingLogin(false);
+    history.push("/");
+}
+const handleError2 = (e) => {
+    console.log(e);
+    setLoadingLogin(false);
+}
+
+  return (
+    <Container component="main" maxWidth="lg">
+      <CssBaseline />
+      { (loadingLink || loadingLogin)? <CircularProgress/> : null}
+      <Typography className={classes.text}>
+        {text}
+      </Typography>
       
     </Container>
   );
