@@ -106,7 +106,8 @@ export default function ProfilePage(props) {
     const [verifyPasswordEmail, setVerifyPasswordEmail] = useState('');
 
     const handleError = (e) => {
-        setError(e);
+        console.log(e.status)
+        setError(e.status);
     }
 
     const handleItems = (e) => {
@@ -168,6 +169,7 @@ export default function ProfilePage(props) {
                 </Typography>
             </Alert>
         </Snackbar>
+        <ErrorPopup errorStatus={error} setError={setError} />
         <Container className={classes.root} maxWidth="sm">
 
             <Helmet>

@@ -131,7 +131,7 @@ export default function HomePage() {
                         <Typography variant="h6"  gutterBottom>
                             Contact
                         </Typography>
-                    <Typography variant="p" component="p">
+                    <Typography variant="subtitle2">
                         Pentru orice fel întrebări sau sugestii,
                         vă rugam să ne contactați la adresa de mail:
                         rezigo.contact@gmail.com

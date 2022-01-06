@@ -49,9 +49,9 @@ export default function ErrorPopup(props) {
                 Refresh
             </Button>
 
-            <Button onClick={()=> props.setError(0)} variant="contained" color="primary" >
+            {/* <Button onClick={ ()=> {props.setError(0)} } variant="contained" color="primary" >
                 Închide eroarea
-            </Button>
+            </Button> */}
 
             <Button onClick={()=> delogare()} variant="contained" color="secondary" >
                 Delogare
