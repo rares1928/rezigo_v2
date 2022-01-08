@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme)=>({
         marginBottom: theme.spacing(3),
     },
     textFieldDiv: {
-        width: "95%",
+        width: "97%",
         margin: theme.spacing(1),
     },
     typography:{
@@ -51,8 +51,9 @@ const useStyles = makeStyles((theme)=>({
         marginTop: theme.spacing(2),
     },
     divButton:{
-        margin: theme.spacing(1),
-        width: "95%",
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+        width: "98%",
         display: "flex",
         justifyContent: "space-between",
     },
@@ -64,7 +65,7 @@ const useStyles = makeStyles((theme)=>({
         marginBottom: theme.spacing(2),
     },
     button:{
-        width: theme.spacing(20),
+        width: theme.spacing(25),
         marginBottom: theme.spacing(1),
         marginLeft: theme.spacing(1),
     },
@@ -136,9 +137,6 @@ export default function AdminsDisplayGrile() {
         setItems({});
         setSubCapitol(event.target.value);
     };
-    // const handleChangeOrdine = (event) => {
-    //     setOrdine(event.target.value);
-    // };
     
     const cautaGrile = async () => {
         setLoading(true);
@@ -152,7 +150,16 @@ export default function AdminsDisplayGrile() {
         }
         const url = "https://grileapiwin.azurewebsites.net/api/CautaGrileAdmin?code=ip64oSUrfBheQN110qwIjK/jQsx7hmxgQrb0Tpy6BDmIG8TBPE/nag==";
         await callApi(url, data, handleItems, handleError);
-        //sleep(1000).then(() => setShowGrileList(true));
+        setShowGrileList(true);
+        setLoading(false);
+    }
+
+    const cautaGrileReports = async () => {
+        setLoading(true);
+        setShowGrileList(false);
+        setItems({});
+        const url = 'https://grileapiwin.azurewebsites.net/api/reportsgrilerreturnadmin?code=MUOhM3OBWspRxt2XbeEfsiWSazEJMI4DbH2Z5iVmRfKt15jNrLFxyg==';
+        await callApi(url, {}, handleItems, handleError);
         setShowGrileList(true);
         setLoading(false);
     }
@@ -261,7 +268,15 @@ export default function AdminsDisplayGrile() {
                         />
                     </div>
                     <div className={classes.divButton}>
-                        <div/>
+                        <Button
+                            variant="contained" 
+                            color="primary" 
+                            className={classes.button}
+                            onClick={cautaGrileReports}
+                        >
+                            Arata-mi grilele raportate
+                        </Button>
+
                         <Button 
                         disabled={carte === "" || capitol === "" || subCapitol === "" }
                         variant="contained" 
