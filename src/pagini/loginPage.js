@@ -79,8 +79,10 @@ export default function SignIn() {
         history.push("/")
     }
 
+
     const handleError = (e) => {
-        setError(e);
+        setError(e.status);
+        console.log(e);
     }
 
     return (
@@ -134,6 +136,12 @@ export default function SignIn() {
                         control={<Checkbox checked={rememberMe} onChange={() => rememberChange()} value="remember" color="secondary" />}
                         label="Ține-mă minte"
                     />
+                    {
+                    error === 400 &&
+                        <Typography variant="subtitle1" color="error" >
+                            Emailul sau parola sunt introduse greșit!
+                        </Typography>
+                    }
                     <Button
                         fullWidth
                         variant="contained"
