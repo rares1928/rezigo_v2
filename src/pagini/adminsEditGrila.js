@@ -132,6 +132,20 @@ export default function AdminsEditGrila() {
         callApi(url, data , handleItems, handleError);
     }, [history, state])
 
+    
+    const deleteReport = (emailReport, complaint) => {
+        const handleError = (e) => {
+            if(e === 403){
+                history.push({ pathname: "/" });
+            }
+            else{
+                console.log(e);
+            }
+        }
+        const url = "https://grileapiwin.azurewebsites.net/api/deletereportadmin?code=haeOuBen/j143Sf5piYPwrf5wOxzaiexasond4uroUaLJsTONKU5MA==";
+        const data = {grilaId: state, emailReport: emailReport, complaint: complaint};
+        callApi(url, data, succes, handleError);
+    }
 
     const updateGrila = () => {
         const handleError = (e) => {
@@ -444,9 +458,9 @@ export default function AdminsEditGrila() {
                                     <div/>
                                     <Button 
                                     variant="contained" 
-                                    color="secondary" 
+                                    color="primary" 
                                     className={classes.button}
-                                    disabled
+                                    onClick={()=>{deleteReport(report["Email"], report["Complaint"])}}
                                     >
                                         Sterge report
                                     </Button>
