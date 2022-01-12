@@ -4,6 +4,7 @@ import testNouImg from '../poze/test_nou_v2.svg';
 import simulareImg from '../poze/simulare_v1.svg';
 import testNeterminatImg from '../poze/test_neterminat_v2.svg';
 import reparcurgeGreseliImg from '../poze/reparcurge_greseli_v2.svg';
+import exameneOficialeImg from '../poze/examene_oficiale.svg';
 import kumar from '../poze/kumar.svg';
 import lawrence from '../poze/lawrence.svg';
 import sinopsis from '../poze/sinopsis.svg';
@@ -107,7 +108,8 @@ export default function TestePage() {
     const [goLoading, setGoLoading] = useState(false);
     const [questionRemaining, setQuestionRemaining] = useState(400);
     const [tipCont, setTipCont] = useState("");
-    const [aleator, setAleator] = useState(true);
+    const [aleator, setAleator] = useState(false);
+
 
     const handleError = (e) => {
         setError(e.status);
@@ -207,7 +209,7 @@ export default function TestePage() {
         return (
             <>
             <div className={classes.bookDiv}>
-                <Typography variant="h6" component="h6" className={classes.instructionsText}>
+                <Typography variant="h6" className={classes.instructionsText}>
                     2. Selectează cărțile și capitolele:
                 </Typography>
                 <Grid className={classes.cardGrid} container justifyContent="center" spacing={4}>
@@ -286,12 +288,40 @@ export default function TestePage() {
             </>
         );
     }
-
+    const displayExameneRezidentiat = () =>{
+        return(
+            <div className={classes.bookDiv}>
+                <Typography variant="h6"  className={classes.instructionsText} >
+                    2. Selectează câte probleme dorești din fiecare an:
+                </Typography>
+                <Grid
+                    className={classes.cardGrid}
+                    container
+                    
+                    spacing={4}
+                >
+                    <Grid item>
+                        <CategoryAcordion
+                            onClickCategorieMare={onClickCategorieMare}
+                            onClickSubCategorie={onClickSubCategorie}
+                            listaselectii={listaselectii}
+                            listaselectiisubcat={listaselectiisubcat}
+                            setListaselectii={setListaselectii}
+                            setListaselectiisubcat={setListaselectiisubcat}
+                            data={listaCategorii}
+                            book="Rezidențiat 2021"
+                        />
+                    </Grid>
+                </Grid>
+            </div>
+        );
+    }
+    
     const displayTestNou = () => {
         return (
             <>
             <div className={classes.bookDiv}>
-                <Typography variant="h6" component="h6" className={classes.instructionsText}>
+                <Typography variant="h6"  className={classes.instructionsText}>
                     2. Selectează cărțile, capitolele și subcapitolele:
                 </Typography>
                 <Grid
@@ -389,7 +419,7 @@ export default function TestePage() {
     const displayTestNeterminat = () => {
         return (
             <div>
-                <Typography variant="h6" component="h6" className={classes.instructionsText} >
+                <Typography variant="h6"  className={classes.instructionsText} >
                     2. Selectează testul pe care dorești să îl continui:
                 </Typography>
                 <div>
@@ -403,7 +433,7 @@ export default function TestePage() {
     const displayReparcurgeGreseli = () => {
         return (
             <div>
-                <Typography variant="h6" component="h6" className={classes.instructionsText} >
+                <Typography variant="h6"  className={classes.instructionsText} >
                     2. Selectează testul din care dorești să reparcurgi greșelile:
                 </Typography>
                 <div>
@@ -444,6 +474,8 @@ export default function TestePage() {
     }
 
     const onClickSubCategorie = (i, index, click = true, numGrile ) => {
+        //i = indexul categoriei
+        // index = indexul subcategoriei in categoria i
         const lista_temporara_mare = [...listaselectiisubcat];
         const lista_temporara = [...listaselectiisubcat[i]];
         if (click) {
@@ -491,17 +523,17 @@ export default function TestePage() {
 
                 {readyCat && readyTest ?
                 <>
-                    <Typography variant="h6" component="h6" className={classes.instructionsText}>
+                    <Typography variant="h6"  className={classes.instructionsText}>
                         Tipul contului tău: {tipCont} {tipCont === "Standard" && <div> (Întrebări rămase: {questionRemaining}) </div>}
                     </Typography>
-                    <Typography variant="h6" component="h6" className={classes.instructionsText}>
+                    <Typography variant="h6"  className={classes.instructionsText}>
                         1. Selectează tipul testului pe care vrei să îl începi:
                     </Typography>
                     <Grid
                         className={classes.cardGrid}
                         justifyContent="center"
                         container
-                        spacing={3}
+                        spacing={4}
                         id="testCard_div"
                     >
                         <Grid item >
@@ -541,6 +573,15 @@ export default function TestePage() {
                                 imagine={reparcurgeGreseliImg}
                                 title="Reparcurge greșeli"
                                 text="Selectează unul dintre testele cu greșelile tale de-a lungul timpului"
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TestsCard
+                                isSelected={isCardSelected === "Examene rezidențiat"}
+                                setCardSelected={setCardSelected}
+                                imagine={exameneOficialeImg}
+                                title="Examene rezidențiat"
+                                text="Selectează unul dintre examenele de rezidențiat din anii trecuți"
                             />
                         </Grid>
                     </Grid>
@@ -592,6 +633,16 @@ export default function TestePage() {
                             <div> {displayReparcurgeGreseli()} </div>
                         </Grow>
                     }
+                    {
+                        (isCardSelected === "Examene rezidențiat") &&
+                        <Grow
+                            id="bookCard_div"
+                            in={isCardSelected === "Examene rezidențiat"}
+                            timeout={growTimeout}
+                        >
+                            <div> {displayExameneRezidentiat()} </div>
+                        </Grow>
+                    }
             </Container>
 
             {readyTest && readyCat &&
@@ -599,7 +650,7 @@ export default function TestePage() {
                 {
                 (sumaElemArr(listaselectiisubcat) !== 0 || sumaCategoriiArray(listaSelectiiSimulare) !== 0) &&
                 <Slide 
-                in={isCardSelected==="Test nou" ? (sumaElemArr(listaselectiisubcat)) > 0 : sumaCategoriiArray(listaSelectiiSimulare)>0}  // cand este selectata mai mult de o grila, apare footerul cu readySetGo
+                in={(isCardSelected==="Test nou" || isCardSelected === "Examene rezidențiat") ? (sumaElemArr(listaselectiisubcat)) > 0 : sumaCategoriiArray(listaSelectiiSimulare)>0}  // cand este selectata mai mult de o grila, apare footerul cu readySetGo
                 direction= "up" 
                 className={classes.footer}>
                     <footer >
@@ -618,7 +669,7 @@ export default function TestePage() {
                                 <Typography variant="subtitle2" component="p">
                                     Număr de grile: {isCardSelected === "Simulare" ? produsScalarListe(listaSelectiiSimulare) : sumaElemArr(listaselectiisubcat) }
                                 </Typography>
-                                {isCardSelected === "Test nou" ?
+                                {(isCardSelected==="Test nou" || isCardSelected === "Examene rezidențiat") ?
                                 <Button className={classes.footerAleator} variant="contained"  color = "secondary" onClick = {()=>{setAleator(!aleator)}}>
                                     {aleator?
                                     <Typography variant="subtitle2">
@@ -639,7 +690,7 @@ export default function TestePage() {
                                 className={classes.footerButton} 
                                 color="secondary" variant="contained" 
                                 disabled={goLoading || (isCardSelected === "Simulare" ? produsScalarListe(listaSelectiiSimulare) > questionRemaining : sumaElemArr(listaselectiisubcat) > questionRemaining) }
-                                onClick={isCardSelected==="Test nou" ? () => creeazaTest() : () => creeazaSimulare()} >
+                                onClick={(isCardSelected==="Test nou" || isCardSelected === "Examene rezidențiat") ? () => creeazaTest() : () => creeazaSimulare()} >
                                     {goLoading? <CircularProgress color="primary" size={25} /> :
                                     <Typography >
                                         Ready Set GO!

@@ -293,7 +293,7 @@ export default function GrilePage(props) {
             /> :
             <Container maxWidth="lg">
             {   !isReady? <CircularProgress/> :
-                <Grid direction="row" spacing={1} >
+                <Grid >
                     <Grid item >
                         <Paper className={classes.paper}>
                             <div className={classes.slider}>
@@ -323,10 +323,24 @@ export default function GrilePage(props) {
                                     <ChevronRightIcon />
                                 </IconButton>
                             </div>
-                            
-                                <Typography className={classes.questionDetails} variant="body2" color="textSecondary">
-                                    Tip Grilă: {items[selectedQuestion]["TipGrile"]}; Carte: {items[selectedQuestion]["Carte"]}; Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
+                            <div className={classes.questionDetails}>
+                                <Typography  variant="body2" color="textSecondary">
+                                    Tip Grilă: {items[selectedQuestion]["TipGrile"]};
                                 </Typography>
+                                {items[selectedQuestion]["Carte"] === "Rezidențiat 2021" ?
+                                    <Typography variant="body2" color="textSecondary">
+                                        Examen {items[selectedQuestion]["Carte"]}; 
+                                    </Typography> :
+                                    <Typography variant="body2" color="textSecondary">
+                                        Carte {items[selectedQuestion]["Carte"]}; 
+                                    </Typography>
+                                    }
+                                {items[selectedQuestion]["Carte"] === "Rezidențiat 2021" ?
+                                    null :
+                                    <Typography variant="body2" color="textSecondary">
+                                        Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
+                                    </Typography>}
+                            </div>
                             <div className="grileQuestionTypography">    
                                 <Typography className={classes.question} variant="subtitle1">
                                     {selectedQuestion + 1}. {items[selectedQuestion]['Intrebare']}
