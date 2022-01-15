@@ -13,12 +13,13 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import AnswerOptionFinal from './answerOptionFinal';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import AnswerOptionCardLegend from '../componente/answerOptionCardLegend';
 
 
 export default function FinalizareTest(props) {
     const useStyles = makeStyles((theme) => ({
         root:{
-            margin:theme.spacing(1),
+            marginTop: theme.spacing(8)
         },
         title:{
             margin:theme.spacing(1),
@@ -46,6 +47,13 @@ export default function FinalizareTest(props) {
         linkAici:{
             cursor: "pointer",
         },
+        textZone:{
+            marginBottom: theme.spacing(2),
+        },
+        paperStatistics :{
+            marginBottom: theme.spacing(3),
+            marginTop: theme.spacing(4),
+        },
     }));
 
     const classes = useStyles();
@@ -57,15 +65,15 @@ export default function FinalizareTest(props) {
                     <Typography variant="h5" >
                         Felicitări! Scorul tău este: {props.resultScor}/{props.scorPosibil}, echivalent cu {Math.round(props.resultScor/props.scorPosibil*950)}/950
                     </Typography>
-                    <Typography variant="h5" >
+                    <Typography variant="h5" className={classes.textZone}>
                         Ai răspuns corect la {props.raspunsuriCorecte} întrebări din {props.numarIntrebari}.
                     </Typography>
                     {props.raspunsuriCorecte !== props.numarIntrebari &&
-                        <Typography variant="h6" >
+                        <Typography variant="h6" className={classes.textZone}>
                             Toate întrebările din acest test la care ai răspuns greșit sunt puse într-un test nou din secțiunea reparcurge greșeli. Îl poți găsi <Link onClick = {() => {history.push({ pathname: "/creeaza-ti_test", state: {from: "rezolva_test"} })}} className={classes.linkAici} color = 'secondary'>aici</Link>.
                         </Typography>
                     }
-                    <Typography variant="subtitle1" >
+                    <Typography variant="subtitle1" className={classes.textZone}>
                         Dacă dorești să raportezi o grilă, te rugăm să te întorci la meniul de reolvare a testului.
                     </Typography>
                     <div className={classes.divButon}>
@@ -115,6 +123,39 @@ export default function FinalizareTest(props) {
                     }
                 </div>
             </Paper>
+            <Paper className={classes.paperStatistics}>
+                <Typography className={classes.title}>
+                    Lengendă
+                </Typography>
+                    <AnswerOptionCardLegend
+                        isSelected = {true}
+                        darkMode = {props.darkMode}
+                        answerOption = "Grilă selectată ce trebuia selectată"
+                        isCorrect = {1}
+                        color ="#56DB57" //green
+                    />
+                    <AnswerOptionCardLegend
+                        isSelected = {false}
+                        darkMode = {props.darkMode}
+                        answerOption = "Grilă neselectată ce trebuia selectată"
+                        isCorrect = {1}
+                        color = "#EB91B1" //pink
+                    />
+                    <AnswerOptionCardLegend
+                        isSelected = {true}
+                        darkMode = {props.darkMode}
+                        answerOption = "Grilă selectată ce nu trebuia selectată"
+                        isCorrect = {0}
+                        color = {props.darkMode? "#bfbfbf" : "#7d7d7d"} //grey or whiteish
+                    />
+                    <AnswerOptionCardLegend
+                        isSelected = {false}
+                        darkMode = {props.darkMode}
+                        answerOption = "Grilă neselectată ce nu trebuia selectată"
+                        isCorrect = {0}
+                        color = '' //nema
+                    />
+                </Paper>
         </Container>
 
     );

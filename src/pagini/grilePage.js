@@ -239,7 +239,7 @@ export default function GrilePage(props) {
         rezolvareDiv: {
             display: "flex",
             justifyContent: "center",
-            minWidth: theme.spacing(13),
+            minWidth: theme.spacing(8),
         },
 
     }));
@@ -301,18 +301,20 @@ export default function GrilePage(props) {
         </Snackbar>
 
         {testDone? 
-            <FinalizareTest 
-                testDone={testDone}
-                setTestDone={setTestDone}
-                resultScor={items.reduce((acc, val) => calculeazaScorAcumulat(acc, val), 0)}
-                scorPosibil={items.reduce((acc, val) => calculeazaScorPosibil(acc, val), 0)}
-                raspunsuriCorecte={items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}
-                numarIntrebari={items.length}
-                numQuestions={items.length}
-                questions={items}
-                darkMode={props.darkMode}
-                baza2Converter={baza2Converter}
-            /> :
+            <>
+                <FinalizareTest 
+                    testDone={testDone}
+                    setTestDone={setTestDone}
+                    resultScor={items.reduce((acc, val) => calculeazaScorAcumulat(acc, val), 0)}
+                    scorPosibil={items.reduce((acc, val) => calculeazaScorPosibil(acc, val), 0)}
+                    raspunsuriCorecte={items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}
+                    numarIntrebari={items.length}
+                    numQuestions={items.length}
+                    questions={items}
+                    darkMode={props.darkMode}
+                    baza2Converter={baza2Converter}
+                />
+            </> :
             <Container maxWidth="lg">
             {   !isReady? <CircularProgress/> :
                 <Grid >
@@ -370,7 +372,7 @@ export default function GrilePage(props) {
                                     </Typography>
                                 </div>
                                 <Typography className={classes.rezolvareDiv} color="textSecondary">
-                                    Rezolvare
+                                    Barem
                                 </Typography>
                             </div>
                             <div>
@@ -403,7 +405,7 @@ export default function GrilePage(props) {
                                 variant="contained" 
                                 color="secondary" 
                                 onClick={() => trimiteRaspuns(isSelected, selectedQuestion)} 
-                                disabled={((isSelected.reduce((a, b) => a + b, 0)) === 0 && items[selectedQuestion]["Choices"] === 0) }>
+                                disabled={((isSelected.reduce((a, b) => a + b, 0)) === 0  && items[selectedQuestion]["Choices"] === 0) || ((isSelected.reduce((a, b) => a + b, 0)) === 5  && items[selectedQuestion]["Choices"] === 0) }>
                                     {
                                         (items[selectedQuestion]["Choices"] === 0) &&
                                         <Typography>
@@ -482,28 +484,28 @@ export default function GrilePage(props) {
                                     darkMode = {props.darkMode}
                                     answerOption = "Grilă selectată ce trebuia selectată"
                                     isCorrect = {1}
-                                    checked = {true}
+                                    color ="#56DB57" //green
                                 />
                                 <AnswerOptionCardLegend
                                     isSelected = {false}
                                     darkMode = {props.darkMode}
                                     answerOption = "Grilă neselectată ce trebuia selectată"
                                     isCorrect = {1}
-                                    checked = {false}
+                                    color = "#EB91B1" //pink
                                 />
                                 <AnswerOptionCardLegend
                                     isSelected = {true}
                                     darkMode = {props.darkMode}
                                     answerOption = "Grilă selectată ce nu trebuia selectată"
                                     isCorrect = {0}
-                                    checked = {false}
+                                    color = {props.darkMode? "#bfbfbf" : "#7d7d7d"} //grey or whiteish
                                 />
                                 <AnswerOptionCardLegend
                                     isSelected = {false}
                                     darkMode = {props.darkMode}
                                     answerOption = "Grilă neselectată ce nu trebuia selectată"
                                     isCorrect = {0}
-                                    checked = {true}
+                                    color = '' //nema
                                 />
                             </Paper> : null
                         }

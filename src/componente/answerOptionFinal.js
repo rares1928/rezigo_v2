@@ -1,15 +1,27 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 
 
 export default function AnswerOptionFinal(props){
+    const [bkColor, setBkColor] = useState("");
+    useEffect( () => {  
+        if(props.question["Choices"]>0 && (props.baza2Converter(props.question["Choices"], props.index) === 1 && props.question['Raspunsuri'][props.index] ===1 )){
+            setBkColor("#56DB57"); //green
+        };
+        if(props.question["Choices"]>0 && (props.baza2Converter(props.question["Choices"], props.index) === 0 && props.question['Raspunsuri'][props.index] ===1 )){
+            setBkColor("#EB91B1"); //pink
+        };
+        if(props.question["Choices"]>0 && (props.baza2Converter(props.question["Choices"], props.index) === 1 && props.question['Raspunsuri'][props.index] ===0 )){
+            setBkColor(props.darkMode? "#adadad" : "#7d7d7d"); //grey or whiteish
+        };
+    }, [props])
     const useStyles = makeStyles((theme) => ({
         root:{
             width:"100%",
@@ -22,7 +34,7 @@ export default function AnswerOptionFinal(props){
             color: theme.palette.success.main,
         },
         answerOption:{
-            backgroundColor: (props.baza2Converter(props.question["Choices"], props.index) ===1 )? theme.palette.secondary.main : (props.darkMode? "#5c5c5c" : "#fafafa"),
+            backgroundColor: bkColor !== ''? bkColor : (props.baza2Converter(props.question["Choices"], props.index) ===1 )? theme.palette.secondary.main : (props.darkMode? "#5c5c5c" : "#fafafa"),
         },
     }));
     const classes = useStyles();
@@ -40,7 +52,7 @@ export default function AnswerOptionFinal(props){
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <div >
+                {/* <div >
                     {
                     props.question["Choices"]>0 && (props.baza2Converter(props.question["Choices"], props.index) === props.question['Raspunsuri'][props.index]) &&
                     <CheckCircleIcon className={classes.checkIcon} />
@@ -48,6 +60,16 @@ export default function AnswerOptionFinal(props){
                     {
                     props.question["Choices"]>0 && (props.baza2Converter(props.question["Choices"], props.index) !== props.question['Raspunsuri'][props.index]) &&
                     <CancelIcon color="error" />
+                    }
+                </div> */}
+                <div >
+                    {
+                    props.question["Choices"]>0 && 1 === props.question['Raspunsuri'][props.index] &&
+                    <RadioButtonCheckedIcon />
+                    }
+                    {
+                    props.question["Choices"]>0 && 0 === props.question['Raspunsuri'][props.index] &&
+                    <RadioButtonUncheckedIcon />
                     }
                 </div>
             </CardActions>
