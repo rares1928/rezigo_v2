@@ -58,9 +58,9 @@ export default function AdminsTable({ rows}) {
                                 <TableCell align="center">{row.Email}</TableCell>
                                 <TableCell align="center">{row.LastName} {row.FirstName}</TableCell>
                                 <TableCell align="center" >{row.Premium}</TableCell>
-                                <TableCell align="center">{row.CreatedOn}</TableCell>
-                                <TableCell align="center" >{row.ZileRamase}</TableCell>
-                                <TableCell align="center" >{row.LastOnline}</TableCell>
+                                <TableCell align="center">{row.CreatedOn.split('T')[0]} ora: {row.CreatedOn.split('T')[1].replace(':00','')}</TableCell>
+                                <TableCell align="center" >{row.ZileRamase.split('T')[0]} </TableCell>
+                                <TableCell align="center" >{row.LastOnline.split('T')[0]} ora: {row.LastOnline.split('T')[1].replace(':00','')}</TableCell>
                                 <TableCell align="center">
                                     <Button
                                     variant="contained" 

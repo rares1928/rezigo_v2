@@ -8,6 +8,8 @@ import CardActions from '@material-ui/core/CardActions';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 
 
 export default function AnswerOptionCard(props){
@@ -47,10 +49,16 @@ export default function AnswerOptionCard(props){
                     {
                     props.items[props.selectedQuestion]["Choices"]>0 && (props.baza2Converter(props.items[props.selectedQuestion]["Choices"], props.index) === props.items[props.selectedQuestion]['Raspunsuri'][props.index]) &&
                     <CheckCircleIcon className={classes.checkIcon} />
+                    // <div>
+                    //     {abc[props.index]} <RadioButtonCheckedIcon/> 
+                    // </div>
                     }
                     {
                     props.items[props.selectedQuestion]["Choices"]>0 && (props.baza2Converter(props.items[props.selectedQuestion]["Choices"], props.index) !== props.items[props.selectedQuestion]['Raspunsuri'][props.index]) &&
                     <CancelIcon color="error" />
+                    // <div>
+                    //     {abc[props.index]} <RadioButtonUncheckedIcon/> 
+                    // </div>
                     }
                 </div> : <HelpOutlineIcon/>
                 }

@@ -60,7 +60,7 @@ export default function DataTable({ rows, onDelete, onClick}) {
                                         <img alt="logo" src={logo} className={classes.goImage} />
                                     </IconButton>
                                 </TableCell>
-                                <TableCell className={classes.tableBody} align="center">{row.CreatedAt}</TableCell>
+                                <TableCell className={classes.tableBody} align="center">{row.CreatedAt.split('T')[0]} ora: {row.CreatedAt.split('T')[1].replace(':00','')}</TableCell>
                                 <TableCell className={classes.tableBody} align="center" >{row.NumAnswered + row.NumUnanswered}</TableCell>
                                 <TableCell className={classes.tableBody} align="center" >{row.NumAnswered}</TableCell>
                                 <TableCell className={classes.tableBody} align="center" >{row.NumUnanswered}</TableCell>

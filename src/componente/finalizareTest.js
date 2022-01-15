@@ -5,12 +5,14 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import AnswerOptionFinal from './answerOptionFinal';
 import Container from '@material-ui/core/Container';
+import Link from '@material-ui/core/Link';
 
 
 export default function FinalizareTest(props) {
@@ -41,9 +43,13 @@ export default function FinalizareTest(props) {
             flexDirection: "row",
             justifyContent: "space-between",
         },
+        linkAici:{
+            cursor: "pointer",
+        },
     }));
 
     const classes = useStyles();
+    let history = useHistory();
     return(
         <Container maxWidth="lg">
             <Paper className={classes.root}>
@@ -54,6 +60,11 @@ export default function FinalizareTest(props) {
                     <Typography variant="h5" >
                         Ai răspuns corect la {props.raspunsuriCorecte} întrebări din {props.numarIntrebari}.
                     </Typography>
+                    {props.raspunsuriCorecte != props.numarIntrebari &&
+                        <Typography variant="h6" >
+                            Toate întrebările din acest test la care ai răspuns greșit sunt puse într-un test nou din secțiunea reparcurge greșeli. Îl poți găsi <Link onClick = {() => {history.push({ pathname: "/creeaza-ti_test", state: {from: "rezolva_test"} })}} className={classes.linkAici} color = 'secondary'>aici</Link>.
+                        </Typography>
+                    }
                     <Typography variant="subtitle1" >
                         Dacă dorești să raportezi o grilă, te rugăm să te întorci la meniul de reolvare a testului.
                     </Typography>

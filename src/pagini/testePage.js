@@ -162,6 +162,9 @@ export default function TestePage() {
             if(state.from === "profile"){
                 setCardSelected("Teste începute");
             }
+            if(state.from === "rezolva_test"){
+                setCardSelected("Reparcurge greșeli");
+            }
         }
     }, [state])
 
@@ -316,7 +319,6 @@ export default function TestePage() {
             </div>
         );
     }
-    
     const displayTestNou = () => {
         return (
             <>
@@ -415,7 +417,6 @@ export default function TestePage() {
             </>
         );
     }
-
     const displayTestNeterminat = () => {
         return (
             <div>

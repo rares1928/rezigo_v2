@@ -125,11 +125,25 @@ export default function GrilePage(props) {
 
             const grilaId = items[currentQuestion]["GrilaID"];
             let final_question = false;
+            let scorReziTestPosibil = 0;
+            let scorReziTestObtinut = 0;
             if (currentQuestion === items.length - 1) {
                 final_question = true
+                scorReziTestPosibil = items.reduce((acc, val) => calculeazaScorPosibil(acc, val), 0);
+                scorReziTestObtinut = items.reduce((acc, val) => calculeazaScorAcumulat(acc, val), 0);
             }
 
-            callApi('https://grileapiwin.azurewebsites.net/api/UpdateQuestionWin?code=/exISg8MBjNHTzNt8dNAonkeqzYsV5Imgh5naOgP/7aPdlR06NS2xw==', { testId, rememberMe, grilaId, choice, correct, final_question }, () => { }, handleError);
+            const scorReziPosibilGrila = calculeazaScorPosibil(0, items[currentQuestion]);
+            const scorReziObtinutGrila = calculeazaScorAcumulat(0, items[currentQuestion]);
+
+
+            let url = 'https://grileapiwin.azurewebsites.net/api/UpdateQuestionWin?code=/exISg8MBjNHTzNt8dNAonkeqzYsV5Imgh5naOgP/7aPdlR06NS2xw==';
+            let data = { testId, rememberMe, grilaId, choice, correct, final_question, scorReziPosibilGrila, scorReziObtinutGrila };
+            if(final_question){
+                data = {...data, scorReziTestObtinut, scorReziTestPosibil}
+            }
+            callApi(url, data, () => { }, handleError);
+            console.log(data)
             setItems(tempItems.slice());
         }
         else {
@@ -137,6 +151,7 @@ export default function GrilePage(props) {
         }
     }
 
+    
     const sendReport = async () => {
         if(reportText.length >1 ){
             setLoading(true);
@@ -218,6 +233,10 @@ export default function GrilePage(props) {
         legendaImg:{
             margin: 2,
             marginLeft: 8,
+        },
+        enuntSpaceDiv:{
+            display: "flex",
+            justifyContent: "space-between",
         },
 
     }));
@@ -341,10 +360,17 @@ export default function GrilePage(props) {
                                         Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
                                     </Typography>}
                             </div>
-                            <div className="grileQuestionTypography">    
-                                <Typography className={classes.question} variant="subtitle1">
-                                    {selectedQuestion + 1}. {items[selectedQuestion]['Intrebare']}
-                                </Typography>
+                            <div className={classes.enuntSpaceDiv}>
+                                <div className="grileQuestionTypography">    
+                                    <Typography className={classes.question} variant="subtitle1">
+                                        {selectedQuestion + 1}. {items[selectedQuestion]['Intrebare']}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography>
+                                        Rezolvare
+                                    </Typography>
+                                </div>
                             </div>
                             <div>
                                 {items[selectedQuestion]['Variante'].map((answerOption, index) => (

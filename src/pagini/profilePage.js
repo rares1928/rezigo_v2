@@ -413,7 +413,7 @@ export default function ProfilePage(props) {
                         </ListItem>
                         <Divider />
                         <ListItem>
-                            <Typography>Media scorurilor testelor terminate: {(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc, val) => acc + val["NumAnswered"],0) *100).toPrecision(3) }% (echivalentul a {(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc, val) => acc + val["NumAnswered"],0) *950)}/950) </Typography>
+                            <Typography>Media scorurilor testelor terminate: {(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc, val) => acc + val["NumAnswered"],0) *100).toPrecision(3) }% (echivalentul a {(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc, val) => acc + val["NumAnswered"],0) *950).toPrecision(2)}/950) </Typography>
                         </ListItem>
                     </List>
                 </div>
