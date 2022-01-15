@@ -60,7 +60,7 @@ export default function FinalizareTest(props) {
                     <Typography variant="h5" >
                         Ai răspuns corect la {props.raspunsuriCorecte} întrebări din {props.numarIntrebari}.
                     </Typography>
-                    {props.raspunsuriCorecte != props.numarIntrebari &&
+                    {props.raspunsuriCorecte !== props.numarIntrebari &&
                         <Typography variant="h6" >
                             Toate întrebările din acest test la care ai răspuns greșit sunt puse într-un test nou din secțiunea reparcurge greșeli. Îl poți găsi <Link onClick = {() => {history.push({ pathname: "/creeaza-ti_test", state: {from: "rezolva_test"} })}} className={classes.linkAici} color = 'secondary'>aici</Link>.
                         </Typography>

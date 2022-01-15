@@ -189,7 +189,7 @@ export default function ProfilePage(props) {
                             id="panel1a-header"
                         >
                             <Typography className={classes.heading}>Nume: </Typography>
-                            <Typography className={classes.secondaryHeading}> {items.lastName} {items.firstName} </Typography>
+                            <Typography className={classes.secondaryHeading}> {items.LastName} {items.FirstName} </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Grid container direction="column">
@@ -208,14 +208,14 @@ export default function ProfilePage(props) {
                                     <TextField 
                                     size="small"
                                     className={classes.textField} 
-                                    label={items.lastName}
+                                    label={items.LastName}
                                     variant="outlined" 
                                     color="secondary" 
                                     onInput={e => setChangeLastName(e.target.value)}/>
                                     <TextField 
                                     size="small"
                                     className={classes.textField} 
-                                    label={items.firstName} 
+                                    label={items.FirstName} 
                                     variant="outlined" 
                                     color="secondary" 
                                     onInput={e => setChangeFirstName(e.target.value)}/>

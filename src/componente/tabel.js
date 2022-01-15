@@ -46,6 +46,7 @@ export default function DataTable({ rows, onDelete, onClick}) {
                             <TableCell className={classes.header} align="center">Nr. Întrebări</TableCell>
                             <TableCell className={classes.header} align="center">Nr. răspunsuri date</TableCell>
                             <TableCell className={classes.header} align="center">Nr. întrebări rămase</TableCell>
+                            <TableCell className={classes.header} align="center">Nr. răspunsuri corecte</TableCell>
                             <TableCell className={classes.header} align="center">Scor</TableCell>
                             <TableCell className={classes.header} align="center">Terminat</TableCell>
                             <TableCell className={classes.header} align="center">Șterge</TableCell>
@@ -65,6 +66,7 @@ export default function DataTable({ rows, onDelete, onClick}) {
                                 <TableCell className={classes.tableBody} align="center" >{row.NumAnswered}</TableCell>
                                 <TableCell className={classes.tableBody} align="center" >{row.NumUnanswered}</TableCell>
                                 <TableCell className={classes.tableBody} align="center" >{row.Score}</TableCell>
+                                <TableCell className={classes.tableBody} align="center" >{row.ScorReziPosibil === 0 ? '-' : <> {row.ScorRezi}/{row.ScorReziPosibil} ({(row.ScorRezi/row.ScorReziPosibil*950).toPrecision(3)}/950) </> }</TableCell>
                                 <TableCell className={classes.tableBody} align="center" >{row.Done ? "Da" : "Nu"}</TableCell>
                                 <TableCell className={classes.tableBody} align="center">
                                     <IconButton 

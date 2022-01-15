@@ -5,6 +5,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 
@@ -40,8 +42,16 @@ export default function AnswerOptionCardLegend(props){
             </CardActionArea>
             <CardActions>
                     {
-                        props.isCorrect ?
+                        props.checked ?
                         <CheckCircleIcon className={classes.checkIcon} /> : <CancelIcon color="error" />
+                    }
+                    {
+                        props.isCorrect ===1 &&
+                        <RadioButtonCheckedIcon/>
+                    }
+                    {
+                        props.isCorrect ===0 &&
+                        <RadioButtonUncheckedIcon/>
                     }
             </CardActions>
         </Card>

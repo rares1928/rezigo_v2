@@ -6,10 +6,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 
 export default function AnswerOptionCard(props){
@@ -26,6 +26,17 @@ export default function AnswerOptionCard(props){
         answerOption:{
             backgroundColor: (props.isSelected[props.index] || (props.baza2Converter(props.items[props.selectedQuestion]["Choices"], props.index) ===1 ))? theme.palette.secondary.main : (props.darkMode? "#5c5c5c" : "#fafafa"),
         },
+        rezolvareDiv: {
+            display: "flex",
+            flexDirection: "row",
+            minWidth: theme.spacing(6),
+            alignItems: "center",
+            justifyContent: "space-around"
+        },
+        rezolvareDivIcon:{
+            display: "flex",
+            justifyContent: "center",
+        }
     }));
     const classes = useStyles();
     const abc = ['a)','b)','c)','d)','e)'];
@@ -45,22 +56,42 @@ export default function AnswerOptionCard(props){
             <CardActions>
                 {
                 props.showAnswer && props.items[props.selectedQuestion]["Choices"]>0 ?
-                <div >
-                    {
-                    props.items[props.selectedQuestion]["Choices"]>0 && (props.baza2Converter(props.items[props.selectedQuestion]["Choices"], props.index) === props.items[props.selectedQuestion]['Raspunsuri'][props.index]) &&
-                    <CheckCircleIcon className={classes.checkIcon} />
-                    // <div>
-                    //     {abc[props.index]} <RadioButtonCheckedIcon/> 
-                    // </div>
-                    }
-                    {
-                    props.items[props.selectedQuestion]["Choices"]>0 && (props.baza2Converter(props.items[props.selectedQuestion]["Choices"], props.index) !== props.items[props.selectedQuestion]['Raspunsuri'][props.index]) &&
-                    <CancelIcon color="error" />
-                    // <div>
-                    //     {abc[props.index]} <RadioButtonUncheckedIcon/> 
-                    // </div>
-                    }
-                </div> : <HelpOutlineIcon/>
+                <>
+                    <div className={classes.rezolvareDivIcon}>
+                        {
+                        props.items[props.selectedQuestion]["Choices"]>0 && (props.baza2Converter(props.items[props.selectedQuestion]["Choices"], props.index) === props.items[props.selectedQuestion]['Raspunsuri'][props.index]) &&
+                        <CheckCircleIcon className={classes.checkIcon} />
+                        // <div>
+                        //     {abc[props.index]} <RadioButtonCheckedIcon/> 
+                        // </div>
+                        }
+                        {
+                        props.items[props.selectedQuestion]["Choices"]>0 && (props.baza2Converter(props.items[props.selectedQuestion]["Choices"], props.index) !== props.items[props.selectedQuestion]['Raspunsuri'][props.index]) &&
+                        <CancelIcon color="error" />
+                        // <div>
+                        //     {abc[props.index]} <RadioButtonUncheckedIcon/> 
+                        // </div>
+                        }
+                    </div>
+                    <div >
+                        {
+                        props.items[props.selectedQuestion]["Choices"]>0 && props.items[props.selectedQuestion]['Raspunsuri'][props.index] === 1 &&
+                        // <CheckCircleIcon className={classes.checkIcon} />
+                        <div className={classes.rezolvareDiv}>
+                            {abc[props.index].replace(")","").toUpperCase()} <RadioButtonCheckedIcon/> 
+                        </div>
+                        }
+                        {
+                        props.items[props.selectedQuestion]["Choices"]>0 && props.items[props.selectedQuestion]['Raspunsuri'][props.index] === 0 &&
+                        // <CancelIcon color="error" />
+                        <div className={classes.rezolvareDiv}>
+                            {abc[props.index].replace(")","").toUpperCase()} <RadioButtonUncheckedIcon/> 
+                        </div>
+                        }
+                    </div> 
+                </>: 
+                
+                <div className={classes.rezolvareDiv} ><HelpOutlineIcon/></div>
                 }
             </CardActions>
         </Card>

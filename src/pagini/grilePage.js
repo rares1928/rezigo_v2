@@ -41,7 +41,7 @@ export default function GrilePage(props) {
     const { state } = useLocation();
     const [showAnswer, setShowAnswer] = useState(true);
     const [showReport, setShowReport] = useState(false);
-    const [showLegend, setShowLegend] = useState(false);
+    const [showLegend, setShowLegend] = useState(true);
     const [reportText, setReportText] = useState("");
     const [reportResponse, setReportResponse] = useState(0);
     const [testDone, setTestDone] = useState(false);
@@ -64,7 +64,6 @@ export default function GrilePage(props) {
     
     useEffect(() => {
         const testId = state.testId;
-        console.log(testId);
         if(!testId){
             history.push("/creeaza-ti_test")
         }else{
@@ -143,7 +142,6 @@ export default function GrilePage(props) {
                 data = {...data, scorReziTestObtinut, scorReziTestPosibil}
             }
             callApi(url, data, () => { }, handleError);
-            console.log(data)
             setItems(tempItems.slice());
         }
         else {
@@ -237,6 +235,11 @@ export default function GrilePage(props) {
         enuntSpaceDiv:{
             display: "flex",
             justifyContent: "space-between",
+        },
+        rezolvareDiv: {
+            display: "flex",
+            justifyContent: "center",
+            minWidth: theme.spacing(13),
         },
 
     }));
@@ -366,11 +369,9 @@ export default function GrilePage(props) {
                                         {selectedQuestion + 1}. {items[selectedQuestion]['Intrebare']}
                                     </Typography>
                                 </div>
-                                <div>
-                                    <Typography>
-                                        Rezolvare
-                                    </Typography>
-                                </div>
+                                <Typography className={classes.rezolvareDiv} color="textSecondary">
+                                    Rezolvare
+                                </Typography>
                             </div>
                             <div>
                                 {items[selectedQuestion]['Variante'].map((answerOption, index) => (
@@ -388,6 +389,15 @@ export default function GrilePage(props) {
                                     />
                                 ))}
                             </div>
+                            <div className={classes.butonDiv}>
+                                <div></div>
+                                {showAnswer &&
+                                    <Typography>
+                                        Punctajul obținut pe această grilă: {calculeazaScorAcumulat(0, items[selectedQuestion])} /{calculeazaScorPosibil(0, items[selectedQuestion])}
+                                    </Typography>
+                                }
+                            </div>
+
                             <div className={classes.butonDiv}>
                                 <Button 
                                 variant="contained" 
@@ -471,25 +481,29 @@ export default function GrilePage(props) {
                                     isSelected = {true}
                                     darkMode = {props.darkMode}
                                     answerOption = "Grilă selectată ce trebuia selectată"
-                                    isCorrect = {true}
+                                    isCorrect = {1}
+                                    checked = {true}
                                 />
                                 <AnswerOptionCardLegend
                                     isSelected = {false}
                                     darkMode = {props.darkMode}
                                     answerOption = "Grilă neselectată ce trebuia selectată"
-                                    isCorrect = {false}
+                                    isCorrect = {1}
+                                    checked = {false}
                                 />
                                 <AnswerOptionCardLegend
                                     isSelected = {true}
                                     darkMode = {props.darkMode}
                                     answerOption = "Grilă selectată ce nu trebuia selectată"
-                                    isCorrect = {false}
+                                    isCorrect = {0}
+                                    checked = {false}
                                 />
                                 <AnswerOptionCardLegend
                                     isSelected = {false}
                                     darkMode = {props.darkMode}
                                     answerOption = "Grilă neselectată ce nu trebuia selectată"
-                                    isCorrect = {true}
+                                    isCorrect = {0}
+                                    checked = {true}
                                 />
                             </Paper> : null
                         }
