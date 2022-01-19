@@ -95,8 +95,12 @@ export default function AdminsEditGrila() {
     const [raspC, setRaspC] = useState("");
     const [raspD, setRaspD] = useState("");
     const [raspE, setRaspE] = useState("");
+    const [showFormular, setShowFormular] = useState(false);
+    const [textMail, setTextMail] = useState("");
     const { state } = useLocation();
     let history = useHistory();
+
+    console.log(items.lista);
 
     useEffect( () => {
         const handleError = (e) => {
@@ -132,6 +136,12 @@ export default function AdminsEditGrila() {
         callApi(url, data , handleItems, handleError);
     }, [history, state])
 
+    const createMail = (indexReport ) => {
+        setTextMail("");
+        const textInitialMail = "Salutare! \n \nÎn data de " + items.lista["Reports"][indexReport]["CreatedOn"].split("T")[0] + " ai trimis reportul: \n'" + items.lista["Reports"][indexReport]["Complaint"] + "'\npentru grila: \n" + items.lista["Intrebare"] + "\n a) " + items.lista["Variante"][0]+ "\n b) " + items.lista["Variante"][1]+ "\n c) " + items.lista["Variante"][2]+ "\n d) " + items.lista["Variante"][3]+ "\n e) " + items.lista["Variante"][4] + "\n\n\n" + "Toate cele bune!\nEchipa ReziGo!";
+        setTextMail(textInitialMail);
+        setShowFormular(true);
+    }
     
     const deleteReport = (emailReport, complaint) => {
         const handleError = (e) => {
@@ -159,6 +169,7 @@ export default function AdminsEditGrila() {
         }
         const url = "https://grileapiwin.azurewebsites.net/api/EditeazaGrila?code=Mik8i81eKx/6UL8G21W3LRpNSgm2naWAT07Ub4FB7rQreyHgm/OkVQ==";
         const data = {
+            Intrebare: intrebare,
             GrilaId: state,
             Raspunsuri: [raspA, raspB, raspC, raspD, raspE],
             Raspunsuri_numar: 16 * raspA + 8 *raspB + 4 * raspC + 2*raspD + raspE,
@@ -446,7 +457,7 @@ export default function AdminsEditGrila() {
                             {items.lista["Reports"].map((report, index) => 
                             <div key={"report_numar_"+ String(index)} className={classes.reportsDiv}>
                                 <Typography>
-                                    Creat la: {report["CreatedOn"]}
+                                    Creat la: {report["CreatedOn"].split('T')[0]} ora: {report["CreatedOn"].split('T')[1].replace('00','')}
                                 </Typography>
                                 <Typography>
                                     Email: {report["Email"]}
@@ -455,7 +466,14 @@ export default function AdminsEditGrila() {
                                     Complaint: {report["Complaint"]}
                                 </Typography>
                                 <div className={classes.divButton}>
-                                    <div/>
+                                    <Button 
+                                    variant="contained" 
+                                    color="primary" 
+                                    className={classes.button}
+                                    onClick={()=>{createMail(index)}}
+                                    >
+                                        Formular raspuns
+                                    </Button>
                                     <Button 
                                     variant="contained" 
                                     color="primary" 
@@ -471,7 +489,43 @@ export default function AdminsEditGrila() {
                         </div>
                     }
                 </Paper>
+                {showFormular ?
+                    <Paper className={classes.paper}>
+                        <Typography className={classes.reportsDiv}>
+                            Scrie mai jos mesajul mailului pe care vrei sa il trimiti:
+                        </Typography>
+                        <TextField
+                            className={classes.textFiled}
+                            id="outlined-multiline-static"
+                            label={"Raspuns complaint"}
+                            multiline
+                            
+                            value={textMail}
+                            variant="outlined"
+                            fullWidth
+                            onInput={e => setTextMail(e.target.value)}
+                            required
+                        />
+                        <div className={classes.divButton}>
+                            <div/>
+                            <Button
+                                onClick={() => {console.log(textMail)}}  
+                                variant="contained" 
+                                color="secondary" 
+                                className={classes.button}
+                                
+                            >
+                            {/* {loading? <CircularProgress color="secondary" /> : */}
+                                <Typography>
+                                    Trimite mailul
+                                </Typography>
+                            
+                            </Button>
+                        </div>
+                    </Paper> : null
+                    }
                 </> : <CircularProgress/>
+                
             }
         </Container>
     </div>
