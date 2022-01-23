@@ -60,6 +60,7 @@ export default function SignUp() {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [incompleteFields, setIncompleteFields] = useState(false);
   const [errorPwd, setErrorPwd] = useState(false);
+  const [errorMail, setErrorMail] = useState(false);
   const [error, setError] = useState(0);
   const [IP, setIP] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -79,13 +80,22 @@ export default function SignUp() {
     if(firstName === "" || lastName === "" || email === ""){
         setIncompleteFields(true);
     }else{
+        setErrorMail(false);
+        setErrorPwd(false);
         setIncompleteFields(false);
         if(password !== repeatPassword || password.length < 8){
-            setErrorPwd(true);
+          setErrorPwd(true);
+          return ;
         }else{
-            setErrorPwd(false);
+          setErrorPwd(false);
         }
-        if(!errorPwd){
+        if(!validateEmail(email)){
+          setErrorMail(true);
+          return; 
+        }else{
+          setErrorMail(false);
+        }
+        if(!errorPwd && !errorMail ){
           setIsLoading(true);
           const url="https://grileapiwin.azurewebsites.net/api/SingUpEncrypt?code=y8RZs3SfCrHH67iTLoYW4vhr/n4Hbu1l6P62EsTDGR3s7bPOk48DKw==";
           const data = {
@@ -107,6 +117,12 @@ export default function SignUp() {
     }
   }
 
+  function validateEmail(mail) 
+    {
+        var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(mail);
+    }
+    
   
   return (
     <Container component="main" maxWidth="xs">
@@ -164,7 +180,7 @@ export default function SignUp() {
                 autoComplete="email"
                 value={email}
                 onInput={e => setEmail(e.target.value)} 
-                error={error === 400}
+                error={error === 400 || validateEmail(email) }
               />
             </Grid>
             <Grid item xs={12}>
@@ -242,6 +258,13 @@ export default function SignUp() {
             <Grid item>
               <Typography variant="subtitle1" color="error" >
                 Parolele nu coincid sau lungimea parolei este mai mică de 8 caractere.
+              </Typography>
+            </Grid>
+            }
+            {errorMail &&
+            <Grid item>
+              <Typography variant="subtitle1" color="error" >
+                Adresa de mail introdusă nu este corectă.
               </Typography>
             </Grid>
             }
