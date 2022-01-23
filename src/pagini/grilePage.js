@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AnswerOptionCard from '../componente/answerOptionCard';
 import Typography from '@material-ui/core/Typography';
@@ -39,15 +39,32 @@ export default function GrilePage(props) {
     const [error, setError] = useState(0);
     const [isReady, setReady] = useState(false);
     const { state } = useLocation();
-    const [showAnswer, setShowAnswer] = useState(true);
+    const [showAnswer, setShowAnswer] = useState(localStorage.getItem("showAnswer") === "false" ? false : true);
     const [showReport, setShowReport] = useState(false);
-    const [showLegend, setShowLegend] = useState(true);
+    const [showLegend, setShowLegend] = useState(localStorage.getItem("showLegend") ==="false"? false: true );
     const [reportText, setReportText] = useState("");
     const [reportResponse, setReportResponse] = useState(0);
     const [testDone, setTestDone] = useState(false);
+    // const [listaRandom, setListaRandom] = useState([0,1,2,3,4]);
+    const [randomOrder, setRandomOrder] = useState(localStorage.getItem("randomOrder") === "false"? false : true );
+    //const [darkMode, setDarkMode] = useState( localStorage.getItem("darkMode") === "false"? false: true);
     
     
     let history= useHistory();
+
+    const randomCompare = (a ,b) => {
+        const coin = Math.random();
+        if(coin >= 0.5 ){
+            return a-b;
+        }
+        else{
+        return b-a;
+        }
+    }
+
+    const listaAranjata = [0,1,2,3,4];
+    // useRef il face sa tina minte listaRandom initiala si nu se re-randomizeaza la fiecare apasare de buton
+    const listaRandom = useRef(listaAranjata.sort(randomCompare));
 
     const handleItems = (e) => {
         setItems(e.data["lista"]);
@@ -198,7 +215,17 @@ export default function GrilePage(props) {
         butonDiv: {
             display: "flex",
             flexDirection: "row",
+            alignItems: "center",
             marginTop: theme.spacing(3),
+            justifyContent: "space-between",
+        },
+        paperDivRandomOrder: {
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: theme.spacing(3),
+            marginLeft: theme.spacing(2),
+            marginRight: theme.spacing(2),
             justifyContent: "space-between",
         },
         slider: {
@@ -285,6 +312,7 @@ export default function GrilePage(props) {
             return acc + 5;
         }
     }
+
     return (
         <>
         <ErrorPopup errorStatus={error} />
@@ -376,10 +404,11 @@ export default function GrilePage(props) {
                                 </Typography>
                             </div>
                             <div>
-                                {items[selectedQuestion]['Variante'].map((answerOption, index) => (
+                                { !randomOrder? items[selectedQuestion]['Variante'].map((answerOption, index) => (
                                     <AnswerOptionCard
                                         key={`subcapitol_${items[selectedQuestion]["SubCategorie"]}_intrebare_${selectedQuestion+1}_varianta_${index}`}
                                         index={index}
+                                        indexVechi = {index}
                                         answerOption={answerOption}
                                         darkMode={props.darkMode}
                                         handleQuestionSelection={handleQuestionSelection}
@@ -389,7 +418,25 @@ export default function GrilePage(props) {
                                         selectedQuestion={selectedQuestion}
                                         showAnswer={showAnswer}
                                     />
-                                ))}
+                                )) :
+
+                                listaRandom.current.map((answerOption, index) => (
+                                    <AnswerOptionCard
+                                        key={`subcapitol_${items[selectedQuestion]["SubCategorie"]}_intrebare_${selectedQuestion+1}_varianta_${answerOption}`}
+                                        index = {answerOption}
+                                        indexVechi = {index}
+                                        answerOption={answerOption}
+                                        darkMode={props.darkMode}
+                                        handleQuestionSelection={handleQuestionSelection}
+                                        baza2Converter={baza2Converter}
+                                        items={items}
+                                        isSelected={isSelected}
+                                        selectedQuestion={selectedQuestion}
+                                        showAnswer={showAnswer}
+                                    />
+                                ))
+                                
+                                }
                             </div>
                             <div className={classes.butonDiv}>
                                 <div></div>
@@ -429,13 +476,30 @@ export default function GrilePage(props) {
                             </div>
                         </Paper>
                     </Grid>
+                    <Grid item>
+                        <Paper className={classes.paperStatistics}>
+                            <div className={classes.paperDivRandomOrder} >
+                                <div>
+                                <Typography >
+                                    Ordinea variantelor de răspuns aleatoare.
+                                </Typography>
+                                <Typography>
+                                    Dacă selectezi această opțiune, de fiecare dată când selectezi un test, 
+                                    ordinea variantelor de răspuns va fi diferită. 
+                                    În felul acesta, dacă parcurgi aceeași grilă în două teste diferite, este posibil ca varianta corectă să apară prima dată la punctul a) și a doua oară la punctul d).
+                                </Typography>
+                                </div>
+                                <Switch checked={randomOrder} onChange={() => {localStorage.setItem("randomOrder", !randomOrder); setRandomOrder(!randomOrder)}}/>
+                            </div>
+                        </Paper>
+                    </Grid>
                     <Grid item >
                         <Paper className={classes.paperStatistics}>
                             <Grid container justifyContent="space-evenly">
                                 <Grid item className={classes.statisticSubdiv}>
                                     <div className={classes.smallPaper}>
                                         <Typography>Afișează răspunsurile</Typography>
-                                        <Switch checked={showAnswer} onChange={()=>{setShowAnswer(!showAnswer)}} />
+                                        <Switch checked={showAnswer} onChange={()=>{localStorage.setItem("showAnswer", !showAnswer); setShowAnswer(!showAnswer)}} />
                                     </div>
                                 </Grid>
                                 <Grid item className={classes.statisticSubdiv}>
@@ -459,7 +523,7 @@ export default function GrilePage(props) {
                             </Grid>
                         </Paper>
                         <Button
-                            onClick={() => setShowLegend(!showLegend)}  
+                            onClick={() => {localStorage.setItem("showLegend", !showLegend); setShowLegend(!showLegend)}}  
                             variant="contained" 
                             color="primary" 
                             className={classes.buttonReport}>

@@ -100,8 +100,6 @@ export default function AdminsEditGrila() {
     const { state } = useLocation();
     let history = useHistory();
 
-    console.log(items.lista);
-
     useEffect( () => {
         const handleError = (e) => {
             if(e === 403){
@@ -509,7 +507,7 @@ export default function AdminsEditGrila() {
                         <div className={classes.divButton}>
                             <div/>
                             <Button
-                                onClick={() => {console.log(textMail)}}  
+                                onClick={() => {console.log(textMail); setTextMail(""); setShowFormular(false) } }  
                                 variant="contained" 
                                 color="secondary" 
                                 className={classes.button}

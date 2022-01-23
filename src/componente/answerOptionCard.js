@@ -61,7 +61,7 @@ export default function AnswerOptionCard(props){
             >
                 <CardContent>
                     <Typography variant="body2">
-                        {abc[props.index]} {props.answerOption}
+                        {abc[props.indexVechi]} {props.items[props.selectedQuestion]['Variante'][props.index]}
                     </Typography>
                 </CardContent>
             </CardActionArea>
@@ -90,14 +90,14 @@ export default function AnswerOptionCard(props){
                         props.items[props.selectedQuestion]["Choices"]>0 && props.items[props.selectedQuestion]['Raspunsuri'][props.index] === 1 &&
                         // <CheckCircleIcon className={classes.checkIcon} />
                         <div className={classes.rezolvareDiv}>
-                            {abc[props.index].replace(")","").toUpperCase()} <RadioButtonCheckedIcon/> 
+                            {abc[props.indexVechi].replace(")","").toUpperCase()} <RadioButtonCheckedIcon/> 
                         </div>
                         }
                         {
                         props.items[props.selectedQuestion]["Choices"]>0 && props.items[props.selectedQuestion]['Raspunsuri'][props.index] === 0 &&
                         // <CancelIcon color="error" />
                         <div className={classes.rezolvareDiv}>
-                            {abc[props.index].replace(")","").toUpperCase()} <RadioButtonUncheckedIcon/> 
+                            {abc[props.indexVechi].replace(")","").toUpperCase()} <RadioButtonUncheckedIcon/> 
                         </div>
                         }
                     </div> 
