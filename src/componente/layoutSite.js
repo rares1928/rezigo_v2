@@ -1,16 +1,27 @@
 import React, {useState, useEffect} from 'react';
-import { AppBar, Typography, Toolbar, makeStyles, Button, ButtonGroup, IconButton, Link, Box, Grid  } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
+import {
+    AppBar,
+    Typography,
+    Toolbar,
+    Button,
+    ButtonGroup,
+    IconButton,
+    Link,
+    Box,
+    Grid,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import Drawer from '@mui/material/Drawer';
 import logo from '../poze/logo4.svg';
 import clsx from 'clsx';
 import { useLocation } from 'react-router';
-import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
-import Brightness7Icon from '@material-ui/icons/Brightness7';
-import WbSunnyIcon from '@material-ui/icons/WbSunny';
-import Brightness2Icon from '@material-ui/icons/Brightness2';
-import LibraryBooksRoundedIcon from '@material-ui/icons/LibraryBooksRounded';
-import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
-import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import Brightness2Icon from '@mui/icons-material/Brightness2';
+import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
+import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
+import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import Cookies from 'universal-cookie';
 
 
@@ -202,7 +213,7 @@ export default function LayoutSite(props) {
         )
     }
     const displayMobileView = ()=>{
-        return(
+        return (
             <Toolbar>
                 <Link href="/">
                     <img 
@@ -212,7 +223,7 @@ export default function LayoutSite(props) {
                     />
                 </Link>
                 <div className={classes.menuButton}>
-                    <IconButton onClick={toggleDrawer("right", true)}>
+                    <IconButton onClick={toggleDrawer("right", true)} size="large">
                         <MenuRoundedIcon/>
                     </IconButton>
                     <Drawer anchor={"right"} open={deschis} onClose={toggleDrawer("right", false)}>
@@ -220,7 +231,7 @@ export default function LayoutSite(props) {
                     </Drawer>
                 </div>
             </Toolbar>
-        )
+        );
     }
     return(
         <Box 

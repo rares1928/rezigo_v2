@@ -1,9 +1,9 @@
 import React, { useState, useEffect} from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
 import { callApi } from "../utils/callApi";
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';

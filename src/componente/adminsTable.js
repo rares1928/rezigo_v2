@@ -1,6 +1,6 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles, Typography } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
 import { useHistory } from 'react-router-dom';
 
 

@@ -1,22 +1,22 @@
 import '../App.css';
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { Helmet } from 'react-helmet';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import logo from '../poze/logo4.svg';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import Fade from '@material-ui/core/Fade';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Fade from '@mui/material/Fade';
 import rezolva_invata from '../poze/rezolva_invata.svg';
 import oriunde_oricand from '../poze/oriunde_oricand.svg';
 import statistici from '../poze/statistici.svg';
 import gratis from '../poze/gratis.svg';
 import FAQ from '../componente/faq';
-import Grid from '@material-ui/core/Grid';
-import IconButton from "@material-ui/core/IconButton";
-import FacebookIcon from '@material-ui/icons/Facebook';
-import InstagramIcon from '@material-ui/icons/Instagram';
+import Grid from '@mui/material/Grid';
+import IconButton from "@mui/material/IconButton";
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
 
 
@@ -109,7 +109,7 @@ export default function PrezentarePage() {
     const classes=useStyles();
 
     const TITLE = "Prezentare";
-    return(
+    return (
         <div>
             <Helmet>
                 <title>{TITLE}</title>
@@ -252,10 +252,10 @@ export default function PrezentarePage() {
                             <Typography  variant="h6"  gutterBottom>
                                 Ne puteți găsi și pe:
                             </Typography>
-                            <IconButton  href = 'https://www.facebook.com/rezigo.ro' >
+                            <IconButton href = 'https://www.facebook.com/rezigo.ro' size="large">
                                 <FacebookIcon color="secondary"  fontSize="large" />
                             </IconButton>
-                            <IconButton href="https://www.instagram.com/rezigo.oficial/" >
+                            <IconButton href="https://www.instagram.com/rezigo.oficial/" size="large">
                                 <InstagramIcon color="secondary" fontSize="large" />
                             </IconButton>
                         </Grid>

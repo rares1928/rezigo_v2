@@ -1,6 +1,17 @@
 import * as React from 'react';
-import Paper from '@material-ui/core/Paper';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles, CircularProgress } from '@material-ui/core';
+import Paper from '@mui/material/Paper';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    CircularProgress,
+} from '@mui/material';
+
+
+import makeStyles from '@mui/styles/makeStyles';
 
 
 function createData(name, calories, fat, carbs, protein) {

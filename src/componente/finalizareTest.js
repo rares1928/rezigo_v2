@@ -1,18 +1,18 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import { makeStyles } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import { makeStyles } from '@mui/styles';
 import { useHistory } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 import AnswerOptionFinal from './answerOptionFinal';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
+import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
 import AnswerOptionCardLegend from '../componente/answerOptionCardLegend';
 
 

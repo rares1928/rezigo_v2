@@ -1,25 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import AnswerOptionCard from '../componente/answerOptionCard';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Slider from '@material-ui/core/Slider';
-import Switch from '@material-ui/core/Switch';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Slider from '@mui/material/Slider';
+import Switch from '@mui/material/Switch';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useLocation } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { callApi } from "../utils/callApi";
 import ErrorPopup from '../componente/errorPopup';
 import { useHistory } from 'react-router-dom';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
+import TextField from '@mui/material/TextField';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import { Helmet } from 'react-helmet';
 import AnswerOptionCardLegend from '../componente/answerOptionCardLegend';
 import FinalizareTest from '../componente/finalizareTest';
@@ -313,303 +313,301 @@ export default function GrilePage(props) {
         }
     }
 
-    return (
+    return <>
+    <ErrorPopup errorStatus={error} />
+    <Helmet>
+        <title>{ TITLE }</title>
+    </Helmet>
+
+    <Snackbar open={reportResponse === 200} autoHideDuration={3000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity="success">
+            <Typography>
+                Raportul tău a fost trimis cu succes!
+            </Typography>
+        </Alert>
+    </Snackbar>
+
+    {testDone? 
         <>
-        <ErrorPopup errorStatus={error} />
-        <Helmet>
-            <title>{ TITLE }</title>
-        </Helmet>
+            <FinalizareTest 
+                testDone={testDone}
+                setTestDone={setTestDone}
+                resultScor={items.reduce((acc, val) => calculeazaScorAcumulat(acc, val), 0)}
+                scorPosibil={items.reduce((acc, val) => calculeazaScorPosibil(acc, val), 0)}
+                raspunsuriCorecte={items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}
+                numarIntrebari={items.length}
+                numQuestions={items.length}
+                questions={items}
+                darkMode={props.darkMode}
+                baza2Converter={baza2Converter}
+            />
+        </> :
+        <Container maxWidth="lg">
+        {   !isReady? <CircularProgress/> :
+            <Grid >
+                <Grid item >
+                    <Paper className={classes.paper}>
+                        <div className={classes.slider}>
+                            <IconButton
+                                onClick={handlePreviousQuestion}
+                                disabled={selectedQuestion === 0 ? true : false}
+                                size="large">
 
-        <Snackbar open={reportResponse === 200} autoHideDuration={3000} onClose={handleCloseAlert}>
-            <Alert onClose={handleCloseAlert} severity="success">
-                <Typography>
-                    Raportul tău a fost trimis cu succes!
-                </Typography>
-            </Alert>
-        </Snackbar>
+                                <ChevronLeftIcon />
+                            </IconButton>
 
-        {testDone? 
-            <>
-                <FinalizareTest 
-                    testDone={testDone}
-                    setTestDone={setTestDone}
-                    resultScor={items.reduce((acc, val) => calculeazaScorAcumulat(acc, val), 0)}
-                    scorPosibil={items.reduce((acc, val) => calculeazaScorPosibil(acc, val), 0)}
-                    raspunsuriCorecte={items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}
-                    numarIntrebari={items.length}
-                    numQuestions={items.length}
-                    questions={items}
-                    darkMode={props.darkMode}
-                    baza2Converter={baza2Converter}
-                />
-            </> :
-            <Container maxWidth="lg">
-            {   !isReady? <CircularProgress/> :
-                <Grid >
-                    <Grid item >
-                        <Paper className={classes.paper}>
-                            <div className={classes.slider}>
-                                <IconButton
-                                    onClick={handlePreviousQuestion}
-                                    disabled={selectedQuestion === 0 ? true : false}
-                                >
-
-                                    <ChevronLeftIcon />
-                                </IconButton>
-
-                                <Slider
-                                    onChange={handleSliderChange}
-                                    value={selectedQuestion + 1}
-                                    marks
-                                    step={1}
-                                    min={1}
-                                    max={items.length}
-                                    valueLabelDisplay="auto"
-                                    color="secondary"
-                                >
-                                </Slider>
-                                <IconButton
-                                    onClick={handleNextQuestion}
-                                    disabled={selectedQuestion + 1 === items.length ? true : false}
-                                >
-                                    <ChevronRightIcon />
-                                </IconButton>
-                            </div>
-                            <div className={classes.questionDetails}>
-                                <Typography  variant="body2" color="textSecondary">
-                                    Tip Grilă: {items[selectedQuestion]["TipGrile"]};
+                            <Slider
+                                onChange={handleSliderChange}
+                                value={selectedQuestion + 1}
+                                marks
+                                step={1}
+                                min={1}
+                                max={items.length}
+                                valueLabelDisplay="auto"
+                                color="secondary"
+                            >
+                            </Slider>
+                            <IconButton
+                                onClick={handleNextQuestion}
+                                disabled={selectedQuestion + 1 === items.length ? true : false}
+                                size="large">
+                                <ChevronRightIcon />
+                            </IconButton>
+                        </div>
+                        <div className={classes.questionDetails}>
+                            <Typography  variant="body2" color="textSecondary">
+                                Tip Grilă: {items[selectedQuestion]["TipGrile"]};
+                            </Typography>
+                            {items[selectedQuestion]["Carte"] === "Rezidențiat 2021" ?
+                                <Typography variant="body2" color="textSecondary">
+                                    Examen {items[selectedQuestion]["Carte"]}; 
+                                </Typography> :
+                                <Typography variant="body2" color="textSecondary">
+                                    Carte {items[selectedQuestion]["Carte"]}; 
                                 </Typography>
-                                {items[selectedQuestion]["Carte"] === "Rezidențiat 2021" ?
-                                    <Typography variant="body2" color="textSecondary">
-                                        Examen {items[selectedQuestion]["Carte"]}; 
-                                    </Typography> :
-                                    <Typography variant="body2" color="textSecondary">
-                                        Carte {items[selectedQuestion]["Carte"]}; 
-                                    </Typography>
-                                    }
-                                {items[selectedQuestion]["Carte"] === "Rezidențiat 2021" ?
-                                    null :
-                                    <Typography variant="body2" color="textSecondary">
-                                        Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
-                                    </Typography>}
-                            </div>
-                            <div className={classes.enuntSpaceDiv}>
-                                <div className="grileQuestionTypography">    
-                                    <Typography className={classes.question} variant="subtitle1">
-                                        {selectedQuestion + 1}. {items[selectedQuestion]['Intrebare']}
-                                    </Typography>
-                                </div>
-                                <Typography className={classes.rezolvareDiv} color="textSecondary">
-                                    Barem
-                                </Typography>
-                            </div>
-                            <div>
-                                { !randomOrder? items[selectedQuestion]['Variante'].map((answerOption, index) => (
-                                    <AnswerOptionCard
-                                        key={`subcapitol_${items[selectedQuestion]["SubCategorie"]}_intrebare_${selectedQuestion+1}_varianta_${index}`}
-                                        index={index}
-                                        indexVechi = {index}
-                                        answerOption={answerOption}
-                                        darkMode={props.darkMode}
-                                        handleQuestionSelection={handleQuestionSelection}
-                                        baza2Converter={baza2Converter}
-                                        items={items}
-                                        isSelected={isSelected}
-                                        selectedQuestion={selectedQuestion}
-                                        showAnswer={showAnswer}
-                                    />
-                                )) :
-
-                                listaRandom.current.map((answerOption, index) => (
-                                    <AnswerOptionCard
-                                        key={`subcapitol_${items[selectedQuestion]["SubCategorie"]}_intrebare_${selectedQuestion+1}_varianta_${answerOption}`}
-                                        index = {answerOption}
-                                        indexVechi = {index}
-                                        answerOption={answerOption}
-                                        darkMode={props.darkMode}
-                                        handleQuestionSelection={handleQuestionSelection}
-                                        baza2Converter={baza2Converter}
-                                        items={items}
-                                        isSelected={isSelected}
-                                        selectedQuestion={selectedQuestion}
-                                        showAnswer={showAnswer}
-                                    />
-                                ))
-                                
                                 }
-                            </div>
-                            <div className={classes.butonDiv}>
-                                <div></div>
-                                {showAnswer &&
-                                    <Typography>
-                                        Punctajul obținut pe această grilă: {calculeazaScorAcumulat(0, items[selectedQuestion])} /{calculeazaScorPosibil(0, items[selectedQuestion])}
-                                    </Typography>
-                                }
-                            </div>
-
-                            <div className={classes.butonDiv}>
-                                <Button 
-                                variant="contained" 
-                                color="secondary" 
-                                onClick={() => trimiteRaspuns(isSelected, selectedQuestion)} 
-                                disabled={((isSelected.reduce((a, b) => a + b, 0)) === 0  && items[selectedQuestion]["Choices"] === 0) || ((isSelected.reduce((a, b) => a + b, 0)) === 5  && items[selectedQuestion]["Choices"] === 0) }>
-                                    {
-                                        (items[selectedQuestion]["Choices"] === 0) &&
-                                        <Typography>
-                                            Trimite răspuns
-                                        </Typography>
-                                    }
-                                    {
-                                        (items[selectedQuestion]["Choices"] > 0) && 
-                                        <Typography>
-                                            Următoarea grilă
-                                        </Typography>
-                                    }
-                                </Button>
-                                <Button
-                                disabled={!(items.every((question) => (question['Choices'] > 0) ))}
-                                variant="contained" color="primary" onClick={()=>{setTestDone(true)}}>
-                                    <Typography>
-                                        Finalizează testul
-                                    </Typography>
-                                </Button>
-                            </div>
-                        </Paper>
-                    </Grid>
-                    <Grid item>
-                        <Paper className={classes.paperStatistics}>
-                            <div className={classes.paperDivRandomOrder} >
-                                <div>
-                                <Typography >
-                                    Ordinea variantelor de răspuns aleatoare.
+                            {items[selectedQuestion]["Carte"] === "Rezidențiat 2021" ?
+                                null :
+                                <Typography variant="body2" color="textSecondary">
+                                    Capitol: {items[selectedQuestion]["Categorie"]}; Subcapitol: {items[selectedQuestion]["SubCategorie"]}
+                                </Typography>}
+                        </div>
+                        <div className={classes.enuntSpaceDiv}>
+                            <div className="grileQuestionTypography">    
+                                <Typography className={classes.question} variant="subtitle1">
+                                    {selectedQuestion + 1}. {items[selectedQuestion]['Intrebare']}
                                 </Typography>
+                            </div>
+                            <Typography className={classes.rezolvareDiv} color="textSecondary">
+                                Barem
+                            </Typography>
+                        </div>
+                        <div>
+                            { !randomOrder? items[selectedQuestion]['Variante'].map((answerOption, index) => (
+                                <AnswerOptionCard
+                                    key={`subcapitol_${items[selectedQuestion]["SubCategorie"]}_intrebare_${selectedQuestion+1}_varianta_${index}`}
+                                    index={index}
+                                    indexVechi = {index}
+                                    answerOption={answerOption}
+                                    darkMode={props.darkMode}
+                                    handleQuestionSelection={handleQuestionSelection}
+                                    baza2Converter={baza2Converter}
+                                    items={items}
+                                    isSelected={isSelected}
+                                    selectedQuestion={selectedQuestion}
+                                    showAnswer={showAnswer}
+                                />
+                            )) :
+
+                            listaRandom.current.map((answerOption, index) => (
+                                <AnswerOptionCard
+                                    key={`subcapitol_${items[selectedQuestion]["SubCategorie"]}_intrebare_${selectedQuestion+1}_varianta_${answerOption}`}
+                                    index = {answerOption}
+                                    indexVechi = {index}
+                                    answerOption={answerOption}
+                                    darkMode={props.darkMode}
+                                    handleQuestionSelection={handleQuestionSelection}
+                                    baza2Converter={baza2Converter}
+                                    items={items}
+                                    isSelected={isSelected}
+                                    selectedQuestion={selectedQuestion}
+                                    showAnswer={showAnswer}
+                                />
+                            ))
+                            
+                            }
+                        </div>
+                        <div className={classes.butonDiv}>
+                            <div></div>
+                            {showAnswer &&
                                 <Typography>
-                                    Dacă selectezi această opțiune, de fiecare dată când selectezi un test, 
-                                    ordinea variantelor de răspuns va fi diferită. 
-                                    În felul acesta, dacă parcurgi aceeași grilă în două teste diferite, este posibil ca varianta corectă să apară prima dată la punctul a) și a doua oară la punctul d).
+                                    Punctajul obținut pe această grilă: {calculeazaScorAcumulat(0, items[selectedQuestion])} /{calculeazaScorPosibil(0, items[selectedQuestion])}
                                 </Typography>
-                                </div>
-                                <Switch checked={randomOrder} onChange={() => {localStorage.setItem("randomOrder", !randomOrder); setRandomOrder(!randomOrder)}}/>
-                            </div>
-                        </Paper>
-                    </Grid>
-                    <Grid item >
-                        <Paper className={classes.paperStatistics}>
-                            <Grid container justifyContent="space-evenly">
-                                <Grid item className={classes.statisticSubdiv}>
-                                    <div className={classes.smallPaper}>
-                                        <Typography>Afișează răspunsurile</Typography>
-                                        <Switch checked={showAnswer} onChange={()=>{localStorage.setItem("showAnswer", !showAnswer); setShowAnswer(!showAnswer)}} />
-                                    </div>
-                                </Grid>
-                                <Grid item className={classes.statisticSubdiv}>
-                                    <div className={classes.smallPaper}>
-                                        <Typography>Răspunsuri date</Typography>
-                                        <Typography>{items.reduce((acc, val) => acc + (val["Choices"] > 0), 0)}/{items.length}</Typography>
-                                    </div>
-                                </Grid>
-                                <Grid item className={classes.statisticSubdiv}>
-                                    <div className={classes.smallPaper}>
-                                        <Typography>Răspunsuri corecte</Typography>
-                                    <Typography>{items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}/{items.length}</Typography>
-                                    </div>
-                                </Grid>
-                                <Grid item className={classes.statisticSubdiv}>
-                                    <div className={classes.smallPaper}>
-                                        <Typography>Răspunsuri greșite</Typography>
-                                    <Typography>{items.reduce((acc, val) => acc + (val["Correct"] !== 31 && val["Choices"] > 0), 0)}/{items.length}</Typography>
-                                    </div>
-                                </Grid>
-                            </Grid>
-                        </Paper>
-                        <Button
-                            onClick={() => {localStorage.setItem("showLegend", !showLegend); setShowLegend(!showLegend)}}  
+                            }
+                        </div>
+
+                        <div className={classes.butonDiv}>
+                            <Button 
                             variant="contained" 
-                            color="primary" 
-                            className={classes.buttonReport}>
+                            color="secondary" 
+                            onClick={() => trimiteRaspuns(isSelected, selectedQuestion)} 
+                            disabled={((isSelected.reduce((a, b) => a + b, 0)) === 0  && items[selectedQuestion]["Choices"] === 0) || ((isSelected.reduce((a, b) => a + b, 0)) === 5  && items[selectedQuestion]["Choices"] === 0) }>
+                                {
+                                    (items[selectedQuestion]["Choices"] === 0) &&
+                                    <Typography>
+                                        Trimite răspuns
+                                    </Typography>
+                                }
+                                {
+                                    (items[selectedQuestion]["Choices"] > 0) && 
+                                    <Typography>
+                                        Următoarea grilă
+                                    </Typography>
+                                }
+                            </Button>
+                            <Button
+                            disabled={!(items.every((question) => (question['Choices'] > 0) ))}
+                            variant="contained" color="primary" onClick={()=>{setTestDone(true)}}>
                                 <Typography>
-                                    {showLegend? "Închide legenda" : "Deschide legenda"}
+                                    Finalizează testul
                                 </Typography>
-                        </Button>
-                        <Button
-                        onClick={() => setShowReport(!showReport)}  
+                            </Button>
+                        </div>
+                    </Paper>
+                </Grid>
+                <Grid item>
+                    <Paper className={classes.paperStatistics}>
+                        <div className={classes.paperDivRandomOrder} >
+                            <div>
+                            <Typography >
+                                Ordinea variantelor de răspuns aleatoare.
+                            </Typography>
+                            <Typography>
+                                Dacă selectezi această opțiune, de fiecare dată când selectezi un test, 
+                                ordinea variantelor de răspuns va fi diferită. 
+                                În felul acesta, dacă parcurgi aceeași grilă în două teste diferite, este posibil ca varianta corectă să apară prima dată la punctul a) și a doua oară la punctul d).
+                            </Typography>
+                            </div>
+                            <Switch checked={randomOrder} onChange={() => {localStorage.setItem("randomOrder", !randomOrder); setRandomOrder(!randomOrder)}}/>
+                        </div>
+                    </Paper>
+                </Grid>
+                <Grid item >
+                    <Paper className={classes.paperStatistics}>
+                        <Grid container justifyContent="space-evenly">
+                            <Grid item className={classes.statisticSubdiv}>
+                                <div className={classes.smallPaper}>
+                                    <Typography>Afișează răspunsurile</Typography>
+                                    <Switch checked={showAnswer} onChange={()=>{localStorage.setItem("showAnswer", !showAnswer); setShowAnswer(!showAnswer)}} />
+                                </div>
+                            </Grid>
+                            <Grid item className={classes.statisticSubdiv}>
+                                <div className={classes.smallPaper}>
+                                    <Typography>Răspunsuri date</Typography>
+                                    <Typography>{items.reduce((acc, val) => acc + (val["Choices"] > 0), 0)}/{items.length}</Typography>
+                                </div>
+                            </Grid>
+                            <Grid item className={classes.statisticSubdiv}>
+                                <div className={classes.smallPaper}>
+                                    <Typography>Răspunsuri corecte</Typography>
+                                <Typography>{items.reduce((acc, val) => acc + (val["Correct"] === 31), 0)}/{items.length}</Typography>
+                                </div>
+                            </Grid>
+                            <Grid item className={classes.statisticSubdiv}>
+                                <div className={classes.smallPaper}>
+                                    <Typography>Răspunsuri greșite</Typography>
+                                <Typography>{items.reduce((acc, val) => acc + (val["Correct"] !== 31 && val["Choices"] > 0), 0)}/{items.length}</Typography>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                    <Button
+                        onClick={() => {localStorage.setItem("showLegend", !showLegend); setShowLegend(!showLegend)}}  
                         variant="contained" 
                         color="primary" 
                         className={classes.buttonReport}>
                             <Typography>
-                                Raportează grila
+                                {showLegend? "Închide legenda" : "Deschide legenda"}
                             </Typography>
-                        </Button>
-                        {   
-                            showLegend?
-                            <Paper className={classes.paperStatistics}>
-                                <AnswerOptionCardLegend
-                                    isSelected = {true}
-                                    darkMode = {props.darkMode}
-                                    answerOption = "Grilă selectată ce trebuia selectată"
-                                    isCorrect = {1}
-                                    color ="#56DB57" //green
-                                />
-                                <AnswerOptionCardLegend
-                                    isSelected = {false}
-                                    darkMode = {props.darkMode}
-                                    answerOption = "Grilă neselectată ce trebuia selectată"
-                                    isCorrect = {1}
-                                    color = "#EB91B1" //pink
-                                />
-                                <AnswerOptionCardLegend
-                                    isSelected = {true}
-                                    darkMode = {props.darkMode}
-                                    answerOption = "Grilă selectată ce nu trebuia selectată"
-                                    isCorrect = {0}
-                                    color = {props.darkMode? "#bfbfbf" : "#7d7d7d"} //grey or whiteish
-                                />
-                                <AnswerOptionCardLegend
-                                    isSelected = {false}
-                                    darkMode = {props.darkMode}
-                                    answerOption = "Grilă neselectată ce nu trebuia selectată"
-                                    isCorrect = {0}
-                                    color = '' //nema
-                                />
-                            </Paper> : null
-                        }
-                        {showReport ?
+                    </Button>
+                    <Button
+                    onClick={() => setShowReport(!showReport)}  
+                    variant="contained" 
+                    color="primary" 
+                    className={classes.buttonReport}>
+                        <Typography>
+                            Raportează grila
+                        </Typography>
+                    </Button>
+                    {   
+                        showLegend?
                         <Paper className={classes.paperStatistics}>
-                            <Typography className={classes.textReport}>
-                                Scrie mai jos motivul pentru care consideri că grila este greșită:
-                            </Typography>
-                            <TextField
-                                className={classes.textFiled}
-                                id="outlined-multiline-static"
-                                label={"Număr de caractere: ".concat(" ", reportText.length.toString(), "/500")}
-                                multiline
-                                error={reportText.length>500}
-                                rows={4}
-                                variant="outlined"
-                                fullWidth
-                                onInput={e => setReportText(e.target.value)}
-                                required
+                            <AnswerOptionCardLegend
+                                isSelected = {true}
+                                darkMode = {props.darkMode}
+                                answerOption = "Grilă selectată ce trebuia selectată"
+                                isCorrect = {1}
+                                color ="#56DB57" //green
                             />
-                            <div className={classes.reportButtonDiv}>
-                                <Button
-                                    onClick={() => sendReport()}  
-                                    variant="contained" 
-                                    color="primary" 
-                                    className={classes.buttonReport}
-                                    disabled={reportText.length <=1 }
-                                >
-                                {loading? <CircularProgress color="secondary" /> :
-                                    <Typography>
-                                        Trimite raportul
-                                    </Typography>}
-                                </Button>
-                            </div>
+                            <AnswerOptionCardLegend
+                                isSelected = {false}
+                                darkMode = {props.darkMode}
+                                answerOption = "Grilă neselectată ce trebuia selectată"
+                                isCorrect = {1}
+                                color = "#EB91B1" //pink
+                            />
+                            <AnswerOptionCardLegend
+                                isSelected = {true}
+                                darkMode = {props.darkMode}
+                                answerOption = "Grilă selectată ce nu trebuia selectată"
+                                isCorrect = {0}
+                                color = {props.darkMode? "#bfbfbf" : "#7d7d7d"} //grey or whiteish
+                            />
+                            <AnswerOptionCardLegend
+                                isSelected = {false}
+                                darkMode = {props.darkMode}
+                                answerOption = "Grilă neselectată ce nu trebuia selectată"
+                                isCorrect = {0}
+                                color = '' //nema
+                            />
                         </Paper> : null
-                        }
-                    </Grid>
+                    }
+                    {showReport ?
+                    <Paper className={classes.paperStatistics}>
+                        <Typography className={classes.textReport}>
+                            Scrie mai jos motivul pentru care consideri că grila este greșită:
+                        </Typography>
+                        <TextField
+                            className={classes.textFiled}
+                            id="outlined-multiline-static"
+                            label={"Număr de caractere: ".concat(" ", reportText.length.toString(), "/500")}
+                            multiline
+                            error={reportText.length>500}
+                            rows={4}
+                            variant="outlined"
+                            fullWidth
+                            onInput={e => setReportText(e.target.value)}
+                            required
+                        />
+                        <div className={classes.reportButtonDiv}>
+                            <Button
+                                onClick={() => sendReport()}  
+                                variant="contained" 
+                                color="primary" 
+                                className={classes.buttonReport}
+                                disabled={reportText.length <=1 }
+                            >
+                            {loading? <CircularProgress color="secondary" /> :
+                                <Typography>
+                                    Trimite raportul
+                                </Typography>}
+                            </Button>
+                        </div>
+                    </Paper> : null
+                    }
                 </Grid>
-            }
-        </Container>}
-        </>
-    );
+            </Grid>
+        }
+    </Container>}
+    </>;
 }

@@ -1,15 +1,15 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import Grid from '@material-ui/core/Grid';
+import makeStyles from '@mui/styles/makeStyles';
+import MobileStepper from '@mui/material/MobileStepper';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Grid from '@mui/material/Grid';
 import home1 from '../poze/homepage1.svg';
 import home2 from '../poze/homepage2.svg';
 import home3 from '../poze/homepage3.svg';
@@ -19,8 +19,8 @@ import home6 from '../poze/homepage6.svg';
 import home7 from '../poze/homepage7.svg';
 import testepage1 from '../poze/testepage1.svg';
 import testepage2 from '../poze/testepage2.svg';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from "@mui/material/IconButton";
 
 
 const tutorialSteps = [
@@ -127,7 +127,7 @@ export default function UserHelper(props) {
               <DialogContent className={classes.dialogContent}>
                 <Paper square elevation={0} className={classes.header}>
                     <Typography>{tutorialSteps[activeStep].label}</Typography>
-                    <IconButton  className={classes.cancelButton} onClick={props.lastClick}>
+                    <IconButton className={classes.cancelButton} onClick={props.lastClick} size="large">
                       <CloseIcon/>
                     </IconButton>
                 </Paper>

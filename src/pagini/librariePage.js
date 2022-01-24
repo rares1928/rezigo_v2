@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
-import { Typography } from '@material-ui/core';
-import { Collapse } from '@material-ui/core';
-import { Paper } from '@material-ui/core';
-import { Grid } from '@material-ui/core';
-import { Container } from '@material-ui/core';
-import { Card } from '@material-ui/core';
-import { CardActions } from '@material-ui/core';
-import { CardActionArea } from '@material-ui/core';
-import { CardContent } from '@material-ui/core';
-import {Slide} from '@material-ui/core';
-import { FormControlLabel } from '@material-ui/core';
-import { Switch } from '@material-ui/core';
-import { Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@mui/material';
+import { Collapse } from '@mui/material';
+import { Paper } from '@mui/material';
+import { Grid } from '@mui/material';
+import { Container } from '@mui/material';
+import { Card } from '@mui/material';
+import { CardActions } from '@mui/material';
+import { CardActionArea } from '@mui/material';
+import { CardContent } from '@mui/material';
+import {Slide} from '@mui/material';
+import { FormControlLabel } from '@mui/material';
+import { Switch } from '@mui/material';
+import { Box } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
     card:{

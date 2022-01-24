@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { callApi } from '../utils/callApi';
 import { Helmet } from 'react-helmet';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import makeStyles from '@mui/styles/makeStyles';
+import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
 import AdminsTable from '../componente/adminsTable';
 import { useHistory } from 'react-router-dom';
 

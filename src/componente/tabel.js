@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, makeStyles, CircularProgress } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    CircularProgress,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import logo from '../poze/mini_logo4.svg';
 
 
@@ -57,7 +66,7 @@ export default function DataTable({ rows, onDelete, onClick}) {
                             <TableRow key={index} >
                                 <TableCell className={classes.tableBody} >{index+1}</TableCell>
                                 <TableCell className={classes.tableBody} component="th" onClick={() => onClick(row.TestID)} scope="row">
-                                    <IconButton >
+                                    <IconButton size="large">
                                         <img alt="logo" src={logo} className={classes.goImage} />
                                     </IconButton>
                                 </TableCell>
@@ -69,9 +78,10 @@ export default function DataTable({ rows, onDelete, onClick}) {
                                 <TableCell className={classes.tableBody} align="center" >{!row.Done ? '-' : <> {row.ScorRezi}/{row.ScorReziPosibil} ({(row.ScorRezi/row.ScorReziPosibil*950).toPrecision(3)}/950) </> }</TableCell>
                                 <TableCell className={classes.tableBody} align="center" >{row.Done ? "Da" : "Nu"}</TableCell>
                                 <TableCell className={classes.tableBody} align="center">
-                                    <IconButton 
-                                    aria-label="delete" 
-                                    onClick={async () => {setLoadingDelete(true); await onDelete(row.TestID); setLoadingDelete(false)} } >
+                                    <IconButton
+                                        aria-label="delete"
+                                        onClick={async () => {setLoadingDelete(true); await onDelete(row.TestID); setLoadingDelete(false)} }
+                                        size="large">
                                         { loadingDelete? <CircularProgress size={25} /> : <DeleteIcon style={{ color: "#d83838" }} />}
                                     </IconButton>
                                 </TableCell>
@@ -81,6 +91,5 @@ export default function DataTable({ rows, onDelete, onClick}) {
                 </Table>
             </TableContainer>
         </div>
-
     );
 }
