@@ -347,7 +347,7 @@ export default function ProfilePage(props) {
                     </Accordion>
                     <Accordion className={classes.accordion}>
                     <AccordionSummary
-                    disabled={!(items["tip_profil"] === "Premium")}
+                    disabled={!(items["tip_profil"] === "Premium" || items["tip_profil"] === "Dio")}
                     aria-controls="panel3a-content"
                     id="panel3a-header"
                     >
@@ -414,7 +414,7 @@ export default function ProfilePage(props) {
                         </ListItem>
                         <Divider />
                         <ListItem>
-                            <Typography>Media scorurilor testelor terminate: {Number(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc, val) => acc + val["NumAnswered"],0) *100).toFixed(1) }% (echivalentul a {Number(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["Score"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc, val) => acc + val["NumAnswered"],0) *950).toFixed(0)}/950) </Typography>
+                            <Typography>Media scorurilor testelor terminate: {Number(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["ScorRezi"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc, val) => acc + val["ScorReziPosibil"],0) *100).toFixed(1) }% (echivalentul a {Number(items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc,val) => acc + val["ScorRezi"], 0) / items["lista_teste"].filter((test) => test["Done"] === true).reduce((acc, val) => acc + val["ScorReziPosibil"],0) *950).toFixed(0)}/950) </Typography>
                         </ListItem>
                     </List>
                 </div>

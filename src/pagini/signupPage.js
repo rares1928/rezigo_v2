@@ -264,7 +264,7 @@ export default function SignUp() {
             {errorMail &&
             <Grid item>
               <Typography variant="subtitle1" color="error" >
-                Adresa de mail introdusă nu este corectă.
+                Adresa de email introdusă nu este corectă.
               </Typography>
             </Grid>
             }

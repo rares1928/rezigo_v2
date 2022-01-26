@@ -511,7 +511,7 @@ export default function GrilePage(props) {
                                     Ordinea variantelor de răspuns aleatoare.
                                 </Typography>
                                 <Typography>
-                                    Dacă selectezi această opțiune, de fiecare dată când selectezi un test, 
+                                    Dacă selectezi această opțiune, de fiecare dată afișăm o grilă, 
                                     ordinea variantelor de răspuns va fi diferită. 
                                     În felul acesta, dacă parcurgi aceeași grilă în două teste diferite, este posibil ca varianta corectă să apară prima dată la punctul a) și a doua oară la punctul d).
                                 </Typography>

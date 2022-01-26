@@ -197,6 +197,7 @@ export default function AdminsDisplayGrile() {
                             <MenuItem value={"Kumar"}>Kumar</MenuItem>
                             <MenuItem value={"Sinopsis"}>Sinopsis</MenuItem>
                             <MenuItem value={"Chirurgie"}>Chirurgie</MenuItem>
+                            <MenuItem value={"Rezidențiat 2021"}>Rezidențiat 2021</MenuItem>
                         </Select>
                     </FormControl>
                     <FormControl variant="outlined" color="secondary" className={classes.formControl}>
