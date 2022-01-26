@@ -143,7 +143,7 @@ export default function GrilePage(props) {
             let final_question = false;
             let scorReziTestPosibil = 0;
             let scorReziTestObtinut = 0;
-            if (currentQuestion === items.length - 1) {
+            if (items.every((question) => (question['Choices'] > 0))) {
                 final_question = true
                 scorReziTestPosibil = items.reduce((acc, val) => calculeazaScorPosibil(acc, val), 0);
                 scorReziTestObtinut = items.reduce((acc, val) => calculeazaScorAcumulat(acc, val), 0);

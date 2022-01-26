@@ -66,7 +66,7 @@ export default function DataTable({ rows, onDelete, onClick}) {
                                 <TableCell className={classes.tableBody} align="center" >{row.NumAnswered}</TableCell>
                                 <TableCell className={classes.tableBody} align="center" >{row.NumUnanswered}</TableCell>
                                 <TableCell className={classes.tableBody} align="center" >{row.Score}</TableCell>
-                                <TableCell className={classes.tableBody} align="center" >{!row.Done ? '-' : <> {row.ScorRezi}/{row.ScorReziPosibil} ({(row.ScorRezi/row.ScorReziPosibil*950).toPrecision(3)}/950) </> }</TableCell>
+                                <TableCell className={classes.tableBody} align="center" >{!row.Done ? '-' : <> {row.ScorRezi}/{row.ScorReziPosibil} ({Number(row.ScorRezi/row.ScorReziPosibil*950).toFixed(0)}/950) </> }</TableCell>
                                 <TableCell className={classes.tableBody} align="center" >{row.Done ? "Da" : "Nu"}</TableCell>
                                 <TableCell className={classes.tableBody} align="center">
                                     <IconButton 
