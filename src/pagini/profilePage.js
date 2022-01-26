@@ -158,6 +158,7 @@ export default function ProfilePage(props) {
         setSucces(false);
     };
 
+    console.log(items);
     const TITLE = 'Profil';
 
     return(

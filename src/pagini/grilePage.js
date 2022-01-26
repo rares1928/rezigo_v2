@@ -52,19 +52,10 @@ export default function GrilePage(props) {
     
     let history= useHistory();
 
-    const randomCompare = (a ,b) => {
-        const coin = Math.random();
-        if(coin >= 0.5 ){
-            return a-b;
-        }
-        else{
-        return b-a;
-        }
-    }
 
     const listaAranjata = [0,1,2,3,4];
     // useRef il face sa tina minte listaRandom initiala si nu se re-randomizeaza la fiecare apasare de buton
-    const listaRandom = useRef(listaAranjata.sort(randomCompare));
+    const listaRandom = useRef(listaAranjata);
 
     const handleItems = (e) => {
         setItems(e.data["lista"]);
@@ -80,6 +71,19 @@ export default function GrilePage(props) {
     };
     
     useEffect(() => {
+
+        const randomCompare = (a ,b) => {
+            const coin = Math.random();
+            if(coin >= 0.5 ){
+                return a-b;
+            }
+            else{
+            return b-a;
+            }
+        }
+
+        listaRandom.current = listaRandom.current.sort(randomCompare)
+
         const testId = state.testId;
         if(!testId){
             history.push("/creeaza-ti_test")
@@ -91,6 +95,17 @@ export default function GrilePage(props) {
     }, [history, state])
 
     const handleNextQuestion = () => {
+        const randomCompare = (a ,b) => {
+            const coin = Math.random();
+            if(coin >= 0.5 ){
+                return a-b;
+            }
+            else{
+            return b-a;
+            }
+        }
+
+        listaRandom.current = listaRandom.current.sort(randomCompare)
         if(!(selectedQuestion + 1 === items.length)){
             const nextQuestion = selectedQuestion + 1;
             setNextQuestion(nextQuestion);
@@ -99,6 +114,17 @@ export default function GrilePage(props) {
     };
 
     const handlePreviousQuestion = () => {
+        const randomCompare = (a ,b) => {
+            const coin = Math.random();
+            if(coin >= 0.5 ){
+                return a-b;
+            }
+            else{
+            return b-a;
+            }
+        }
+
+        listaRandom.current = listaRandom.current.sort(randomCompare)
         if (selectedQuestion > 0) {
             const previousQuestion = selectedQuestion - 1;
             setNextQuestion(previousQuestion);
@@ -166,7 +192,8 @@ export default function GrilePage(props) {
         }
     }
 
-    
+    console.log(items);
+    console.log(randomOrder);
     const sendReport = async () => {
         if(reportText.length >1 ){
             setLoading(true);
