@@ -31,7 +31,7 @@ function App() {
 
   const [darkMode, setDarkMode] = useState( localStorage.getItem("darkMode") === "false"? false: true);
 
-  const theme = createTheme(adaptV4Theme({
+  const theme = createTheme({
     typography: {
       button: {
         textTransform:'none',
@@ -43,7 +43,7 @@ function App() {
         default: darkMode? "#303030":"#fafafa",
         paper: darkMode? "#424242": "#eeeeee",
       },
-      type: darkMode? "dark":"light",
+      mode: darkMode? "dark":"light",
       text: {
         primary: darkMode? "#fff": "#000"
       },
@@ -56,7 +56,7 @@ function App() {
         contrastText: darkMode? '#fff':"#000",
       },
     },
-  }));
+  });
   
 
   return (

@@ -488,7 +488,7 @@ export default function GrilePage(props) {
                                 În felul acesta, dacă parcurgi aceeași grilă în două teste diferite, este posibil ca varianta corectă să apară prima dată la punctul a) și a doua oară la punctul d).
                             </Typography>
                             </div>
-                            <Switch checked={randomOrder} onChange={() => {localStorage.setItem("randomOrder", !randomOrder); setRandomOrder(!randomOrder)}}/>
+                            <Switch color="secondary" checked={randomOrder} onChange={() => {localStorage.setItem("randomOrder", !randomOrder); setRandomOrder(!randomOrder)}}/>
                         </div>
                     </Paper>
                 </Grid>
@@ -498,7 +498,7 @@ export default function GrilePage(props) {
                             <Grid item className={classes.statisticSubdiv}>
                                 <div className={classes.smallPaper}>
                                     <Typography>Afișează răspunsurile</Typography>
-                                    <Switch checked={showAnswer} onChange={()=>{localStorage.setItem("showAnswer", !showAnswer); setShowAnswer(!showAnswer)}} />
+                                    <Switch color="secondary" checked={showAnswer} onChange={()=>{localStorage.setItem("showAnswer", !showAnswer); setShowAnswer(!showAnswer)}} />
                                 </div>
                             </Grid>
                             <Grid item className={classes.statisticSubdiv}>

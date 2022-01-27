@@ -41,7 +41,7 @@ export default function TestsBookCard(props) {
             </CardMedia>
         </CardActionArea>
         <CardContent className={classes.lowerPart}>
-            <Typography gutterBottom variant="h6" component="h3" className={classes.title}>
+            <Typography gutterBottom variant="h6" className={classes.title}>
                 {props.title}
             </Typography>
         </CardContent>

@@ -41,6 +41,7 @@ export default function CategoryAcordion(props) {
                         >
                             <div className={classes.titles}>
                                 <Checkbox
+                                    color='secondary'
                                     checked={props.listaselectiisubcat[index].reduce((acc, value) => acc * value, 1) > 0}
                                     onChange={() => { props.onClickCategorieMare(index) }}
                                     onClick={(event) => event.stopPropagation()}
