@@ -61,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
       fullList: {
         width: 'auto',
       },
+    butonGrup:{
+        color: theme.palette.text.primary,
+    },
   }));
 
 
@@ -165,8 +168,8 @@ export default function LayoutSite(props) {
                     </Link>
                 </div>
                 <div className = {classes.menuButton}>
-                    <ButtonGroup aria-label="outlined secondary button group">
-                        <Button disableElevation variant="outlined" onClick={()=> {
+                    <ButtonGroup variant="outlined" aria-label="outlined primary button group">
+                        {/* <Button color="secondary" variant="text" className={classes.butonGrup} disableElevation onClick={()=> {
                                 props.setDarkMode(!props.darkMode);
                                 localStorage.setItem('darkMode', !props.darkMode);
                             }}  >
@@ -180,30 +183,36 @@ export default function LayoutSite(props) {
                                     <Brightness2Icon/>
                                 </>
                             }
-                        </Button>
+                        </Button> */}
                         <Button 
+                        color="secondary"
+                        className={classes.butonGrup}
                         disableElevation
                         startIcon={<MenuBookRoundedIcon/>}
-                        variant={(location.pathname === "/creeaza-ti_test")? "contained": "outlined"} 
+                        variant={(location.pathname === "/creeaza-ti_test")? "contained": ""} 
                         href="/creeaza-ti_test" > 
                             <Typography variant="h6" > 
                                 Test 
                             </Typography> 
                         </Button>
                         <Button
+                        className={classes.butonGrup}
+                        color="secondary"
                         disableElevation
                         disabled
                         startIcon= {<LibraryBooksRoundedIcon/>}
-                        variant={(location.pathname === "/librarie")? "contained": "outlined"} 
+                        variant={(location.pathname === "/librarie")? "contained": ""} 
                         href="/librarie"> 
                             <Typography variant="h6" > 
                                 Librărie 
                             </Typography> 
                         </Button>
                         <Button 
+                        color="secondary"
+                        className={classes.butonGrup}
                         startIcon={<AccountBoxRoundedIcon/>}
                         disableElevation 
-                        variant={location.pathname === "/profil"? "contained":"outlined"} 
+                        variant={location.pathname === "/profil"? "contained":""} 
                         href="/profil">
                             <Typography variant="h6" align="center">{name}</Typography>  
                         </Button>        
