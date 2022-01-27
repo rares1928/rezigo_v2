@@ -10,6 +10,12 @@ import CircularProgress  from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import { callApi } from '../utils/callApi';
 import { useLocation, useHistory } from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 const useStyles = makeStyles((theme)=>({
     wrapperDiv:{
@@ -97,6 +103,9 @@ export default function AdminsEditGrila() {
     const [raspE, setRaspE] = useState("");
     const [showFormular, setShowFormular] = useState(false);
     const [textMail, setTextMail] = useState("");
+    const [reportResponse, setReportResponse] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [reciver, setReciver] = useState("");
     const { state } = useLocation();
     let history = useHistory();
 
@@ -136,9 +145,42 @@ export default function AdminsEditGrila() {
 
     const createMail = (indexReport ) => {
         setTextMail("");
-        const textInitialMail = "Salutare! \n \nÎn data de " + items.lista["Reports"][indexReport]["CreatedOn"].split("T")[0] + " ai trimis reportul: \n'" + items.lista["Reports"][indexReport]["Complaint"] + "'\npentru grila: \n" + items.lista["Intrebare"] + "\n a) " + items.lista["Variante"][0]+ "\n b) " + items.lista["Variante"][1]+ "\n c) " + items.lista["Variante"][2]+ "\n d) " + items.lista["Variante"][3]+ "\n e) " + items.lista["Variante"][4] + "\n\n\n" + "Toate cele bune!\nEchipa ReziGo!";
+        const textInitialMail = "Salutare! \n<br> \n<br>În data de " + 
+        items.lista["Reports"][indexReport]["CreatedOn"].split("T")[0] + 
+        " ai trimis reportul: \n<br>'" +
+        items.lista["Reports"][indexReport]["Complaint"] + 
+        "'\n<br>pentru grila: \n<br>" + items.lista["Intrebare"] + 
+        "\n<br> a) " + 
+        items.lista["Variante"][0]+ "\n<br> b) " + 
+        items.lista["Variante"][1]+ "\n<br> c) " + 
+        items.lista["Variante"][2]+ "\n<br> d) " + 
+        items.lista["Variante"][3]+ "\n<br> e) " + 
+        items.lista["Variante"][4] + "\n<br>\n<br>\n<br>" + 
+        "Grila a fost corectată corespunzător eratei. Îți mulțumim pentru feedback!\n<br>\n<br>"+
+        "Toate cele bune!\n<br>Echipa ReziGo!";
         setTextMail(textInitialMail);
+        setReciver(items.lista["Reports"][indexReport]["Email"]);
         setShowFormular(true);
+    }
+
+
+    const handleResponse = (e) => {
+        setReportResponse(e.status);
+    };
+    const handleError2 = (e) => {
+        console.log(e);
+    };
+    const sendEmail = async () => {
+        setLoading(true);
+        const data = {
+            email: reciver,
+            mesaj: textMail,
+        };
+        const url = "https://grileapiwin.azurewebsites.net/api/SendReportEmailAdmin?code=VgbFQ//X5Yb0KP6pmR0LIuOEHB8oYYjlgsS5gjukM8a9bPK4H2gMlw==";
+        await callApi(url, data, handleResponse, handleError2);
+        setLoading(false);
+        setShowFormular(false);
+        
     }
     
     const deleteReport = (emailReport, complaint) => {
@@ -181,6 +223,9 @@ export default function AdminsEditGrila() {
         window.location.reload();
     }
 
+    const handleCloseAlert = () => {
+        setReportResponse(0);
+      };
 
     const classes=useStyles();
     const TITLE = "admins";
@@ -189,6 +234,15 @@ export default function AdminsEditGrila() {
         <Helmet>
             <title>{TITLE}</title>
         </Helmet>
+
+        <Snackbar open={reportResponse === 200} autoHideDuration={3000} onClose={handleCloseAlert}>
+            <Alert onClose={handleCloseAlert} severity="success">
+                <Typography>
+                    Emailul a fost trimis!
+                </Typography>
+            </Alert>
+        </Snackbar>
+
         <Container className={classes.root} maxWidth="md">
             {ready?
                 <>
@@ -490,7 +544,7 @@ export default function AdminsEditGrila() {
                 {showFormular ?
                     <Paper className={classes.paper}>
                         <Typography className={classes.reportsDiv}>
-                            Scrie mai jos mesajul mailului pe care vrei sa il trimiti:
+                            Scrie mai jos mesajul mailului pe care vrei sa il trimiti la adresa {reciver}:
                         </Typography>
                         <TextField
                             className={classes.textFiled}
@@ -507,17 +561,18 @@ export default function AdminsEditGrila() {
                         <div className={classes.divButton}>
                             <div/>
                             <Button
-                                onClick={() => {console.log(textMail); setTextMail(""); setShowFormular(false) } }  
+                                onClick={() => {sendEmail(); setTextMail("") }}
                                 variant="contained" 
                                 color="secondary" 
                                 className={classes.button}
                                 
                             >
-                            {/* {loading? <CircularProgress color="secondary" /> : */}
+                            {
+                            loading? <CircularProgress color="secondary" /> :
                                 <Typography>
                                     Trimite mailul
                                 </Typography>
-                            
+                            }
                             </Button>
                         </div>
                     </Paper> : null

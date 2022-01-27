@@ -192,8 +192,6 @@ export default function GrilePage(props) {
         }
     }
 
-    console.log(items);
-    console.log(randomOrder);
     const sendReport = async () => {
         if(reportText.length >1 ){
             setLoading(true);
