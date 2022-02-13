@@ -340,7 +340,7 @@ export default function GrilePage(props) {
 
     return (
         <>
-        <ErrorPopup errorStatus={error} />
+        <ErrorPopup errorStatus={error} setError={setError} />
         <Helmet>
             <title>{ TITLE }</title>
         </Helmet>
@@ -506,12 +506,13 @@ export default function GrilePage(props) {
                             <div className={classes.paperDivRandomOrder} >
                                 <div>
                                 <Typography >
-                                    Ordinea variantelor de răspuns aleatoare.
+                                    Randomizare variante de răspuns:
                                 </Typography>
                                 <Typography>
-                                    Dacă selectezi această opțiune, de fiecare dată afișăm o grilă, 
-                                    ordinea variantelor de răspuns va fi diferită. 
-                                    În felul acesta, dacă parcurgi aceeași grilă în două teste diferite, este posibil ca varianta corectă să apară prima dată la punctul a) și a doua oară la punctul d).
+                                    On - variantele de răspuns ale grilei vor apărea de fiecare dată în altă ordine
+                                </Typography>
+                                <Typography>
+                                    Off - variantele de răspuns ale grilei vor apărea de fiecare dată în aceeași ordine
                                 </Typography>
                                 </div>
                                 <Switch checked={randomOrder} onChange={() => {localStorage.setItem("randomOrder", !randomOrder); setRandomOrder(!randomOrder)}}/>
