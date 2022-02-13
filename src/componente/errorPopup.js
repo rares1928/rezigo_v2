@@ -8,6 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Cookies from "universal-cookie";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { callApi } from "../utils/callApi";
 
 const useStyles = makeStyles((theme) => ({
   buttonDiv: {
@@ -30,6 +31,20 @@ export default function ErrorPopup(props) {
     cookies.remove("firstname");
     cookies.remove("lastname");
     history.push("/login");
+  };
+
+  const handleSucces = (e) => {
+    window.location.reload();
+  };
+
+  const handleError = (e) => {
+    console.log(e);
+  };
+
+  const refresh = () => {
+    const url =
+      "https://grileapiwin.azurewebsites.net/api/Refresh?code=QodEO8qEujMNdzvrjSJ6qwN/K9KmIOTbha8IKaa6dzSTJzxa4Lr8lg==";
+    callApi(url, {}, handleSucces, handleError);
   };
 
   const classes = useStyles();
@@ -61,7 +76,7 @@ export default function ErrorPopup(props) {
                         Refresh
                     </Button> */}
           {props.errorStatus === 403 ? (
-            <Button onClick={() => {}} variant="contained" color="secondary">
+            <Button onClick={refresh} variant="contained" color="secondary">
               Vreau să folosesc acest device.
             </Button>
           ) : (

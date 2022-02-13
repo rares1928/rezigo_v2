@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import test from "../poze/test_v4.svg";
 import librarie from "../poze/librarie_v5.svg";
 // import grupuri from '../poze/grupuri_v1.svg';
@@ -18,6 +18,8 @@ import { Helmet } from "react-helmet";
 import UserHelper from "../componente/userHelper.js";
 import TutorialCard from "../componente/tutorialCard";
 import ErrorPopup from "../componente/errorPopup";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { callApi } from "../utils/callApi";
 
 const useStyles = makeStyles((theme) => ({
   wrapperDiv: {
@@ -41,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
     maxwidth: "80vw",
   },
   instructionsText: {
-    display: "flex",
-    flexDirection: "row",
+    // display: "flex",
+    // flexDirection: "row",
     marginTop: theme.spacing(0),
     marginBottom: theme.spacing(2),
     paddingLegt: theme.spacing(2),
@@ -54,10 +56,28 @@ export default function HomePage() {
 
   const TITLE = "Acasă";
   const [userHelper, setUserHelper] = useState(false);
-  const [tipCont, setTipCont] = useState("Standard");
-  const [questionRemaining, setQuestionRemaining] = useState(0);
   //   const [questionSolved, setQeustionSolved] = useState(124);
   const [error, setError] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [items, setItems] = useState({});
+
+  const handleError = (e) => {
+    console.log(e.status);
+    setLoading(false);
+    setError(e.status);
+  };
+
+  const handleItems = (e) => {
+    setItems(e.data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    const url =
+      "https://grileapiwin.azurewebsites.net/api/GetStatus?code=MtfWukjuzDqDGubbuJCnMnawGweSHuVD4NNalvRuo1dRs2REJIbAAg==";
+    callApi(url, {}, handleItems, handleError);
+  }, []);
 
   return (
     <div className={classes.wrapperDiv}>
@@ -73,17 +93,23 @@ export default function HomePage() {
             }}
           />
         ) : null}
-        <div>
-          <Typography variant="h6" className={classes.instructionsText}>
-            Tipul contului tău: {tipCont}
-            {tipCont === "Standard" ? (
-              <div>; {questionRemaining} întrebări rămase azi </div>
-            ) : null}
-          </Typography>
-          {/* <Typography variant="h6">
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <div className={classes.instructionsText}>
+            <Typography variant="h6">
+              Tipul contului tău: {items.tip_profil}
+              {items.tip_profil === "Standard" ? (
+                <div>
+                  Astăzi mai poți rezolva {items.intrebariRamase} de grile
+                </div>
+              ) : null}
+            </Typography>
+            {/* <Typography variant="h6">
             Grile rezolvate în ultimele 3 zile: {questionSolved}
           </Typography> */}
-        </div>
+          </div>
+        )}
         <Grid justifyContent="center" container spacing={6}>
           <Grid item>
             <TutorialCard
