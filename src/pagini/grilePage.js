@@ -67,7 +67,7 @@ export default function GrilePage(props) {
     };
 
     const handleError = (e) => {
-        setError(e);
+        setError(e.status);
     };
     
     useEffect(() => {
