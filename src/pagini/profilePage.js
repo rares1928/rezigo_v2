@@ -54,6 +54,10 @@ export default function ProfilePage(props) {
     accordion: {
       backgroundColor: props.darkMode ? "#5c5c5c" : "#fafafa",
     },
+    listItem: {
+      backgroundColor: props.darkMode ? "#5c5c5c" : "#fafafa",
+      marginBottom: theme.spacing(2),
+    },
     textField: {
       margin: theme.spacing(1),
     },
@@ -79,6 +83,9 @@ export default function ProfilePage(props) {
     },
     linkNeterminate: {
       cursor: "pointer",
+    },
+    barChartList: {
+      paddingBottom: theme.spacing(2),
     },
   }));
 
@@ -180,7 +187,7 @@ export default function ProfilePage(props) {
         </Alert>
       </Snackbar>
       <ErrorPopup errorStatus={error} setError={setError} />
-      <Container className={classes.root} maxWidth="sm">
+      <Container className={classes.root} maxWidth="md">
         <Helmet>
           <title>{TITLE}</title>
         </Helmet>
@@ -476,7 +483,7 @@ export default function ProfilePage(props) {
           ) : (
             <div className={classes.divAccordion}>
               <List className={classes.accordion}>
-                <ListItem className={classes.listItem}>
+                <ListItem key="placinta_teste" className={classes.listItem}>
                   <Placinta
                     className={classes.placinta}
                     data={[
@@ -497,13 +504,13 @@ export default function ProfilePage(props) {
                     darkMode={props.darkMode}
                   />
                 </ListItem>
-                <ListItem>
+                <ListItem key="teste_totale">
                   <Typography>
                     Începute: {items["lista_teste"].length}
                   </Typography>
                 </ListItem>
                 <Divider />
-                <ListItem>
+                <ListItem key="teste_rezolvate">
                   <Typography>
                     Terminate:{" "}
                     {
@@ -514,7 +521,7 @@ export default function ProfilePage(props) {
                   </Typography>
                 </ListItem>
                 <Divider />
-                <ListItem>
+                <ListItem key="teste_nerezolvate">
                   <Typography>
                     <Link
                       className={classes.linkNeterminate}
@@ -537,7 +544,7 @@ export default function ProfilePage(props) {
                   </Typography>
                 </ListItem>
                 <Divider />
-                <ListItem>
+                <ListItem key="teste_media_scorurilor">
                   <Typography>
                     Media scorurilor testelor terminate:{" "}
                     {Number(
@@ -581,7 +588,7 @@ export default function ProfilePage(props) {
           ) : (
             <div className={classes.divAccordion}>
               <List className={classes.accordion}>
-                <ListItem className={classes.listItem}>
+                <ListItem key="placinta" className={classes.listItem}>
                   <Placinta
                     className={classes.placinta}
                     data={[
@@ -605,7 +612,7 @@ export default function ProfilePage(props) {
                     darkMode={props.darkMode}
                   />
                 </ListItem>
-                <ListItem>
+                <ListItem key="teste">
                   <Typography>
                     Total:{" "}
                     {items["lista_teste"].reduce(
@@ -615,7 +622,7 @@ export default function ProfilePage(props) {
                   </Typography>
                 </ListItem>
                 <Divider />
-                <ListItem>
+                <ListItem key="teste_corecte">
                   <Typography>
                     Corecte:{" "}
                     {items["lista_teste"].reduce(
@@ -625,7 +632,7 @@ export default function ProfilePage(props) {
                   </Typography>
                 </ListItem>
                 <Divider />
-                <ListItem>
+                <ListItem key="teste_gresite">
                   <Typography>
                     Greșite:{" "}
                     {items["lista_teste"].reduce(
@@ -636,6 +643,107 @@ export default function ProfilePage(props) {
                 </ListItem>
                 <Divider />
               </List>
+            </div>
+          )}
+        </Paper>
+
+        <Paper className={classes.paper}>
+          <Typography className={classes.typographyHeader} variant="h5">
+            Statistici pe categorii:{" "}
+          </Typography>
+          {!ready ? (
+            <CircularProgress />
+          ) : (
+            <div className={classes.divAccordion}>
+              {items.statisticiCategoriiSite
+                .filter(
+                  (element) => element.Ratio !== -1 && element.ScorObtinut !== 0
+                )
+                .map((elm, index) => (
+                  <List
+                    key={"lista_mare_categorii_" + String(index)}
+                    className={classes.listItem}
+                  >
+                    <ListItem key={"listItem_title_" + String(index)}>
+                      <Typography>{elm["Categorie"]}</Typography>
+                    </ListItem>
+                    <Divider />
+                    <ListItem key={"listItem_scorObtinut_" + String(index)}>
+                      <Typography>
+                        Răspunsuri corecte:{" "}
+                        {items.statisticiCategoriiProfil.find(
+                          (elemSite) =>
+                            elemSite["Categorie"] === elm["Categorie"]
+                        ) === undefined
+                          ? 0
+                          : items.statisticiCategoriiProfil.find(
+                              (elemSite) =>
+                                elemSite["Categorie"] === elm["Categorie"]
+                            ).ScorObtinut}
+                      </Typography>
+                    </ListItem>
+                    <Divider />
+                    <ListItem key={"listItem_scorPosibil" + String(index)}>
+                      <Typography>
+                        Scor maxim posibil:{" "}
+                        {items.statisticiCategoriiProfil.find(
+                          (elemSite) =>
+                            elemSite["Categorie"] === elm["Categorie"]
+                        ) === undefined
+                          ? 0
+                          : items.statisticiCategoriiProfil.find(
+                              (elemSite) =>
+                                elemSite["Categorie"] === elm["Categorie"]
+                            ).ScorPosibil}
+                      </Typography>
+                    </ListItem>
+                    <Divider />
+                    <ListItem key={"listItem_media_ta_" + String(index)}>
+                      <Typography>
+                        Media ta:{" "}
+                        {items.statisticiCategoriiProfil.find(
+                          (elemSite) =>
+                            elemSite["Categorie"] === elm["Categorie"]
+                        ) === undefined
+                          ? 0
+                          : Math.floor(
+                              items.statisticiCategoriiSite.find(
+                                (elemSite) =>
+                                  elemSite["Categorie"] === elm["Categorie"]
+                              ).Ratio * 950
+                            )}{" "}
+                        /950
+                      </Typography>
+                    </ListItem>
+                    <Divider />
+                    <ListItem key={"listItem_scorSite_" + String(index)}>
+                      <Typography>
+                        Media site-ului: {Math.floor(elm.Ratio * 950)} /950
+                      </Typography>
+                    </ListItem>
+                    {/* <BarChartHorizontal
+                      key={"bar_chart" + String(key)}
+                      darkMode={props.darkMode}
+                      className={classes.placinta}
+                      title={element["Categorie"]}
+                      data={[[" ", "Media ta", "Media site-ului"]].concat([
+                        [
+                          " ",
+                          items.statisticiCategoriiProfil.find(
+                            (elemSite) =>
+                              elemSite["Categorie"] === element["Categorie"]
+                          ) === undefined
+                            ? 0
+                            : items.statisticiCategoriiSite.find(
+                                (elemSite) =>
+                                  elemSite["Categorie"] === element["Categorie"]
+                              ).Ratio * 100,
+                          element.Ratio * 100,
+                        ],
+                      ])}
+                    /> */}
+                  </List>
+                ))}
             </div>
           )}
         </Paper>
