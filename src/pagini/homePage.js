@@ -74,11 +74,6 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    ReactGa.initialize("G-6CDSP8QRBF");
-
-    //report page view:
-    ReactGa.pageview("/");
-
     setLoading(true);
     const url =
       "https://grileapiwin.azurewebsites.net/api/GetStatus?code=MtfWukjuzDqDGubbuJCnMnawGweSHuVD4NNalvRuo1dRs2REJIbAAg==";
