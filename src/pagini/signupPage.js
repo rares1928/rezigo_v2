@@ -1,24 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import logo from '../poze/logo4.svg';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import axios from 'axios';
-import CircularProgress from '@material-ui/core/CircularProgress';
-
+import React, { useEffect, useState } from "react";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import logo from "../poze/logo4.svg";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     paddingBottom: theme.spacing(3),
   },
   logoBox: {
@@ -32,13 +31,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  activareDiv:{
+  activareDiv: {
     marginTop: theme.spacing(3),
   },
   textContDiv: {
@@ -48,9 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function SignUp() {
-
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState("");
@@ -68,77 +65,72 @@ export default function SignUp() {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get('https://geolocation-db.com/json/')
+      const res = await axios.get("https://geolocation-db.com/json/");
       setIP(res.data.IPv4);
-    }  ;
+    };
 
     getData();
-  },[]);
+  }, []);
 
-
-  const callSigupApi = async ()=>{
-    if(firstName === "" || lastName === "" || email === ""){
-        setIncompleteFields(true);
-    }else{
-        setErrorMail(false);
+  const callSigupApi = async () => {
+    if (firstName === "" || lastName === "" || email === "") {
+      setIncompleteFields(true);
+    } else {
+      setErrorMail(false);
+      setErrorPwd(false);
+      setIncompleteFields(false);
+      if (password !== repeatPassword || password.length < 8) {
+        setErrorPwd(true);
+        return;
+      } else {
         setErrorPwd(false);
-        setIncompleteFields(false);
-        if(password !== repeatPassword || password.length < 8){
-          setErrorPwd(true);
-          return ;
-        }else{
-          setErrorPwd(false);
-        }
-        if(!validateEmail(email)){
-          setErrorMail(true);
-          return; 
-        }else{
-          setErrorMail(false);
-        }
-        if(!errorPwd && !errorMail ){
-          setIsLoading(true);
-          const url="https://grileapiwin.azurewebsites.net/api/SingUpEncrypt?code=y8RZs3SfCrHH67iTLoYW4vhr/n4Hbu1l6P62EsTDGR3s7bPOk48DKw==";
-          const data = {
-            email: email,
-            nume: lastName,
-            prenume: firstName,
-            parola: password,
-            ip: IP,
-          }
-          try {await axios.post(url, data);
+      }
+      if (!validateEmail(email)) {
+        setErrorMail(true);
+        return;
+      } else {
+        setErrorMail(false);
+      }
+      if (!errorPwd && !errorMail) {
+        setIsLoading(true);
+        const url =
+          "https://grileapiwin.azurewebsites.net/api/SingUpEncrypt?code=y8RZs3SfCrHH67iTLoYW4vhr/n4Hbu1l6P62EsTDGR3s7bPOk48DKw==";
+        const data = {
+          email: email,
+          nume: lastName,
+          prenume: firstName,
+          parola: password,
+          ip: IP,
+        };
+        try {
+          await axios.post(url, data);
           setActivateField(true);
-          }
-          catch(err){
-            console.log(err);
-            setError(err.response.status);
-          }
-          setIsLoading(false);
+        } catch (err) {
+          console.log(err);
+          setError(err.response.status);
         }
+        setIsLoading(false);
+      }
     }
+  };
+
+  function validateEmail(mail) {
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(mail);
   }
 
-  function validateEmail(mail) 
-    {
-        var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(mail);
-    }
-    
-  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Box className={classes.logoBox}>
-            <img 
-                src={logo} 
-                alt="logo" 
-            />
+          <img src={logo} alt="logo" />
         </Box>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                disabled = {activateField}
+                disabled={activateField}
                 color="secondary"
                 autoComplete="fname"
                 name="firstName"
@@ -149,12 +141,12 @@ export default function SignUp() {
                 label="Prenume"
                 autoFocus
                 value={firstName}
-                onInput={e => setFirstName(e.target.value)} 
+                onInput={(e) => setFirstName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                disabled = {activateField}
+                disabled={activateField}
                 color="secondary"
                 variant="outlined"
                 required
@@ -164,12 +156,12 @@ export default function SignUp() {
                 name="lastName"
                 autoComplete="lname"
                 value={lastName}
-                onInput={e => setLastName(e.target.value)} 
+                onInput={(e) => setLastName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                disabled = {activateField}
+                disabled={activateField}
                 color="secondary"
                 variant="outlined"
                 required
@@ -179,13 +171,13 @@ export default function SignUp() {
                 name="email"
                 autoComplete="email"
                 value={email}
-                onInput={e => setEmail(e.target.value)} 
-                error={error === 400 || validateEmail(email) }
+                onInput={(e) => setEmail(e.target.value)}
+                error={error === 400 || !validateEmail(email)}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                disabled = {activateField}
+                disabled={activateField}
                 color="secondary"
                 variant="outlined"
                 required
@@ -196,13 +188,13 @@ export default function SignUp() {
                 id="password"
                 autoComplete="current-password"
                 value={password}
-                onInput={e => setPassword(e.target.value)} 
+                onInput={(e) => setPassword(e.target.value)}
                 error={errorPwd}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                disabled = {activateField}
+                disabled={activateField}
                 color="secondary"
                 variant="outlined"
                 required
@@ -212,80 +204,91 @@ export default function SignUp() {
                 type="password"
                 id="repeatPassword"
                 value={repeatPassword}
-                onInput={e => setRepeatPassword(e.target.value)}
-                error={errorPwd} 
+                onInput={(e) => setRepeatPassword(e.target.value)}
+                error={errorPwd}
               />
             </Grid>
-            
           </Grid>
           <Button
             fullWidth
             variant="contained"
             color="secondary"
             className={classes.submit}
-            onClick={()=>{callSigupApi()}}
-            disabled = {isLoading || activateField}
+            onClick={() => {
+              callSigupApi();
+            }}
+            disabled={isLoading || activateField}
           >
-            {isLoading? 
-            <Typography>Trimitem email <CircularProgress color="primary" size={25} /></Typography> : 
-            <Typography>Creează cont!</Typography>}
+            {isLoading ? (
+              <Typography>
+                Trimitem email <CircularProgress color="primary" size={25} />
+              </Typography>
+            ) : (
+              <Typography>Creează cont!</Typography>
+            )}
           </Button>
-          <Grid container >
-            {
-              (error === 418) &&
+          <Grid container>
+            {error === 418 && (
               <Grid item>
-                <Typography variant="subtitle1" color="error" >
-                    Există deja un cont cu acest email!
+                <Typography variant="subtitle1" color="error">
+                  Există deja un cont cu acest email!
                 </Typography>
               </Grid>
-            }
-            {
-              (error === 419) &&
+            )}
+            {error === 419 && (
               <Grid item>
-                <Typography variant="subtitle1" color="error" >
-                    Există un cont neactivat pe acest email. Te rugăm să îți verifici emailul, inclusiv in spam. În cazul în care nu ai primit link-ul de activare, te rugăm să ne contactezi pe Facebook, Instagram sau la adresa rezigo.contact@gmail.com.
+                <Typography variant="subtitle1" color="error">
+                  Există un cont neactivat pe acest email. Te rugăm să îți
+                  verifici emailul, inclusiv in spam. În cazul în care nu ai
+                  primit link-ul de activare, te rugăm să ne contactezi pe
+                  Facebook, Instagram sau la adresa rezigo.contact@gmail.com.
                 </Typography>
               </Grid>
-            }
-            {incompleteFields &&
+            )}
+            {incompleteFields && (
               <Grid item>
-                    <Typography variant="subtitle1" color="error" >
-                        Nu ai completat toate câmpurile!
-                    </Typography>
+                <Typography variant="subtitle1" color="error">
+                  Nu ai completat toate câmpurile!
+                </Typography>
               </Grid>
-            }
-            {errorPwd &&
-            <Grid item>
-              <Typography variant="subtitle1" color="error" >
-                Parolele nu coincid sau lungimea parolei este mai mică de 8 caractere.
-              </Typography>
-            </Grid>
-            }
-            {errorMail &&
-            <Grid item>
-              <Typography variant="subtitle1" color="error" >
-                Adresa de email introdusă nu este corectă.
-              </Typography>
-            </Grid>
-            }
+            )}
+            {errorPwd && (
+              <Grid item>
+                <Typography variant="subtitle1" color="error">
+                  Parolele nu coincid sau lungimea parolei este mai mică de 8
+                  caractere.
+                </Typography>
+              </Grid>
+            )}
+            {errorMail && (
+              <Grid item>
+                <Typography variant="subtitle1" color="error">
+                  Adresa de email introdusă nu este corectă.
+                </Typography>
+              </Grid>
+            )}
           </Grid>
           <Grid container className={classes.textContDiv}>
             <div></div>
-            {!isLoading && !activateField &&
-            <>
-              <Link href="/login" variant="body2" color="secondary">
-                Deja ai cont? Autentifică-te
-              </Link>
-            </>
-            }
+            {!isLoading && !activateField && (
+              <>
+                <Link href="/login" variant="body2" color="secondary">
+                  Deja ai cont? Autentifică-te
+                </Link>
+              </>
+            )}
           </Grid>
 
-          {activateField &&
+          {activateField && (
             <div className={classes.activareDiv}>
-              {isLoading? <CircularProgress/>:
+              {isLoading ? (
+                <CircularProgress />
+              ) : (
                 <Typography>
-                Am trimis un link de activare la adresa specificată de tine mai sus. E posibil ca mailul să intre în spam.
-              </Typography>}
+                  Am trimis un link de activare la adresa specificată de tine
+                  mai sus. E posibil ca mailul să intre în spam.
+                </Typography>
+              )}
               {/* <Button
                 fullWidth
                 variant="contained"
@@ -335,10 +338,9 @@ export default function SignUp() {
                 }
               </Grid> */}
             </div>
-          }
+          )}
         </form>
       </div>
-      
     </Container>
   );
 }
