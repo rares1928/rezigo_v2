@@ -20,7 +20,6 @@ import TutorialCard from "../componente/tutorialCard";
 import ErrorPopup from "../componente/errorPopup";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { callApi } from "../utils/callApi";
-import ReactGa from "react-ga";
 
 const useStyles = makeStyles((theme) => ({
   wrapperDiv: {
@@ -161,10 +160,9 @@ export default function HomePage() {
           <Grid item>
             <HomeCard
               imagine={premium}
-              sendTo="/"
+              sendTo="/premium"
               title="Premium"
               text="Investește în tine! Activează-ți contul premium "
-              disabled={true}
             />
           </Grid>
         </Grid>

@@ -25,6 +25,7 @@ import AdminsDisplayGrile from "./pagini/adminsDisplayGrile";
 import AdminsEditGrila from "./pagini/adminsEditGrila";
 import IntrebariFrecventePage from "./pagini/intrebariFrecvente";
 import PrezentarePage from "./pagini/prezentare";
+import PremiumPage from "./pagini/premium";
 
 function App() {
   const [darkMode, setDarkMode] = useState(
@@ -88,6 +89,7 @@ function App() {
                   exact
                   component={() => <GrilePage darkMode={darkMode}></GrilePage>}
                 />
+                <Route path="/premium" exact component={PremiumPage} />
                 <Route path="/despre_noi" exact component={DespreNoi} />
                 <Route path="/termeni" exact component={Termeni} />
                 <Route
