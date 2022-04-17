@@ -5,23 +5,16 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import Grid from "@material-ui/core/Grid";
-import StarIcon from "@material-ui/icons/StarBorder";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import ErrorPopup from "../componente/errorPopup";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
+import { callApi } from "../utils/callApi";
 
 const useStyles = makeStyles((theme) => ({
-  "@global": {
-    ul: {
-      margin: 0,
-      padding: 0,
-      listStyle: "none",
-    },
-  },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
@@ -47,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "baseline",
     alignItems: "center",
     marginBottom: theme.spacing(2),
   },
@@ -68,6 +60,10 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
+  typoDetaliiCont: {
+    paddingBottom: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+  },
 }));
 
 export default function Pricing() {
@@ -75,8 +71,10 @@ export default function Pricing() {
   const TITLE = "Premium";
   const [error, setError] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [loadingPrices, setLoadingPrices] = useState(false);
+  const [loadCumpara, setLoadCumpara] = useState(false);
   const [items, setItems] = useState({});
-  let history = useHistory();
+  const [prices, setPrices] = useState([]);
 
   const handleError = (e) => {
     console.log(e.status);
@@ -91,47 +89,42 @@ export default function Pricing() {
 
   useEffect(() => {
     setLoading(true);
-    const url = "";
-    //callApi(url, {}, handleItems, handleError);
+    setLoadingPrices(true);
+    const url1 =
+      "https://grileapiwin.azurewebsites.net/api/GetStatus?code=MtfWukjuzDqDGubbuJCnMnawGweSHuVD4NNalvRuo1dRs2REJIbAAg==";
+    const url2 =
+      "https://casademarcatstripe.azurewebsites.net/api/GetProducts?code=Psb7NdoIolsvXrirm304P2Tf81xGpTF6Jqt3YiaSsPIYAG01DjxgnQ==";
+    callApi(url1, {}, handleItems, handleError);
+
+    const receiveProducts = async () => {
+      try {
+        const response = await axios.post(url2, {}, {});
+        setPrices(response.data);
+        setLoadingPrices(false);
+      } catch (err) {
+        console.log("Eroare Preturi:", err);
+        setLoadingPrices(false);
+      }
+    };
+
+    receiveProducts();
   }, []);
 
-  const tiers = [
-    {
-      title: "Premium o lună",
-      initialPrice: "150",
-      price: "75",
-      description: ["Adaugă 30 de zile premium"],
-      buttonText: "Cumpără",
-      buttonVariant: "contained",
-    },
-    {
-      title: "Premium 3 luni",
-      // subheader: "Most popular",
-      initialPrice: "400",
-      price: "200",
-      description: ["Adaugă 90 de zile premium"],
-      buttonText: "Cumpără",
-      buttonVariant: "contained",
-    },
-    {
-      title: "Premium până la Rezi",
-      initialPrice: "940",
-      price: "470",
-      description: ["Achiziționează cont premium până în data de 16.11.2022"],
-      buttonText: "Cumpără",
-      buttonVariant: "contained",
-    },
-  ];
-
-  const premium1 = async () => {
+  const buyPremium = async (id) => {
+    setLoadCumpara(true);
     let url =
       "https://casademarcatstripe.azurewebsites.net/api/Checkout?code=mixrnC2fxaCyLehzsCZDSbIlFciJwGcANg6slkwF6T1pd3C257qZqA==";
-    const response = await axios.post(
-      url,
-      { quantity: 1, product: "premium1Luna" },
-      {}
-    );
-    window.location.href = response.data;
+    try {
+      const response = await axios.post(
+        url,
+        { quantity: 1, product: id, domain: window.location.href },
+        {}
+      );
+      window.location.href = response.data;
+    } catch (err) {
+      console.log(err);
+      setLoadCumpara(false);
+    }
   };
 
   return (
@@ -163,83 +156,95 @@ export default function Pricing() {
         </Typography>
       </Container>
       {/* End hero unit */}
-      <Container maxWidth="md" component="main">
-        <Grid container spacing={5} alignItems="flex-end">
-          {tiers.map((tier) => (
-            // Enterprise card is full width at sm breakpoint
-            <Grid
-              item
-              key={tier.title}
-              xs={12}
-              sm={tier.title === "Enterprise" ? 12 : 6}
-              md={4}
-            >
-              <Card className={classes.cardDiv}>
-                <CardHeader
-                  title={tier.title}
-                  subheader={tier.subheader}
-                  titleTypographyProps={{ align: "center" }}
-                  subheaderTypographyProps={{ align: "center" }}
-                  action={tier.title === "Pro" ? <StarIcon /> : null}
-                  className={classes.cardHeader}
-                />
-                <CardContent>
-                  <div className={classes.cardPricing}>
-                    <div className={classes.priceCutDiv}>
+      {loadingPrices ? (
+        <CircularProgress />
+      ) : (
+        <Container maxWidth="md" component="main">
+          <Grid container spacing={5} alignItems="flex-end">
+            {prices.map((price) => (
+              // Enterprise card is full width at sm breakpoint
+              <Grid item key={price.name} xs={12} md={4}>
+                <Card className={classes.cardDiv}>
+                  <CardHeader
+                    title={price.name}
+                    // subheader={}
+                    titleTypographyProps={{ align: "center" }}
+                    subheaderTypographyProps={{ align: "center" }}
+                    // action={tier.title === "Pro" ? <StarIcon /> : null}
+                    className={classes.cardHeader}
+                  />
+                  <CardContent>
+                    <div className={classes.cardPricing}>
+                      <div className={classes.priceCutDiv}>
+                        <Typography
+                          component="h4"
+                          variant="h5"
+                          color="textPrimary"
+                          className={classes.priceCutTypo}
+                        >
+                          {(parseInt(price.metadata.price) / 100) * 2}
+                        </Typography>
+                        <Typography
+                          component="h4"
+                          variant="h5"
+                          color="textPrimary"
+                        >
+                          Lei (-50%)
+                        </Typography>
+                      </div>
+
                       <Typography
-                        component="h4"
-                        variant="h5"
-                        color="textPrimary"
-                        className={classes.priceCutTypo}
-                      >
-                        {tier.initialPrice}
-                      </Typography>
-                      <Typography
-                        component="h4"
-                        variant="h5"
+                        component="h2"
+                        variant="h3"
                         color="textPrimary"
                       >
-                        Lei (-50%)
+                        {parseInt(price.metadata.price) / 100} Lei
                       </Typography>
                     </div>
 
-                    <Typography component="h2" variant="h3" color="textPrimary">
-                      {tier.price} Lei
+                    <Typography variant="subtitle1" align="center">
+                      {price.description}
                     </Typography>
-                  </div>
-                  <ul>
-                    {tier.description.map((line) => (
-                      <Typography
-                        component="li"
-                        variant="subtitle1"
-                        align="center"
-                        key={line}
-                      >
-                        {line}
-                      </Typography>
-                    ))}
-                  </ul>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    className={classes.Button}
-                    fullWidth
-                    variant={tier.buttonVariant}
-                    color="secondary"
-                    onClick={() => {
-                      if (tier.title === "Premium o lună") {
-                        premium1();
-                      }
-                    }}
-                  >
-                    {tier.buttonText}
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      className={classes.Button}
+                      fullWidth
+                      variant="contained"
+                      color="secondary"
+                      disabled={loadCumpara}
+                      onClick={() => {
+                        buyPremium(price.id);
+                      }}
+                    >
+                      {loadCumpara ? <CircularProgress /> : "Cumpără"}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <Typography
+              className={classes.typoDetaliiCont}
+              variant="h6"
+              component="p"
+            >
+              Tipul contului tău: {items.tip_profil}{" "}
+              {items.tip_profil === "Premium" ? (
+                <>
+                  până la data de: {items.zileRamase.split("T")[0]} ora:{" "}
+                  {items.zileRamase.split("T")[1].replace(":00", "")}
+                </>
+              ) : (
+                ""
+              )}
+            </Typography>
+          )}
+        </Container>
+      )}
     </React.Fragment>
   );
 }
