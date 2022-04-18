@@ -190,19 +190,102 @@ export default function TestePage() {
   const creeazaSimulare = async () => {
     setGoLoading(true);
     const lista_categorii = [];
+    let vectorNumarGrile = [];
     for (let i = 0; i < listaSelectiiSimulare.length; i++) {
       if (listaSelectiiSimulare[i]) {
+        vectorNumarGrile.push({
+          nume_categorie: listaCategorii[i]["category_Name"],
+          subcategorie: [],
+        });
         for (let j = 0; j < listaselectiisubcat[i].length; j++) {
-          lista_categorii.push({
-            nume_categorie: listaCategorii[i]["category_Name"],
+          vectorNumarGrile[vectorNumarGrile.length - 1]["subcategorie"].push({
             nume_subcategorie: listaCategorii[i]["subCategory"][j]["Name"],
             numar: listaCategorii[i]["subCategory"][j]["Count"],
           });
         }
       }
     }
+    vectorNumarGrile = vectorNumarGrile.sort(
+      (a, b) =>
+        a["subcategorie"].reduce((acc, val) => acc + val["numar"], 0) -
+        b["subcategorie"].reduce((acc, val) => acc + val["numar"], 0)
+    );
+    const mediaPerCapitol = Math.floor(
+      200 / listaSelectiiSimulare.filter((capitol) => capitol).length
+    );
+    let d =
+      200 -
+      mediaPerCapitol *
+        listaSelectiiSimulare.filter((capitol) => capitol).length;
+    let grileDeAdaugat = 0;
+    let grilePerCapitol = 0;
+
+    let dSubcat = 0;
+    let grileDeAdaugatSubcat = 0;
+    let mediaPerSubCapitol = 0;
+    let grilePerSubCapitol = 0;
+    let grileRamaseDeAdaugat = 200;
+
+    for (let i = 0; i < vectorNumarGrile.length; i++) {
+      grileDeAdaugat = 0;
+      grilePerCapitol = vectorNumarGrile[i]["subcategorie"].reduce(
+        (acc, val) => acc + val["numar"],
+        0
+      );
+      if (grilePerCapitol < mediaPerCapitol) {
+        grileDeAdaugat = grilePerCapitol;
+        d = d + mediaPerCapitol - grileDeAdaugat;
+      } else if (grilePerCapitol < mediaPerCapitol + d) {
+        grileDeAdaugat = grilePerCapitol;
+        d = d - (grileDeAdaugat - mediaPerCapitol);
+      } else {
+        grileDeAdaugat = mediaPerCapitol + d;
+        d = 0;
+      }
+      mediaPerSubCapitol = Math.floor(
+        grileDeAdaugat / vectorNumarGrile[i]["subcategorie"].length
+      );
+      dSubcat =
+        grileDeAdaugat -
+        mediaPerSubCapitol * vectorNumarGrile[i]["subcategorie"].length;
+      for (let j = 0; j < vectorNumarGrile[i]["subcategorie"].length; j++) {
+        grileDeAdaugatSubcat = 0;
+        grilePerSubCapitol = vectorNumarGrile[i]["subcategorie"].sort(
+          (a, b) => a["numar"] - b["numar"]
+        )[j]["numar"];
+
+        if (
+          i === vectorNumarGrile.length - 1 &&
+          j === vectorNumarGrile[i]["subcategorie"].length - 1
+        ) {
+          grileDeAdaugatSubcat = grileRamaseDeAdaugat;
+        } else {
+          if (grilePerSubCapitol < mediaPerSubCapitol) {
+            grileDeAdaugatSubcat = grilePerSubCapitol;
+            dSubcat = dSubcat + mediaPerSubCapitol - grileDeAdaugatSubcat;
+          } else if (grilePerSubCapitol < mediaPerSubCapitol + dSubcat) {
+            grileDeAdaugatSubcat = grilePerSubCapitol;
+            dSubcat = dSubcat - (grileDeAdaugatSubcat - mediaPerSubCapitol);
+          } else {
+            grileDeAdaugatSubcat = mediaPerSubCapitol + dSubcat;
+            dSubcat = 0;
+          }
+        }
+        lista_categorii.push({
+          nume_categorie: vectorNumarGrile[i]["nume_categorie"],
+          nume_subcategorie: vectorNumarGrile[i]["subcategorie"].sort(
+            (a, b) => a["numar"] - b["numar"]
+          )[j]["nume_subcategorie"],
+          numar: grileDeAdaugatSubcat,
+        });
+        grileRamaseDeAdaugat = grileRamaseDeAdaugat - grileDeAdaugatSubcat;
+      }
+    }
+
+    const url =
+      "https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==";
     await callApi(
-      "https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==",
+      url,
       { lista_categorii, aleator: true },
       handleTestIdNou,
       handleError
@@ -751,8 +834,7 @@ export default function TestePage() {
                         disabled={
                           goLoading ||
                           (isCardSelected === "Simulare"
-                            ? produsScalarListe(listaSelectiiSimulare) >
-                              questionRemaining
+                            ? produsScalarListe(listaSelectiiSimulare) <= 200
                             : sumaElemArr(listaselectiisubcat) >
                               questionRemaining)
                         }
@@ -769,20 +851,30 @@ export default function TestePage() {
                           <Typography>Ready Set GO!</Typography>
                         )}
                       </Button>
-                      {(isCardSelected === "Simulare"
-                        ? produsScalarListe(listaSelectiiSimulare) >
-                          questionRemaining
-                        : sumaElemArr(listaselectiisubcat) >
-                          questionRemaining) && (
-                        <>
-                          <Typography
-                            variant="subtitle2"
-                            className={classes.errorTooManyQ}
-                          >
-                            Poți selecta maxim {questionRemaining} întrebări.
-                          </Typography>
-                        </>
-                      )}
+                      {(isCardSelected === "Test nou" ||
+                        isCardSelected === "Examene rezidențiat") &&
+                        sumaElemArr(listaselectiisubcat) >
+                          questionRemaining && (
+                          <>
+                            <Typography
+                              variant="subtitle2"
+                              className={classes.errorTooManyQ}
+                            >
+                              Poți selecta maxim {questionRemaining} întrebări.
+                            </Typography>
+                          </>
+                        )}
+                      {isCardSelected === "Simulare" &&
+                        produsScalarListe(listaSelectiiSimulare) <= 200 && (
+                          <>
+                            <Typography
+                              variant="subtitle2"
+                              className={classes.errorTooManyQ}
+                            >
+                              Trebuie să selectezi cel puțin 200 întrebări.
+                            </Typography>
+                          </>
+                        )}
                     </Grid>
                   </Grid>
                 </Container>
