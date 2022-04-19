@@ -114,11 +114,41 @@ export default function TestePage() {
   const [cartePagini, setCartePagini] = useState("");
   const [firstPage, setFirstPage] = useState(0);
   const [secondPage, setSecondPage] = useState(0);
+  const [listaCategoriiPerPage, setListaCategoriiPerPage] = useState([]);
+  const [loadingPerPage, setLoadingPerPage] = useState(false);
+  const [readyPerPage, setReadyPerPage] = useState(false);
+  const [listaselectiisubcatPerPage, setListaselectiisubcatPerPage] = useState([
+    {},
+  ]);
+  const [listaselectiiPerPage, setListaselectiiPerPage] = useState([]);
+  const [aleatorPerPage, setAleatorPerPage] = useState(false);
 
   const handleError = (e) => {
     setError(e.status);
     setReadyCat(false);
     setReadyTest(false);
+    setReadyPerPage(false);
+    setLoadingPerPage(false);
+  };
+
+  const handleCategoriiPerPage = (e) => {
+    setListaCategoriiPerPage(e.data["lista"]);
+
+    let lista_temp = [];
+    let lista_temp2 = [];
+
+    for (let i = 0; i < e.data["lista"].length; ++i) {
+      const lista_temp_temp = [];
+      for (let j = 0; j < e.data["lista"][i]["subCategory"].length; ++j) {
+        lista_temp_temp.push(0);
+      }
+      lista_temp.push(lista_temp_temp);
+      lista_temp2.push(false);
+    }
+    setListaselectiisubcatPerPage(lista_temp);
+    setListaselectiiPerPage(lista_temp2);
+    setLoadingPerPage(false);
+    setReadyPerPage(true);
   };
 
   const handleCategorii = (e) => {
@@ -195,8 +225,11 @@ export default function TestePage() {
     );
   };
 
-  const cautaGrile = async () => {
-    const url = "";
+  const cautaGrilePerPage = async () => {
+    setLoadingPerPage(true);
+    setReadyPerPage(false);
+    const url =
+      "https://grileapiwin.azurewebsites.net/api/getcategoriiperpage?code=0XsuIZIk34HpyUs/xDAF6DFHk/xIS9ovT7aVCCn7UMkMb0SMM3nyZg==";
     let carte = "";
     if (cartePagini === "Kumar și Clark Medicină Clinică") {
       carte = "Kumar";
@@ -208,10 +241,11 @@ export default function TestePage() {
       carte = "Sinopsis";
     }
     const data = {
-      cartea: carte,
+      carte: carte,
       firstPage: firstPage,
       secondPage: secondPage,
     };
+    await callApi(url, data, handleCategoriiPerPage, handleError);
   };
 
   const creeazaSimulare = async () => {
@@ -336,12 +370,40 @@ export default function TestePage() {
     }
     await callApi(
       "https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==",
-      { lista_categorii, aleator: aleator },
+      { lista_categorii, aleator: false },
       handleTestIdNou,
       handleError
     );
     setGoLoading(false);
   };
+
+  const creeazaTestPerPage = async () => {
+    setGoLoading(true);
+    const lista_categorii = [];
+    for (let i = 0; i < listaselectiiPerPage.length; i++) {
+      for (let j = 0; j < listaselectiisubcatPerPage[i].length; j++) {
+        if (listaselectiisubcatPerPage[i][j] > 0) {
+          lista_categorii.push({
+            nume_categorie: listaCategoriiPerPage[i]["category_Name"],
+            nume_subcategorie:
+              listaCategoriiPerPage[i]["subCategory"][j]["Name"],
+            numar: listaselectiisubcatPerPage[i][j],
+          });
+        }
+      }
+    }
+    const data = {
+      lista_categorii: lista_categorii,
+      aleator: aleatorPerPage,
+      firstPage: firstPage,
+      secondPage: secondPage,
+    };
+    const url =
+      "https://grileapiwin.azurewebsites.net/api/createtestperpage?code=W6TOWV3TlKt4Z4MDlmvET21aB4IJrDsYaNS8fDLkpq/E7zjaEJWt7g==";
+    await callApi(url, data, handleTestIdNou, handleError);
+    setGoLoading(false);
+  };
+
   const displaySimulare = () => {
     return (
       <>
@@ -426,6 +488,7 @@ export default function TestePage() {
       </>
     );
   };
+
   const displayExameneRezidentiat = () => {
     return (
       <div className={classes.bookDiv}>
@@ -449,6 +512,7 @@ export default function TestePage() {
       </div>
     );
   };
+
   const displayGrilePePagini = () => {
     return (
       <>
@@ -494,86 +558,140 @@ export default function TestePage() {
             </Grid>
           </Grid>
           {cartePagini !== "" && (
-            <Grow in={cartePagini !== ""} timeout={growTimeout}>
-              <div>
-                <Typography variant="h6" className={classes.instructionsText}>
-                  3. Selectează paginile:
-                </Typography>
-                <div className={classes.bookSubcatDiv}>
-                  <Typography
-                    variant="subtitle2"
-                    className={classes.instructionsText}
-                  >
-                    De la pagina:
+            <>
+              <Grow in={cartePagini !== ""} timeout={growTimeout}>
+                <div>
+                  <Typography variant="h6" className={classes.instructionsText}>
+                    3. Selectează paginile:
                   </Typography>
-                  <Input
-                    className={classes.marginCls}
-                    label="de la pagina"
-                    variant="outlined"
-                    color="secondary"
-                    value={firstPage}
-                    inputProps={{
-                      step: 1,
-                      min: 0,
-                      type: "number",
-                    }}
-                    onChange={(event) => {
-                      setFirstPage(
-                        event.target.value === ""
-                          ? 0
-                          : Number(event.target.value)
-                      );
-                    }}
-                  />
-                  <Typography
-                    variant="subtitle2"
-                    className={classes.instructionsText}
-                  >
-                    Până la pagina:
-                  </Typography>
-                  <Input
-                    className={classes.marginCls}
-                    label="până la pagina"
-                    variant="outlined"
-                    color="secondary"
-                    value={secondPage}
-                    inputProps={{
-                      step: 1,
-                      min: firstPage,
-                      type: "number",
-                    }}
-                    onChange={(event) => {
-                      setSecondPage(
-                        event.target.value === ""
-                          ? 0
-                          : Number(event.target.value)
-                      );
-                    }}
-                  />
-                  <Button
-                    className={classes.marginCls}
-                    color="secondary"
-                    variant="contained"
-                    disabled={firstPage > secondPage}
-                  >
-                    Caută grile
-                  </Button>
+                  <div className={classes.bookSubcatDiv}>
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.instructionsText}
+                    >
+                      De la pagina:
+                    </Typography>
+                    <Input
+                      disabled={readyPerPage}
+                      className={classes.marginCls}
+                      label="de la pagina"
+                      variant="outlined"
+                      color="secondary"
+                      value={firstPage}
+                      inputProps={{
+                        step: 1,
+                        min: 0,
+                        type: "number",
+                      }}
+                      onChange={(event) => {
+                        setFirstPage(
+                          event.target.value === ""
+                            ? 0
+                            : Number(event.target.value)
+                        );
+                      }}
+                    />
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.instructionsText}
+                    >
+                      Până la pagina:
+                    </Typography>
+                    <Input
+                      disabled={readyPerPage}
+                      className={classes.marginCls}
+                      label="până la pagina"
+                      variant="outlined"
+                      color="secondary"
+                      value={secondPage}
+                      inputProps={{
+                        step: 1,
+                        min: firstPage,
+                        type: "number",
+                      }}
+                      onChange={(event) => {
+                        setSecondPage(
+                          event.target.value === ""
+                            ? 0
+                            : Number(event.target.value)
+                        );
+                      }}
+                    />
+                    <Button
+                      className={classes.marginCls}
+                      color="secondary"
+                      variant="contained"
+                      disabled={
+                        firstPage > secondPage ||
+                        loadingPerPage === true ||
+                        readyPerPage
+                      }
+                      onClick={cautaGrilePerPage}
+                    >
+                      {loadingPerPage ? (
+                        <CircularProgress />
+                      ) : (
+                        <div>Caută grile</div>
+                      )}
+                    </Button>
+                    <Button
+                      className={classes.marginCls}
+                      color="primary"
+                      variant="contained"
+                      disabled={!readyPerPage}
+                      onClick={() => {
+                        setReadyPerPage(false);
+                      }}
+                    >
+                      Altă căutare
+                    </Button>
+                  </div>
+                  {firstPage > secondPage && (
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.instructionsText}
+                    >
+                      Primul număr trebuie să fie mai mic decât al doilea!
+                    </Typography>
+                  )}
                 </div>
-                {firstPage > secondPage && (
-                  <Typography
-                    variant="subtitle2"
-                    className={classes.instructionsText}
-                  >
-                    Primul număr trebuie să fie mai mic decât al doilea!
+              </Grow>
+              {readyPerPage &&
+                (listaCategoriiPerPage.length === 0 ? (
+                  <Typography variant="h6" className={classes.instructionsText}>
+                    Nu am găsit grile în intervalul de pagini specificat de
+                    tine.
                   </Typography>
-                )}
-              </div>
-            </Grow>
+                ) : (
+                  <Grow in={readyPerPage} timeout={growTimeout}>
+                    <div className={classes.bookSubcatDiv}>
+                      <CategoryAcordion
+                        onClickCategorieMare={onClickCategorieMarePerPage}
+                        onClickSubCategorie={onClickSubCategoriePerPage}
+                        listaselectii={listaselectiiPerPage}
+                        listaselectiisubcat={listaselectiisubcatPerPage}
+                        setListaselectii={setListaselectiiPerPage}
+                        setListaselectiisubcat={setListaselectiisubcatPerPage}
+                        data={listaCategoriiPerPage}
+                        book={
+                          cartePagini === "Kumar și Clark Medicină Clinică"
+                            ? "Kumar"
+                            : cartePagini ===
+                              "Chirurgie generală și specialități chirurgicale"
+                            ? "Chirurgie"
+                            : "Sinopsis"
+                        }
+                      />
+                    </div>
+                  </Grow>
+                ))}
+            </>
           )}
         </div>
       </>
     );
   };
+
   const displayTestNou = () => {
     return (
       <>
@@ -664,6 +782,7 @@ export default function TestePage() {
       </>
     );
   };
+
   const displayTestNeterminat = () => {
     return (
       <div>
@@ -684,6 +803,7 @@ export default function TestePage() {
       </div>
     );
   };
+
   const displayReparcurgeGreseli = () => {
     return (
       <div>
@@ -709,6 +829,42 @@ export default function TestePage() {
     const lista_temp_selectii = [...listaSelectiiSimulare];
     lista_temp_selectii[i] = !listaSelectiiSimulare[i];
     setListaSelectiiSimulare(lista_temp_selectii);
+  };
+
+  const onClickCategorieMarePerPage = (i) => {
+    const lista_temp_selectii = [...listaselectiiPerPage];
+    const lista_temporara_mare = [...listaselectiisubcatPerPage];
+    const lista_temporara = [...listaselectiisubcatPerPage[i]];
+    if (
+      listaselectiisubcatPerPage[i].reduce((acc, value) => acc + value, 0) ===
+      listaCategoriiPerPage[i].subCategory.reduce(
+        (acc, subcat) => acc + subcat.Count,
+        0
+      )
+    ) {
+      for (
+        let index = 0;
+        index < listaselectiisubcatPerPage[i].length;
+        index++
+      ) {
+        lista_temporara[index] = 0;
+      }
+      lista_temporara_mare[i] = lista_temporara;
+      setListaselectiisubcatPerPage(lista_temporara_mare);
+    } else {
+      for (
+        let index = 0;
+        index < listaselectiisubcatPerPage[i].length;
+        index++
+      ) {
+        lista_temporara[index] =
+          listaCategoriiPerPage[i].subCategory[index].Count;
+      }
+      lista_temporara_mare[i] = lista_temporara;
+      setListaselectiisubcatPerPage(lista_temporara_mare);
+    }
+    lista_temp_selectii[i] = !listaselectii[i];
+    setListaselectiiPerPage(lista_temp_selectii);
   };
 
   const onClickCategorieMare = (i) => {
@@ -754,6 +910,25 @@ export default function TestePage() {
     }
     lista_temporara_mare[i] = lista_temporara;
     setListaselectiisubcat(lista_temporara_mare);
+  };
+
+  const onClickSubCategoriePerPage = (i, index, click = true, numGrile) => {
+    //i = indexul categoriei
+    // index = indexul subcategoriei in categoria i
+    const lista_temporara_mare = [...listaselectiisubcatPerPage];
+    const lista_temporara = [...listaselectiisubcatPerPage[i]];
+    if (click) {
+      if (lista_temporara[index] > 0) {
+        lista_temporara[index] = 0;
+      } else {
+        lista_temporara[index] =
+          listaCategoriiPerPage[i].subCategory[index].Count;
+      }
+    } else {
+      lista_temporara[index] = numGrile;
+    }
+    lista_temporara_mare[i] = lista_temporara;
+    setListaselectiisubcatPerPage(lista_temporara_mare);
   };
 
   const sumaElemArr = (array) => {
@@ -939,119 +1114,141 @@ export default function TestePage() {
         )}
       </Container>
 
-      {readyTest && readyCat && (
+      {readyTest && readyCat && readyPerPage && (
         <>
-          {(sumaElemArr(listaselectiisubcat) !== 0 ||
-            sumaCategoriiArray(listaSelectiiSimulare) !== 0) && (
-            <Slide
-              in={
-                isCardSelected === "Test nou" ||
-                isCardSelected === "Examene rezidențiat"
-                  ? sumaElemArr(listaselectiisubcat) > 0
-                  : sumaCategoriiArray(listaSelectiiSimulare) > 0
-              } // cand este selectata mai mult de o grila, apare footerul cu readySetGo
-              direction="up"
-              className={classes.footer}
-            >
-              <footer>
-                <Container maxWidth="lg">
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-between"
-                    spacing={4}
-                  >
-                    <Grid className={classes.footerItem} item>
-                      <Typography variant="subtitle2" component="p">
-                        Tip test: {isCardSelected}
-                      </Typography>
-                      <Typography variant="subtitle2" component="p">
-                        Număr de grile:{" "}
-                        {isCardSelected === "Simulare"
-                          ? produsScalarListe(listaSelectiiSimulare)
-                          : sumaElemArr(listaselectiisubcat)}
-                      </Typography>
-                      {isCardSelected === "Test nou" ||
-                      isCardSelected === "Examene rezidențiat" ? (
+          {sumaElemArr(listaselectiisubcat) !== 0 ||
+            sumaCategoriiArray(listaSelectiiSimulare) !== 0 ||
+            (sumaElemArr(listaselectiisubcatPerPage) !== 0 && (
+              <Slide
+                in={
+                  sumaElemArr(listaselectiisubcatPerPage) > 0 ||
+                  (isCardSelected === "Test nou" ||
+                  isCardSelected === "Examene rezidențiat"
+                    ? sumaElemArr(listaselectiisubcat) > 0
+                    : sumaCategoriiArray(listaSelectiiSimulare) > 0)
+                } // cand este selectata mai mult de o grila, apare footerul cu readySetGo
+                direction="up"
+                className={classes.footer}
+              >
+                <footer>
+                  <Container maxWidth="lg">
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                      spacing={4}
+                    >
+                      <Grid className={classes.footerItem} item>
+                        <Typography variant="subtitle2" component="p">
+                          Tip test: {isCardSelected}
+                        </Typography>
+                        <Typography variant="subtitle2" component="p">
+                          Număr de grile:{" "}
+                          {isCardSelected === "Simulare"
+                            ? produsScalarListe(listaSelectiiSimulare)
+                            : isCardSelected === "Grile pe pagini"
+                            ? sumaElemArr(listaselectiisubcatPerPage)
+                            : sumaElemArr(listaselectiisubcat)}
+                        </Typography>
+                        {isCardSelected === "Test nou" ||
+                        isCardSelected === "Grile pe pagini" ||
+                        isCardSelected === "Examene rezidențiat" ? (
+                          <Button
+                            className={classes.footerAleator}
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => {
+                              isCardSelected === "Grile pe pagini"
+                                ? setAleatorPerPage(!aleatorPerPage)
+                                : setAleator(!aleator);
+                            }}
+                          >
+                            {isCardSelected === "Grile pe pagini" ? (
+                              <Typography variant="subtitle2">
+                                {aleatorPerPage ? (
+                                  <>Grile randomizate</>
+                                ) : (
+                                  <>Grile ordonate</>
+                                )}
+                              </Typography>
+                            ) : (
+                              <>
+                                {aleator ? (
+                                  <Typography variant="subtitle2">
+                                    Grile randomizate
+                                  </Typography>
+                                ) : (
+                                  <Typography variant="subtitle2">
+                                    Grile ordonate
+                                  </Typography>
+                                )}
+                              </>
+                            )}
+                          </Button>
+                        ) : (
+                          <Typography variant="subtitle2">
+                            Ordinea grilelor: aleatoare
+                          </Typography>
+                        )}
+                      </Grid>
+                      <Grid className={classes.footerItem} item>
                         <Button
-                          className={classes.footerAleator}
-                          variant="contained"
+                          className={classes.footerButton}
                           color="secondary"
-                          onClick={() => {
-                            setAleator(!aleator);
-                          }}
+                          variant="contained"
+                          disabled={
+                            goLoading ||
+                            (isCardSelected === "Simulare"
+                              ? produsScalarListe(listaSelectiiSimulare) <= 200
+                              : sumaElemArr(listaselectiisubcat) >
+                                questionRemaining)
+                          }
+                          onClick={
+                            isCardSelected === "Test nou" ||
+                            isCardSelected === "Examene rezidențiat"
+                              ? () => creeazaTest()
+                              : isCardSelected === "Grile pe pagini"
+                              ? () => creeazaTestPerPage()
+                              : () => creeazaSimulare()
+                          }
                         >
-                          {aleator ? (
-                            <Typography variant="subtitle2">
-                              Grile randomizate
-                            </Typography>
+                          {goLoading ? (
+                            <CircularProgress color="primary" size={25} />
                           ) : (
-                            <Typography variant="subtitle2">
-                              Grile ordonate
-                            </Typography>
+                            <Typography>Ready Set GO!</Typography>
                           )}
                         </Button>
-                      ) : (
-                        <Typography variant="subtitle2">
-                          Ordinea grilelor: aleatoare
-                        </Typography>
-                      )}
+                        {(isCardSelected === "Test nou" ||
+                          isCardSelected === "Examene rezidențiat") &&
+                          sumaElemArr(listaselectiisubcat) >
+                            questionRemaining && (
+                            <>
+                              <Typography
+                                variant="subtitle2"
+                                className={classes.errorTooManyQ}
+                              >
+                                Poți selecta maxim {questionRemaining}{" "}
+                                întrebări.
+                              </Typography>
+                            </>
+                          )}
+                        {isCardSelected === "Simulare" &&
+                          produsScalarListe(listaSelectiiSimulare) <= 200 && (
+                            <>
+                              <Typography
+                                variant="subtitle2"
+                                className={classes.errorTooManyQ}
+                              >
+                                Trebuie să selectezi cel puțin 200 întrebări.
+                              </Typography>
+                            </>
+                          )}
+                      </Grid>
                     </Grid>
-                    <Grid className={classes.footerItem} item>
-                      <Button
-                        className={classes.footerButton}
-                        color="secondary"
-                        variant="contained"
-                        disabled={
-                          goLoading ||
-                          (isCardSelected === "Simulare"
-                            ? produsScalarListe(listaSelectiiSimulare) <= 200
-                            : sumaElemArr(listaselectiisubcat) >
-                              questionRemaining)
-                        }
-                        onClick={
-                          isCardSelected === "Test nou" ||
-                          isCardSelected === "Examene rezidențiat"
-                            ? () => creeazaTest()
-                            : () => creeazaSimulare()
-                        }
-                      >
-                        {goLoading ? (
-                          <CircularProgress color="primary" size={25} />
-                        ) : (
-                          <Typography>Ready Set GO!</Typography>
-                        )}
-                      </Button>
-                      {(isCardSelected === "Test nou" ||
-                        isCardSelected === "Examene rezidențiat") &&
-                        sumaElemArr(listaselectiisubcat) >
-                          questionRemaining && (
-                          <>
-                            <Typography
-                              variant="subtitle2"
-                              className={classes.errorTooManyQ}
-                            >
-                              Poți selecta maxim {questionRemaining} întrebări.
-                            </Typography>
-                          </>
-                        )}
-                      {isCardSelected === "Simulare" &&
-                        produsScalarListe(listaSelectiiSimulare) <= 200 && (
-                          <>
-                            <Typography
-                              variant="subtitle2"
-                              className={classes.errorTooManyQ}
-                            >
-                              Trebuie să selectezi cel puțin 200 întrebări.
-                            </Typography>
-                          </>
-                        )}
-                    </Grid>
-                  </Grid>
-                </Container>
-              </footer>
-            </Slide>
-          )}
+                  </Container>
+                </footer>
+              </Slide>
+            ))}
         </>
       )}
     </div>
