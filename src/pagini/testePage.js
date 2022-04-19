@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import testNouImg from "../poze/test_nou_v2.svg";
+import testNouPagini from "../poze/testNouPagini2.svg";
 import simulareImg from "../poze/simulare_v1.svg";
 import testNeterminatImg from "../poze/test_neterminat_v2.svg";
 import reparcurgeGreseliImg from "../poze/reparcurge_greseli_v2.svg";
@@ -26,6 +27,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { Helmet } from "react-helmet";
 import { useLocation } from "react-router-dom";
 import PremiumPopup from "../componente/premiumPopup";
+import Input from "@material-ui/core/Input";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
   },
   bookSubcatDiv: {
     marginTop: theme.spacing(2),
+  },
+  marginCls: {
+    margin: theme.spacing(2),
   },
   footer: {
     backgroundColor: theme.palette.primary.main,
@@ -106,6 +111,9 @@ export default function TestePage() {
   const [tipCont, setTipCont] = useState("");
   const [aleator, setAleator] = useState(false);
   const [premiumPop, setPremiumPop] = useState(false);
+  const [cartePagini, setCartePagini] = useState("");
+  const [firstPage, setFirstPage] = useState(0);
+  const [secondPage, setSecondPage] = useState(0);
 
   const handleError = (e) => {
     setError(e.status);
@@ -185,6 +193,25 @@ export default function TestePage() {
       handleTeste,
       handleError
     );
+  };
+
+  const cautaGrile = async () => {
+    const url = "";
+    let carte = "";
+    if (cartePagini === "Kumar și Clark Medicină Clinică") {
+      carte = "Kumar";
+    } else if (
+      cartePagini === "Chirurgie generală și specialități chirurgicale"
+    ) {
+      carte = "Chirurgie";
+    } else {
+      carte = "Sinopsis";
+    }
+    const data = {
+      cartea: carte,
+      firstPage: firstPage,
+      secondPage: secondPage,
+    };
   };
 
   const creeazaSimulare = async () => {
@@ -420,6 +447,131 @@ export default function TestePage() {
           </Grid>
         </Grid>
       </div>
+    );
+  };
+  const displayGrilePePagini = () => {
+    return (
+      <>
+        <div className={classes.bookDiv}>
+          <Typography variant="h6" className={classes.instructionsText}>
+            2. Selectează cartea:
+          </Typography>
+          <Grid
+            className={classes.cardGrid}
+            container
+            justifyContent="center"
+            spacing={4}
+          >
+            <Grid item className={classes.bookLevel}>
+              <TestsBookCard
+                isSelected={cartePagini === "Kumar și Clark Medicină Clinică"}
+                setCardSelected={setCartePagini}
+                imagine={kumar}
+                title="Kumar și Clark Medicină Clinică"
+                grilePePagini={true}
+              />
+            </Grid>
+            <Grid item className={classes.bookLevel}>
+              <TestsBookCard
+                isSelected={
+                  cartePagini ===
+                  "Chirurgie generală și specialități chirurgicale"
+                }
+                setCardSelected={setCartePagini}
+                imagine={lawrence}
+                title="Chirurgie generală și specialități chirurgicale"
+                grilePePagini={true}
+              />
+            </Grid>
+            <Grid item className={classes.bookLevel}>
+              <TestsBookCard
+                isSelected={cartePagini === "Sinopsis de medicină"}
+                setCardSelected={setCartePagini}
+                imagine={sinopsis}
+                title="Sinopsis de medicină"
+                grilePePagini={true}
+              />
+            </Grid>
+          </Grid>
+          {cartePagini !== "" && (
+            <Grow in={cartePagini !== ""} timeout={growTimeout}>
+              <div>
+                <Typography variant="h6" className={classes.instructionsText}>
+                  3. Selectează paginile:
+                </Typography>
+                <div className={classes.bookSubcatDiv}>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.instructionsText}
+                  >
+                    De la pagina:
+                  </Typography>
+                  <Input
+                    className={classes.marginCls}
+                    label="de la pagina"
+                    variant="outlined"
+                    color="secondary"
+                    value={firstPage}
+                    inputProps={{
+                      step: 1,
+                      min: 0,
+                      type: "number",
+                    }}
+                    onChange={(event) => {
+                      setFirstPage(
+                        event.target.value === ""
+                          ? 0
+                          : Number(event.target.value)
+                      );
+                    }}
+                  />
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.instructionsText}
+                  >
+                    Până la pagina:
+                  </Typography>
+                  <Input
+                    className={classes.marginCls}
+                    label="până la pagina"
+                    variant="outlined"
+                    color="secondary"
+                    value={secondPage}
+                    inputProps={{
+                      step: 1,
+                      min: firstPage,
+                      type: "number",
+                    }}
+                    onChange={(event) => {
+                      setSecondPage(
+                        event.target.value === ""
+                          ? 0
+                          : Number(event.target.value)
+                      );
+                    }}
+                  />
+                  <Button
+                    className={classes.marginCls}
+                    color="secondary"
+                    variant="contained"
+                    disabled={firstPage > secondPage}
+                  >
+                    Caută grile
+                  </Button>
+                </div>
+                {firstPage > secondPage && (
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.instructionsText}
+                  >
+                    Primul număr trebuie să fie mai mic decât al doilea!
+                  </Typography>
+                )}
+              </div>
+            </Grow>
+          )}
+        </div>
+      </>
     );
   };
   const displayTestNou = () => {
@@ -677,11 +829,21 @@ export default function TestePage() {
               </Grid>
               <Grid item>
                 <TestsCard
+                  isSelected={isCardSelected === "Grile pe pagini"}
+                  setCardSelected={setCardSelected}
+                  imagine={testNouPagini}
+                  title="Grile pe pagini"
+                  text="Selectează cartea și paginile din care dorești grilele."
+                  ready={readyCat}
+                />
+              </Grid>
+              <Grid item>
+                <TestsCard
                   isSelected={isCardSelected === "Simulare"}
                   setCardSelected={setCardSelected}
                   imagine={simulareImg}
                   title="Simulare"
-                  text="50 de întrebări cu CS și 150 de întrebări cu CM."
+                  text="Rezolvă un test de 200 de grile din capitolele selectate de tine."
                   ready={readyCat}
                 />
               </Grid>
@@ -726,6 +888,15 @@ export default function TestePage() {
             timeout={growTimeout}
           >
             <div>{displayTestNou()}</div>
+          </Grow>
+        )}
+        {isCardSelected === "Grile pe pagini" && (
+          <Grow
+            id="bookCard_div"
+            in={isCardSelected === "Grile pe pagini"}
+            timeout={growTimeout}
+          >
+            <div>{displayGrilePePagini()}</div>
           </Grow>
         )}
         {isCardSelected === "Simulare" && (
