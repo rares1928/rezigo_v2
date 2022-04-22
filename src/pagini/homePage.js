@@ -98,12 +98,20 @@ export default function HomePage() {
         ) : (
           <div className={classes.instructionsText}>
             <Typography variant="h6">
-              Tipul contului tău: {items.tip_profil}
+              Tipul contului tău: {items.tip_profil}{" "}
               {items.tip_profil === "Standard" ? (
                 <div>
                   Astăzi mai poți rezolva {items.intrebariRamase} de grile
                 </div>
               ) : null}
+              {items.tip_profil === "Premium" ? (
+                <>
+                  până la data de: {items.zileRamase.split("T")[0]} ora:{" "}
+                  {items.zileRamase.split("T")[1].replace(":00", "")}
+                </>
+              ) : (
+                ""
+              )}
             </Typography>
             {/* <Typography variant="h6">
             Grile rezolvate în ultimele 3 zile: {questionSolved}

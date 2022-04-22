@@ -75,6 +75,7 @@ export default function Pricing() {
   const [loadCumpara, setLoadCumpara] = useState(false);
   const [items, setItems] = useState({});
   const [prices, setPrices] = useState([]);
+  const inversReducere = 2;
 
   const handleError = (e) => {
     console.log(e.status);
@@ -94,11 +95,14 @@ export default function Pricing() {
       "https://grileapiwin.azurewebsites.net/api/GetStatus?code=MtfWukjuzDqDGubbuJCnMnawGweSHuVD4NNalvRuo1dRs2REJIbAAg==";
     const url2 =
       "https://casademarcatstripe.azurewebsites.net/api/GetProducts?code=Psb7NdoIolsvXrirm304P2Tf81xGpTF6Jqt3YiaSsPIYAG01DjxgnQ==";
+    const data = {
+      test: false,
+    };
     callApi(url1, {}, handleItems, handleError);
 
     const receiveProducts = async () => {
       try {
-        const response = await axios.post(url2, {}, {});
+        const response = await axios.post(url2, data, {});
         setPrices(response.data);
         setLoadingPrices(false);
       } catch (err) {
@@ -114,12 +118,14 @@ export default function Pricing() {
     setLoadCumpara(true);
     let url =
       "https://casademarcatstripe.azurewebsites.net/api/Checkout?code=mixrnC2fxaCyLehzsCZDSbIlFciJwGcANg6slkwF6T1pd3C257qZqA==";
+    const data = {
+      test: false,
+      quantity: 1,
+      product: id,
+      domain: window.location.href,
+    };
     try {
-      const response = await axios.post(
-        url,
-        { quantity: 1, product: id, domain: window.location.href },
-        {}
-      );
+      const response = await axios.post(url, data, {});
       window.location.href = response.data;
     } catch (err) {
       console.log(err);
@@ -182,14 +188,15 @@ export default function Pricing() {
                           color="textPrimary"
                           className={classes.priceCutTypo}
                         >
-                          {(parseInt(price.metadata.price) / 100) * 2}
+                          {(parseInt(price.metadata.price) / 100) *
+                            inversReducere}
                         </Typography>
                         <Typography
                           component="h4"
                           variant="h5"
                           color="textPrimary"
                         >
-                          Lei (-50%)
+                          Lei (-{100 / inversReducere}%)
                         </Typography>
                       </div>
 
@@ -244,6 +251,16 @@ export default function Pricing() {
             </Typography>
           )}
         </Container>
+      )}
+      {error === 500 && (
+        <Typography
+          className={classes.typoDetaliiCont}
+          variant="h6"
+          component="p"
+        >
+          Momentan avem o problemă și nu putem încărca prețurile, te rugăm să
+          revii mai târziu.
+        </Typography>
       )}
     </React.Fragment>
   );

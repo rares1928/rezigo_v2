@@ -93,12 +93,12 @@ function App() {
                 />
                 <Route path="/premium" exact component={PremiumPage} />
                 <Route
-                  path="/premium/success"
+                  path="/premium/success*"
                   exact
                   component={PremiumSuccess}
                 />
                 <Route
-                  path="/premium/canceled"
+                  path="/premium/canceled*"
                   exact
                   component={PremiumCancel}
                 />
