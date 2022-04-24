@@ -250,6 +250,12 @@ export default function Pricing() {
               )}
             </Typography>
           )}
+          <Typography variant="h5" align="center" component="p">
+            Atenție! După selectarea tipului de cont dorit, veți fi
+            redirecționți către pagina procesatorului nostru de plăți. După ce
+            ați efectuat plata, vă rugăm să nu închideți fereastra până primiți
+            confirmarea actualizării contului vostru!
+          </Typography>
         </Container>
       )}
       {error === 500 && (

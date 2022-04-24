@@ -122,6 +122,8 @@ export default function TestePage() {
   ]);
   const [listaselectiiPerPage, setListaselectiiPerPage] = useState([]);
   const [aleatorPerPage, setAleatorPerPage] = useState(false);
+  const [testFirstPage, setTestFirstPage] = useState(0);
+  const [testSecondPage, setTestSecondPage] = useState(0);
 
   const handleError = (e) => {
     setError(e.status);
@@ -228,6 +230,8 @@ export default function TestePage() {
   const cautaGrilePerPage = async () => {
     setLoadingPerPage(true);
     setReadyPerPage(false);
+    setTestFirstPage(firstPage);
+    setTestSecondPage(secondPage);
     const url =
       "https://grileapiwin.azurewebsites.net/api/getcategoriiperpage?code=0XsuIZIk34HpyUs/xDAF6DFHk/xIS9ovT7aVCCn7UMkMb0SMM3nyZg==";
     let carte = "";
@@ -395,12 +399,13 @@ export default function TestePage() {
     const data = {
       lista_categorii: lista_categorii,
       aleator: aleatorPerPage,
-      firstPage: firstPage,
-      secondPage: secondPage,
+      firstPage: testFirstPage,
+      secondPage: testSecondPage,
     };
     const url =
       "https://grileapiwin.azurewebsites.net/api/createtestperpage?code=W6TOWV3TlKt4Z4MDlmvET21aB4IJrDsYaNS8fDLkpq/E7zjaEJWt7g==";
-    await callApi(url, data, handleTestIdNou, handleError);
+    console.log(data);
+    // await callApi(url, data, handleTestIdNou, handleError);
     setGoLoading(false);
   };
 
@@ -572,7 +577,7 @@ export default function TestePage() {
                       De la pagina:
                     </Typography>
                     <Input
-                      disabled={readyPerPage}
+                      // disabled={readyPerPage}
                       className={classes.marginCls}
                       label="de la pagina"
                       variant="outlined"
@@ -586,7 +591,7 @@ export default function TestePage() {
                       onChange={(event) => {
                         setFirstPage(
                           event.target.value === ""
-                            ? 0
+                            ? null
                             : Number(event.target.value)
                         );
                       }}
@@ -598,7 +603,7 @@ export default function TestePage() {
                       Până la pagina:
                     </Typography>
                     <Input
-                      disabled={readyPerPage}
+                      // disabled={readyPerPage}
                       className={classes.marginCls}
                       label="până la pagina"
                       variant="outlined"
@@ -622,9 +627,7 @@ export default function TestePage() {
                       color="secondary"
                       variant="contained"
                       disabled={
-                        firstPage > secondPage ||
-                        loadingPerPage === true ||
-                        readyPerPage
+                        firstPage > secondPage || loadingPerPage === true
                       }
                       onClick={cautaGrilePerPage}
                     >
@@ -634,7 +637,7 @@ export default function TestePage() {
                         <div>Caută grile</div>
                       )}
                     </Button>
-                    <Button
+                    {/* <Button
                       className={classes.marginCls}
                       color="primary"
                       variant="contained"
@@ -644,7 +647,7 @@ export default function TestePage() {
                       }}
                     >
                       Altă căutare
-                    </Button>
+                    </Button> */}
                   </div>
                   {firstPage > secondPage && (
                     <Typography
