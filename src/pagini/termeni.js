@@ -39,7 +39,7 @@ export default function Termeni() {
           <li>
             Vă rugăm să citiți și Politica noastră de confidențialitate și
             Politica privind utilizarea modulelor cookie, înainte de a naviga pe
-            site sau a plasa o comandă. Dacă nu sunteți de acord cu acești
+            site sau a vă face cont premium. Dacă nu sunteți de acord cu acești
             Termeni sau cu Politicile indicate mai sus, vă rugăm să nu utilizați
             site-ul.{" "}
           </li>
@@ -139,7 +139,7 @@ export default function Termeni() {
         </Typography>
         <ul>
           <li>
-            Pentru a putea plasa în mod legal o comandă pe site-ul nostru trebuie 
+            Pentru a putea folosi contul premium pe site-ul nostru  trebuie 
             (1) să aveți peste 18 ani și/sau capacitate deplină de exercițiu; 
             (2) să fiți de acord cu prezentul Contract; și (3) să ne furnizați 
             informații de  identitate și de contact reale, complete și actualizate.
@@ -185,12 +185,12 @@ export default function Termeni() {
         </Typography>
         <ul>
           <li>
-            Data încheierii contractului. Contractul dintre dvs. și noi se încheie 
-            în momentul în care comanda dvs. va fi acceptată în mod expres de noi și
-            veți primi, în acest sens, un e-mail în care vom confirma livrarea.  
+            Data încheierii contractului. Contractul dintre dvs. și noi se încheie în momentul in care 
+            achiziția contului premium va avea succes și va fi acceptată în mod expres de noi și veți primi, 
+            în acest sens, un mesaj în care vom confirma livrarea serviciului.  
           </li>
           <li>
-           Protecție. În măsura în care nu vom accepta comanda, dar dvs. v-au fost 
+           Protecție. În măsura în care nu vom accepta achiziția contului premium, dar dvs. v-au fost 
            retrase sume de bani, vom proceda la rambursarea acestor sume în cel mai scurt timp. 
           </li>
           <li>
@@ -224,7 +224,7 @@ export default function Termeni() {
             site, vă vom aduce la cunoștință în cel mai scurt timp, urmând să vă returnăm 
             suma de bani achitată suplimentar sau să vă solicităm o sumă de bani suplimentară. 
             În măsura în care noul preț nu este mulțumitor pentru dvs., nu răspundeți la solicitarea 
-            noastră sau nu vă putem contacta, vă vom anula comanda și vă vom rambursa cât mai 
+            noastră sau nu vă putem contacta, vă vom anula achiziția contului premium și vă vom rambursa cât mai 
             curând posibil suma de bani achitată. 
           </li>
           <li>
@@ -233,7 +233,7 @@ export default function Termeni() {
             se vor aplica prețurile de la momentul plasării efective a comenzii.
           </li>
           <li>
-            Plata produselor comandate se poate face astfel: plata cu cardul online.
+            Plata serviciilor comandate se poate face astfel: plata cu cardul online.
           </li>
           <li>
             Procesarea datelor de pe cardul dumneavoastră se face prin intermediul Stripe. Inc,
