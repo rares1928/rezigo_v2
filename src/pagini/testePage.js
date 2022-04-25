@@ -28,6 +28,7 @@ import { Helmet } from "react-helmet";
 import { useLocation } from "react-router-dom";
 import PremiumPopup from "../componente/premiumPopup";
 import Input from "@material-ui/core/Input";
+import CookiesAccord from "../componente/cookiesAccord";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -124,6 +125,9 @@ export default function TestePage() {
   const [aleatorPerPage, setAleatorPerPage] = useState(false);
   const [testFirstPage, setTestFirstPage] = useState(0);
   const [testSecondPage, setTestSecondPage] = useState(0);
+  const [cookiesAccord, setCookiesAccord] = useState(
+    localStorage.getItem("cookiesAccord") === "true" ? true : false
+  );
 
   const handleError = (e) => {
     setError(e.status);
@@ -967,6 +971,10 @@ export default function TestePage() {
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
+      <CookiesAccord
+        cookiesAccord={cookiesAccord}
+        setCookiesAccord={setCookiesAccord}
+      />
       <ErrorPopup errorStatus={error} setError={setError} />
       <PremiumPopup premiumPop={premiumPop} setPremiumPop={setPremiumPop} />
       <Container maxWidth="lg" className={classes.containerPart}>

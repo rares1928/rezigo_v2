@@ -41,20 +41,49 @@ export default function FAQ() {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      {/* <Accordion className={classes.acordeon} expanded={expanded === 'panel7'} onChange={handleChange('panel7')}>
-            <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-            >
-            <Typography variant = "h6">Pot rezolva grile din toată materia? </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-            <Typography>
-
-            </Typography>
-            </AccordionDetails>
-        </Accordion> */}
+      <Accordion
+        className={classes.acordeon}
+        expanded={expanded === "panel11"}
+        onChange={handleChange("panel11")}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+        >
+          <Typography variant="h6">
+            Pot rezolva grile din toată materia?{" "}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Da! Am acoperit fiecare capitol și subcapitol cu întrebări menite să
+            te ajute la învățat.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        className={classes.acordeon}
+        expanded={expanded === "panel12"}
+        onChange={handleChange("panel12")}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+        >
+          <Typography variant="h6">Cum funcționează? </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            În esență site-ul este foarte ușor de folosit! Cel mai rapid mod de
+            a începe să lucrezi peste următorul: îți faci cont, apeși pe butonul
+            Test, alegi Test nou iar apoi selectezi cărtile, capitolele și
+            subcapitolele din care dorești să primești grile. Totul este
+            intuitiv și clar.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
       <Accordion
         className={classes.acordeon}
         expanded={expanded === "panel2"}
@@ -73,7 +102,9 @@ export default function FAQ() {
           <Typography>
             Contul premium îți oferă acces la toate serviciile site-ului. Poți
             rezolva un număr nelimitat de grile pe zi, poți face simulări din ce
-            capitole dorești.
+            capitole dorești, poți căuta grilele după paginile din carte de unde
+            au fost făcute și nu în ultimul rând, poți reparcurge greșelile din
+            testele făcute de tine
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -149,7 +180,7 @@ export default function FAQ() {
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion
+      {/* <Accordion
         className={classes.acordeon}
         expanded={expanded === "panel6"}
         onChange={handleChange("panel6")}
@@ -167,7 +198,7 @@ export default function FAQ() {
             pagina de profil.
           </Typography>
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
     </div>
   );
 }

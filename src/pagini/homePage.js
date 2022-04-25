@@ -20,6 +20,7 @@ import TutorialCard from "../componente/tutorialCard";
 import ErrorPopup from "../componente/errorPopup";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { callApi } from "../utils/callApi";
+import CookiesAccord from "../componente/cookiesAccord";
 
 const useStyles = makeStyles((theme) => ({
   wrapperDiv: {
@@ -60,6 +61,9 @@ export default function HomePage() {
   const [error, setError] = useState(0);
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState({});
+  const [cookiesAccord, setCookiesAccord] = useState(
+    localStorage.getItem("cookiesAccord") === "true" ? true : false
+  );
 
   const handleError = (e) => {
     console.log(e.status);
@@ -82,6 +86,10 @@ export default function HomePage() {
   return (
     <div className={classes.wrapperDiv}>
       <ErrorPopup errorStatus={error} setError={setError} />
+      <CookiesAccord
+        cookiesAccord={cookiesAccord}
+        setCookiesAccord={setCookiesAccord}
+      />
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
