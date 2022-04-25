@@ -254,7 +254,9 @@ export default function Pricing() {
             Atenție! După selectarea tipului de cont dorit, veți fi
             redirecționți către pagina procesatorului nostru de plăți. După ce
             ați efectuat plata, vă rugăm să nu închideți fereastra până primiți
-            confirmarea actualizării contului vostru!
+            confirmarea actualizării contului vostru! Dacă ați fost taxat dar
+            contul nu a fost actualizat, vă rugăm să ne contactați cât mai rapid
+            la adresa de email: rezigo.contact@gmail.com
           </Typography>
         </Container>
       )}
