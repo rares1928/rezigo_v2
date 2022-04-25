@@ -203,10 +203,18 @@ export default function HomePage() {
               </Typography>
               {/* <Link color="secondary" href="/despre_noi">Despre noi</Link> */}
               <Link color="secondary">Despre noi</Link>
-              {/* <Link color="secondary" href="/termeni">Termeni și condiții</Link> */}
-              <Link color="secondary">Termeni și condiții</Link>
               <Link color="secondary" href="/intrebari_frecvente">
                 Întrebări frecvente
+              </Link>
+              {/* <Link color="secondary" href="/termeni">Termeni și condiții</Link> */}
+              <Link color="secondary" href="/termeni">
+                Termeni și condiții
+              </Link>
+              <Link color="secondary" href="/confidentialitate">
+                Politica de confidețialitate
+              </Link>
+              <Link color="secondary" href="/cookies">
+                Politica de cookies
               </Link>
             </Grid>
             <Grid className={classes.footerItem} item>

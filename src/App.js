@@ -16,6 +16,8 @@ import ProtectedRoute from "./utils/protectedRoute";
 import ProtectedRouteAdmins from "./utils/protectedRouteAdmins";
 import DespreNoi from "./pagini/despreNoi";
 import Termeni from "./pagini/termeni";
+import Confidentialitate from "./pagini/confidentialitate";
+import PoliticaCookies from "./pagini/politicaCookies";
 import ActivareSignUpPage from "./pagini/activareSignUp";
 import ResetareParola from "./pagini/resetareParola";
 import AdminsHomePage from "./pagini/adminsHomePage";
@@ -72,6 +74,13 @@ function App() {
             <Route path="/resetare_parola" exact component={ResetareParola} />
             <Route path="/signup" exact component={SignupPage} />
             <Route path="/signup/*" exact component={ActivareSignUpPage} />
+            <Route path="/termeni" exact component={Termeni} />
+            <Route path="/cookies" exact component={PoliticaCookies} />
+            <Route
+              path="/confidentialitate"
+              exact
+              component={Confidentialitate}
+            />
             <ProtectedRoute>
               <Switch>
                 <Route path="/" exact component={HomePage} />
@@ -103,7 +112,6 @@ function App() {
                   component={PremiumCancel}
                 />
                 <Route path="/despre_noi" exact component={DespreNoi} />
-                <Route path="/termeni" exact component={Termeni} />
                 <Route
                   path="/intrebari_frecvente"
                   exact
