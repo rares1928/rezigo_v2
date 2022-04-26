@@ -76,9 +76,9 @@ export default function FAQ() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            În esență site-ul este foarte ușor de folosit! Cel mai rapid mod de
-            a începe să lucrezi peste următorul: îți faci cont, apeși pe butonul
-            Test, alegi Test nou iar apoi selectezi cărtile, capitolele și
+            În esență, site-ul este foarte ușor de folosit! Cel mai rapid mod de
+            a începe să lucrezi este următorul: îți faci cont, apeși pe butonul
+            Test, alegi Test nou iar apoi selectezi cărțile, capitolele și
             subcapitolele din care dorești să primești grile. Totul este
             intuitiv și clar.
           </Typography>
@@ -126,7 +126,7 @@ export default function FAQ() {
           <Typography>
             În cazul în care găsești o grilă incorectă, te rugăm să o raportezi
             și noi ne vom ocupa de corectarea ei. O dată ce grila a fost
-            revizuită, îți vom oferi feedback în legatură cu modul în care a
+            revizuită, îți vom oferi feedback în legătură cu modul în care a
             fost corectată.
           </Typography>
         </AccordionDetails>
