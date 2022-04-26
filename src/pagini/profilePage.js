@@ -87,6 +87,11 @@ export default function ProfilePage(props) {
     barChartList: {
       paddingBottom: theme.spacing(2),
     },
+    standardStatisticiDiv: {
+      display: "flex",
+      justifyContent: "space-between",
+      padding: theme.spacing(1),
+    },
   }));
 
   let history = useHistory();
@@ -452,7 +457,11 @@ export default function ProfilePage(props) {
                     ) : null}
                     {!(items["tip_profil"] === "Premium") ? (
                       <Grid className={classes.gridButton} item>
-                        <Button variant="contained" color="secondary">
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          href="/premium"
+                        >
                           Cumpără Premium
                         </Button>
                       </Grid>
@@ -653,6 +662,15 @@ export default function ProfilePage(props) {
           </Typography>
           {!ready ? (
             <CircularProgress />
+          ) : items["tip_profil"] === "Standard" ? (
+            <div className={classes.standardStatisticiDiv}>
+              <Typography>
+                Pentru a vedea statisticile ai nevoie de cont premium.
+              </Typography>
+              <Button variant="contained" color="secondary" href="/premium">
+                Cumpără Premium
+              </Button>
+            </div>
           ) : (
             <div className={classes.divAccordion}>
               {items.statisticiCategoriiSite
