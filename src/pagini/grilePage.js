@@ -599,7 +599,7 @@ export default function GrilePage(props) {
                   <Grid container justifyContent="space-evenly">
                     <Grid item className={classes.statisticSubdiv}>
                       <div className={classes.smallPaper}>
-                        <Typography>Afișează răspunsurile</Typography>
+                        <Typography>Afișează baremul</Typography>
                         <Switch
                           checked={showAnswer}
                           onChange={() => {
