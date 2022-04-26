@@ -532,18 +532,22 @@ export default function ProfilePage(props) {
                 <Divider />
                 <ListItem key="teste_nerezolvate">
                   <Typography>
-                    <Link
-                      className={classes.linkNeterminate}
-                      color="secondary"
-                      onClick={() => {
-                        history.push({
-                          pathname: "/creeaza-ti_test",
-                          state: { from: "profile" },
-                        });
-                      }}
-                    >
-                      Neterminate
-                    </Link>
+                    {items["tip_profil"] === "Standard" ? (
+                      "Neterminate"
+                    ) : (
+                      <Link
+                        className={classes.linkNeterminate}
+                        color="secondary"
+                        onClick={() => {
+                          history.push({
+                            pathname: "/creeaza-ti_test",
+                            state: { from: "profile" },
+                          });
+                        }}
+                      >
+                        Neterminate
+                      </Link>
+                    )}
                     :{" "}
                     {
                       items["lista_teste"].filter(
