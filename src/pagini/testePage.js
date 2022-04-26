@@ -966,6 +966,12 @@ export default function TestePage() {
   };
   const TITLE = "Creează-ți test";
 
+  // console.log(
+  //   sumaElemArr(listaselectiisubcat) !== 0 ||
+  //     sumaCategoriiArray(listaSelectiiSimulare) !== 0 ||
+  //     (readyPerPage ? sumaElemArr(listaselectiisubcatPerPage) !== 0 : false)
+  // );
+
   return (
     <div className={classes.root}>
       <Helmet>
@@ -1021,6 +1027,8 @@ export default function TestePage() {
                   title="Grile pe pagini"
                   text="Selectează cartea și paginile din care dorești grilele."
                   ready={readyCat}
+                  tipCont={tipCont}
+                  setPremiumPop={setPremiumPop}
                 />
               </Grid>
               <Grid item>
@@ -1031,6 +1039,8 @@ export default function TestePage() {
                   title="Simulare"
                   text="Rezolvă un test de 200 de grile din capitolele selectate de tine."
                   ready={readyCat}
+                  tipCont={tipCont}
+                  setPremiumPop={setPremiumPop}
                 />
               </Grid>
               <Grid item>
@@ -1041,6 +1051,8 @@ export default function TestePage() {
                   title="Teste începute"
                   text="Selectează unul dintre testele neterminate pe care vrei să le continui."
                   ready={readyTest}
+                  tipCont={tipCont}
+                  setPremiumPop={setPremiumPop}
                 />
               </Grid>
               <Grid item>
@@ -1050,6 +1062,8 @@ export default function TestePage() {
                   imagine={reparcurgeGreseliImg}
                   title="Reparcurge greșeli"
                   text="Selectează unul dintre testele cu greșelile tale de-a lungul timpului"
+                  tipCont={tipCont}
+                  setPremiumPop={setPremiumPop}
                 />
               </Grid>
               <Grid item>
@@ -1125,141 +1139,146 @@ export default function TestePage() {
         )}
       </Container>
 
-      {readyTest && readyCat && readyPerPage && (
+      {readyTest && readyCat && (
         <>
-          {sumaElemArr(listaselectiisubcat) !== 0 ||
+          {(sumaElemArr(listaselectiisubcat) !== 0 ||
             sumaCategoriiArray(listaSelectiiSimulare) !== 0 ||
-            (sumaElemArr(listaselectiisubcatPerPage) !== 0 && (
-              <Slide
-                in={
-                  sumaElemArr(listaselectiisubcatPerPage) > 0 ||
-                  (isCardSelected === "Test nou" ||
-                  isCardSelected === "Examene rezidențiat"
-                    ? sumaElemArr(listaselectiisubcat) > 0
-                    : sumaCategoriiArray(listaSelectiiSimulare) > 0)
-                } // cand este selectata mai mult de o grila, apare footerul cu readySetGo
-                direction="up"
-                className={classes.footer}
-              >
-                <footer>
-                  <Container maxWidth="lg">
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                      spacing={4}
-                    >
-                      <Grid className={classes.footerItem} item>
-                        <Typography variant="subtitle2" component="p">
-                          Tip test: {isCardSelected}
-                        </Typography>
-                        <Typography variant="subtitle2" component="p">
-                          Număr de grile:{" "}
-                          {isCardSelected === "Simulare"
+            (readyPerPage
+              ? sumaElemArr(listaselectiisubcatPerPage) !== 0
+              : false)) && (
+            <Slide
+              in={
+                (readyPerPage
+                  ? sumaElemArr(listaselectiisubcatPerPage) !== 0
+                  : false) ||
+                (isCardSelected === "Test nou" ||
+                isCardSelected === "Examene rezidențiat"
+                  ? sumaElemArr(listaselectiisubcat) > 0
+                  : sumaCategoriiArray(listaSelectiiSimulare) > 0)
+              } // cand este selectata mai mult de o grila, apare footerul cu readySetGo
+              direction="up"
+              className={classes.footer}
+            >
+              <footer>
+                <Container maxWidth="lg">
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    spacing={4}
+                  >
+                    <Grid className={classes.footerItem} item>
+                      <Typography variant="subtitle2" component="p">
+                        Tip test: {isCardSelected}
+                      </Typography>
+                      <Typography variant="subtitle2" component="p">
+                        Număr de grile:{" "}
+                        {isCardSelected === "Simulare"
+                          ? produsScalarListe(listaSelectiiSimulare) <= 200
                             ? produsScalarListe(listaSelectiiSimulare)
-                            : isCardSelected === "Grile pe pagini"
-                            ? sumaElemArr(listaselectiisubcatPerPage)
-                            : sumaElemArr(listaselectiisubcat)}
-                        </Typography>
-                        {isCardSelected === "Test nou" ||
-                        isCardSelected === "Grile pe pagini" ||
-                        isCardSelected === "Examene rezidențiat" ? (
-                          <Button
-                            className={classes.footerAleator}
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => {
-                              isCardSelected === "Grile pe pagini"
-                                ? setAleatorPerPage(!aleatorPerPage)
-                                : setAleator(!aleator);
-                            }}
-                          >
-                            {isCardSelected === "Grile pe pagini" ? (
-                              <Typography variant="subtitle2">
-                                {aleatorPerPage ? (
-                                  <>Grile randomizate</>
-                                ) : (
-                                  <>Grile ordonate</>
-                                )}
-                              </Typography>
-                            ) : (
-                              <>
-                                {aleator ? (
-                                  <Typography variant="subtitle2">
-                                    Grile randomizate
-                                  </Typography>
-                                ) : (
-                                  <Typography variant="subtitle2">
-                                    Grile ordonate
-                                  </Typography>
-                                )}
-                              </>
-                            )}
-                          </Button>
-                        ) : (
-                          <Typography variant="subtitle2">
-                            Ordinea grilelor: aleatoare
-                          </Typography>
-                        )}
-                      </Grid>
-                      <Grid className={classes.footerItem} item>
+                            : 200
+                          : isCardSelected === "Grile pe pagini"
+                          ? sumaElemArr(listaselectiisubcatPerPage)
+                          : sumaElemArr(listaselectiisubcat)}
+                      </Typography>
+                      {isCardSelected === "Test nou" ||
+                      isCardSelected === "Grile pe pagini" ||
+                      isCardSelected === "Examene rezidențiat" ? (
                         <Button
-                          className={classes.footerButton}
-                          color="secondary"
+                          className={classes.footerAleator}
                           variant="contained"
-                          disabled={
-                            goLoading ||
-                            (isCardSelected === "Simulare"
-                              ? produsScalarListe(listaSelectiiSimulare) <= 200
-                              : sumaElemArr(listaselectiisubcat) >
-                                questionRemaining)
-                          }
-                          onClick={
-                            isCardSelected === "Test nou" ||
-                            isCardSelected === "Examene rezidențiat"
-                              ? () => creeazaTest()
-                              : isCardSelected === "Grile pe pagini"
-                              ? () => creeazaTestPerPage()
-                              : () => creeazaSimulare()
-                          }
+                          color="secondary"
+                          onClick={() => {
+                            isCardSelected === "Grile pe pagini"
+                              ? setAleatorPerPage(!aleatorPerPage)
+                              : setAleator(!aleator);
+                          }}
                         >
-                          {goLoading ? (
-                            <CircularProgress color="primary" size={25} />
+                          {isCardSelected === "Grile pe pagini" ? (
+                            <Typography variant="subtitle2">
+                              {aleatorPerPage ? (
+                                <>Grile randomizate</>
+                              ) : (
+                                <>Grile ordonate</>
+                              )}
+                            </Typography>
                           ) : (
-                            <Typography>Ready Set GO!</Typography>
+                            <>
+                              {aleator ? (
+                                <Typography variant="subtitle2">
+                                  Grile randomizate
+                                </Typography>
+                              ) : (
+                                <Typography variant="subtitle2">
+                                  Grile ordonate
+                                </Typography>
+                              )}
+                            </>
                           )}
                         </Button>
-                        {(isCardSelected === "Test nou" ||
-                          isCardSelected === "Examene rezidențiat") &&
-                          sumaElemArr(listaselectiisubcat) >
-                            questionRemaining && (
-                            <>
-                              <Typography
-                                variant="subtitle2"
-                                className={classes.errorTooManyQ}
-                              >
-                                Poți selecta maxim {questionRemaining}{" "}
-                                întrebări.
-                              </Typography>
-                            </>
-                          )}
-                        {isCardSelected === "Simulare" &&
-                          produsScalarListe(listaSelectiiSimulare) <= 200 && (
-                            <>
-                              <Typography
-                                variant="subtitle2"
-                                className={classes.errorTooManyQ}
-                              >
-                                Trebuie să selectezi cel puțin 200 întrebări.
-                              </Typography>
-                            </>
-                          )}
-                      </Grid>
+                      ) : (
+                        <Typography variant="subtitle2">
+                          Ordinea grilelor: aleatoare
+                        </Typography>
+                      )}
                     </Grid>
-                  </Container>
-                </footer>
-              </Slide>
-            ))}
+                    <Grid className={classes.footerItem} item>
+                      <Button
+                        className={classes.footerButton}
+                        color="secondary"
+                        variant="contained"
+                        disabled={
+                          goLoading ||
+                          (isCardSelected === "Simulare"
+                            ? produsScalarListe(listaSelectiiSimulare) <= 200
+                            : sumaElemArr(listaselectiisubcat) >
+                              questionRemaining)
+                        }
+                        onClick={
+                          isCardSelected === "Test nou" ||
+                          isCardSelected === "Examene rezidențiat"
+                            ? () => creeazaTest()
+                            : isCardSelected === "Grile pe pagini"
+                            ? () => creeazaTestPerPage()
+                            : () => creeazaSimulare()
+                        }
+                      >
+                        {goLoading ? (
+                          <CircularProgress color="primary" size={25} />
+                        ) : (
+                          <Typography>Ready Set GO!</Typography>
+                        )}
+                      </Button>
+                      {(isCardSelected === "Test nou" ||
+                        isCardSelected === "Examene rezidențiat") &&
+                        sumaElemArr(listaselectiisubcat) >
+                          questionRemaining && (
+                          <>
+                            <Typography
+                              variant="subtitle2"
+                              className={classes.errorTooManyQ}
+                            >
+                              Poți selecta maxim {questionRemaining} întrebări.
+                            </Typography>
+                          </>
+                        )}
+                      {isCardSelected === "Simulare" &&
+                        produsScalarListe(listaSelectiiSimulare) <= 200 && (
+                          <>
+                            <Typography
+                              variant="subtitle2"
+                              className={classes.errorTooManyQ}
+                            >
+                              Trebuie să selectezi cel puțin 200 întrebări.
+                            </Typography>
+                          </>
+                        )}
+                    </Grid>
+                  </Grid>
+                </Container>
+              </footer>
+            </Slide>
+          )}
         </>
       )}
     </div>
