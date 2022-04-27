@@ -17,6 +17,8 @@ import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import InstagramIcon from "@material-ui/icons/Instagram";
+import CustomizedTables from "../componente/CustomizedTables";
+import DataTable from "../componente/tabel";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -236,18 +238,7 @@ export default function PrezentarePage() {
       <hr class="rounded"></hr>
       <div className={classes.textAndImageWrapper1}>
         <Container maxWidth="md">
-          <div className={classes.divTextImage}>
-            <img alt="cloud" src={gratis} className={classes.pozeMici} />
-            <div className={classes.divText}>
-              <Typography variant="h4" className={classes.divTextTitle}>
-                Gratuit până în aprilie!
-              </Typography>
-              <Typography variant="h6">
-                Fă-ți cont acum și beneficiezi gratuit de cont premium până în
-                luna aprilie 2022!
-              </Typography>
-            </div>
-          </div>
+          <CustomizedTables />
         </Container>
       </div>
       <hr class="rounded"></hr>
