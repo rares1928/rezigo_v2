@@ -23,6 +23,8 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { Helmet } from "react-helmet";
 import AnswerOptionCardLegend from "../componente/answerOptionCardLegend";
 import FinalizareTest from "../componente/finalizareTest";
+import PremiumPopup from "../componente/premiumPopup";
+import { set } from "react-ga";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -51,7 +53,9 @@ export default function GrilePage(props) {
   const [randomOrder, setRandomOrder] = useState(
     localStorage.getItem("randomOrder") === "false" ? false : true
   );
+  const [tipProfil, setTipProfil] = useState("");
   //const [darkMode, setDarkMode] = useState( localStorage.getItem("darkMode") === "false"? false: true);
+  const [premiumPop, setPremiumPop] = useState(false);
 
   let history = useHistory();
 
@@ -61,6 +65,10 @@ export default function GrilePage(props) {
 
   const handleItems = (e) => {
     setItems(e.data["lista"]);
+    setTipProfil(e.data["tipProfil"]);
+    if (e.data["tipProfil"] === "Standard") {
+      setRandomOrder(false);
+    }
     setReady(true);
   };
 
@@ -369,6 +377,7 @@ export default function GrilePage(props) {
   return (
     <>
       <ErrorPopup errorStatus={error} setError={setError} />
+      <PremiumPopup premiumPop={premiumPop} setPremiumPop={setPremiumPop} />
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
@@ -587,8 +596,12 @@ export default function GrilePage(props) {
                     <Switch
                       checked={randomOrder}
                       onChange={() => {
-                        localStorage.setItem("randomOrder", !randomOrder);
-                        setRandomOrder(!randomOrder);
+                        if (tipProfil === "Standard") {
+                          setPremiumPop(true);
+                        } else {
+                          localStorage.setItem("randomOrder", !randomOrder);
+                          setRandomOrder(!randomOrder);
+                        }
                       }}
                     />
                   </div>
