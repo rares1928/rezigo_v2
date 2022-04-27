@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CookiesAccord(props) {
   const classes = useStyles();
-  console.log(props.cookiesAccord);
   return (
     <Dialog
       //   open={

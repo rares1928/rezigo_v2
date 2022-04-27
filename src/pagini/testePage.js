@@ -408,8 +408,7 @@ export default function TestePage() {
     };
     const url =
       "https://grileapiwin.azurewebsites.net/api/createtestperpage?code=W6TOWV3TlKt4Z4MDlmvET21aB4IJrDsYaNS8fDLkpq/E7zjaEJWt7g==";
-    console.log(data);
-    // await callApi(url, data, handleTestIdNou, handleError);
+    await callApi(url, data, handleTestIdNou, handleError);
     setGoLoading(false);
   };
 
