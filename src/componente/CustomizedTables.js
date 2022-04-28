@@ -10,11 +10,19 @@ import Paper from "@material-ui/core/Paper";
 import CheckBoxRoundedIcon from "@material-ui/icons/CheckBoxRounded";
 import ClearRoundedIcon from "@material-ui/icons/ClearRounded";
 import red from "@material-ui/core/colors/red";
+import green from "@material-ui/core/colors/green";
+import { palette } from "@material-ui/system";
+import { orange } from "@material-ui/core/colors";
+
+const accent = orange["A200"];
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: orange[500],
     color: theme.palette.common.white,
+    fontSize: 16,
+    fontWeight: "bold",
+    height: 45,
   },
   body: {
     fontSize: 14,
@@ -40,73 +48,71 @@ const rows1 = [
 const rows2 = [
   createData(
     "Test nou",
-    <CheckBoxRoundedIcon color="secondary" />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />,
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
   createData(
     "Grile pe pagini",
     <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
   createData(
     "Simulare",
     <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
   createData(
     "Teste începute",
     <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
   createData(
     "Reparcurge greșeli",
     <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
   createData(
     "Examene rezidențiat din anii anteriori",
-    <CheckBoxRoundedIcon color="secondary" />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />,
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
   createData(
     "Simulările ReziGo oficiale ale Examenului de Rezidențiat ",
     <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
 ];
 
 const rows3 = [
   createData(
     "Posibilitatea de randomizare a grilelor",
-    <CheckBoxRoundedIcon color="secondary" />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />,
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
   createData(
     "Posibilitatea de randomizare a variantelor de răspuns",
     <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
   createData(
     "Opțiunea „Afișează baremul” la fiecare grilă",
     <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
   createData(
     "Statistici generale",
-    <CheckBoxRoundedIcon color="secondary" />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />,
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
   createData(
     "Statistici pe categorii",
     <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon color="secondary" />
+    <CheckBoxRoundedIcon style={{ color: green[500] }} />
   ),
 ];
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 700,
-  },
+  table: {},
 });
 
 export default function CustomizedTables() {
