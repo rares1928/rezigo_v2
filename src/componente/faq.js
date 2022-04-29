@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 export default function FAQ() {
   const useStyles = makeStyles((theme) => ({
     acordeon: {
-      backgroundColor: "rgba(238,238,238,0.35)",
+      backgroundColor: "rgba(238,238,238,0.2)",
     },
   }));
 

@@ -13,12 +13,13 @@ import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
 import { palette } from "@material-ui/system";
 import { orange } from "@material-ui/core/colors";
+import { SportsRugbySharp } from "@material-ui/icons";
 
 const accent = orange["A200"];
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: orange[500],
+    backgroundColor: theme.palette.secondary.main,
     color: theme.palette.common.white,
     fontSize: 16,
     fontWeight: "bold",
@@ -41,85 +42,102 @@ function createData(name, standard, premium) {
   return { name, standard, premium };
 }
 
-const rows1 = [
-  createData("Numărul de grile care pot fi rezolvate zilnic", 30, "nelimitat"),
-];
-
-const rows2 = [
-  createData(
-    "Test nou",
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-  createData(
-    "Grile pe pagini",
-    <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-  createData(
-    "Simulare",
-    <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-  createData(
-    "Teste începute",
-    <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-  createData(
-    "Reparcurge greșeli",
-    <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-  createData(
-    "Examene rezidențiat din anii anteriori",
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-  createData(
-    "Simulările ReziGo oficiale ale Examenului de Rezidențiat ",
-    <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-];
-
-const rows3 = [
-  createData(
-    "Posibilitatea de randomizare a grilelor",
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-  createData(
-    "Posibilitatea de randomizare a variantelor de răspuns",
-    <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-  createData(
-    "Opțiunea „Afișează baremul” la fiecare grilă",
-    <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-  createData(
-    "Statistici generale",
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-  createData(
-    "Statistici pe categorii",
-    <ClearRoundedIcon style={{ color: red[500] }} />,
-    <CheckBoxRoundedIcon style={{ color: green[500] }} />
-  ),
-];
-
-const useStyles = makeStyles({
-  table: {},
-});
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+  checkBox: {
+    color: theme.palette.success.main,
+  },
+  cancelCross: {
+    color: theme.palette.error.main,
+  },
+  tableDiv: {
+    backgroundColor: "rgba(238,238,238,0.2)",
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+}));
 
 export default function CustomizedTables() {
   const classes = useStyles();
 
+  const rows1 = [
+    createData(
+      "Numărul de grile care pot fi rezolvate zilnic",
+      30,
+      "nelimitat"
+    ),
+  ];
+
+  const rows2 = [
+    createData(
+      "Test nou",
+      <CheckBoxRoundedIcon className={classes.checkBox} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+    createData(
+      "Grile pe pagini",
+      <ClearRoundedIcon className={classes.cancelCross} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+    createData(
+      "Simulare",
+      <ClearRoundedIcon className={classes.cancelCross} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+    createData(
+      "Teste începute",
+      <ClearRoundedIcon className={classes.cancelCross} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+    createData(
+      "Reparcurge greșeli",
+      <ClearRoundedIcon className={classes.cancelCross} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+    createData(
+      "Examene rezidențiat din anii anteriori",
+      <CheckBoxRoundedIcon className={classes.checkBox} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+    createData(
+      "Simulările ReziGo oficiale ale Examenului de Rezidențiat ",
+      <ClearRoundedIcon className={classes.cancelCross} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+  ];
+
+  const rows3 = [
+    createData(
+      "Posibilitatea de randomizare a grilelor",
+      <CheckBoxRoundedIcon className={classes.checkBox} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+    createData(
+      "Posibilitatea de randomizare a variantelor de răspuns",
+      <ClearRoundedIcon className={classes.cancelCross} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+    createData(
+      "Opțiunea „Afișează baremul” la fiecare grilă",
+      <ClearRoundedIcon className={classes.cancelCross} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+    createData(
+      "Statistici generale",
+      <CheckBoxRoundedIcon className={classes.checkBox} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+    createData(
+      "Statistici pe categorii",
+      <ClearRoundedIcon className={classes.cancelCross} />,
+      <CheckBoxRoundedIcon className={classes.checkBox} />
+    ),
+  ];
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer className={classes.tableDiv} component={Paper}>
       <Table
         className={classes.table}
         size="small"
