@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 import { callApi } from "../utils/callApi";
+import PremiumTable from "./premiumTable";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -63,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
   typoDetaliiCont: {
     paddingBottom: theme.spacing(2),
     paddingTop: theme.spacing(2),
+  },
+  textWarningDiv: {
+    marginBottom: theme.spacing(5),
   },
 }));
 
@@ -160,6 +164,7 @@ export default function Pricing() {
           oricâte grile vrei în fiecare zi, compară-ți rezultatele cu media
           site-ului, reparcurge-ți greșelile și multe altele!
         </Typography>
+        <PremiumTable />
       </Container>
       {/* End hero unit */}
       {loadingPrices ? (
@@ -196,7 +201,7 @@ export default function Pricing() {
                           variant="h5"
                           color="textPrimary"
                         >
-                          Lei (-{100 / inversReducere}%)
+                          Lei (-{Math.floor(100 * (1 - 1 / inversReducere))}%)
                         </Typography>
                       </div>
 
@@ -250,7 +255,12 @@ export default function Pricing() {
               )}
             </Typography>
           )}
-          <Typography variant="h5" align="center" component="p">
+          <Typography
+            className={classes.textWarningDiv}
+            variant="h5"
+            align="center"
+            component="p"
+          >
             Atenție! După selectarea tipului de cont dorit, veți fi
             redirecționți către pagina procesatorului nostru de plăți. După ce
             ați efectuat plata, vă rugăm să nu închideți fereastra până primiți
