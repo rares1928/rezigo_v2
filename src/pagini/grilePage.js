@@ -24,7 +24,6 @@ import { Helmet } from "react-helmet";
 import AnswerOptionCardLegend from "../componente/answerOptionCardLegend";
 import FinalizareTest from "../componente/finalizareTest";
 import PremiumPopup from "../componente/premiumPopup";
-import { set } from "react-ga";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;

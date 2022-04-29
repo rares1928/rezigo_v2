@@ -5,14 +5,12 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
 import AnswerOptionFinal from "./answerOptionFinal";
 import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
 import AnswerOptionCardLegend from "../componente/answerOptionCardLegend";
 
 export default function FinalizareTest(props) {
@@ -56,7 +54,6 @@ export default function FinalizareTest(props) {
   }));
 
   const classes = useStyles();
-  let history = useHistory();
   return (
     <Container maxWidth="lg">
       <Paper className={classes.root}>

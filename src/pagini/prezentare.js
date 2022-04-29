@@ -1,5 +1,5 @@
 import "../App.css";
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Helmet } from "react-helmet";
 import Button from "@material-ui/core/Button";
@@ -11,7 +11,6 @@ import Fade from "@material-ui/core/Fade";
 import rezolva_invata from "../poze/rezolva_invata.svg";
 import oriunde_oricand from "../poze/oriunde_oricand.svg";
 import statistici from "../poze/statistici.svg";
-import gratis from "../poze/gratis.svg";
 import FAQ from "../componente/faq";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
