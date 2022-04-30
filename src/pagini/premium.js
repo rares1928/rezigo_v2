@@ -28,9 +28,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     margin: theme.spacing(1, 1.5),
   },
-  heroContent: {
-    padding: theme.spacing(8, 0, 6),
-  },
+
   cardHeader: {
     backgroundColor:
       theme.palette.type === "light"
@@ -79,7 +77,7 @@ export default function Pricing() {
   const [loadCumpara, setLoadCumpara] = useState(false);
   const [items, setItems] = useState({});
   const [prices, setPrices] = useState([]);
-  const inversReducere = 2;
+  const inversReducere = [3, 3, 3];
 
   const handleError = (e) => {
     console.log(e.status);
@@ -143,7 +141,7 @@ export default function Pricing() {
       <Helmet>
         <title>{TITLE}</title>
       </Helmet>
-      <Container maxWidth="md" component="main" className={classes.heroContent}>
+      <Container maxWidth="md" component="main">
         <Typography
           component="h2"
           variant="h3"
@@ -165,6 +163,27 @@ export default function Pricing() {
           site-ului, reparcurge-ți greșelile și multe altele!
         </Typography>
         <PremiumTable />
+        <Typography
+          component="h2"
+          variant="h3"
+          align="center"
+          color="textPrimary"
+          gutterBottom
+        >
+          Reducere de lansare!
+        </Typography>
+        <Typography
+          className={classes.textWarningDiv}
+          variant="h5"
+          align="center"
+          component="p"
+        >
+          Primii 50 de abonați vor benificia de oferta noastră de bun venit!
+          Știm cât de important este pentru tine examenul de rezidențiat. De
+          aceea am decis să-ți fim alături cu platforma ReziGo la un preț
+          special. Grabește-te și fii printre primii care se înscrie! Oferta
+          este valabilă până la data de:
+        </Typography>
       </Container>
       {/* End hero unit */}
       {loadingPrices ? (
@@ -172,7 +191,7 @@ export default function Pricing() {
       ) : (
         <Container maxWidth="md" component="main">
           <Grid container spacing={5} alignItems="flex-end">
-            {prices.map((price) => (
+            {prices.map((price, index) => (
               // Enterprise card is full width at sm breakpoint
               <Grid item key={price.name} xs={12} md={4}>
                 <Card className={classes.cardDiv}>
@@ -194,14 +213,15 @@ export default function Pricing() {
                           className={classes.priceCutTypo}
                         >
                           {(parseInt(price.metadata.price) / 100) *
-                            inversReducere}
+                            inversReducere[index]}
                         </Typography>
                         <Typography
                           component="h4"
                           variant="h5"
                           color="textPrimary"
                         >
-                          Lei (-{Math.floor(100 * (1 - 1 / inversReducere))}%)
+                          Lei (-
+                          {Math.floor(100 * (1 - 1 / inversReducere[index]))}%)
                         </Typography>
                       </div>
 
