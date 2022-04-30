@@ -212,8 +212,10 @@ export default function Pricing() {
                           color="textPrimary"
                           className={classes.priceCutTypo}
                         >
-                          {(parseInt(price.metadata.price) / 100) *
-                            inversReducere[index]}
+                          {Math.floor(
+                            (parseInt(price.metadata.price) / 100) *
+                              inversReducere[index]
+                          )}
                         </Typography>
                         <Typography
                           component="h4"
