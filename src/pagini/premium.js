@@ -178,11 +178,11 @@ export default function Pricing() {
           align="center"
           component="p"
         >
-          Primii 50 de abonați vor benificia de oferta noastră de bun venit!
+          Primii 100 de abonați vor beneficia de oferta noastră de bun venit!
           Știm cât de important este pentru tine examenul de rezidențiat. De
           aceea am decis să-ți fim alături cu platforma ReziGo la un preț
-          special. Grabește-te și fii printre primii care se înscrie! Oferta
-          este valabilă până la data de:
+          special. Grăbește-te și fii printre primii care se înscriu! Oferta
+          este valabilă până la data de: 07.05.2022.
         </Typography>
       </Container>
       {/* End hero unit */}
