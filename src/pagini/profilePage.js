@@ -729,7 +729,7 @@ export default function ProfilePage(props) {
                         ) === undefined
                           ? 0
                           : Math.floor(
-                              items.statisticiCategoriiSite.find(
+                              items.statisticiCategoriiProfil.find(
                                 (elemSite) =>
                                   elemSite["Categorie"] === elm["Categorie"]
                               ).Ratio * 950
