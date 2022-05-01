@@ -180,6 +180,9 @@ export default function ProfilePage(props) {
 
   const TITLE = "Profil";
 
+  console.log(items.statisticiCategoriiProfil);
+  console.log(items.statisticiCategoriiSite);
+
   return (
     <>
       <Snackbar
@@ -727,6 +730,11 @@ export default function ProfilePage(props) {
                           (elemSite) =>
                             elemSite["Categorie"] === elm["Categorie"]
                         ) === undefined
+                          ? 0
+                          : items.statisticiCategoriiProfil.find(
+                              (elemSite) =>
+                                elemSite["Categorie"] === elm["Categorie"]
+                            ).Ratio === -1
                           ? 0
                           : Math.floor(
                               items.statisticiCategoriiProfil.find(
