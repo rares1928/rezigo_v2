@@ -67,6 +67,7 @@ export default function GrilePage(props) {
     setTipProfil(e.data["tipProfil"]);
     if (e.data["tipProfil"] === "Standard") {
       setRandomOrder(false);
+      setShowAnswer(false);
     }
     setReady(true);
   };
@@ -615,8 +616,12 @@ export default function GrilePage(props) {
                         <Switch
                           checked={showAnswer}
                           onChange={() => {
-                            localStorage.setItem("showAnswer", !showAnswer);
-                            setShowAnswer(!showAnswer);
+                            if (tipProfil === "Standard") {
+                              setPremiumPop(true);
+                            } else {
+                              localStorage.setItem("showAnswer", !showAnswer);
+                              setShowAnswer(!showAnswer);
+                            }
                           }}
                         />
                       </div>
