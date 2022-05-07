@@ -77,7 +77,7 @@ export default function Pricing() {
   const [loadCumpara, setLoadCumpara] = useState(false);
   const [items, setItems] = useState({});
   const [prices, setPrices] = useState([]);
-  const inversReducere = [3, 3, 3];
+  const inversReducere = [2, 2, 2];
 
   const handleError = (e) => {
     console.log(e.status);
