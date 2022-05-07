@@ -163,7 +163,7 @@ export default function Pricing() {
           site-ului, reparcurge-ți greșelile și multe altele!
         </Typography>
         <PremiumTable />
-        <Typography
+        {/* <Typography
           component="h2"
           variant="h3"
           align="center"
@@ -183,7 +183,7 @@ export default function Pricing() {
           aceea am decis să-ți fim alături cu platforma ReziGo la un preț
           special. Grăbește-te și fii printre primii care se înscriu! Oferta
           este valabilă până la data de: 07.05.2022.
-        </Typography>
+        </Typography> */}
       </Container>
       {/* End hero unit */}
       {loadingPrices ? (
