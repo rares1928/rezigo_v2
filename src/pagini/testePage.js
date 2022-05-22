@@ -1186,6 +1186,7 @@ export default function TestePage() {
                         <Button
                           className={classes.footerAleator}
                           variant="contained"
+                          disabled={tipCont === "Standard"}
                           color="secondary"
                           onClick={() => {
                             isCardSelected === "Grile pe pagini"

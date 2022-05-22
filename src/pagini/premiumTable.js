@@ -104,7 +104,7 @@ export default function PremiumTable() {
   const rows3 = [
     createData(
       "Posibilitatea de randomizare a grilelor",
-      <CheckBoxRoundedIcon className={classes.checkBox} />,
+      <ClearRoundedIcon className={classes.cancelCross} />,
       <CheckBoxRoundedIcon className={classes.checkBox} />
     ),
     createData(
