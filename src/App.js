@@ -30,6 +30,7 @@ import PrezentarePage from "./pagini/prezentare";
 import PremiumPage from "./pagini/premium";
 import PremiumSuccess from "./pagini/premiumSuccess";
 import PremiumCancel from "./pagini/premiumCancel";
+import AdminsSimulari from "./pagini/adminsSimulari";
 
 function App() {
   const [darkMode, setDarkMode] = useState(
@@ -138,6 +139,7 @@ function App() {
                       path="/admins/grile/id*"
                       component={AdminsEditGrila}
                     />
+                    <Route path="/admins/simulari" component={AdminsSimulari} />
                   </Switch>
                 </ProtectedRouteAdmins>
                 <Route component={NoMatch} />
