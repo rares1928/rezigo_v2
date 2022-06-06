@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Switch from "@material-ui/core/Switch";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   headerText: {
     marginBottom: theme.spacing(3),
+    marginTop: theme.spacing(3),
   },
   paper: {
     marginTop: theme.spacing(4),
@@ -38,17 +40,17 @@ const useStyles = makeStyles((theme) => ({
   buttons: {},
 }));
 
-export default function AdminsSimulari() {
+export default function AdminsSimuareEdit() {
   const classes = useStyles();
   const TITLE = "admins";
-  const [simulari, setSimulari] = useState([]);
-  const [newSimulare, setNewSimulare] = useState({});
+  const [simulareCurenta, setSimulareCurenta] = useState({});
   const [newName, setNewName] = useState("");
+  const [newIsLive, setNewIsLive] = useState(false);
   const [newDescription, setNewDescription] = useState("");
   const [newStartDate, setNewStartDate] = useState("");
 
-  const createSimulare = (event) => {
-    setNewSimulare((prevState) => ({
+  const updateSimulare = (event) => {
+    setSimulareCurenta((prevState) => ({
       ...prevState,
       name: newName,
       description: newDescription,
@@ -57,10 +59,19 @@ export default function AdminsSimulari() {
       EditedAt: null,
       NumberCS: 0,
       NumberCM: 0,
-      IsLived: false,
+      IsLive: false,
     }));
     event.preventDefault();
   };
+
+  const setInitialState = () => {
+    setNewName(simulareCurenta.name);
+    setNewDescription(simulareCurenta.description);
+    setNewStartDate(simulareCurenta.startDate);
+    setNewIsLive(simulareCurenta.isLive);
+  };
+
+  useEffect(setInitialState, []);
 
   return (
     <div className={classes.wrapperDiv}>
@@ -69,14 +80,22 @@ export default function AdminsSimulari() {
       </Helmet>
       <Paper className={classes.paper}>
         <Typography className={classes.headerText} variant="h5">
-          Creeaza o noua simulare:{" "}
+          Simularea curenta
         </Typography>
         <Typography>
-          Introdu numele, descrierea si data la care ai vrea sa aiba loc
-          simularea. Toate datele introduse acum pot fi editate mai tarziu
+          <ul>
+            <li>Nume:{simulareCurenta.name}</li>
+            <li>Descriere: {simulareCurenta.description}</li>
+            <li>Data la care incepe: {simulareCurenta.startDate}</li>
+            <li>Numar CS: {simulareCurenta.NumberCS}</li>
+            <li>Numar CM: {simulareCurenta.NumberCM}</li>
+            <li>Este live (o pot vedea userii): {simulareCurenta.IsLive}</li>
+          </ul>
         </Typography>
-        <Typography>Grilele le vei aduga mai tarziu</Typography>
-        <form onSubmit={createSimulare} className={classes.formNewSimulare}>
+        <Typography className={classes.headerText} variant="h5">
+          Updateaza simularea
+        </Typography>
+        <form onSubmit={updateSimulare} className={classes.formNewSimulare}>
           <TextField
             className={classes.textField}
             variant="outlined"
@@ -114,17 +133,28 @@ export default function AdminsSimulari() {
             color="secondary"
           >
             {" "}
-            Creeaza simularea
+            Updateaza simularea
           </Button>
         </form>
+
+        <Typography className={classes.headerText} variant="h5">
+          Vrei sa faci simularea live? Statusul ei curent este:{" "}
+          {simulareCurenta.IsLive}
+        </Typography>
+        <Button
+          size="large"
+          className={classes.buttons}
+          variant="contained"
+          color="secondary"
+        >
+          {" "}
+          Go live!
+        </Button>
       </Paper>
       <Paper className={classes.paper}>
         <Typography className={classes.headerText} variant="h5">
-          Simulari existente:{" "}
+          Adauga sau sterge grile
         </Typography>
-        {simulari.length === 0
-          ? "Momentan nu avem nicio simulare salvata"
-          : "ar trebui sa arat ceva"}
       </Paper>
     </div>
   );
