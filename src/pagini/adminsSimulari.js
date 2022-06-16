@@ -93,7 +93,7 @@ export default function AdminsSimulari() {
     const url =
       "https://grileapiwin.azurewebsites.net/api/CreateSimulare?code=xv9GI4DuhWKswlBaP63TH5PbFdwtFZFPG8nwv5xE08zJAzFucz89jw==";
     await callApi(url, data, handleItems, handleError);
-    console.log("data:", data, "newSimulareName:", newSimulare.name);
+    console.log("data:", data, "newSimulareName:", newSimulare.name, items);
     event.preventDefault();
   };
 
