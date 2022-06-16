@@ -87,16 +87,15 @@ export default function AdminsSimulari() {
 
 	useEffect(() => {
 		getAllSimulari();
-		console.log("asta luam de la db?", items, items.lista);
+		setSimulari((prevState) => [...prevState, items["lista"]]);
+		console.log("GetAllSimulari:", simulari, items["lista"]);
 	}, []);
 
 	const getAllSimulari = async () => {
+		setItems({});
 		const url = "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
-		try {
-			const data = {};
-			const wtf = await callApi(url, data, handleItems, handleError);
-			console.log("try de la call all simulari", items, data, wtf);
-		} catch (error) {}
+		const data = {};
+		const wtf = await callApi(url, data, handleItems, handleError);
 	};
 
 	return (
