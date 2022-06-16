@@ -60,7 +60,7 @@ export default function AdminsSimulari() {
 			EditedAt: null,
 			NumberCS: 0,
 			NumberCM: 0,
-			IsLive: false,
+			IsLived: false,
 		}));
 		const data = {
 			name: newName,
