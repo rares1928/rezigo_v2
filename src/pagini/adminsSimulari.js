@@ -105,11 +105,16 @@ export default function AdminsSimulari() {
   const getAllSimulari = async () => {
     const url =
       "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
-    try {
-      const data = {};
-      const wtf = await callApi(url, data, handleItems, handleError);
-      console.log("try de la call all simulari", items, data, wtf);
-    } catch (error) {}
+    const data = {};
+    const wtf = await callApi(url, data, handleItems, handleError);
+    console.log(
+      "try de la call all simulari",
+      "items:",
+      items,
+      "data",
+      data,
+      wtf
+    );
   };
 
   return (
@@ -180,6 +185,7 @@ export default function AdminsSimulari() {
             {simulare.name} {simulare.description}
           </div>
         ))}
+        <div>Lista de simulari: {items["lista"]}</div>
       </Paper>
     </div>
   );
