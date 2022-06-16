@@ -47,12 +47,29 @@ export default function AdminsSimulari() {
       description: "tot test 1",
       startDate: "candva",
     },
+    {
+      name: "test2",
+      description: "tot test 2",
+      startDate: "altcandva",
+    },
   ]);
   const [newSimulare, setNewSimulare] = useState({});
   const [newName, setNewName] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [newStartDate, setNewStartDate] = useState("");
   const [items, setItems] = useState({});
+
+  const handleItems = (e) => {
+    setItems(e.data);
+  };
+
+  const handleError = (e) => {
+    if (e === 403) {
+      // history.push({ pathname: "/" });
+    } else {
+      console.log(e);
+    }
+  };
 
   const createSimulare = async (event) => {
     event.preventDefault();
@@ -78,18 +95,6 @@ export default function AdminsSimulari() {
     await callApi(url, data, handleItems, handleError);
     console.log("data:", data, "newSimulareName:", newSimulare.name);
     event.preventDefault();
-  };
-
-  const handleItems = (e) => {
-    setItems(e.data);
-  };
-
-  const handleError = (e) => {
-    if (e === 403) {
-      // history.push({ pathname: "/" });
-    } else {
-      console.log(e);
-    }
   };
 
   useEffect(() => {
