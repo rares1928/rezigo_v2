@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
 	wrapperDiv: {
@@ -47,6 +48,7 @@ export default function AdminsSimulari() {
 	const [newDescription, setNewDescription] = useState("");
 	const [newStartDate, setNewStartDate] = useState("");
 	const [items, setItems] = useState({});
+	const [isLoading, setIsLoading] = useState(false);
 
 	const createSimulare = async (event) => {
 		event.preventDefault();
@@ -84,19 +86,45 @@ export default function AdminsSimulari() {
 			console.log(e);
 		}
 	};
-
-	useEffect(() => {
-		getAllSimulari();
-		setSimulari((prevState) => [...prevState, items["lista"]]);
-		console.log("GetAllSimulari:", simulari, items["lista"]);
-	}, []);
-
-	const getAllSimulari = async () => {
-		setItems({});
-		const url = "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
-		const data = {};
-		const wtf = await callApi(url, data, handleItems, handleError);
+	const displaySimulariMare = () => {
+		const displaySimulariMica = async () => {
+			setIsLoading(true);
+			const url = "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
+			const data = {};
+			try {
+				await callApi(url, data, handleItems, handleError).then(() => {
+					const simulariDB = items["lista"];
+					console.log(simulariDB);
+					setSimulari([...simulariDB]);
+				});
+			} catch (error) {
+				console.log(error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+		displaySimulariMica();
 	};
+
+	useEffect(displaySimulariMare, []);
+	console.log("GetAllSimulari:", items["lista"], "simulari", simulari);
+
+	// useEffect(() => {
+	// 	setIsLoading(true);
+	// 	getAllSimulari().then(() => {
+	// 		const simulariDB = items["lista"];
+	// 		setSimulari(simulariDB);
+	// 		console.log("GetAllSimulari:", items["lista"], "simulari", simulari);
+	// 	});
+	// 	setIsLoading(false);
+	// }, []);
+
+	// const getAllSimulari = async () => {
+	// 	setItems({});
+	// 	const url = "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
+	// 	const data = {};
+	// 	await callApi(url, data, handleItems, handleError);
+	// };
 
 	return (
 		<div className={classes.wrapperDiv}>
@@ -151,7 +179,24 @@ export default function AdminsSimulari() {
 				<Typography className={classes.headerText} variant="h5">
 					Simulari existente:{" "}
 				</Typography>
-				{simulari.length === 0 ? "Momentan nu avem nicio simulare salvata" : "ar trebui sa arat ceva"}
+				{simulari.length === 0 ? (
+					<div>
+						"Momentan nu avem nicio simulare salvata"
+						<CircularProgress />
+					</div>
+				) : (
+					<div>
+						"ar trebui sa arat ceva"
+						<Typography className={classes.headerText} variant="h5">
+							{simulari.map((simulare) => (
+								<div>
+									<p>{simulare.Name}</p>
+									<p>{simulare.Description}</p>
+								</div>
+							))}
+						</Typography>
+					</div>
+				)}
 			</Paper>
 		</div>
 	);
