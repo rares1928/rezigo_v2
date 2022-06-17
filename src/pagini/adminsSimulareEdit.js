@@ -52,6 +52,7 @@ export default function AdminsSimuareEdit() {
 	const [newDescription, setNewDescription] = useState("");
 	const [newStartDate, setNewStartDate] = useState("");
 	const { state } = useLocation();
+	const [items, setItems] = useState({});
 
 	const updateSimulare = (event) => {
 		setSimulareCurenta((prevState) => ({
@@ -68,10 +69,28 @@ export default function AdminsSimuareEdit() {
 		event.preventDefault();
 	};
 
+	const handleItems = (e) => {
+		setItems(e.data);
+	};
+
+	const handleError = (e) => {
+		if (e === 403) {
+			// history.push({ pathname: "/" });
+		} else {
+			console.log(e);
+		}
+	};
+
 	const getSimulareFromDB = async () => {
-		const url = "";
+		const url = "https://grileapiwin.azurewebsites.net/api/GetAllQuestions?code=uSgy01hLnddLFUbfUltfB-qfLP8jQIclHeLDhAYlGL-hAzFu-vOi4A==";
 		const data = { simulareID: state };
-		console.log(data);
+		console.log(data.simulareID);
+		try {
+			await callApi(url, data, handleItems, handleError);
+			console.log(items["lista"]);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const setInitialState = () => {

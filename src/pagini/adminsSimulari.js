@@ -126,7 +126,7 @@ export default function AdminsSimulari() {
 				// console.log(items["lista"], simulariDB, simulari);
 			});
 		} catch (error) {
-			console.log(error, error);
+			console.log(error);
 		}
 	};
 
