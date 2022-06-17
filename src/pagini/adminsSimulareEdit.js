@@ -10,6 +10,7 @@ import Switch from "@material-ui/core/Switch";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import AdminsDisplayGrile from "./adminsDisplayGrile";
+import { useLocation, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	wrapperDiv: {
@@ -50,6 +51,7 @@ export default function AdminsSimuareEdit() {
 	const [newIsLive, setNewIsLive] = useState(false);
 	const [newDescription, setNewDescription] = useState("");
 	const [newStartDate, setNewStartDate] = useState("");
+	const { state } = useLocation();
 
 	const updateSimulare = (event) => {
 		setSimulareCurenta((prevState) => ({
@@ -66,7 +68,14 @@ export default function AdminsSimuareEdit() {
 		event.preventDefault();
 	};
 
+	const getSimulareFromDB = async () => {
+		const url = "";
+		const data = { simulareID: state };
+		console.log(data);
+	};
+
 	const setInitialState = () => {
+		getSimulareFromDB();
 		setNewName(simulareCurenta.name);
 		setNewDescription(simulareCurenta.description);
 		setNewStartDate(simulareCurenta.startDate);

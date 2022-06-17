@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	wrapperDiv: {
@@ -49,6 +50,7 @@ export default function AdminsSimulari() {
 	const [newStartDate, setNewStartDate] = useState("");
 	const [items, setItems] = useState({});
 	const [isLoading, setIsLoading] = useState(false);
+	let history = useHistory();
 
 	const createSimulare = async (event) => {
 		event.preventDefault();
@@ -137,6 +139,10 @@ export default function AdminsSimulari() {
 		}
 	}, [items["lista"]]);
 
+	const editSimulare = (id) => {
+		return history.push({ pathname: "/admins/simulari/simulare_edit/" + id, state: id });
+	};
+
 	// useEffect(() => {
 	// 	setIsLoading(true);
 	// 	getAllSimulari().then(() => {
@@ -223,7 +229,14 @@ export default function AdminsSimulari() {
 											{simulare.Name}
 										</Typography>
 										<p>{simulare.Description}</p>
-										<Button size="medium" className={classes.buttons} variant="contained" color="secondary">
+										<p>{simulare.ID}</p>
+										<Button
+											size="medium"
+											className={classes.buttons}
+											variant="contained"
+											color="secondary"
+											onClick={() => editSimulare(simulare.ID)}
+										>
 											Editeaza simularea
 										</Button>
 										<Button size="medium" className={classes.buttons} variant="outlined" color="secondary">
