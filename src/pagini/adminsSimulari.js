@@ -226,7 +226,7 @@ export default function AdminsSimulari() {
 										<Button size="medium" className={classes.buttons} variant="contained" color="secondary">
 											Editeaza simularea
 										</Button>
-										<Button size="medium" className={classes.buttons} variant="contained" color="secondary">
+										<Button size="medium" className={classes.buttons} variant="outlined" color="secondary">
 											Sterge simularea
 										</Button>
 									</div>
