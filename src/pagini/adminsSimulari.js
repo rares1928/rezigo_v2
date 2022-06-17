@@ -86,28 +86,56 @@ export default function AdminsSimulari() {
 			console.log(e);
 		}
 	};
-	const displaySimulariMare = () => {
-		const displaySimulariMica = async () => {
-			setIsLoading(true);
-			const url = "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
-			const data = {};
-			try {
-				await callApi(url, data, handleItems, handleError).then(() => {
-					const simulariDB = items["lista"];
-					console.log(simulariDB);
-					setSimulari([...simulariDB]);
-				});
-			} catch (error) {
-				console.log(error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-		displaySimulariMica();
+	// const displaySimulariMare = () => {
+	// 	const displaySimulariMica = async () => {
+	// 		setIsLoading(true);
+	// 		const url = "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
+	// 		const data = {};
+	// 		try {
+	// 			await callApi(url, data, handleItems, handleError).then(() => {
+	// 				const simulariDB = items["lista"];
+	// 				console.log(simulariDB);
+	// 				// setSimulari(simulariDB);
+	// 			});
+	// 		} catch (error) {
+	// 			console.log(error);
+	// 		} finally {
+	// 			setIsLoading(false);
+	// 		}
+	// 	};
+	// 	displaySimulariMica();
+	// };
+
+	// useEffect(displaySimulariMare, []);
+	// console.log("GetAllSimulari:", items["lista"], "simulari", simulari);
+
+	//New attempt
+
+	const getSimulariFromDB = async () => {
+		const url = "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
+		const data = {};
+		let simulariDB;
+		try {
+			await callApi(url, data, handleItems, handleError).then(() => {
+				simulariDB = items["lista"];
+				if (simulariDB) {
+					setSimulari(simulariDB);
+				}
+				// console.log(items["lista"], simulariDB, simulari);
+			});
+		} catch (error) {
+			console.log(error, error);
+		}
 	};
 
-	useEffect(displaySimulariMare, []);
-	console.log("GetAllSimulari:", items["lista"], "simulari", simulari);
+	useEffect(getSimulariFromDB, []);
+
+	useEffect(() => {
+		if (items["lista"]) {
+			setSimulari(items["lista"]);
+			console.log(items["lista"], simulari);
+		}
+	}, [items["lista"]]);
 
 	// useEffect(() => {
 	// 	setIsLoading(true);
@@ -189,10 +217,20 @@ export default function AdminsSimulari() {
 						"ar trebui sa arat ceva"
 						<Typography className={classes.headerText} variant="h5">
 							{simulari.map((simulare) => (
-								<div>
-									<p>{simulare.Name}</p>
-									<p>{simulare.Description}</p>
-								</div>
+								<Paper className={classes.paper}>
+									<div>
+										<Typography className={classes.headerText} variant="h5">
+											{simulare.Name}
+										</Typography>
+										<p>{simulare.Description}</p>
+										<Button size="medium" className={classes.buttons} variant="contained" color="secondary">
+											Editeaza simularea
+										</Button>
+										<Button size="medium" className={classes.buttons} variant="contained" color="secondary">
+											Sterge simularea
+										</Button>
+									</div>
+								</Paper>
 							))}
 						</Typography>
 					</div>
