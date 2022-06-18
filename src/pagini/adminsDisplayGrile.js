@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function AdminsDisplayGrile() {
+export default function AdminsDisplayGrile({ simID }) {
 	const [carte, setCarte] = useState("");
 	const [capitol, setCapitol] = useState(-1);
 	const [subCapitol, setSubCapitol] = useState(-1);
@@ -172,14 +172,15 @@ export default function AdminsDisplayGrile() {
 	};
 
 	//functie de adaugat grila in simulare in DB
-	const addQuestion = async (simID, grilID) => {
+	const addQuestionToSim = async (grilaID) => {
 		const url = "https://grileapiwin.azurewebsites.net/api/AddQuestion?code=5c3EzU9SFR6wqGLEfTKpESvCYpUZ5ZgbBaj9_LeuLckxAzFu-HcPFQ==";
-		const data = { simID, grilID }; //aici mai trebuie verificat cu DB
+		const data = { grilaId: grilaID, simulareId: simID }; //aici mai trebuie verificat cu DB
 		try {
 			await callApi(url, data, handleSimQuestion, handleError);
 		} catch (error) {
 			console.log(error);
 		} finally {
+			console.log(data);
 			// aici ar trebui sa apelez iar functia ca sa dau refresh la grilele din simulare dupa ce adaug una
 			// va trebui sa o iei ca prop din adminsSimulareEdit.js
 			// getSimulareQuestions();
@@ -335,6 +336,7 @@ export default function AdminsDisplayGrile() {
 													<Typography>c) {grilaPrimita.Variante_c}</Typography>
 													<Typography>d) {grilaPrimita.Variante_d}</Typography>
 													<Typography>e) {grilaPrimita.Variante_e}</Typography>
+													<Typography>id {grilaPrimita.GrilaID}</Typography>
 													<div className={classes.divButton}>
 														<div />
 														<Button
@@ -349,7 +351,12 @@ export default function AdminsDisplayGrile() {
 													{window.location.pathname.split("/")[3] === "simulare_edit" && (
 														<div className={classes.divButton}>
 															<div />
-															<Button variant="contained" color="secondary" className={classes.button} onClick={addQuestion}>
+															<Button
+																variant="contained"
+																color="secondary"
+																className={classes.button}
+																onClick={addQuestionToSim(grilaPrimita.GrilaID)}
+															>
 																Adauga grila in simulare
 															</Button>
 														</div>

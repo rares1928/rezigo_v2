@@ -99,6 +99,12 @@ export default function AdminsSimuareEdit() {
 		await callApi(url, data, handleItemsSim, handleError);
 	};
 
+	// const addQuestionToSim = async () => {
+	// 	const url = "https://grileapiwin.azurewebsites.net/api/AddQuestionToSimulare?code=XLRsha5UvXRHSWjduHZKUbJusqu5GMkSi1H5Z1D1Le8gAzFuhdVcjQ==";
+	// 	const data = {};
+	// 	await callApi(url, data, handleItemsSim, handleError);
+	// };
+
 	const setInitialState = () => {
 		getSimulareByID();
 		getSimulareQuestions();
@@ -107,8 +113,6 @@ export default function AdminsSimuareEdit() {
 		// setNewStartDate(simulareCurenta.startDate);
 		// setNewIsLive(simulareCurenta.isLive);
 	};
-
-	// useEffect(setInitialState, []);
 
 	useEffect(setInitialState, []);
 
@@ -209,7 +213,7 @@ export default function AdminsSimuareEdit() {
 						<Typography className={classes.headerText} variant="h5">
 							Grile nepuse in simulare
 						</Typography>
-						<AdminsDisplayGrile />
+						<AdminsDisplayGrile simID={simulareCurenta.ID} />
 					</Paper>
 				</Grid>
 				<Grid item xs={6}>
