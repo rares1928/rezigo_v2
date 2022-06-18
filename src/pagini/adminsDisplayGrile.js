@@ -173,7 +173,7 @@ export default function AdminsDisplayGrile({ simID }) {
 
 	//functie de adaugat grila in simulare in DB
 	const addQuestionToSim = async (grilaID) => {
-		const url = "https://grileapiwin.azurewebsites.net/api/AddQuestion?code=5c3EzU9SFR6wqGLEfTKpESvCYpUZ5ZgbBaj9_LeuLckxAzFu-HcPFQ==";
+		const url = "https://grileapiwin.azurewebsites.net/api/AddQuestionToSimulare?code=XLRsha5UvXRHSWjduHZKUbJusqu5GMkSi1H5Z1D1Le8gAzFuhdVcjQ==";
 		const data = { grilaId: grilaID, simulareId: simID }; //aici mai trebuie verificat cu DB
 		try {
 			await callApi(url, data, handleSimQuestion, handleError);
