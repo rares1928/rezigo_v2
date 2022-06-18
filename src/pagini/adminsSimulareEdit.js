@@ -84,50 +84,47 @@ export default function AdminsSimuareEdit() {
 
 	const getSimulareQuestions = async () => {
 		const url = "https://grileapiwin.azurewebsites.net/api/GetAllQuestions?code=uSgy01hLnddLFUbfUltfB-qfLP8jQIclHeLDhAYlGL-hAzFu-vOi4A==";
-		const data = { simulareID: state };
-		let simulareQuestionsDB;
-		console.log(data.simulareID);
-		try {
-			await callApi(url, data, handleItems, handleError).then(() => {
-				simulareQuestionsDB = items["lista"];
-				if (simulareQuestions) {
-					setSimulareQuestions(simulareQuestionsDB);
-				}
-			});
-			console.log(items["lista"]);
-		} catch (error) {
-			console.log(error);
-		}
+		const data = { simulareId: state };
+		await callApi(url, data, handleItems, handleError);
 	};
 
 	const getSimulareByID = async () => {
 		const url = "https://grileapiwin.azurewebsites.net/api/GetSimulareByID?code=IxeUbzXZ_d9xLzx8jsVOIhZPdZi2gyATfaiFf4wioZluAzFu2UetKA==";
-		const data = { simulareID: state };
-		let simulareDetails;
-		console.log(data.simulareID);
-		try {
-			await callApi(url, data, handleItems, handleError).then(() => {
-				simulareDetails = items["lista"];
-				if (simulareDetails) {
-					setSimulareCurenta(simulareDetails);
-				}
-			});
-			console.log(items["lista"]);
-		} catch (error) {
-			console.log(error);
-		}
+		const data = { simulareId: state };
+		await callApi(url, data, handleItems, handleError);
 	};
 
 	const setInitialState = () => {
 		getSimulareByID();
 		getSimulareQuestions();
-		setNewName(simulareCurenta.name);
-		setNewDescription(simulareCurenta.description);
-		setNewStartDate(simulareCurenta.startDate);
-		setNewIsLive(simulareCurenta.isLive);
+		// setNewName(simulareCurenta.name);
+		// setNewDescription(simulareCurenta.description);
+		// setNewStartDate(simulareCurenta.startDate);
+		// setNewIsLive(simulareCurenta.isLive);
 	};
 
+	// useEffect(setInitialState, []);
+
 	useEffect(setInitialState, []);
+
+	useEffect(() => {
+		if (items["lista"]) {
+			setSimulareCurenta(items["lista"][0]);
+			console.log(items["lista"][0], simulareCurenta);
+		}
+	}, [items["lista"]]);
+
+	// useEffect(() => {
+	// 	if (items["lista"][0]) {
+	// 		setSimulareCurenta(items["lista"][0]);
+	// 	}
+	// }, [items["lista"][0]]);
+
+	// useEffect(() => {
+	// 	if (simulareDetails) {
+	// 		setSimulareCurenta(simulareDetails);
+	// 	}
+	// }, [simulareDetails]);
 
 	return (
 		<div className={classes.wrapperDiv}>
@@ -140,9 +137,9 @@ export default function AdminsSimuareEdit() {
 				</Typography>
 				<Typography>
 					<ul>
-						<li>Nume:{simulareCurenta.name}</li>
-						<li>Descriere: {simulareCurenta.description}</li>
-						<li>Data la care incepe: {simulareCurenta.startDate}</li>
+						<li>Nume: {simulareCurenta.Name}</li>
+						<li>Descriere: {simulareCurenta.Description}</li>
+						<li>Data la care incepe: {simulareCurenta.StartDate}</li>
 						<li>Numar CS: {simulareCurenta.NumberCS}</li>
 						<li>Numar CM: {simulareCurenta.NumberCM}</li>
 						<li>Este live (o pot vedea userii): {simulareCurenta.IsLive}</li>

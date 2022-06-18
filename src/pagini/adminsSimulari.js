@@ -116,18 +116,7 @@ export default function AdminsSimulari() {
 	const getSimulariFromDB = async () => {
 		const url = "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
 		const data = {};
-		let simulariDB;
-		try {
-			await callApi(url, data, handleItems, handleError).then(() => {
-				simulariDB = items["lista"];
-				if (simulariDB) {
-					setSimulari(simulariDB);
-				}
-				// console.log(items["lista"], simulariDB, simulari);
-			});
-		} catch (error) {
-			console.log(error);
-		}
+		await callApi(url, data, handleItems, handleError);
 	};
 
 	useEffect(getSimulariFromDB, []);
@@ -226,10 +215,10 @@ export default function AdminsSimulari() {
 								<Paper className={classes.paper}>
 									<div>
 										<Typography className={classes.headerText} variant="h5">
-											{simulare.Name}
+											Nume simulare: {simulare.Name}
 										</Typography>
-										<p>{simulare.Description}</p>
-										<p>{simulare.ID}</p>
+										<p>Descroere simulare: {simulare.Description}</p>
+										<p>Id simulare: {simulare.ID}</p>
 										<Button
 											size="medium"
 											className={classes.buttons}

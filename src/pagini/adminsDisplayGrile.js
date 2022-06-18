@@ -81,6 +81,7 @@ export default function AdminsDisplayGrile() {
 	const [loading, setLoading] = useState(false);
 	const [showGrileList, setShowGrileList] = useState(false);
 	const [ready, setReady] = useState(false);
+	const [simQuestion, setSimQuestion] = useState();
 	let history = useHistory();
 
 	useEffect(() => {
@@ -134,6 +135,12 @@ export default function AdminsDisplayGrile() {
 		setSubCapitol(event.target.value);
 	};
 
+	//aici am adaugat eu niste functii pt a lua din DB grilele din simulare
+	const handleSimQuestion = (e) => {
+		setSimQuestion(e.target.value);
+		console.log(simQuestion);
+	};
+
 	const cautaGrile = async () => {
 		setLoading(true);
 		setShowGrileList(false);
@@ -162,6 +169,21 @@ export default function AdminsDisplayGrile() {
 
 	const editGrila = (id) => {
 		return history.push({ pathname: "/admins/grile/id" + id, state: id });
+	};
+
+	//functie de adaugat grila in simulare in DB
+	const addQuestion = async (simID, grilID) => {
+		const url = "https://grileapiwin.azurewebsites.net/api/AddQuestion?code=5c3EzU9SFR6wqGLEfTKpESvCYpUZ5ZgbBaj9_LeuLckxAzFu-HcPFQ==";
+		const data = { simID, grilID }; //aici mai trebuie verificat cu DB
+		try {
+			await callApi(url, data, handleSimQuestion, handleError);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			// aici ar trebui sa apelez iar functia ca sa dau refresh la grilele din simulare dupa ce adaug una
+			// va trebui sa o iei ca prop din adminsSimulareEdit.js
+			// getSimulareQuestions();
+		}
 	};
 
 	const classes = useStyles();
@@ -327,7 +349,7 @@ export default function AdminsDisplayGrile() {
 													{window.location.pathname.split("/")[3] === "simulare_edit" && (
 														<div className={classes.divButton}>
 															<div />
-															<Button variant="contained" color="secondary" className={classes.button}>
+															<Button variant="contained" color="secondary" className={classes.button} onClick={addQuestion}>
 																Adauga grila in simulare
 															</Button>
 														</div>
