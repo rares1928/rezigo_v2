@@ -355,7 +355,9 @@ export default function AdminsDisplayGrile({ simID }) {
 																variant="contained"
 																color="secondary"
 																className={classes.button}
-																onClick={addQuestionToSim(grilaPrimita.GrilaID)}
+																onClick={() => {
+																	addQuestionToSim(grilaPrimita.GrilaID);
+																}}
 															>
 																Adauga grila in simulare
 															</Button>
