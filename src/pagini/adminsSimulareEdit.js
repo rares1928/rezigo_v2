@@ -53,6 +53,7 @@ export default function AdminsSimuareEdit() {
 	const [newStartDate, setNewStartDate] = useState("");
 	const { state } = useLocation();
 	const [items, setItems] = useState({});
+	const [itemsSim, setItemsSim] = useState({});
 	const [simulareQuestions, setSimulareQuestions] = useState([]);
 
 	const updateSimulare = (event) => {
@@ -74,6 +75,10 @@ export default function AdminsSimuareEdit() {
 		setItems(e.data);
 	};
 
+	const handleItemsSim = (e) => {
+		setItemsSim(e.data);
+	};
+
 	const handleError = (e) => {
 		if (e === 403) {
 			// history.push({ pathname: "/" });
@@ -91,7 +96,7 @@ export default function AdminsSimuareEdit() {
 	const getSimulareByID = async () => {
 		const url = "https://grileapiwin.azurewebsites.net/api/GetSimulareByID?code=IxeUbzXZ_d9xLzx8jsVOIhZPdZi2gyATfaiFf4wioZluAzFu2UetKA==";
 		const data = { simulareId: state };
-		await callApi(url, data, handleItems, handleError);
+		await callApi(url, data, handleItemsSim, handleError);
 	};
 
 	const setInitialState = () => {
@@ -108,11 +113,11 @@ export default function AdminsSimuareEdit() {
 	useEffect(setInitialState, []);
 
 	useEffect(() => {
-		if (items["lista"]) {
-			setSimulareCurenta(items["lista"][0]);
-			console.log(items["lista"][0], simulareCurenta);
+		if (itemsSim["lista"]) {
+			setSimulareCurenta(itemsSim["lista"][0]);
+			console.log(itemsSim["lista"][0], simulareCurenta);
 		}
-	}, [items["lista"]]);
+	}, [itemsSim["lista"]]);
 
 	// useEffect(() => {
 	// 	if (items["lista"][0]) {
