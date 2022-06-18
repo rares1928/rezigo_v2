@@ -53,6 +53,7 @@ export default function AdminsSimuareEdit() {
 	const [newStartDate, setNewStartDate] = useState("");
 	const { state } = useLocation();
 	const [items, setItems] = useState({});
+	const [simulareQuestions, setSimulareQuestions] = useState([]);
 
 	const updateSimulare = (event) => {
 		setSimulareCurenta((prevState) => ({
@@ -81,12 +82,36 @@ export default function AdminsSimuareEdit() {
 		}
 	};
 
-	const getSimulareFromDB = async () => {
+	const getSimulareQuestions = async () => {
 		const url = "https://grileapiwin.azurewebsites.net/api/GetAllQuestions?code=uSgy01hLnddLFUbfUltfB-qfLP8jQIclHeLDhAYlGL-hAzFu-vOi4A==";
 		const data = { simulareID: state };
+		let simulareQuestionsDB;
 		console.log(data.simulareID);
 		try {
-			await callApi(url, data, handleItems, handleError);
+			await callApi(url, data, handleItems, handleError).then(() => {
+				simulareQuestionsDB = items["lista"];
+				if (simulareQuestions) {
+					setSimulareQuestions(simulareQuestionsDB);
+				}
+			});
+			console.log(items["lista"]);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const getSimulareByID = async () => {
+		const url = "https://grileapiwin.azurewebsites.net/api/GetSimulareByID?code=IxeUbzXZ_d9xLzx8jsVOIhZPdZi2gyATfaiFf4wioZluAzFu2UetKA==";
+		const data = { simulareID: state };
+		let simulareDetails;
+		console.log(data.simulareID);
+		try {
+			await callApi(url, data, handleItems, handleError).then(() => {
+				simulareDetails = items["lista"];
+				if (simulareDetails) {
+					setSimulareCurenta(simulareDetails);
+				}
+			});
 			console.log(items["lista"]);
 		} catch (error) {
 			console.log(error);
@@ -94,7 +119,8 @@ export default function AdminsSimuareEdit() {
 	};
 
 	const setInitialState = () => {
-		getSimulareFromDB();
+		getSimulareByID();
+		getSimulareQuestions();
 		setNewName(simulareCurenta.name);
 		setNewDescription(simulareCurenta.description);
 		setNewStartDate(simulareCurenta.startDate);

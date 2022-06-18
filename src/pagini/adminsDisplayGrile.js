@@ -324,15 +324,10 @@ export default function AdminsDisplayGrile() {
 															Editeaza grila
 														</Button>
 													</div>
-													{window.location.pathname === "/admins/simulari/simulare_edit/1" && (
+													{window.location.pathname.split("/")[3] === "simulare_edit" && (
 														<div className={classes.divButton}>
 															<div />
-															<Button
-																variant="contained"
-																color="secondary"
-																className={classes.button}
-																onClick={console.log(window.location.pathname)}
-															>
+															<Button variant="contained" color="secondary" className={classes.button}>
 																Adauga grila in simulare
 															</Button>
 														</div>
