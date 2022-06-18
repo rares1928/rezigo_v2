@@ -142,6 +142,7 @@ export default function AdminsSimuareEdit() {
 				</Typography>
 				<Typography>
 					<ul>
+						<li>ID: {simulareCurenta.ID}</li>
 						<li>Nume: {simulareCurenta.Name}</li>
 						<li>Descriere: {simulareCurenta.Description}</li>
 						<li>Data la care incepe: {simulareCurenta.StartDate}</li>
