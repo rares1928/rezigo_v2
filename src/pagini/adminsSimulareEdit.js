@@ -110,18 +110,24 @@ export default function AdminsSimuareEdit() {
     );
   };
 
-  const getSimulareQuestions = async () => {
-    const url =
-      "https://grileapiwin.azurewebsites.net/api/GetAllQuestions?code=uSgy01hLnddLFUbfUltfB-qfLP8jQIclHeLDhAYlGL-hAzFu-vOi4A==";
-    const data = { simulareId: state };
-    await callApi(url, data, handleSimulareQuestions, handleError);
+  const getSimulareQuestions = () => {
+    const getSimQuestionsAsync = async () => {
+      const url =
+        "https://grileapiwin.azurewebsites.net/api/GetAllQuestions?code=uSgy01hLnddLFUbfUltfB-qfLP8jQIclHeLDhAYlGL-hAzFu-vOi4A==";
+      const data = { simulareId: state };
+      await callApi(url, data, handleSimulareQuestions, handleError);
+    };
+    getSimQuestionsAsync();
   };
 
-  const getSimulareByID = async () => {
-    const url =
-      "https://grileapiwin.azurewebsites.net/api/GetSimulareByID?code=IxeUbzXZ_d9xLzx8jsVOIhZPdZi2gyATfaiFf4wioZluAzFu2UetKA==";
-    const data = { simulareId: state };
-    await callApi(url, data, handleSimulareCurenta, handleError);
+  const getSimulareByID = () => {
+    const getSimByIDAsync = async () => {
+      const url =
+        "https://grileapiwin.azurewebsites.net/api/GetSimulareByID?code=IxeUbzXZ_d9xLzx8jsVOIhZPdZi2gyATfaiFf4wioZluAzFu2UetKA==";
+      const data = { simulareId: state };
+      await callApi(url, data, handleSimulareCurenta, handleError);
+    };
+    getSimByIDAsync();
   };
 
   // const addQuestionToSim = async () => {

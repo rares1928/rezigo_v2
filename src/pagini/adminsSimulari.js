@@ -82,6 +82,10 @@ export default function AdminsSimulari() {
     setItems(e.data);
   };
 
+  const handleSetSimulari = (e) => {
+    setSimulari(e.data["lista"]);
+  };
+
   const handleError = (e) => {
     if (e === 403) {
       // history.push({ pathname: "/" });
@@ -112,24 +116,25 @@ export default function AdminsSimulari() {
   // useEffect(displaySimulariMare, []);
   // console.log("GetAllSimulari:", items["lista"], "simulari", simulari);
 
+  //New attempt
   const getSimulari = () => {
     const getSimulariFromDB = async () => {
       const url =
         "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
       const data = {};
-      await callApi(url, data, handleItems, handleError);
+      await callApi(url, data, handleSetSimulari, handleError);
     };
     getSimulariFromDB();
   };
 
   useEffect(getSimulari, []);
 
-  useEffect(() => {
-    if (items["lista"]) {
-      setSimulari(items["lista"]);
-      console.log(items["lista"], simulari);
-    }
-  }, [items["lista"]]);
+  //   useEffect(() => {
+  //     if (items["lista"]) {
+  //       setSimulari(items["lista"]);
+  //       console.log(items["lista"], simulari);
+  //     }
+  //   }, [items["lista"]]);
 
   const editSimulare = (id) => {
     return history.push({
@@ -224,8 +229,11 @@ export default function AdminsSimulari() {
           <div>
             "ar trebui sa arat ceva"
             <Typography className={classes.headerText} variant="h5">
-              {simulari.map((simulare) => (
-                <Paper className={classes.paper}>
+              {simulari.map((simulare, index) => (
+                <Paper
+                  className={classes.paper}
+                  key={"_test tip simulare:" + String(index)}
+                >
                   <div>
                     <Typography className={classes.headerText} variant="h5">
                       Nume simulare: {simulare.Name}
