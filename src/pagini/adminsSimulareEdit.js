@@ -54,6 +54,7 @@ export default function AdminsSimuareEdit() {
   const { state } = useLocation();
   const [items, setItems] = useState({});
   const [itemsSim, setItemsSim] = useState({});
+  const [itemsGrile, setItemsGrile] = useState({});
   const [simulareQuestions, setSimulareQuestions] = useState([]);
 
   const updateSimulare = (event) => {
@@ -79,12 +80,23 @@ export default function AdminsSimuareEdit() {
     setItemsSim(e.data);
   };
 
+  const handleItemsGrile = (e) => {
+    setItemsGrile(e.data);
+  };
+
   const handleError = (e) => {
     if (e === 403) {
       // history.push({ pathname: "/" });
     } else {
       console.log(e);
     }
+  };
+
+  const getGrileById = async (id) => {
+    const url =
+      "https://grileapiwin.azurewebsites.net/api/GetGrilaAdmin?code=CCuH1t1ZUm70fO52wBiKbTcVFiEjFuZVOH7rBShs0cuJOaI1qdWt9Q==";
+    const data = { grilaId: id };
+    await callApi(url, data, handleItemsGrile, handleError);
   };
 
   const getSimulareQuestions = async () => {
