@@ -52,9 +52,7 @@ export default function AdminsSimuareEdit() {
   const [newDescription, setNewDescription] = useState("");
   const [newStartDate, setNewStartDate] = useState("");
   const { state } = useLocation();
-  const [items, setItems] = useState({});
-  const [itemsSim, setItemsSim] = useState({});
-  const [itemsGrile, setItemsGrile] = useState({});
+  // const [itemsGrile, setItemsGrile] = useState({});
   const [simulareQuestions, setSimulareQuestions] = useState([]);
 
   const updateSimulare = (event) => {
@@ -72,17 +70,17 @@ export default function AdminsSimuareEdit() {
     event.preventDefault();
   };
 
-  const handleItems = (e) => {
-    setItems(e.data);
+  const handleSimulareQuestions = (e) => {
+    setSimulareQuestions([...e.data["lista"]]);
   };
 
-  const handleItemsSim = (e) => {
-    setItemsSim(e.data);
+  const handleSimulareCurenta = (e) => {
+    setSimulareCurenta(e.data["lista"][0]);
   };
 
-  const handleItemsGrile = (e) => {
-    setItemsGrile(e.data);
-  };
+  // const handleItemsGrile = (e) => {
+  //   setItemsGrile(e.data);
+  // };
 
   const handleError = (e) => {
     if (e === 403) {
@@ -96,12 +94,12 @@ export default function AdminsSimuareEdit() {
     console.log("call de sters grila catre DB");
   };
 
-  const getGrileById = async (id) => {
-    const url =
-      "https://grileapiwin.azurewebsites.net/api/GetGrilaAdmin?code=CCuH1t1ZUm70fO52wBiKbTcVFiEjFuZVOH7rBShs0cuJOaI1qdWt9Q==";
-    const data = { grilaId: id };
-    await callApi(url, data, handleItemsGrile, handleError);
-  };
+  // const getGrileById = async (id) => {
+  //   const url =
+  //     "https://grileapiwin.azurewebsites.net/api/GetGrilaAdmin?code=CCuH1t1ZUm70fO52wBiKbTcVFiEjFuZVOH7rBShs0cuJOaI1qdWt9Q==";
+  //   const data = { grilaId: id };
+  //   await callApi(url, data, handleItemsGrile, handleError);
+  // };
 
   const deleteGrila = async (id) => {
     const url =
@@ -116,14 +114,14 @@ export default function AdminsSimuareEdit() {
     const url =
       "https://grileapiwin.azurewebsites.net/api/GetAllQuestions?code=uSgy01hLnddLFUbfUltfB-qfLP8jQIclHeLDhAYlGL-hAzFu-vOi4A==";
     const data = { simulareId: state };
-    await callApi(url, data, handleItems, handleError);
+    await callApi(url, data, handleSimulareQuestions, handleError);
   };
 
   const getSimulareByID = async () => {
     const url =
       "https://grileapiwin.azurewebsites.net/api/GetSimulareByID?code=IxeUbzXZ_d9xLzx8jsVOIhZPdZi2gyATfaiFf4wioZluAzFu2UetKA==";
     const data = { simulareId: state };
-    await callApi(url, data, handleItemsSim, handleError);
+    await callApi(url, data, handleSimulareCurenta, handleError);
   };
 
   // const addQuestionToSim = async () => {
@@ -142,20 +140,6 @@ export default function AdminsSimuareEdit() {
   };
 
   useEffect(setInitialState, []);
-
-  useEffect(() => {
-    if (itemsSim["lista"]) {
-      setSimulareCurenta(itemsSim["lista"][0]);
-      console.log(itemsSim["lista"][0], simulareCurenta);
-    }
-  }, [itemsSim["lista"]]);
-
-  useEffect(() => {
-    if (items["lista"]) {
-      setSimulareQuestions([...items["lista"]]);
-      console.log("items: ", items["lista"], "simQuest: ", simulareQuestions);
-    }
-  }, [items["lista"]]);
 
   // useEffect(() => {
   // 	if (items["lista"][0]) {
@@ -183,7 +167,10 @@ export default function AdminsSimuareEdit() {
             <li>ID: {simulareCurenta.ID}</li>
             <li>Nume: {simulareCurenta.Name}</li>
             <li>Descriere: {simulareCurenta.Description}</li>
-            <li>Data la care incepe: {simulareCurenta.StartDate}</li>
+            <li>
+              Data la care incepe: {simulareCurenta.StartDate.split("T")[0]}{" "}
+              Ora: {simulareCurenta.StartDate.split("T")[1]}
+            </li>
             <li>Numar CS: {simulareCurenta.NumberCS}</li>
             <li>Numar CM: {simulareCurenta.NumberCM}</li>
             <li>Este live (o pot vedea userii): {simulareCurenta.IsLive}</li>
