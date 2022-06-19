@@ -162,20 +162,27 @@ export default function AdminsSimuareEdit() {
         <Typography className={classes.headerText} variant="h5">
           Simularea curenta
         </Typography>
-        <Typography>
+        <div>
           <ul>
             <li>ID: {simulareCurenta.ID}</li>
             <li>Nume: {simulareCurenta.Name}</li>
             <li>Descriere: {simulareCurenta.Description}</li>
             <li>
-              Data la care incepe: {simulareCurenta.StartDate.split("T")[0]}{" "}
-              Ora: {simulareCurenta.StartDate.split("T")[1]}
+              Data la care incepe:{" "}
+              {simulareCurenta.StartDate ? (
+                <>
+                  {simulareCurenta.StartDate.split("T")[0]}
+                  Ora: {simulareCurenta.StartDate.split("T")[1]}
+                </>
+              ) : (
+                ""
+              )}
             </li>
             <li>Numar CS: {simulareCurenta.NumberCS}</li>
             <li>Numar CM: {simulareCurenta.NumberCM}</li>
             <li>Este live (o pot vedea userii): {simulareCurenta.IsLive}</li>
           </ul>
-        </Typography>
+        </div>
         <Typography className={classes.headerText} variant="h5">
           Updateaza simularea
         </Typography>
@@ -258,8 +265,8 @@ export default function AdminsSimuareEdit() {
               Grile din simulare
             </Typography>
             <Typography className={classes.headerText} variant="h5">
-              {simulareQuestions.map((grila) => (
-                <div>
+              {simulareQuestions.map((grila, index) => (
+                <div key={"_grila din simulare:" + String(index)}>
                   <h5>{grila.GrilaID}</h5>
                   <Button
                     size="medium"

@@ -383,7 +383,6 @@ export default function AdminsDisplayGrile({ simID, getSimulareQuestions }) {
                           <Typography>c) {grilaPrimita.Variante_c}</Typography>
                           <Typography>d) {grilaPrimita.Variante_d}</Typography>
                           <Typography>e) {grilaPrimita.Variante_e}</Typography>
-                          <Typography>id {grilaPrimita.GrilaID}</Typography>
                           <div className={classes.divButton}>
                             <div />
                             <Button
