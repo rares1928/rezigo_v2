@@ -92,11 +92,24 @@ export default function AdminsSimuareEdit() {
     }
   };
 
+  const handleEmpty = () => {
+    console.log("call de sters grila catre DB");
+  };
+
   const getGrileById = async (id) => {
     const url =
       "https://grileapiwin.azurewebsites.net/api/GetGrilaAdmin?code=CCuH1t1ZUm70fO52wBiKbTcVFiEjFuZVOH7rBShs0cuJOaI1qdWt9Q==";
     const data = { grilaId: id };
     await callApi(url, data, handleItemsGrile, handleError);
+  };
+
+  const deleteGrila = async (id) => {
+    const url =
+      "https://grileapiwin.azurewebsites.net/api/DeleteQuestion?code=3CivlrNptVV9mNn8G1Pz_aQWAQvIAFYaP_OEkrarraeFAzFukQliww==";
+    const data = { simulareId: state, grilaId: id };
+    await callApi(url, data, handleEmpty, handleError).then(
+      getSimulareQuestions
+    );
   };
 
   const getSimulareQuestions = async () => {
@@ -246,7 +259,10 @@ export default function AdminsSimuareEdit() {
             <Typography className={classes.headerText} variant="h5">
               Grile nepuse in simulare
             </Typography>
-            <AdminsDisplayGrile simID={simulareCurenta.ID} />
+            <AdminsDisplayGrile
+              simID={simulareCurenta.ID}
+              getSimulareQuestions={getSimulareQuestions}
+            />
           </Paper>
         </Grid>
         <Grid item xs={6}>
@@ -256,7 +272,18 @@ export default function AdminsSimuareEdit() {
             </Typography>
             <Typography className={classes.headerText} variant="h5">
               {simulareQuestions.map((grila) => (
-                <div>{grila.GrilaID}</div>
+                <div>
+                  <h5>{grila.GrilaID}</h5>
+                  <Button
+                    size="medium"
+                    className={classes.buttons}
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => deleteGrila(grila.GrilaID)}
+                  >
+                    Delete grila
+                  </Button>
+                </div>
               ))}
             </Typography>
           </Paper>
