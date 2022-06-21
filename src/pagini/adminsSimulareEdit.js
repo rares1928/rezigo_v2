@@ -120,32 +120,36 @@ export default function AdminsSimuareEdit() {
     getSimQuestionsAsync();
   };
 
-  const getSimulareByID = () => {
-    const getSimByIDAsync = async () => {
-      const url =
-        "https://grileapiwin.azurewebsites.net/api/GetSimulareByID?code=IxeUbzXZ_d9xLzx8jsVOIhZPdZi2gyATfaiFf4wioZluAzFu2UetKA==";
-      const data = { simulareId: state };
-      await callApi(url, data, handleSimulareCurenta, handleError);
-    };
-    getSimByIDAsync();
-  };
-
-  // const addQuestionToSim = async () => {
-  // 	const url = "https://grileapiwin.azurewebsites.net/api/AddQuestionToSimulare?code=XLRsha5UvXRHSWjduHZKUbJusqu5GMkSi1H5Z1D1Le8gAzFuhdVcjQ==";
-  // 	const data = {};
-  // 	await callApi(url, data, handleItemsSim, handleError);
-  // };
-
   const setInitialState = () => {
-    getSimulareByID();
-    getSimulareQuestions();
+    let getSimulareQuestionsUE = () => {
+      const getSimQuestionsAsync = async () => {
+        const url =
+          "https://grileapiwin.azurewebsites.net/api/GetAllQuestions?code=uSgy01hLnddLFUbfUltfB-qfLP8jQIclHeLDhAYlGL-hAzFu-vOi4A==";
+        const data = { simulareId: state };
+        await callApi(url, data, handleSimulareQuestions, handleError);
+      };
+      getSimQuestionsAsync();
+    };
+
+    let getSimulareByIDUE = () => {
+      const getSimByIDAsync = async () => {
+        const url =
+          "https://grileapiwin.azurewebsites.net/api/GetSimulareByID?code=IxeUbzXZ_d9xLzx8jsVOIhZPdZi2gyATfaiFf4wioZluAzFu2UetKA==";
+        const data = { simulareId: state };
+        await callApi(url, data, handleSimulareCurenta, handleError);
+      };
+      getSimByIDAsync();
+    };
+    getSimulareByIDUE();
+    getSimulareQuestionsUE();
+
     // setNewName(simulareCurenta.name);
     // setNewDescription(simulareCurenta.description);
     // setNewStartDate(simulareCurenta.startDate);
     // setNewIsLive(simulareCurenta.isLive);
   };
 
-  useEffect(setInitialState, []);
+  useEffect(setInitialState, [state]);
 
   // useEffect(() => {
   // 	if (items["lista"][0]) {
@@ -243,6 +247,9 @@ export default function AdminsSimuareEdit() {
           className={classes.buttons}
           variant="contained"
           color="secondary"
+          onClick={() => {
+            setNewIsLive(true);
+          }}
         >
           {" "}
           Go live!
