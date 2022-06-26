@@ -33,11 +33,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(4),
     padding: theme.spacing(1),
   },
-  paperBackground: {
-    marginTop: theme.spacing(4),
-    padding: theme.spacing(1),
-    backgroundColor: "#606060",
-  },
   formNewSimulare: {
     marginTop: theme.spacing(2),
     display: "flex",
@@ -268,7 +263,7 @@ export default function AdminsSimuareEdit() {
       </Paper>
       <Grid container spacing={3}>
         <Grid item xs={6}>
-          <Paper className={classes.paperBackground}>
+          <Paper className={classes.paper}>
             <Typography className={classes.headerText} variant="h5">
               Grile nepuse in simulare
             </Typography>
@@ -279,7 +274,7 @@ export default function AdminsSimuareEdit() {
           </Paper>
         </Grid>
         <Grid item xs={6}>
-          <Paper className={classes.paperBackground}>
+          <Paper className={classes.paper}>
             <Typography className={classes.headerText} variant="h5">
               Grile din simulare
             </Typography>
