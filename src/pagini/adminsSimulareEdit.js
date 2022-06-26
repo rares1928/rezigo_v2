@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import AdminsDisplayGrile from "./adminsDisplayGrile";
 import { useLocation, useHistory } from "react-router-dom";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
   wrapperDiv: {
@@ -31,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(4),
     padding: theme.spacing(1),
+  },
+  paperBackground: {
+    marginTop: theme.spacing(4),
+    padding: theme.spacing(1),
+    backgroundColor: "#606060",
   },
   formNewSimulare: {
     marginTop: theme.spacing(2),
@@ -262,7 +268,7 @@ export default function AdminsSimuareEdit() {
       </Paper>
       <Grid container spacing={3}>
         <Grid item xs={6}>
-          <Paper className={classes.paper}>
+          <Paper className={classes.paperBackground}>
             <Typography className={classes.headerText} variant="h5">
               Grile nepuse in simulare
             </Typography>
@@ -273,14 +279,27 @@ export default function AdminsSimuareEdit() {
           </Paper>
         </Grid>
         <Grid item xs={6}>
-          <Paper className={classes.paper}>
+          <Paper className={classes.paperBackground}>
             <Typography className={classes.headerText} variant="h5">
               Grile din simulare
             </Typography>
-            <Typography className={classes.headerText} variant="h5">
+            <Typography className={classes.headerText} variant="h6">
               {simulareQuestions.map((grila, index) => (
                 <div key={"_grila din simulare:" + String(index)}>
-                  <h5>{grila.GrilaID}</h5>
+                  <Typography className={classes.headerText} variant="h6">
+                    Grila nr. {index + 1}
+                  </Typography>
+                  <Typography>TipGrila: {grila.TipGrile}</Typography>
+                  <br />
+                  <Typography>
+                    Intrebare {index + 1}: {grila.Intrebare}
+                  </Typography>
+                  <br />
+                  <Typography>a) {grila.Variante_a}</Typography>
+                  <Typography>b) {grila.Variante_b}</Typography>
+                  <Typography>c) {grila.Variante_c}</Typography>
+                  <Typography>d) {grila.Variante_d}</Typography>
+                  <Typography>e) {grila.Variante_e}</Typography>
                   <Button
                     size="medium"
                     className={classes.buttons}
@@ -290,6 +309,9 @@ export default function AdminsSimuareEdit() {
                   >
                     Delete grila
                   </Button>
+                  <br />
+                  <br />
+                  <Divider />
                 </div>
               ))}
             </Typography>
