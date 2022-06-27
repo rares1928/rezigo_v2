@@ -52,6 +52,7 @@ export default function AdminsSimuareEdit() {
   const [newIsLive, setNewIsLive] = useState(false);
   const [newDescription, setNewDescription] = useState("");
   const [newStartDate, setNewStartDate] = useState("");
+  const [newPrice, setNewPrice] = useState("");
   const { state } = useLocation();
   // const [itemsGrile, setItemsGrile] = useState({});
   const [simulareQuestions, setSimulareQuestions] = useState([]);
@@ -109,6 +110,23 @@ export default function AdminsSimuareEdit() {
     await callApi(url, data, handleEmpty, handleError).then(
       getSimulareQuestions
     );
+  };
+
+  const updateSimulareInDB = () => {
+    const updateSimulareInDBAsync = async () => {
+      const url =
+        "https://grileapiwin.azurewebsites.net/api/UpdateSimulare?code=xcfMjMllfvHPSjJZwSTvJFgioT-0s2ubfKM12PmpPKCcAzFuucpjZg==";
+      const data = {
+        simulareId: state,
+        name: newName,
+        description: newDescription,
+        startDate: newStartDate,
+        price: newPrice,
+      };
+      console.log(data);
+      await callApi(url, data, handleSimulareQuestions, handleError);
+    };
+    updateSimulareInDBAsync().then(setInitialState);
   };
 
   const getSimulareQuestions = () => {
@@ -189,8 +207,24 @@ export default function AdminsSimuareEdit() {
                 ""
               )}
             </li>
-            <li>Numar CS: {simulareCurenta.NumberCS}</li>
-            <li>Numar CM: {simulareCurenta.NumberCM}</li>
+            <li>
+              Numar grile CS:{" "}
+              {simulareQuestions
+                ? simulareQuestions.filter((grila) => grila.TipGrile === "CS")
+                    .length
+                : 0}
+            </li>
+            <li>
+              Numar grile CM:{" "}
+              {simulareQuestions
+                ? simulareQuestions.filter((grila) => grila.TipGrile === "CM")
+                    .length
+                : 0}
+            </li>
+            <li>
+              Numar grile total:{" "}
+              {simulareQuestions ? simulareQuestions.length : 0}
+            </li>
             <li>Este live (o pot vedea userii): {simulareCurenta.IsLive}</li>
           </ul>
         </div>
@@ -226,6 +260,15 @@ export default function AdminsSimuareEdit() {
             onInput={(e) => setNewStartDate(e.target.value)}
             type="datetime-local"
           />
+          <TextField
+            className={classes.textField}
+            variant="outlined"
+            color="secondary"
+            id="createSimulare_price"
+            label="Pret simulare"
+            value={newPrice}
+            onInput={(e) => setNewPrice(e.target.value)}
+          />
 
           <Button
             size="large"
@@ -233,6 +276,7 @@ export default function AdminsSimuareEdit() {
             className={classes.buttons}
             variant="contained"
             color="secondary"
+            onClick={() => updateSimulareInDB()}
           >
             {" "}
             Updateaza simularea
