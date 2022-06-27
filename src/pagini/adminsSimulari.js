@@ -227,7 +227,6 @@ export default function AdminsSimulari() {
           </div>
         ) : (
           <div>
-            "ar trebui sa arat ceva"
             <Typography className={classes.headerText} variant="h5">
               {simulari.map((simulare, index) => (
                 <Paper
