@@ -123,7 +123,6 @@ export default function AdminsSimuareEdit() {
         startDate: newStartDate,
         price: newPrice,
       };
-      console.log(data);
       await callApi(url, data, handleSimulareQuestions, handleError);
     };
     updateSimulareInDBAsync().then(setInitialState);
@@ -182,6 +181,8 @@ export default function AdminsSimuareEdit() {
   // 	}
   // }, [simulareDetails]);
 
+  console.log(simulareCurenta);
+
   return (
     <div className={classes.wrapperDiv}>
       <Helmet>
@@ -225,7 +226,10 @@ export default function AdminsSimuareEdit() {
               Numar grile total:{" "}
               {simulareQuestions ? simulareQuestions.length : 0}
             </li>
-            <li>Este live (o pot vedea userii): {simulareCurenta.IsLive}</li>
+            <li>
+              Este live (o pot vedea userii):{" "}
+              {simulareCurenta.IsLive ? "Da" : "Nu"}
+            </li>
           </ul>
         </div>
         <Typography className={classes.headerText} variant="h5">
@@ -266,6 +270,7 @@ export default function AdminsSimuareEdit() {
             color="secondary"
             id="createSimulare_price"
             label="Pret simulare"
+            type="number"
             value={newPrice}
             onInput={(e) => setNewPrice(e.target.value)}
           />

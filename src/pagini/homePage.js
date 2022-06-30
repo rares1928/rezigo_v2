@@ -21,6 +21,7 @@ import ErrorPopup from "../componente/errorPopup";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { callApi } from "../utils/callApi";
 import CookiesAccord from "../componente/cookiesAccord";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   wrapperDiv: {
@@ -119,6 +120,12 @@ export default function HomePage() {
                 </>
               ) : (
                 ""
+              )}
+              {items.tip_profil === "Dio" && (
+                <Link color="secondary" href="/admins">
+                  {" "}
+                  Pagina de admini
+                </Link>
               )}
             </Typography>
             {/* <Typography variant="h6">
