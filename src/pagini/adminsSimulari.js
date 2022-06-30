@@ -48,8 +48,7 @@ export default function AdminsSimulari() {
   const [newName, setNewName] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [newStartDate, setNewStartDate] = useState("");
-  const [items, setItems] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   let history = useHistory();
 
   const createSimulare = async (event) => {
@@ -73,13 +72,9 @@ export default function AdminsSimulari() {
     };
     const url =
       "https://grileapiwin.azurewebsites.net/api/CreateSimulare?code=xv9GI4DuhWKswlBaP63TH5PbFdwtFZFPG8nwv5xE08zJAzFucz89jw==";
-    await callApi(url, data, handleItems, handleError).then(getSimulari);
+    await callApi(url, data, () => {}, handleError).then(getSimulari);
     console.log("data:", data, "newSimulareName:", newSimulare.name);
     event.preventDefault();
-  };
-
-  const handleItems = (e) => {
-    setItems(e.data);
   };
 
   const handleSetSimulari = (e) => {

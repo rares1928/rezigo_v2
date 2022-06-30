@@ -6,11 +6,10 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Switch from "@material-ui/core/Switch";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import AdminsDisplayGrile from "./adminsDisplayGrile";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
