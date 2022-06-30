@@ -120,6 +120,12 @@ export default function HomePage() {
               ) : (
                 ""
               )}
+              {items.tip_profil === "Dio" && (
+                <Link color="secondary" href="/admins">
+                  {" "}
+                  Pagina de admini
+                </Link>
+              )}
             </Typography>
             {/* <Typography variant="h6">
             Grile rezolvate în ultimele 3 zile: {questionSolved}
