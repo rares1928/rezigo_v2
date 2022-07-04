@@ -5,6 +5,7 @@ import librarie from "../poze/librarie_v5.svg";
 import tutorial from "../poze/tutorial.svg";
 import profil from "../poze/profil_v1.svg";
 import premium from "../poze/premium_v1.svg";
+import simulare from "../poze/simulare.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import HomeCard from "../componente/homeCard";
 import Container from "@material-ui/core/Container";
@@ -152,7 +153,7 @@ export default function HomePage() {
           </Grid>
           <Grid item>
             <HomeCard
-              // imagine={test}
+              imagine={simulare}
               sendTo="/simulari"
               title="Simulari"
               text="Participă la o simulare și compară-ți punctajul cu colegii tăi"
