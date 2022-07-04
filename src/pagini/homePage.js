@@ -152,6 +152,15 @@ export default function HomePage() {
           </Grid>
           <Grid item>
             <HomeCard
+              // imagine={test}
+              sendTo="/simulari"
+              title="Simulari"
+              text="Participă la o simulare și compară-ți punctajul cu colegii tăi"
+              disabled={false}
+            />
+          </Grid>
+          <Grid item>
+            <HomeCard
               imagine={librarie}
               // sendTo="/librarie"
               sendTo="/"

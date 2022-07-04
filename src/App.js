@@ -32,6 +32,7 @@ import PremiumSuccess from "./pagini/premiumSuccess";
 import PremiumCancel from "./pagini/premiumCancel";
 import AdminsSimulari from "./pagini/adminsSimulari";
 import AdminsSimulareEdit from "./pagini/adminsSimulareEdit";
+import SimulariPage from "./pagini/simulariPage";
 
 function App() {
   const [darkMode, setDarkMode] = useState(
@@ -103,6 +104,7 @@ function App() {
                   component={() => <GrilePage darkMode={darkMode}></GrilePage>}
                 />
                 <Route path="/premium" exact component={PremiumPage} />
+                <Route path="/simulari" exact component={SimulariPage} />
                 <Route
                   path="/premium/success*"
                   exact
