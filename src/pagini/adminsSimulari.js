@@ -96,7 +96,7 @@ export default function AdminsSimulari() {
     const url =
       "https://grileapiwin.azurewebsites.net/api/DeleteSimulare?code=_-q4aEp1VfK0_dPxdVdR29_QeREFirIiLIcurIJFZi80AzFuA7G7iw==";
     const data = { simulareId: id };
-    await callApi(url, data, handleEmpty, handleError);
+    await callApi(url, data, handleEmpty, handleError).then(getSimulari);
   };
 
   const handleSetSimulari = (e) => {
@@ -270,7 +270,9 @@ export default function AdminsSimulari() {
                       className={classes.buttons}
                       variant="outlined"
                       color="secondary"
-                      // onClick={deleteSimulareAsync(simulare.ID)}
+                      onClick={() => {
+                        deleteSimulareAsync(simulare.ID);
+                      }}
                     >
                       Sterge simularea
                     </Button>
