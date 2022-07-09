@@ -80,13 +80,21 @@ export default function AdminsSimulari() {
 		console.log("call de sters simulare catre DB");
 	};
 
-	const deleteSimulare = (id) => {
-		const deleteSimulareAsync = async () => {
-			const url = "https://grileapiwin.azurewebsites.net/api/DeleteSimulare?code=_-q4aEp1VfK0_dPxdVdR29_QeREFirIiLIcurIJFZi80AzFuA7G7iw==";
-			const data = { simulareId: id };
-			await callApi(url, data, handleEmpty, handleError);
-		};
-		deleteSimulareAsync();
+	// const deleteSimulare = (id) => {
+	// 	console.log("am intrat in delete sim");
+	// 	const deleteSimulareAsync = async () => {
+	// 		const url = "https://grileapiwin.azurewebsites.net/api/DeleteSimulare?code=_-q4aEp1VfK0_dPxdVdR29_QeREFirIiLIcurIJFZi80AzFuA7G7iw==";
+	// 		const data = { simulareId: id };
+	// 		await callApi(url, data, handleEmpty, handleError);
+	// 	};
+	// 	deleteSimulareAsync();
+	// };
+
+	const deleteSimulareAsync = async (id) => {
+		console.log("am intrat in delete sim");
+		const url = "https://grileapiwin.azurewebsites.net/api/DeleteSimulare?code=_-q4aEp1VfK0_dPxdVdR29_QeREFirIiLIcurIJFZi80AzFuA7G7iw==";
+		const data = { simulareId: id };
+		await callApi(url, data, handleEmpty, handleError).then(getSimulari);
 	};
 
 	const handleSetSimulari = (e) => {
@@ -125,15 +133,12 @@ export default function AdminsSimulari() {
 
 	//New attempt
 	const getSimulari = () => {
-		console.log("am intrat in getSimulari");
 		const getSimulariFromDB = async () => {
 			const url = "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
 			const data = {};
 			await callApi(url, data, handleSetSimulari, handleError);
-			console.log("sunt in getSimulari");
 		};
 		getSimulariFromDB();
-		console.log("am iesit din getSimulari");
 	};
 
 	useEffect(getSimulari, []);
@@ -252,7 +257,7 @@ export default function AdminsSimulari() {
 											className={classes.buttons}
 											variant="outlined"
 											color="secondary"
-											onClick={deleteSimulare(simulare.ID)}
+											onClick={deleteSimulareAsync(simulare.ID)}
 										>
 											Sterge simularea
 										</Button>
