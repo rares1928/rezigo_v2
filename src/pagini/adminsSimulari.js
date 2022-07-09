@@ -9,6 +9,11 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useHistory } from "react-router-dom";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles((theme) => ({
   wrapperDiv: {
@@ -48,8 +53,17 @@ export default function AdminsSimulari() {
   const [newName, setNewName] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [newStartDate, setNewStartDate] = useState("");
+  const [delSim, setDelSim] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
   let history = useHistory();
+
+  const handleOpen = () => {
+    setDelSim(true);
+  };
+
+  const handleClose = () => {
+    setDelSim(false);
+  };
 
   const createSimulare = async (event) => {
     event.preventDefault();
@@ -270,12 +284,41 @@ export default function AdminsSimulari() {
                       className={classes.buttons}
                       variant="outlined"
                       color="secondary"
-                      onClick={() => {
-                        deleteSimulareAsync(simulare.ID);
-                      }}
+                      onClick={() => handleOpen()}
+                      // onClick={() => {
+                      //   deleteSimulareAsync(simulare.ID);
+                      // }}
                     >
                       Sterge simularea
                     </Button>
+                    <Dialog
+                      open={delSim}
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        Sigur vrei sa stergi simularea {simulare.Name}?{" "}
+                      </DialogTitle>
+                      <DialogActions>
+                        <Button
+                          variant="contained"
+                          onClick={handleClose}
+                          color="secondary"
+                        >
+                          Nu vreau sa sterg contul
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => {
+                            deleteSimulareAsync(simulare.ID);
+                          }}
+                        >
+                          Vreau sa sterg simularea
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                   </div>
                 </Paper>
               ))}
