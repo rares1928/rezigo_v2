@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { useHistory } from "react-router-dom";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles((theme) => ({
   wrapperDiv: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
   },
   headerText: {
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(1),
   },
   paper: {
     marginTop: theme.spacing(4),
@@ -35,18 +35,24 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  textField: {},
-  buttons: {},
+  simulareDiv: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  buttons: {
+    margin: theme.spacing(1),
+  },
+  textNeplatit: {
+    marginTop: theme.spacing(2),
+    color: theme.palette.error.main,
+  },
 }));
 
 export default function SimulariPage() {
   const classes = useStyles();
   const TITLE = "Simulări";
   const [simulari, setSimulari] = useState([]);
-  const [newSimulare, setNewSimulare] = useState({});
-  const [newName, setNewName] = useState("");
-  const [newDescription, setNewDescription] = useState("");
-  const [newStartDate, setNewStartDate] = useState("");
   // const [isLoading, setIsLoading] = useState(false);
 
   const handleSetSimulari = (e) => {
@@ -64,7 +70,7 @@ export default function SimulariPage() {
   const getSimulari = () => {
     const getSimulariFromDB = async () => {
       const url =
-        "https://grileapiwin.azurewebsites.net/api/GetAllSimulari?code=vvBd9a39oQtRtioKnqxVzDQGDRG8GUx5BjfrQM-9wykTAzFu5AxU5g==";
+        "https://grileapiwin.azurewebsites.net/api/GetAllSimulariUser?code=HxAlZyvuHUfuO5kSUCBrxvOw_-HCrDXCa5CjQZrxW3QpAzFuSGekHQ==";
       const data = {};
       await callApi(url, data, handleSetSimulari, handleError);
     };
@@ -94,27 +100,47 @@ export default function SimulariPage() {
                 key={"_test tip simulare:" + String(index)}
               >
                 <div>
-                  <Typography className={classes.headerText} variant="h5">
-                    Nume: {simulare.Name}
+                  <Typography className={classes.headerText} variant="h6">
+                    Nume: {simulare.Simulare.Name}
                   </Typography>
-                  <Typography>Descriere: {simulare.Description}</Typography>
-                  <Typography>
-                    Data la care începe: {simulare.StartDate.split("T")[0]} ora{" "}
-                    {simulare.StartDate.split("T")[1]}{" "}
-                  </Typography>
-                  <Typography>
-                    Număr de grile: {simulare.NumberCS} CS + {simulare.NumberCM}{" "}
-                    CM
-                  </Typography>
-                  <Button
-                    size="medium"
-                    className={classes.buttons}
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => {}}
-                  >
-                    Editeaza simularea
-                  </Button>
+                  <div className={classes.simulareDiv}>
+                    <div>
+                      <Typography>
+                        Data la care începe:{" "}
+                        {simulare.Simulare.StartDate.split("T")[0]} ora{" "}
+                        {simulare.Simulare.StartDate.split("T")[1]}{" "}
+                      </Typography>
+                      <Typography>
+                        Descriere: {simulare.Simulare.Description}
+                      </Typography>
+                    </div>
+                    <div>
+                      <Button
+                        size="medium"
+                        className={classes.buttons}
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => {}}
+                        disabled={!simulare.APlatit}
+                      >
+                        {simulare.InceputTest === "true"
+                          ? "Continuă simularea"
+                          : "Începe simularea"}
+                      </Button>
+                    </div>
+                  </div>
+                  {simulare.APlatit ? (
+                    ""
+                  ) : (
+                    <Typography className={classes.textNeplatit}>
+                      Din păcate nu ai acces la această simulare. O poți cumpăra
+                      de{" "}
+                      <Link href="/premium" color="secondary">
+                        {" "}
+                        aici
+                      </Link>
+                    </Typography>
+                  )}
                 </div>
               </div>
             ))}
