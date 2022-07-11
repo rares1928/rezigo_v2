@@ -1,12 +1,12 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
 
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 370,
     display: "flex",
@@ -18,14 +18,16 @@ const useStyles = makeStyles((theme)=>({
     maxHeight: "200px",
     minHeight: 170,
   },
-  textSide:{
+  textSide: {
+    height: "100%",
     display: "flex",
     flexDirection: "row",
-    padding: theme.spacing(2, 2, 2),
+    padding: theme.spacing(2, 2, 0),
   },
   title: {
-      margin: theme.spacing(1,3,0),
-  }
+    margin: theme.spacing(1, 2, 0),
+  },
+  descriptionText: {},
 }));
 
 export default function HomeCard(props) {
@@ -33,20 +35,26 @@ export default function HomeCard(props) {
 
   return (
     <Card className={classes.root}>
-        <CardActionArea href={props.sendTo} disabled = {props.disabled}>
-            <CardMedia 
-              className={classes.media}
-              image={props.imagine}
-            />
-        </CardActionArea>
-        <CardContent className={classes.textSide}>
-            <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
-                {props.title}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-                {props.text}
-            </Typography>
-        </CardContent>
+      <CardActionArea href={props.sendTo} disabled={props.disabled}>
+        <CardMedia className={classes.media} image={props.imagine} />
+      </CardActionArea>
+      <CardContent className={classes.textSide}>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="h2"
+          className={classes.title}
+        >
+          {props.title}
+        </Typography>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          className={classes.descriptionText}
+        >
+          {props.text}
+        </Typography>
+      </CardContent>
     </Card>
   );
 }

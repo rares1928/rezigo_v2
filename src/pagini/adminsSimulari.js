@@ -77,6 +77,28 @@ export default function AdminsSimulari() {
     event.preventDefault();
   };
 
+  const handleEmpty = () => {
+    console.log("call de sters simulare catre DB");
+  };
+
+  // const deleteSimulare = (id) => {
+  // 	console.log("am intrat in delete sim");
+  // 	const deleteSimulareAsync = async () => {
+  // 		const url = "https://grileapiwin.azurewebsites.net/api/DeleteSimulare?code=_-q4aEp1VfK0_dPxdVdR29_QeREFirIiLIcurIJFZi80AzFuA7G7iw==";
+  // 		const data = { simulareId: id };
+  // 		await callApi(url, data, handleEmpty, handleError);
+  // 	};
+  // 	deleteSimulareAsync();
+  // };
+
+  const deleteSimulareAsync = async (id) => {
+    console.log("am intrat in delete sim");
+    const url =
+      "https://grileapiwin.azurewebsites.net/api/DeleteSimulare?code=_-q4aEp1VfK0_dPxdVdR29_QeREFirIiLIcurIJFZi80AzFuA7G7iw==";
+    const data = { simulareId: id };
+    await callApi(url, data, handleEmpty, handleError).then(getSimulari);
+  };
+
   const handleSetSimulari = (e) => {
     setSimulari(e.data["lista"]);
   };
@@ -248,6 +270,9 @@ export default function AdminsSimulari() {
                       className={classes.buttons}
                       variant="outlined"
                       color="secondary"
+                      onClick={() => {
+                        deleteSimulareAsync(simulare.ID);
+                      }}
                     >
                       Sterge simularea
                     </Button>

@@ -39,7 +39,11 @@ export default function GrilePage(props) {
   const [isReady, setReady] = useState(false);
   const { state } = useLocation();
   const [showAnswer, setShowAnswer] = useState(
-    localStorage.getItem("showAnswer") === "false" ? false : true
+    state.testType === "simulare"
+      ? false
+      : localStorage.getItem("showAnswer") === "false"
+      ? false
+      : true
   );
   const [showReport, setShowReport] = useState(false);
   const [showLegend, setShowLegend] = useState(
@@ -615,6 +619,7 @@ export default function GrilePage(props) {
                         <Typography>Afișează baremul</Typography>
                         <Switch
                           checked={showAnswer}
+                          disabled={state.testType === "simulare"}
                           onChange={() => {
                             if (tipProfil === "Standard") {
                               setPremiumPop(true);
@@ -642,10 +647,12 @@ export default function GrilePage(props) {
                       <div className={classes.smallPaper}>
                         <Typography>Răspunsuri corecte</Typography>
                         <Typography>
-                          {items.reduce(
-                            (acc, val) => acc + (val["Correct"] === 31),
-                            0
-                          )}
+                          {state.testType === "simulare"
+                            ? "?"
+                            : items.reduce(
+                                (acc, val) => acc + (val["Correct"] === 31),
+                                0
+                              )}
                           /{items.length}
                         </Typography>
                       </div>
@@ -654,12 +661,14 @@ export default function GrilePage(props) {
                       <div className={classes.smallPaper}>
                         <Typography>Răspunsuri greșite</Typography>
                         <Typography>
-                          {items.reduce(
-                            (acc, val) =>
-                              acc +
-                              (val["Correct"] !== 31 && val["Choices"] > 0),
-                            0
-                          )}
+                          {state.testType === "simulare"
+                            ? "?"
+                            : items.reduce(
+                                (acc, val) =>
+                                  acc +
+                                  (val["Correct"] !== 31 && val["Choices"] > 0),
+                                0
+                              )}
                           /{items.length}
                         </Typography>
                       </div>

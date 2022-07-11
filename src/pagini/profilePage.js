@@ -180,9 +180,6 @@ export default function ProfilePage(props) {
 
   const TITLE = "Profil";
 
-  console.log(items.statisticiCategoriiProfil);
-  console.log(items.statisticiCategoriiSite);
-
   return (
     <>
       <Snackbar

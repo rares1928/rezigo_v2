@@ -77,7 +77,7 @@ export default function Pricing() {
   const [loadCumpara, setLoadCumpara] = useState(false);
   const [items, setItems] = useState({});
   const [prices, setPrices] = useState([]);
-  const inversReducere = [2, 2, 2];
+  const inversReducere = 2;
 
   const handleError = (e) => {
     console.log(e.status);
@@ -214,7 +214,7 @@ export default function Pricing() {
                         >
                           {Math.floor(
                             (parseInt(price.metadata.price) / 100) *
-                              inversReducere[index]
+                              inversReducere
                           )}
                         </Typography>
                         <Typography
@@ -223,7 +223,7 @@ export default function Pricing() {
                           color="textPrimary"
                         >
                           Lei (-
-                          {Math.floor(100 * (1 - 1 / inversReducere[index]))}%)
+                          {Math.floor(100 * (1 - 1 / inversReducere))}%)
                         </Typography>
                       </div>
 
