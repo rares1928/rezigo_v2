@@ -131,7 +131,7 @@ export default function AdminsSimuareEdit() {
         description: newDescription,
         startDate: newStartDate,
         price: newPrice,
-        IsLive: live,
+        isLive: live,
       };
       await callApi(url, data, handleSimulareQuestions, handleError).then(
         () => {

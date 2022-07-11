@@ -95,12 +95,12 @@ export default function SimulariPage() {
   };
 
   const creeazaTestSimulare = async (simulareId) => {
-    setLoading(true);
+    setGoLoading(true);
     let url =
       "https://grileapiwin.azurewebsites.net/api/CreateTestFromSimulare?code=Rvw9qSqNw8iOf2W8PxysnQocQX7MPUoDFN8mdWnNgsyuAzFupH91ZA==";
     const data = { simulareId: simulareId };
     await callApi(url, data, handleTestSimulareId, handleError).then(() => {
-      setLoading(false);
+      setGoLoading(false);
     });
   };
 
