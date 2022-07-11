@@ -377,6 +377,9 @@ export default function AdminsDisplayGrile({ simID, getSimulareQuestions }) {
                           <Typography variant="h6">
                             Id grila: {grilaPrimita.GrilaID}
                           </Typography>
+                          <Typography variant="h6">
+                            Tip grila: {grilaPrimita.TipGrile}
+                          </Typography>
                           <Typography>{grilaPrimita.Intrebare}</Typography>
                           <Typography>a) {grilaPrimita.Variante_a}</Typography>
                           <Typography>b) {grilaPrimita.Variante_b}</Typography>

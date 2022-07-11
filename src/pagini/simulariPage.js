@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Link from "@material-ui/core/Link";
 import { useHistory } from "react-router-dom";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
   wrapperDiv: {
@@ -84,7 +85,6 @@ export default function SimulariPage() {
     getSimulariFromDB();
   };
 
-  console.log(simulari);
   useEffect(getSimulari, []);
 
   const handleTestSimulareId = (testSimulareId) => {
@@ -156,7 +156,7 @@ export default function SimulariPage() {
                           >
                             {goLoading ? (
                               <CircularProgress />
-                            ) : simulare.InceputTest === "true" ? (
+                            ) : simulare.InceputTest ? (
                               "Continuă simularea"
                             ) : (
                               "Începe simularea"
@@ -177,6 +177,7 @@ export default function SimulariPage() {
                         </Typography>
                       )}
                     </div>
+                    <Divider />
                   </div>
                 ))}
               </div>

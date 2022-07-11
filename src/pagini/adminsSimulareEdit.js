@@ -102,9 +102,7 @@ export default function AdminsSimuareEdit() {
     }
   };
 
-  const handleEmpty = () => {
-    console.log("call de sters grila catre DB");
-  };
+  const handleEmpty = () => {};
 
   const editOrder = async (grilaId, orderId) => {
     let url =
@@ -145,16 +143,11 @@ export default function AdminsSimuareEdit() {
   };
 
   const getSimulareQuestions = () => {
-    setLoading(true);
     const getSimQuestionsAsync = async () => {
       const url =
         "https://grileapiwin.azurewebsites.net/api/GetAllQuestions?code=uSgy01hLnddLFUbfUltfB-qfLP8jQIclHeLDhAYlGL-hAzFu-vOi4A==";
       const data = { simulareId: state };
-      await callApi(url, data, handleSimulareQuestions, handleError).then(
-        () => {
-          setLoading(false);
-        }
-      );
+      await callApi(url, data, handleSimulareQuestions, handleError);
     };
     getSimQuestionsAsync();
   };
@@ -186,10 +179,6 @@ export default function AdminsSimuareEdit() {
     };
     getSimulareByIDUE();
     getSimulareQuestionsUE();
-    // setNewName(simulareCurenta.name);
-    // setNewDescription(simulareCurenta.description);
-    // setNewStartDate(simulareCurenta.startDate);
-    // setNewIsLive(simulareCurenta.isLive);
   };
 
   useEffect(setInitialState, [state]);
@@ -339,59 +328,61 @@ export default function AdminsSimuareEdit() {
                   Grile din simulare
                 </Typography>
                 <Typography className={classes.headerText} variant="h6">
-                  {simulareQuestions.map((grila, index) => (
-                    <div key={"_grila din simulare:" + String(index)}>
-                      <Typography className={classes.headerText} variant="h6">
-                        Grila nr. {index + 1}
-                      </Typography>
-                      <Typography>TipGrila: {grila.TipGrile}</Typography>
-                      <br />
-                      <Typography>
-                        Intrebare {index + 1}: {grila.Intrebare}
-                      </Typography>
-                      <br />
-                      <Typography>a) {grila.Variante_a}</Typography>
-                      <Typography>b) {grila.Variante_b}</Typography>
-                      <Typography>c) {grila.Variante_c}</Typography>
-                      <Typography>d) {grila.Variante_d}</Typography>
-                      <Typography>e) {grila.Variante_e}</Typography>
-                      <div className={classes.grilaActionsDiv}>
-                        <Button
-                          size="medium"
-                          className={classes.buttons}
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => deleteGrila(grila.GrilaID)}
-                        >
-                          Delete grila
-                        </Button>
-                        <div className={classes.grilaActionsInputDiv}>
-                          <TextField
-                            className={classes.textField}
-                            variant="outlined"
-                            color="secondary"
-                            id="newOrder"
-                            label="Noua pozitie"
-                            type="number"
-                            onInput={(e) => setOrderId(e.target.value)}
-                          />
+                  {simulareQuestions
+                    .sort((grila1, grila2) => grila1.OrderID - grila2.OrderID)
+                    .map((grila, index) => (
+                      <div key={"_grila din simulare:" + String(index)}>
+                        <Typography className={classes.headerText} variant="h6">
+                          Pozitia curenta: {grila.OrderID}
+                        </Typography>
+                        <Typography>TipGrila: {grila.TipGrile}</Typography>
+                        <br />
+                        <Typography>
+                          Intrebare {grila.OrderID}: {grila.Intrebare}
+                        </Typography>
+                        <br />
+                        <Typography>a) {grila.Variante_a}</Typography>
+                        <Typography>b) {grila.Variante_b}</Typography>
+                        <Typography>c) {grila.Variante_c}</Typography>
+                        <Typography>d) {grila.Variante_d}</Typography>
+                        <Typography>e) {grila.Variante_e}</Typography>
+                        <div className={classes.grilaActionsDiv}>
                           <Button
                             size="medium"
                             className={classes.buttons}
                             variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              editOrder(grila.GrilaID, orderId);
-                            }}
+                            color="secondary"
+                            onClick={() => deleteGrila(grila.GrilaID)}
                           >
-                            Schimba ordinea
+                            Delete grila
                           </Button>
+                          <div className={classes.grilaActionsInputDiv}>
+                            <TextField
+                              className={classes.textField}
+                              variant="outlined"
+                              color="secondary"
+                              id="newOrder"
+                              label="Noua pozitie"
+                              type="number"
+                              onInput={(e) => setOrderId(e.target.value)}
+                            />
+                            <Button
+                              size="medium"
+                              className={classes.buttons}
+                              variant="contained"
+                              color="primary"
+                              onClick={() => {
+                                editOrder(grila.GrilaID, orderId);
+                              }}
+                            >
+                              Schimba ordinea
+                            </Button>
+                          </div>
                         </div>
+                        <br />
+                        <Divider />
                       </div>
-                      <br />
-                      <Divider />
-                    </div>
-                  ))}
+                    ))}
                 </Typography>
               </Paper>
             </Grid>
