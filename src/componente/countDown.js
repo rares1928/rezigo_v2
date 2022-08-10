@@ -52,7 +52,7 @@ export default function CountDown({ date }) {
 	const [hours, setHours] = useState(0);
 	const [days, setDays] = useState(0);
 	useEffect(() => {
-		console.log(date);
+		// console.log(date);
 		// var dataEveniment = date;
 		const [dateValues, timeValues] = date.split("T");
 		const [year, month, day] = dateValues.split("-");
