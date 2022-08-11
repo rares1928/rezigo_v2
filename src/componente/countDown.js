@@ -66,40 +66,45 @@ export default function CountDown({ date }) {
 		setMinutes(Math.floor(timeToParty / (1000 * 60)) % 60);
 		setSeconds(Math.floor(timeToParty / 1000) % 60);
 
-		let sampleInterval = setInterval(() => {
-			if (seconds === 0) {
-				if (minutes === 0) {
-					if (hours === 0) {
-						if (days === 0) {
-							clearInterval(sampleInterval);
+		if (timeToParty <= 0) {
+			setDays(0);
+			setHours(0);
+			setMinutes(0);
+			setSeconds(0);
+		} else {
+			let sampleInterval = setInterval(() => {
+				if (seconds === 0) {
+					if (minutes === 0) {
+						if (hours === 0) {
+							if (days === 0) {
+								clearInterval(sampleInterval);
+							} else {
+								setDays(days - 1);
+								setHours(23);
+								setMinutes(59);
+								setSeconds(59);
+							}
 						} else {
-							setDays(days - 1);
-							setHours(23);
+							setHours(hours - 1);
 							setMinutes(59);
 							setSeconds(59);
 						}
 					} else {
-						setHours(hours - 1);
-						setMinutes(59);
+						setMinutes(minutes - 1);
 						setSeconds(59);
 					}
 				} else {
-					setMinutes(minutes - 1);
-					setSeconds(59);
+					setSeconds(seconds - 1);
 				}
-			} else {
-				setSeconds(seconds - 1);
-			}
-		}, 1000);
-		return () => {
-			clearInterval(sampleInterval);
-		};
+			}, 1000);
+			return () => {
+				clearInterval(sampleInterval);
+			};
+		}
 	}, [seconds, minutes, hours, days]);
 	return (
 		<div>
-			<Typography className={classes.headerText} variant="h6">
-				Timp rămas până începe simularea:
-			</Typography>
+			<Typography>Timp rămas până începe simularea:</Typography>
 			<div id="timer">
 				<div>
 					<Typography>

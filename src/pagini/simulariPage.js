@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { callApi } from "../utils/callApi";
 import Paper from "@material-ui/core/Paper";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -50,6 +52,14 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(2),
 		color: theme.palette.error.main,
 	},
+	centerDiv: {
+		display: "flex",
+		margin: "auto",
+		marginTop: theme.spacing(2),
+	},
+	maxWidth: {
+		width: "100%",
+	},
 }));
 
 export default function SimulariPage() {
@@ -88,9 +98,10 @@ export default function SimulariPage() {
 	useEffect(getSimulari, []);
 
 	const handleTestSimulareId = (testSimulareId) => {
+		console.log(testSimulareId.data["lista"]);
 		return history.push({
 			pathname: "/rezolva_test",
-			state: { testId: testSimulareId.data["lista"], testType: "simulare" },
+			state: { testId: testSimulareId.data["lista"].testID, startDate: testSimulareId.data["lista"].startDate, testType: "simulare" },
 		});
 	};
 
@@ -108,7 +119,6 @@ export default function SimulariPage() {
 			<Helmet>
 				<title>{TITLE}</title>
 			</Helmet>
-
 			<Typography className={classes.headerText} variant="h4">
 				Simulări oficiale Rezigo
 			</Typography>
@@ -116,7 +126,7 @@ export default function SimulariPage() {
 			{loading ? (
 				<CircularProgress />
 			) : (
-				<>
+				<Container maxWidth="lg">
 					{simulari.length === 0 ? (
 						<div>Momentan nu avem nicio simulare salvată</div>
 					) : (
@@ -125,32 +135,36 @@ export default function SimulariPage() {
 								{simulari.map((simulare, index) => (
 									<div className={classes.paper} key={"_test tip simulare:" + String(index)}>
 										<div>
-											<Typography className={classes.headerText} variant="h6">
-												Nume: {simulare.Simulare.Name}
-											</Typography>
-											<div className={classes.simulareDiv}>
-												<div>
-													<Typography>
-														Data la care începe: {simulare.Simulare.StartDate.split("T")[0]} ora{" "}
-														{simulare.Simulare.StartDate.split("T")[1]}{" "}
+											<Grid container direction="row" justifyContent="space-between" spacing={4}>
+												<Grid className={classes.footerItem} item>
+													<Typography className={classes.headerText} variant="h6">
+														Nume: {simulare.Simulare.Name}
 													</Typography>
 													<Typography>Descriere: {simulare.Simulare.Description}</Typography>
-												</div>
-												<div>
-													<CountDown date={simulare.Simulare.StartDate} />
-													<Button
-														size="medium"
-														className={classes.buttons}
-														variant="contained"
-														color="secondary"
-														onClick={() => {
-															creeazaTestSimulare(simulare.Simulare.ID);
-														}}
-														disabled={!simulare.APlatit || goLoading}
-													>
-														{goLoading ? <CircularProgress /> : simulare.InceputTest ? "Continuă simularea" : "Începe simularea"}
-													</Button>
-												</div>
+												</Grid>
+												<Grid className={classes.footerItem} item>
+													<div>
+														<Typography>
+															Data la care începe: {simulare.Simulare.StartDate.split("T")[0]} ora{" "}
+															{simulare.Simulare.StartDate.split("T")[1]}{" "}
+														</Typography>
+														<CountDown date={simulare.Simulare.StartDate} />
+													</div>
+												</Grid>
+											</Grid>
+											<div className={classes.centerDiv}>
+												<Button
+													size="medium"
+													className={(classes.buttons, classes.centerDiv, classes.maxWidth)}
+													variant="contained"
+													color="secondary"
+													onClick={() => {
+														creeazaTestSimulare(simulare.Simulare.ID);
+													}}
+													disabled={!simulare.APlatit || goLoading}
+												>
+													{goLoading ? <CircularProgress /> : simulare.InceputTest ? "Continuă simularea" : "Începe simularea"}
+												</Button>
 											</div>
 											{simulare.APlatit ? (
 												""
@@ -164,13 +178,12 @@ export default function SimulariPage() {
 												</Typography>
 											)}
 										</div>
-										<Divider />
 									</div>
 								))}
 							</div>
 						</Paper>
 					)}
-				</>
+				</Container>
 			)}
 		</div>
 	);
