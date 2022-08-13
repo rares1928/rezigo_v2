@@ -1036,7 +1036,7 @@ export default function TestePage() {
                   setCardSelected={setCardSelected}
                   imagine={simulareImg}
                   title="Simulare"
-                  text="Rezolvă un test de 200 de grile din capitolele selectate de tine."
+                  text="Creează-ți o simulare proprie: rezolvă un test de 200 de grile din capitolele selectate de tine."
                   ready={readyCat}
                   tipCont={tipCont}
                   setPremiumPop={setPremiumPop}

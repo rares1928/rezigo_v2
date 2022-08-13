@@ -212,6 +212,9 @@ export default function AdminsSimuareEdit() {
                     ""
                   )}
                 </li>
+                {/* <li>
+									<CountDown date={simulareCurenta.StartDate} />
+								</li> */}
                 <li>
                   Numar grile CS:{" "}
                   {simulareCurenta ? simulareCurenta.NumberCS : " incarcam"}

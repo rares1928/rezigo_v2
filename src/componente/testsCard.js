@@ -23,7 +23,7 @@ export default function TestsCard(props) {
       minHeight: 150,
     },
     lowerPart: {
-      height: 105,
+      height: 115,
     },
     textSide: {},
     title: {},
