@@ -24,6 +24,7 @@ import { Helmet } from "react-helmet";
 import AnswerOptionCardLegend from "../componente/answerOptionCardLegend";
 import FinalizareTest from "../componente/finalizareTest";
 import PremiumPopup from "../componente/premiumPopup";
+import CountDownHours from "../componente/countDownHours";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -35,6 +36,7 @@ export default function GrilePage(props) {
   const [isSelected, setIsSelected] = useState(isQuestionSelected);
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
+  const [dataSimulare, setDataSimulare] = useState();
   const [error, setError] = useState(0);
   const [isReady, setReady] = useState(false);
   const { state } = useLocation();
@@ -69,6 +71,7 @@ export default function GrilePage(props) {
   const handleItems = (e) => {
     setItems(e.data["lista"]);
     setTipProfil(e.data["tipProfil"]);
+    setDataSimulare(e.data["CreationDate"]);
     if (e.data["tipProfil"] === "Standard") {
       setRandomOrder(false);
       setShowAnswer(false);
@@ -428,6 +431,16 @@ export default function GrilePage(props) {
             <Grid>
               <Grid item>
                 <Paper className={classes.paper}>
+                  {state.testType === "simulare" ? (
+                    <>
+                      <Typography>
+                        Timp rămas pentru rezultatele oficiale:
+                      </Typography>{" "}
+                      <CountDownHours date={dataSimulare} numberOfHours={4} />
+                    </>
+                  ) : (
+                    <></>
+                  )}
                   <div className={classes.slider}>
                     <IconButton
                       onClick={handlePreviousQuestion}

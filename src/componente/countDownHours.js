@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 
-export default function CountDown({ date }) {
+export default function CountDownHours({ date, numberOfHours }) {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
-  const [days, setDays] = useState(0);
   useEffect(() => {
     // console.log(date);
     // var dataEveniment = date;
@@ -20,16 +19,18 @@ export default function CountDown({ date }) {
       +minutes,
       +seconds
     );
-    var today = new Date();
 
-    var timeToParty = simulareStartDate.getTime() - today.getTime();
-    setDays(Math.floor(timeToParty / (1000 * 60 * 60 * 24)));
+    const today = new Date();
+    var timeToParty =
+      parseInt(numberOfHours) * 3600000 +
+      simulareStartDate.getTime() +
+      3 * 3600000 -
+      today.getTime();
     setHours(Math.floor(timeToParty / (1000 * 60 * 60)) % 24);
     setMinutes(Math.floor(timeToParty / (1000 * 60)) % 60);
     setSeconds(Math.floor(timeToParty / 1000) % 60);
 
     if (timeToParty <= 0) {
-      setDays(0);
       setHours(0);
       setMinutes(0);
       setSeconds(0);
@@ -38,14 +39,7 @@ export default function CountDown({ date }) {
         if (seconds === 0) {
           if (minutes === 0) {
             if (hours === 0) {
-              if (days === 0) {
-                clearInterval(sampleInterval);
-              } else {
-                setDays(days - 1);
-                setHours(23);
-                setMinutes(59);
-                setSeconds(59);
-              }
+              clearInterval(sampleInterval);
             } else {
               setHours(hours - 1);
               setMinutes(59);
@@ -63,16 +57,13 @@ export default function CountDown({ date }) {
         clearInterval(sampleInterval);
       };
     }
-  }, [seconds, minutes, hours, days, date]);
+  }, [seconds, minutes, hours, date, numberOfHours]);
   return (
-    <div>
-      <Typography>Timp rămas până începe simularea:</Typography>
-      <div id="timer">
-        <div>
-          <Typography>
-            {days} zile, {hours} ore, {minutes} minute, {seconds} secunde
-          </Typography>
-        </div>
+    <div id="timer">
+      <div>
+        <Typography>
+          {hours} ore, {minutes} minute, {seconds} secunde
+        </Typography>
       </div>
     </div>
   );

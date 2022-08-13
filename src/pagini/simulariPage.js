@@ -10,8 +10,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Link from "@material-ui/core/Link";
 import { useHistory } from "react-router-dom";
-import Divider from "@material-ui/core/Divider";
 import CountDown from "../componente/countDown";
+import CountDownHours from "../componente/countDownHours";
 
 const useStyles = makeStyles((theme) => ({
   wrapperDiv: {
@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     marginTop: theme.spacing(4),
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
+    marginBottom: theme.spacing(6),
   },
   formNewSimulare: {
     marginTop: theme.spacing(2),
@@ -71,13 +72,22 @@ export default function SimulariPage() {
   const [loading, setLoading] = useState(false);
   const [goLoading, setGoLoading] = useState(false);
 
-  const hoursToAddForFinish = 3600000 * 16;
+  const hoursToAddForFinish = 3600000 * 24;
 
-  const dataPentruNonAutism = (timestamp) => {
+  const timestampToDate = (timestamp) => {
     let date = new Date(timestamp);
-    let html = `${date.getFullYear()}-${
+    let html = `${date.getDate()}/${
       date.getMonth() + 1
-    }-${date.getDate()} ora ${date.getHours()}:${date.getMinutes()}`;
+    }/${date.getFullYear()} ora ${date.getHours()}:${date.getMinutes()}`;
+    return html;
+  };
+
+  const stringToDate = (string) => {
+    let date = new Date(string);
+    let html = `${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()} ora ${date.getHours()}:${date.getMinutes()}`;
+
     return html;
   };
 
@@ -140,48 +150,60 @@ export default function SimulariPage() {
         </Typography>
 
         <Typography variant="h5">Regulament:</Typography>
-        <Typography>
+        <div>
           <ul>
             <li>
-              Pentru a avea acces la o simlulare, trebuie să ai activ contul
-              Premium sau să fi achiziționat separat simularea respectivă (
-              <Link color="secondary" href="/premium">
-                de aici
-              </Link>
-              ). Fiecare simulare poate fi începută între datele specificate în
-              descrierea ei.
+              <Typography>
+                Pentru a avea acces la o simlulare, trebuie să ai activ contul
+                Premium sau să fi achiziționat separat simularea respectivă (
+                <Link color="secondary" href="/premium">
+                  de aici
+                </Link>
+                ). Fiecare simulare poate fi începută între datele specificate
+                în descrierea ei.
+              </Typography>
             </li>
             <li>
-              Pentru punctajele oficiale (care vor fi afișate pe{" "}
-              <Link color="secondary" href="https://www.facebook.com/rezigo.ro">
-                Facebook
-              </Link>{" "}
-              și pe{" "}
-              <Link
-                color="secondary"
-                href="https://www.instagram.com/rezigo.oficial/"
-              >
-                instagram
-              </Link>
-              ) vei avea o fereastră de 4 ore în care să trimiți răspunsurile,
-              din momentul în care ai apăsat butonul de începe simularea
+              <Typography>
+                Pentru punctajele oficiale (care vor fi afișate pe{" "}
+                <Link
+                  color="secondary"
+                  href="https://www.facebook.com/rezigo.ro"
+                >
+                  Facebook
+                </Link>{" "}
+                și pe{" "}
+                <Link
+                  color="secondary"
+                  href="https://www.instagram.com/rezigo.oficial/"
+                >
+                  instagram
+                </Link>
+                ) vei avea o fereastră de 4 ore în care să trimiți răspunsurile,
+                din momentul în care ai apăsat butonul de începe simularea
+              </Typography>
             </li>
             <li>
-              O dată achiziționată, vei avea mereu acces la acea simulare.
-              Astfel, poți verifica oricand răspunsurile date. Totuși, nu uita
-              că răspunsurile oficiale sunt înregistrate doar în primele 4 ore.
+              <Typography>
+                O dată achiziționată, vei avea mereu acces la acea simulare.
+                Astfel, poți verifica oricand răspunsurile date. Totuși, nu uita
+                că răspunsurile oficiale sunt înregistrate doar în primele 4
+                ore.
+              </Typography>
             </li>
             <li>
-              Exemplu: Andrei a achiziționat o simulare care începe la data
-              2022-07-10 ora 10:00 și se termină la ora 2022-07-11 ora 16:00. El
-              decide să înceapă testul în prima zi, 2022-07-10, la ora 18:00. În
-              primele 4 ore (adică până la ora 22:00) el răspunde la 160 de
-              întrebări. La restul întrebărilor răspunde pana la ora 24:00. La
-              afișarea rezultatelor finale, noi vom lua în calcul doar
-              răspunsurile de la cele 160 de întrebări.
+              <Typography>
+                Exemplu: Andrei a achiziționat o simulare care începe la data
+                2022-07-10 ora 10:00 și se termină la ora 2022-07-11 ora 16:00.
+                El decide să înceapă testul în prima zi, 2022-07-10, la ora
+                18:00. În primele 4 ore (adică până la ora 22:00) el răspunde la
+                160 de întrebări. La restul întrebărilor răspunde pana la ora
+                24:00. La afișarea rezultatelor finale, noi vom lua în calcul
+                doar răspunsurile de la cele 160 de întrebări.
+              </Typography>
             </li>
           </ul>
-        </Typography>
+        </div>
 
         {loading ? (
           <CircularProgress />
@@ -218,15 +240,12 @@ export default function SimulariPage() {
                           <Grid className={classes.footerItem} item>
                             <div>
                               <Typography>
-                                Start:{" "}
-                                {simulare.Simulare.StartDate.split("T")[0]} ora{" "}
-                                {simulare.Simulare.StartDate.split(
-                                  "T"
-                                )[1].replace(":00", "")}{" "}
+                                Start:
+                                {stringToDate(simulare.Simulare.StartDate)}
                               </Typography>
                               <Typography>
                                 Terminare:{" "}
-                                {dataPentruNonAutism(
+                                {timestampToDate(
                                   new Date(
                                     simulare.Simulare.StartDate
                                   ).getTime() + hoursToAddForFinish
@@ -234,6 +253,19 @@ export default function SimulariPage() {
                               </Typography>
                               <br />
                               <CountDown date={simulare.Simulare.StartDate} />
+                              {simulare.InceputTest ? (
+                                <>
+                                  <Typography>
+                                    Timp rămas pentru rezultatele oficiale:
+                                  </Typography>
+                                  <CountDownHours
+                                    date={simulare.CreationDate}
+                                    numberOfHours={4}
+                                  />
+                                </>
+                              ) : (
+                                <></>
+                              )}
                             </div>
                           </Grid>
                         </Grid>
