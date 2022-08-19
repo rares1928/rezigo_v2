@@ -19,10 +19,12 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 170,
   },
   textSide: {
-    height: "100%",
     display: "flex",
+    alignItems: "center",
+    height: "100%",
     flexDirection: "row",
     padding: theme.spacing(2, 2, 0),
+    minHeight: 110,
   },
   title: {
     margin: theme.spacing(1, 2, 0),

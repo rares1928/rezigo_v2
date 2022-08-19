@@ -71,6 +71,7 @@ export default function SimulariPage() {
   const [simulari, setSimulari] = useState([]);
   const [loading, setLoading] = useState(false);
   const [goLoading, setGoLoading] = useState(false);
+  const [id, setId] = useState("");
 
   const hoursToAddForFinish = 3600000 * 24;
 
@@ -93,6 +94,7 @@ export default function SimulariPage() {
 
   const handleSetSimulari = (e) => {
     setSimulari(e.data["lista"]);
+    setId(e.data["id"]);
   };
 
   const handleError = (e) => {
@@ -205,6 +207,11 @@ export default function SimulariPage() {
           </ul>
         </div>
 
+        <Typography variant="h5">ID-ul tău: {id}</Typography>
+        <Typography>
+          Pentru a te regăsi pe lista de rezultate caută ID-ul: {id}
+        </Typography>
+
         {loading ? (
           <CircularProgress />
         ) : (
@@ -282,7 +289,12 @@ export default function SimulariPage() {
                             onClick={() => {
                               creeazaTestSimulare(simulare.Simulare.ID);
                             }}
-                            disabled={!simulare.APlatit || goLoading}
+                            disabled={
+                              !simulare.APlatit ||
+                              goLoading ||
+                              new Date(simulare.Simulare.StartDate).getTime() >
+                                Date.now()
+                            }
                           >
                             {goLoading ? (
                               <CircularProgress />

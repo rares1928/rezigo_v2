@@ -155,7 +155,7 @@ export default function HomePage() {
             <HomeCard
               imagine={simulare}
               sendTo="/simulari"
-              title="Simulari"
+              title="Simulări oficiale"
               text="Participă la o simulare și compară-ți punctajul cu colegii tăi"
               disabled={false}
             />
@@ -194,7 +194,7 @@ export default function HomePage() {
               imagine={premium}
               sendTo="/premium"
               title="Premium"
-              text="Investește în tine! Activează-ți contul premium "
+              text="Investește în tine! Activează-ți contul premium sau achiziționează o simulare"
             />
           </Grid>
         </Grid>
