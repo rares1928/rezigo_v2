@@ -156,7 +156,7 @@ export default function SimulariPage() {
           <ul>
             <li>
               <Typography>
-                Pentru a avea acces la o simlulare, trebuie să ai activ contul
+                Pentru a avea acces la o simulare, trebuie să ai activ contul
                 Premium sau să fi achiziționat separat simularea respectivă (
                 <Link color="secondary" href="/premium">
                   de aici
