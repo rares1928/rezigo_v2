@@ -212,6 +212,15 @@ export default function GrilePage(props) {
         0,
         tempItems[currentQuestion]
       );
+      console.log(
+        "tempItems[currentQuestion][Choices]",
+        tempItems[currentQuestion]["Choices"]
+      );
+      console.log(
+        "tempItems[currentQuestion][Correct]",
+        tempItems[currentQuestion]["Correct"]
+      );
+      console.log("scorReziObtinutGrila", scorReziObtinutGrila);
 
       let url =
         "https://grileapiwin.azurewebsites.net/api/UpdateQuestionWin?code=/exISg8MBjNHTzNt8dNAonkeqzYsV5Imgh5naOgP/7aPdlR06NS2xw==";
@@ -228,6 +237,7 @@ export default function GrilePage(props) {
       if (final_question) {
         data = { ...data, scorReziTestObtinut, scorReziTestPosibil };
       }
+      console.log(data);
       callApi(url, data, () => {}, handleError);
       setItems(tempItems.slice());
     } else {
