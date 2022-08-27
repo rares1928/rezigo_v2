@@ -353,6 +353,8 @@ export default function GrilePage(props) {
   const TITLE = "Rezolvă testul";
 
   const calculeazaScorAcumulat = (acc, value) => {
+    console.log("function start acc:", acc);
+    console.log("function start value:", value);
     if (value["TipGrile"] === "CS") {
       if (value["Correct"] === 31) {
         return acc + 4;
@@ -360,6 +362,8 @@ export default function GrilePage(props) {
         return acc;
       }
     } else {
+      console.log("in else value[Choices]", value["Choices"]);
+      console.log("in else value[Correct]", value["Correct"]);
       if ([1, 2, 4, 8, 16].includes(value["Choices"])) {
         return acc;
       }
