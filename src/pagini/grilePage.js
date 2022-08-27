@@ -212,16 +212,6 @@ export default function GrilePage(props) {
         0,
         tempItems[currentQuestion]
       );
-      console.log(
-        "tempItems[currentQuestion][Choices]",
-        tempItems[currentQuestion]["Choices"]
-      );
-      console.log(
-        "tempItems[currentQuestion][Correct]",
-        tempItems[currentQuestion]["Correct"]
-      );
-      console.log("scorReziObtinutGrila", scorReziObtinutGrila);
-
       let url =
         "https://grileapiwin.azurewebsites.net/api/UpdateQuestionWin?code=/exISg8MBjNHTzNt8dNAonkeqzYsV5Imgh5naOgP/7aPdlR06NS2xw==";
       let data = {
@@ -237,7 +227,6 @@ export default function GrilePage(props) {
       if (final_question) {
         data = { ...data, scorReziTestObtinut, scorReziTestPosibil };
       }
-      console.log(data);
       callApi(url, data, () => {}, handleError);
       setItems(tempItems.slice());
     } else {
@@ -353,8 +342,6 @@ export default function GrilePage(props) {
   const TITLE = "Rezolvă testul";
 
   const calculeazaScorAcumulat = (acc, value) => {
-    console.log("function start acc:", acc);
-    console.log("function start value:", value);
     if (value["TipGrile"] === "CS") {
       if (value["Correct"] === 31) {
         return acc + 4;
@@ -362,8 +349,6 @@ export default function GrilePage(props) {
         return acc;
       }
     } else {
-      console.log("in else value[Choices]", value["Choices"]);
-      console.log("in else value[Correct]", value["Correct"]);
       if ([1, 2, 4, 8, 16].includes(value["Choices"])) {
         return acc;
       }
