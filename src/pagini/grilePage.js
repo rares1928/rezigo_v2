@@ -206,11 +206,11 @@ export default function GrilePage(props) {
 
       const scorReziPosibilGrila = calculeazaScorPosibil(
         0,
-        items[currentQuestion]
+        tempItems[currentQuestion]
       );
       const scorReziObtinutGrila = calculeazaScorAcumulat(
         0,
-        items[currentQuestion]
+        tempItems[currentQuestion]
       );
 
       let url =
