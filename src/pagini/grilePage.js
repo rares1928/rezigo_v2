@@ -379,7 +379,7 @@ export default function GrilePage(props) {
       if ([3, 5, 9, 17, 6, 10, 18, 12, 20, 24].includes(value["Correct"])) {
         return acc + 2;
       }
-      if ([1, 23, 4, 8, 16].includes(value["Correct"])) {
+      if ([1, 2, 4, 8, 16].includes(value["Correct"])) {
         return acc + 1;
       }
       if (value["Correct"] === 0) {
