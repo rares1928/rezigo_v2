@@ -89,7 +89,7 @@ export default function Carousel() {
             display: "block",
             overflow: "hidden",
             width: "100%",
-            minWidth: 255,
+            minWidth: 300,
             padding: theme.spacing(2),
         },
         textForImg: {
@@ -122,7 +122,7 @@ export default function Carousel() {
                 {tutorialSteps.map((step, index) => (
                     <div key={step.label}>
                         {Math.abs(activeStep - index) <= 2 ? (
-                            <Typography>
+                            <Paper>
                                 <Grid container spacing={0} justifyContent="center">
                                     <Grid item xs={6}>
                                         <img className={classes.img} src={step.imgPath} alt={step.label} />
@@ -131,7 +131,7 @@ export default function Carousel() {
                                         <Typography className={classes.textForImg}>{step.textForImg}</Typography>
                                     </Grid>
                                 </Grid>
-                            </Typography>
+                            </Paper>
                         ) : null}
                     </div>
                 ))}
