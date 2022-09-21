@@ -265,7 +265,7 @@ export default function Termeni() {
                             Termenii și condițiile uniREZIverse
                         </Link>
                     </li>
-                    <li> Nu vom fi trași la răspundere pentru niciun fel de întârzieri sau nereușite în îndeplinirea serviciilor partenerilor</li>
+                    <li> ReziGo nu își asumă răspunderea pentru întârzieri sau nereușite în îndeplinirea serviciilor partenerilor</li>
                 </ul>
             </Container>
         </div>
