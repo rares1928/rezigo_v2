@@ -243,14 +243,14 @@ export default function SimulariPage() {
                                                             creeazaTestSimulare(simulare.Simulare.ID);
                                                         }}
                                                         disabled={
-                                                            !simulare.APlatit || goLoading || new Date(simulare.Simulare.StartDate).getTime() > Date.now()
+                                                            !simulare.APlatit || goLoading || new Date(simulare.Simulare.StartDate).getTime() > Date.now().getTime()
                                                         }
                                                     >
                                                         {goLoading ? <CircularProgress /> : simulare.InceputTest ? "Continuă simularea" : "Începe simularea"}
                                                     </Button>
                                                 </div>
                                                 <div className={classes.centerDiv}>
-                                                    <Link color="secondary" href={rezultate ? new Date(simulare.Simulare.StartDate).getTime() < Date.now() : "#"} download className={classes.centerDiv}>
+                                                    <Link color="secondary" href={rezultate ? new Date(simulare.Simulare.StartDate).getTime() < Date.now().getTime() : "#"} download className={classes.centerDiv}>
                                                         Rezultate simulare
                                                     </Link>
                                                 </div>
