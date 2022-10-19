@@ -250,7 +250,7 @@ export default function SimulariPage() {
                                                     </Button>
                                                 </div>
                                                 <div className={classes.centerDiv}>
-                                                    <Link color="secondary" href={rezultate ? new Date(simulare.Simulare.StartDate).getTime() < Date.now().getTime() : "#"} download className={classes.centerDiv}>
+                                                    <Link color="secondary" href={new Date(simulare.Simulare.StartDate).getTime() < Date.now().getTime() ?  rezultate : "#"} download className={classes.centerDiv}>
                                                         Rezultate simulare
                                                     </Link>
                                                 </div>
