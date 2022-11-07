@@ -12,7 +12,8 @@ import Link from "@material-ui/core/Link";
 import { useHistory } from "react-router-dom";
 import CountDown from "../componente/countDown";
 import CountDownHours from "../componente/countDownHours";
-import rezultate from "../poze/RezultateSimulareKumar08.2022.pdf";
+import rezultate_08_2022 from "../poze/RezultateSimulareKumar08.2022.pdf";
+import rezultate_11_2022 from "../poze/RezultateSimulareToataMateria11.2022.pdf";
 
 const useStyles = makeStyles((theme) => ({
     wrapperDiv: {
@@ -65,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimulariPage() {
+    const arrayRezultate = [rezultate_08_2022, rezultate_11_2022];
     const classes = useStyles();
     const TITLE = "Simulări";
     let history = useHistory();
@@ -250,7 +252,13 @@ export default function SimulariPage() {
                                                     </Button>
                                                 </div>
                                                 <div className={classes.centerDiv}>
-                                                    <Link color="secondary" href={rezultate} style={{ pointerEvents: new Date(simulare.Simulare.StartDate).getTime() < Date.now() ? '' : 'none' }} download className={classes.centerDiv}>
+                                                    <Link
+                                                        color="secondary"
+                                                        href={arrayRezultate[index]}
+                                                        style={{ pointerEvents: new Date(simulare.Simulare.StartDate).getTime() < Date.now() ? "" : "none" }}
+                                                        download
+                                                        className={classes.centerDiv}
+                                                    >
                                                         Rezultate simulare
                                                     </Link>
                                                 </div>
