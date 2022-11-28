@@ -267,7 +267,7 @@ export default function GrilePage(props) {
     questionDetails: {
       paddingTop: theme.spacing(3),
       padding: theme.spacing(1),
-      paddingBottom: theme.spacing(2),
+      paddingBottom: theme.spacing(2)
     },
     question: {
       paddingLeft: theme.spacing(1),
@@ -468,9 +468,6 @@ export default function GrilePage(props) {
                     </IconButton>
                   </div>
                   <div className={classes.questionDetails}>
-                    <Typography variant="body2" color="textSecondary">
-                      Tip Grilă: {items[selectedQuestion]["TipGrile"]};
-                    </Typography>
                     {items[selectedQuestion]["Carte"] === "Rezidențiat 2021" ? (
                       <Typography variant="body2" color="textSecondary">
                         Examen {items[selectedQuestion]["Carte"]};
@@ -490,10 +487,14 @@ export default function GrilePage(props) {
                   </div>
                   <div className={classes.enuntSpaceDiv}>
                     <div className="grileQuestionTypography">
+                      
                       <Typography
                         className={classes.question}
                         variant="subtitle1"
                       >
+                        <Typography variant="body2">
+                        Tip Grilă: {items[selectedQuestion]["TipGrile"]};
+                      </Typography>
                         {selectedQuestion + 1}.{" "}
                         {items[selectedQuestion]["Intrebare"]}
                       </Typography>
