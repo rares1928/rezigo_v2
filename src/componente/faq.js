@@ -36,7 +36,7 @@ export default function FAQ() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Da! Oricine își poate face cont și poate parcurge până la 40 de
+            Da! Oricine își poate face cont și poate parcurge până la 30 de
             grile pe zi, din orice parte a materiei.
           </Typography>
         </AccordionDetails>
