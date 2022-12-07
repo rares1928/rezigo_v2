@@ -58,7 +58,7 @@ export default function PremiumTable() {
   const rows1 = [
     createData(
       "Numărul de grile care pot fi rezolvate zilnic",
-      40,
+      30,
       "nelimitat"
     ),
   ];
