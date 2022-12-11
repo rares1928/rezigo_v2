@@ -31,7 +31,7 @@ export default function TestsBookCard(props) {
     }));
 
     const classes = useStyles();
-    const [item, setItem] = useState(false);
+    const [item, setItem] = useState(props.listaSelectiiSimulare);
     return (
         <Card className={classes.root}>
             <CardActionArea
@@ -53,8 +53,14 @@ export default function TestsBookCard(props) {
                 <Typography gutterBottom variant="h6" component="h3" className={classes.title}>
                     <Checkbox
                         onChange={() => {
-                            props.listaSelectiiSimulare.map((element) => setItem(!element));
-                            console.log(props);
+                            // props.listaSelectiiSimulare.map((element) => setItem(!element));
+                            // const lista_temp_selectii = [...props.listaSelectiiSimulare];
+                            // lista_temp_selectii.forEach((selectie) => setItem(!selectie));
+                            // props.setListaSelectiiSimulare(lista_temp_selectii);
+
+                            setItem(item.map((element) => !element));
+
+                            console.log(item);
                         }}
                         // checked={}
                     ></Checkbox>

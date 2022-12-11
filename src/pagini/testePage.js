@@ -391,6 +391,7 @@ export default function TestePage() {
                                 title="Kumar și Clark Medicină Clinică"
                                 listaCategorii={listaCategorii}
                                 listaSelectiiSimulare={listaSelectiiSimulare}
+                                setListaSelectiiSimulare={setListaSelectiiSimulare}
                             />
                             {isKumar && (
                                 <Grow in={isKumar} timeout={growTimeout}>
