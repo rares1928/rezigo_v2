@@ -53,10 +53,41 @@ export default function TestsBookCard(props) {
                 <Typography gutterBottom variant="h6" component="h3" className={classes.title}>
                     {props.isCardSelected === "Simulare" ? (
                         <Checkbox
-                            // checked={props.listaSelectiiSimulare.includes(false)}
+                            // checked={() => {
+                            //     let chechIfAllSelected = props.listaCategorii.foreach((element, index) => {
+                            //         if (element["book"] === props.book) {
+                            //             return props.listaSelectiiSimulare[index];
+                            //         }
+                            //     });
+                            //     chechIfAllSelected.includes(!false);
+                            //     // props.listaCategorii.foreach((element, index) => {
+                            //     //     if (element["book"] === props.book)
+                            //     //     {if (props.listaSelectiiSimulare[index] === false)
+                            //     //     return false;}
+                            //     //     else if (element["book"] === props.book) return true;
+                            //     // });
+                            // }}
                             onChange={() => {
-                                props.setListaSelectiiSimulare(props.listaSelectiiSimulare.map((element) => !element));
-                                // props.onClickCategorieSimulare(index);
+                                // props.listaSelectiiSimulare.foreach((element, index) =>
+                                //     props.listaCategorii[index]["book"] === props.book
+                                //         ? props.listaSelectiiSimulare[index] === false
+                                //             ? props.setListaSelectiiSimulare(props.listaSelectiiSimulare.map((element) => true))
+                                //             : props.setListaSelectiiSimulare(props.listaSelectiiSimulare.map((element) => false))
+                                //         : props.setListaSelectiiSimulare(props.listaSelectiiSimulare)
+                                // );
+                                // props.listaSelectiiSimulare.map(
+                                //         (element, index) => {
+                                //             props.listaCategorii[index]["book"] === props.book && props.listaSelectiiSimulare[index] === false ? true : false;
+                                //         }
+                                props.setListaSelectiiSimulare(
+                                    props.listaSelectiiSimulare.map((element, index) =>
+                                        props.listaCategorii[index]["book"] === props.book
+                                            ? props.listaSelectiiSimulare[index] === false
+                                                ? true
+                                                : false
+                                            : props.listaSelectiiSimulare[index]
+                                    )
+                                );
 
                                 console.log(props.listaSelectiiSimulare);
                             }}

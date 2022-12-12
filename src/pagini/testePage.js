@@ -394,6 +394,7 @@ export default function TestePage() {
                                 listaSelectiiSimulare={listaSelectiiSimulare}
                                 setListaSelectiiSimulare={setListaSelectiiSimulare}
                                 isCardSelected={isCardSelected}
+                                book="Kumar"
                             />
                             {isKumar && (
                                 <Grow in={isKumar} timeout={growTimeout}>
@@ -417,8 +418,10 @@ export default function TestePage() {
                                 imagine={lawrence}
                                 title="Chirurgie generală și specialități chirurgicale"
                                 isCardSelected={isCardSelected}
+                                listaCategorii={listaCategorii}
                                 listaSelectiiSimulare={listaSelectiiSimulare}
                                 setListaSelectiiSimulare={setListaSelectiiSimulare}
+                                book="Chirurgie"
                             />
                             {isLawrence && (
                                 <Grow in={isLawrence} timeout={growTimeout}>
@@ -442,8 +445,10 @@ export default function TestePage() {
                                 imagine={sinopsis}
                                 title="Sinopsis de medicină"
                                 isCardSelected={isCardSelected}
+                                listaCategorii={listaCategorii}
                                 listaSelectiiSimulare={listaSelectiiSimulare}
                                 setListaSelectiiSimulare={setListaSelectiiSimulare}
+                                book="Sinopsis"
                             />
                             {isSinopsis && (
                                 <Grow in={isSinopsis} timeout={growTimeout}>
