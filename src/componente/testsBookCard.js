@@ -51,19 +51,17 @@ export default function TestsBookCard(props) {
             </CardActionArea>
             <CardContent className={classes.lowerPart}>
                 <Typography gutterBottom variant="h6" component="h3" className={classes.title}>
-                    <Checkbox
-                        onChange={() => {
-                            // props.listaSelectiiSimulare.map((element) => setItem(!element));
-                            // const lista_temp_selectii = [...props.listaSelectiiSimulare];
-                            // lista_temp_selectii.forEach((selectie) => setItem(!selectie));
-                            // props.setListaSelectiiSimulare(lista_temp_selectii);
+                    {props.isCardSelected === "Simulare" ? (
+                        <Checkbox
+                            // checked={props.listaSelectiiSimulare.includes(false)}
+                            onChange={() => {
+                                props.setListaSelectiiSimulare(props.listaSelectiiSimulare.map((element) => !element));
+                                // props.onClickCategorieSimulare(index);
 
-                            setItem(item.map((element) => !element));
-
-                            console.log(item);
-                        }}
-                        // checked={}
-                    ></Checkbox>
+                                console.log(props.listaSelectiiSimulare);
+                            }}
+                        ></Checkbox>
+                    ) : null}
                     {props.title}
                 </Typography>
             </CardContent>

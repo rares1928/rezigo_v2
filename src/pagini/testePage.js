@@ -175,6 +175,7 @@ export default function TestePage() {
         setListaselectii(lista_temp2);
         setListaSelectiiSimulare(lista_temp2);
         setReadyCat(true);
+        console.log(listaSelectiiSimulare, listaselectii, listaselectiisubcat);
     };
 
     const handleTeste = (e) => {
@@ -392,6 +393,7 @@ export default function TestePage() {
                                 listaCategorii={listaCategorii}
                                 listaSelectiiSimulare={listaSelectiiSimulare}
                                 setListaSelectiiSimulare={setListaSelectiiSimulare}
+                                isCardSelected={isCardSelected}
                             />
                             {isKumar && (
                                 <Grow in={isKumar} timeout={growTimeout}>
@@ -414,6 +416,9 @@ export default function TestePage() {
                                 setCardSelected={setLawerence}
                                 imagine={lawrence}
                                 title="Chirurgie generală și specialități chirurgicale"
+                                isCardSelected={isCardSelected}
+                                listaSelectiiSimulare={listaSelectiiSimulare}
+                                setListaSelectiiSimulare={setListaSelectiiSimulare}
                             />
                             {isLawrence && (
                                 <Grow in={isLawrence} timeout={growTimeout}>
@@ -431,7 +436,15 @@ export default function TestePage() {
                             )}
                         </Grid>
                         <Grid item className={classes.bookLevel}>
-                            <TestsBookCard isSelected={isSinopsis} setCardSelected={setSinopsis} imagine={sinopsis} title="Sinopsis de medicină" />
+                            <TestsBookCard
+                                isSelected={isSinopsis}
+                                setCardSelected={setSinopsis}
+                                imagine={sinopsis}
+                                title="Sinopsis de medicină"
+                                isCardSelected={isCardSelected}
+                                listaSelectiiSimulare={listaSelectiiSimulare}
+                                setListaSelectiiSimulare={setListaSelectiiSimulare}
+                            />
                             {isSinopsis && (
                                 <Grow in={isSinopsis} timeout={growTimeout}>
                                     <div className={classes.bookSubcatDiv}>
