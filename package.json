@@ -20,6 +20,7 @@
     "react-ga": "^3.3.0",
     "react-google-charts": "^3.0.15",
     "react-helmet": "^6.1.0",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^5.0.1",
     "universal-cookie": "^4.0.4",

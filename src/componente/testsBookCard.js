@@ -71,25 +71,25 @@ export default function TestsBookCard(props) {
                                 //             props.listaCategorii[index]["book"] === props.book && props.listaSelectiiSimulare[index] === false ? true : false;
                                 //         }
 
-                                // props.setListaSelectiiSimulare(
-                                //     props.listaSelectiiSimulare.map((element, index) =>
-                                //         props.listaCategorii[index]["book"] === props.book
-                                //             ? props.listaSelectiiSimulare[index] === false
-                                //                 ? true
-                                //                 : false
-                                //             : props.listaSelectiiSimulare[index]
-                                //     )
-                                // );
-
                                 props.setListaSelectiiSimulare(
-                                    cloneArrayIncludes.includes(false)
-                                        ? props.listaSelectiiSimulare.map((element, index) => {
-                                              props.listaCategorii[index]["book"] === props.book ? true : props.listaSelectiiSimulare[index];
-                                          })
-                                        : props.listaSelectiiSimulare.map((element, index) => {
-                                              props.listaCategorii[index]["book"] === props.book ? false : props.listaSelectiiSimulare[index];
-                                          })
+                                    props.listaSelectiiSimulare.map((element, index) =>
+                                        props.listaCategorii[index]["book"] === props.book
+                                            ? props.listaSelectiiSimulare[index] === false
+                                                ? true
+                                                : false
+                                            : props.listaSelectiiSimulare[index]
+                                    )
                                 );
+
+                                // props.setListaSelectiiSimulare(
+                                //     cloneArrayIncludes.includes(false)
+                                //         ? props.listaSelectiiSimulare.map((element, index) => {
+                                //               props.listaCategorii[index]["book"] === props.book ? true : props.listaSelectiiSimulare[index];
+                                //           })
+                                //         : props.listaSelectiiSimulare.map((element, index) => {
+                                //               props.listaCategorii[index]["book"] === props.book ? false : props.listaSelectiiSimulare[index];
+                                //           })
+                                // );
 
                                 // cloneArrayIncludes.includes(false)
                                 //     ? props.setListaSelectiiSimulare(
