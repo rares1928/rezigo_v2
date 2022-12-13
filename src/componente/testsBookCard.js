@@ -32,6 +32,10 @@ export default function TestsBookCard(props) {
 
     const classes = useStyles();
     const [item, setItem] = useState(props.listaSelectiiSimulare);
+    let cloneArrayIncludes = [];
+    props.listaSelectiiSimulare.forEach((element, index) => {
+        if (props.listaCategorii[index]["book"] === props.book) cloneArrayIncludes.push(props.listaSelectiiSimulare[index]);
+    });
     return (
         <Card className={classes.root}>
             <CardActionArea
@@ -53,20 +57,7 @@ export default function TestsBookCard(props) {
                 <Typography gutterBottom variant="h6" component="h3" className={classes.title}>
                     {props.isCardSelected === "Simulare" ? (
                         <Checkbox
-                            // checked={() => {
-                            //     let chechIfAllSelected = props.listaCategorii.foreach((element, index) => {
-                            //         if (element["book"] === props.book) {
-                            //             return props.listaSelectiiSimulare[index];
-                            //         }
-                            //     });
-                            //     chechIfAllSelected.includes(!false);
-                            //     // props.listaCategorii.foreach((element, index) => {
-                            //     //     if (element["book"] === props.book)
-                            //     //     {if (props.listaSelectiiSimulare[index] === false)
-                            //     //     return false;}
-                            //     //     else if (element["book"] === props.book) return true;
-                            //     // });
-                            // }}
+                            checked={!cloneArrayIncludes.includes(false)}
                             onChange={() => {
                                 // props.listaSelectiiSimulare.foreach((element, index) =>
                                 //     props.listaCategorii[index]["book"] === props.book
@@ -79,16 +70,39 @@ export default function TestsBookCard(props) {
                                 //         (element, index) => {
                                 //             props.listaCategorii[index]["book"] === props.book && props.listaSelectiiSimulare[index] === false ? true : false;
                                 //         }
+
+                                // props.setListaSelectiiSimulare(
+                                //     props.listaSelectiiSimulare.map((element, index) =>
+                                //         props.listaCategorii[index]["book"] === props.book
+                                //             ? props.listaSelectiiSimulare[index] === false
+                                //                 ? true
+                                //                 : false
+                                //             : props.listaSelectiiSimulare[index]
+                                //     )
+                                // );
+
                                 props.setListaSelectiiSimulare(
-                                    props.listaSelectiiSimulare.map((element, index) =>
-                                        props.listaCategorii[index]["book"] === props.book
-                                            ? props.listaSelectiiSimulare[index] === false
-                                                ? true
-                                                : false
-                                            : props.listaSelectiiSimulare[index]
-                                    )
+                                    cloneArrayIncludes.includes(false)
+                                        ? props.listaSelectiiSimulare.map((element, index) => {
+                                              props.listaCategorii[index]["book"] === props.book ? true : props.listaSelectiiSimulare[index];
+                                          })
+                                        : props.listaSelectiiSimulare.map((element, index) => {
+                                              props.listaCategorii[index]["book"] === props.book ? false : props.listaSelectiiSimulare[index];
+                                          })
                                 );
 
+                                // cloneArrayIncludes.includes(false)
+                                //     ? props.setListaSelectiiSimulare(
+                                //           props.listaSelectiiSimulare.map((element, index) => {
+                                //               props.listaCategorii[index]["book"] === props.book ? true : props.listaSelectiiSimulare[index];
+                                //           })
+                                //       )
+                                //     : props.setListaSelectiiSimulare(
+                                //           props.listaSelectiiSimulare.map((element, index) => {
+                                //               props.listaCategorii[index]["book"] === props.book ? false : props.listaSelectiiSimulare[index];
+                                //           })
+                                //       );
+                                console.log(cloneArrayIncludes);
                                 console.log(props.listaSelectiiSimulare);
                             }}
                         ></Checkbox>
