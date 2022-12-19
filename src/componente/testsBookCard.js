@@ -32,7 +32,7 @@ export default function TestsBookCard(props) {
 
     const classes = useStyles();
     const [item, setItem] = useState(props.listaSelectiiSimulare);
-    let cloneArrayIncludes = [];
+    let [cloneArrayIncludes, setCloneArrayIncludes] = useState([]);
     props.listaSelectiiSimulare.forEach((element, index) => {
         if (props.listaCategorii[index]["book"] === props.book) cloneArrayIncludes.push(props.listaSelectiiSimulare[index]);
     });
@@ -59,51 +59,15 @@ export default function TestsBookCard(props) {
                         <Checkbox
                             checked={!cloneArrayIncludes.includes(false)}
                             onChange={() => {
-                                // props.listaSelectiiSimulare.foreach((element, index) =>
-                                //     props.listaCategorii[index]["book"] === props.book
-                                //         ? props.listaSelectiiSimulare[index] === false
-                                //             ? props.setListaSelectiiSimulare(props.listaSelectiiSimulare.map((element) => true))
-                                //             : props.setListaSelectiiSimulare(props.listaSelectiiSimulare.map((element) => false))
-                                //         : props.setListaSelectiiSimulare(props.listaSelectiiSimulare)
-                                // );
-                                // props.listaSelectiiSimulare.map(
-                                //         (element, index) => {
-                                //             props.listaCategorii[index]["book"] === props.book && props.listaSelectiiSimulare[index] === false ? true : false;
-                                //         }
-
-                                // props.setListaSelectiiSimulare(
-                                //     props.listaSelectiiSimulare.map((element, index) =>
-                                //         props.listaCategorii[index]["book"] === props.book
-                                //             ? props.listaSelectiiSimulare[index] === false
-                                //                 ? true
-                                //                 : false
-                                //             : props.listaSelectiiSimulare[index]
-                                //     )
-                                // );
-
                                 props.setListaSelectiiSimulare(
-                                    cloneArrayIncludes.includes(false)
-                                        ? props.listaSelectiiSimulare.map((element, index) => {
-                                              props.listaCategorii[index]["book"] === props.book ? true : props.listaSelectiiSimulare[index];
-                                          })
-                                        : props.listaSelectiiSimulare.map((element, index) => {
-                                              props.listaCategorii[index]["book"] === props.book ? false : props.listaSelectiiSimulare[index];
-                                          })
+                                    props.listaSelectiiSimulare.map((element, index) =>
+                                        props.listaCategorii[index]["book"] === props.book
+                                            ? cloneArrayIncludes.includes(false)
+                                            : props.listaSelectiiSimulare[index]
+                                    )
                                 );
 
-                                // cloneArrayIncludes.includes(false)
-                                //     ? props.setListaSelectiiSimulare(
-                                //           props.listaSelectiiSimulare.map((element, index) => {
-                                //               props.listaCategorii[index]["book"] === props.book ? true : props.listaSelectiiSimulare[index];
-                                //           })
-                                //       )
-                                //     : props.setListaSelectiiSimulare(
-                                //           props.listaSelectiiSimulare.map((element, index) => {
-                                //               props.listaCategorii[index]["book"] === props.book ? false : props.listaSelectiiSimulare[index];
-                                //           })
-                                //       );
-                                console.log(cloneArrayIncludes);
-                                console.log(props.listaSelectiiSimulare);
+                                setCloneArrayIncludes(cloneArrayIncludes.map((element) => cloneArrayIncludes.includes(false)));
                             }}
                         ></Checkbox>
                     ) : null}

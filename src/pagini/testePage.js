@@ -510,6 +510,9 @@ export default function TestePage() {
                                 imagine={kumar}
                                 title="Kumar și Clark Medicină Clinică"
                                 grilePePagini={true}
+                                listaCategorii={listaCategorii}
+                                listaSelectiiSimulare={listaSelectiiSimulare}
+                                setListaSelectiiSimulare={setListaSelectiiSimulare}
                             />
                         </Grid>
                         <Grid item className={classes.bookLevel}>
@@ -519,6 +522,9 @@ export default function TestePage() {
                                 imagine={lawrence}
                                 title="Chirurgie generală și specialități chirurgicale"
                                 grilePePagini={true}
+                                listaCategorii={listaCategorii}
+                                listaSelectiiSimulare={listaSelectiiSimulare}
+                                setListaSelectiiSimulare={setListaSelectiiSimulare}
                             />
                         </Grid>
                         <Grid item className={classes.bookLevel}>
@@ -528,6 +534,9 @@ export default function TestePage() {
                                 imagine={sinopsis}
                                 title="Sinopsis de medicină"
                                 grilePePagini={true}
+                                listaCategorii={listaCategorii}
+                                listaSelectiiSimulare={listaSelectiiSimulare}
+                                setListaSelectiiSimulare={setListaSelectiiSimulare}
                             />
                         </Grid>
                     </Grid>
@@ -648,7 +657,15 @@ export default function TestePage() {
                     </Typography>
                     <Grid className={classes.cardGrid} container justifyContent="center" spacing={4}>
                         <Grid item className={classes.bookLevel}>
-                            <TestsBookCard isSelected={isKumar} setCardSelected={setKumar} imagine={kumar} title="Kumar și Clark Medicină Clinică" />
+                            <TestsBookCard
+                                isSelected={isKumar}
+                                setCardSelected={setKumar}
+                                imagine={kumar}
+                                title="Kumar și Clark Medicină Clinică"
+                                listaCategorii={listaCategorii}
+                                listaSelectiiSimulare={listaSelectiiSimulare}
+                                setListaSelectiiSimulare={setListaSelectiiSimulare}
+                            />
                             {isKumar && (
                                 <Grow in={isKumar} timeout={growTimeout}>
                                     <div className={classes.bookSubcatDiv}>
@@ -672,6 +689,9 @@ export default function TestePage() {
                                 setCardSelected={setLawerence}
                                 imagine={lawrence}
                                 title="Chirurgie generală și specialități chirurgicale"
+                                listaCategorii={listaCategorii}
+                                listaSelectiiSimulare={listaSelectiiSimulare}
+                                setListaSelectiiSimulare={setListaSelectiiSimulare}
                             />
                             {isLawrence && (
                                 <Grow in={isLawrence} timeout={growTimeout}>
@@ -691,7 +711,15 @@ export default function TestePage() {
                             )}
                         </Grid>
                         <Grid item className={classes.bookLevel}>
-                            <TestsBookCard isSelected={isSinopsis} setCardSelected={setSinopsis} imagine={sinopsis} title="Sinopsis de medicină" />
+                            <TestsBookCard
+                                isSelected={isSinopsis}
+                                setCardSelected={setSinopsis}
+                                imagine={sinopsis}
+                                title="Sinopsis de medicină"
+                                listaCategorii={listaCategorii}
+                                listaSelectiiSimulare={listaSelectiiSimulare}
+                                setListaSelectiiSimulare={setListaSelectiiSimulare}
+                            />
                             {isSinopsis && (
                                 <Grow in={isSinopsis} timeout={growTimeout}>
                                     <div className={classes.bookSubcatDiv}>
