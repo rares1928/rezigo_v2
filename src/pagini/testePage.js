@@ -175,7 +175,7 @@ export default function TestePage() {
         setListaselectii(lista_temp2);
         setListaSelectiiSimulare(lista_temp2);
         setReadyCat(true);
-        console.log(listaSelectiiSimulare, listaselectii, listaselectiisubcat);
+        // console.log(listaSelectiiSimulare, listaselectii, listaselectiisubcat);
     };
 
     const handleTeste = (e) => {
