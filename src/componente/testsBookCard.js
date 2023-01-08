@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -31,11 +31,7 @@ export default function TestsBookCard(props) {
     }));
 
     const classes = useStyles();
-    const [item, setItem] = useState(props.listaSelectiiSimulare);
-    let [cloneArrayIncludes, setCloneArrayIncludes] = useState([]);
-    props.listaSelectiiSimulare.forEach((element, index) => {
-        if (props.listaCategorii[index]["book"] === props.book) cloneArrayIncludes.push(props.listaSelectiiSimulare[index]);
-    });
+    // props.listaSelectiiSimulare.filter((item, index) => props.listaCategorii[index]["book"] === props.book);
     return (
         <Card className={classes.root}>
             <CardActionArea
@@ -57,17 +53,17 @@ export default function TestsBookCard(props) {
                 <Typography gutterBottom variant="h6" component="h3" className={classes.title}>
                     {props.isCardSelected === "Simulare" ? (
                         <Checkbox
-                            checked={!cloneArrayIncludes.includes(false)}
+                            checked={!props.listaSelectiiSimulare.filter((item, index) => props.listaCategorii[index]["book"] === props.book).includes(false)}
                             onChange={() => {
                                 props.setListaSelectiiSimulare(
                                     props.listaSelectiiSimulare.map((element, index) =>
                                         props.listaCategorii[index]["book"] === props.book
-                                            ? cloneArrayIncludes.includes(false)
+                                            ? props.listaSelectiiSimulare
+                                                  .filter((item, index) => props.listaCategorii[index]["book"] === props.book)
+                                                  .includes(false)
                                             : props.listaSelectiiSimulare[index]
                                     )
                                 );
-
-                                setCloneArrayIncludes(cloneArrayIncludes.map((element) => cloneArrayIncludes.includes(false)));
                             }}
                         ></Checkbox>
                     ) : null}

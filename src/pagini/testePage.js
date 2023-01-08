@@ -29,7 +29,6 @@ import { useLocation } from "react-router-dom";
 import PremiumPopup from "../componente/premiumPopup";
 import Input from "@material-ui/core/Input";
 import CookiesAccord from "../componente/cookiesAccord";
-import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles((theme) => ({
     root: {
