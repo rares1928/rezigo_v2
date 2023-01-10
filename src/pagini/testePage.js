@@ -765,7 +765,7 @@ export default function TestePage() {
                 2. Selectează cărțile și capitolele:
               </Typography>
               <Typography variant="h6">
-                Pentru a slecta un capitol apasă pe pătratul din dreptul
+                Pentru a selecta un capitol apasă pe pătratul din dreptul
                 acestuia.
               </Typography>
             </>
