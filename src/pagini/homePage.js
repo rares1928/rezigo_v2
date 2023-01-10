@@ -160,7 +160,7 @@ export default function HomePage() {
               disabled={false}
             />
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <HomeCard
               imagine={librarie}
               // sendTo="/librarie"
@@ -169,7 +169,7 @@ export default function HomePage() {
               text="învață din materialele speciale, flashcarduri și mnemonics"
               disabled={true}
             />
-          </Grid>
+          </Grid> */}
 
           {/* <Grid item>
                     <HomeCard 
