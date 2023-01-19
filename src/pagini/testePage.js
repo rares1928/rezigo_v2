@@ -83,7 +83,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(0.5),
   },
   errorTooManyQ: {
-    color: "#661706",
     paddingTop: theme.spacing(1),
   },
 }));
@@ -178,6 +177,7 @@ export default function TestePage() {
     setListaselectii(lista_temp2);
     setListaSelectiiSimulare(lista_temp2);
     setReadyCat(true);
+    // console.log(listaSelectiiSimulare, listaselectii, listaselectiisubcat);
   };
 
   const handleTeste = (e) => {
@@ -365,17 +365,22 @@ export default function TestePage() {
   const creeazaTest = async () => {
     setGoLoading(true);
     const lista_categorii = [];
+    let intrebariRamase = questionRemaining;
     for (let i = 0; i < listaselectii.length; i++) {
       for (let j = 0; j < listaselectiisubcat[i].length; j++) {
-        if (listaselectiisubcat[i][j] > 0) {
+        if (listaselectiisubcat[i][j] > 0 && intrebariRamase > 0) {
           lista_categorii.push({
             nume_categorie: listaCategorii[i]["category_Name"],
             nume_subcategorie: listaCategorii[i]["subCategory"][j]["Name"],
-            numar: listaselectiisubcat[i][j],
+            numar: Math.min(intrebariRamase, listaselectiisubcat[i][j]),
           });
+          intrebariRamase =
+            intrebariRamase -
+            Math.min(intrebariRamase, listaselectiisubcat[i][j]);
         }
       }
     }
+
     await callApi(
       "https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==",
       { lista_categorii, aleator: false },
@@ -384,6 +389,34 @@ export default function TestePage() {
     );
     setGoLoading(false);
   };
+
+  //   const creeazaTestNonPremium = async () => {
+  //     setGoLoading(true);
+  //     const lista_categorii = [];
+  //     let intrebariRamase = questionRemaining;
+  //     for (let i = 0; i < listaselectii.length; i++) {
+  //       for (let j = 0; j < listaselectiisubcat[i].length; j++) {
+  //         if (listaselectiisubcat[i][j] > 0 && intrebariRamase > 0) {
+  //           lista_categorii.push({
+  //             nume_categorie: listaCategorii[i]["category_Name"],
+  //             nume_subcategorie: listaCategorii[i]["subCategory"][j]["Name"],
+  //             numar: Math.min(intrebariRamase, listaselectiisubcat[i][j]),
+  //           });
+  //           intrebariRamase =
+  //             intrebariRamase -
+  //             Math.min(intrebariRamase, listaselectiisubcat[i][j]);
+  //         }
+  //       }
+  //     }
+  //     console.log(lista_categorii);
+  //     // await callApi(
+  //     //     "https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==",
+  //     //     { lista_categorii, aleator: false },
+  //     //     handleTestIdNou,
+  //     //     handleError
+  //     // );
+  //     setGoLoading(false);
+  //   };
 
   const creeazaTestPerPage = async () => {
     setGoLoading(true);
@@ -431,6 +464,11 @@ export default function TestePage() {
                 setCardSelected={setKumar}
                 imagine={kumar}
                 title="Kumar și Clark Medicină Clinică"
+                listaCategorii={listaCategorii}
+                listaSelectiiSimulare={listaSelectiiSimulare}
+                setListaSelectiiSimulare={setListaSelectiiSimulare}
+                isCardSelected={isCardSelected}
+                book="Kumar"
               />
               {isKumar && (
                 <Grow in={isKumar} timeout={growTimeout}>
@@ -453,6 +491,11 @@ export default function TestePage() {
                 setCardSelected={setLawerence}
                 imagine={lawrence}
                 title="Chirurgie generală și specialități chirurgicale"
+                isCardSelected={isCardSelected}
+                listaCategorii={listaCategorii}
+                listaSelectiiSimulare={listaSelectiiSimulare}
+                setListaSelectiiSimulare={setListaSelectiiSimulare}
+                book="Chirurgie"
               />
               {isLawrence && (
                 <Grow in={isLawrence} timeout={growTimeout}>
@@ -475,6 +518,11 @@ export default function TestePage() {
                 setCardSelected={setSinopsis}
                 imagine={sinopsis}
                 title="Sinopsis de medicină"
+                isCardSelected={isCardSelected}
+                listaCategorii={listaCategorii}
+                listaSelectiiSimulare={listaSelectiiSimulare}
+                setListaSelectiiSimulare={setListaSelectiiSimulare}
+                book="Sinopsis"
               />
               {isSinopsis && (
                 <Grow in={isSinopsis} timeout={growTimeout}>
@@ -541,6 +589,9 @@ export default function TestePage() {
                 imagine={kumar}
                 title="Kumar și Clark Medicină Clinică"
                 grilePePagini={true}
+                listaCategorii={listaCategorii}
+                listaSelectiiSimulare={listaSelectiiSimulare}
+                setListaSelectiiSimulare={setListaSelectiiSimulare}
               />
             </Grid>
             <Grid item className={classes.bookLevel}>
@@ -553,6 +604,9 @@ export default function TestePage() {
                 imagine={lawrence}
                 title="Chirurgie generală și specialități chirurgicale"
                 grilePePagini={true}
+                listaCategorii={listaCategorii}
+                listaSelectiiSimulare={listaSelectiiSimulare}
+                setListaSelectiiSimulare={setListaSelectiiSimulare}
               />
             </Grid>
             <Grid item className={classes.bookLevel}>
@@ -562,6 +616,9 @@ export default function TestePage() {
                 imagine={sinopsis}
                 title="Sinopsis de medicină"
                 grilePePagini={true}
+                listaCategorii={listaCategorii}
+                listaSelectiiSimulare={listaSelectiiSimulare}
+                setListaSelectiiSimulare={setListaSelectiiSimulare}
               />
             </Grid>
           </Grid>
@@ -702,9 +759,21 @@ export default function TestePage() {
     return (
       <>
         <div className={classes.bookDiv}>
-          <Typography variant="h6" className={classes.instructionsText}>
-            2. Selectează cărțile, capitolele și subcapitolele:
-          </Typography>
+          {tipCont === "Standard" ? (
+            <>
+              <Typography variant="h6" className={classes.instructionsText}>
+                2. Selectează cărțile și capitolele:
+              </Typography>
+              <Typography variant="h6">
+                Pentru a selecta un capitol apasă pe pătratul din dreptul
+                acestuia.
+              </Typography>
+            </>
+          ) : (
+            <Typography variant="h6" className={classes.instructionsText}>
+              2. Selectează cărțile, capitolele și subcapitolele:
+            </Typography>
+          )}
           <Grid
             className={classes.cardGrid}
             container
@@ -717,6 +786,9 @@ export default function TestePage() {
                 setCardSelected={setKumar}
                 imagine={kumar}
                 title="Kumar și Clark Medicină Clinică"
+                listaCategorii={listaCategorii}
+                listaSelectiiSimulare={listaSelectiiSimulare}
+                setListaSelectiiSimulare={setListaSelectiiSimulare}
               />
               {isKumar && (
                 <Grow in={isKumar} timeout={growTimeout}>
@@ -741,6 +813,9 @@ export default function TestePage() {
                 setCardSelected={setLawerence}
                 imagine={lawrence}
                 title="Chirurgie generală și specialități chirurgicale"
+                listaCategorii={listaCategorii}
+                listaSelectiiSimulare={listaSelectiiSimulare}
+                setListaSelectiiSimulare={setListaSelectiiSimulare}
               />
               {isLawrence && (
                 <Grow in={isLawrence} timeout={growTimeout}>
@@ -765,6 +840,9 @@ export default function TestePage() {
                 setCardSelected={setSinopsis}
                 imagine={sinopsis}
                 title="Sinopsis de medicină"
+                listaCategorii={listaCategorii}
+                listaSelectiiSimulare={listaSelectiiSimulare}
+                setListaSelectiiSimulare={setListaSelectiiSimulare}
               />
               {isSinopsis && (
                 <Grow in={isSinopsis} timeout={growTimeout}>
@@ -903,6 +981,10 @@ export default function TestePage() {
   const onClickSubCategorie = (i, index, click = true, numGrile) => {
     //i = indexul categoriei
     // index = indexul subcategoriei in categoria i
+    if (tipCont === "Standard") {
+      setPremiumPop(true);
+      return;
+    }
     const lista_temporara_mare = [...listaselectiisubcat];
     const lista_temporara = [...listaselectiisubcat[i]];
     if (click) {
@@ -1231,8 +1313,7 @@ export default function TestePage() {
                           goLoading ||
                           (isCardSelected === "Simulare"
                             ? produsScalarListe(listaSelectiiSimulare) <= 200
-                            : sumaElemArr(listaselectiisubcat) >
-                              questionRemaining)
+                            : questionRemaining === 0)
                         }
                         onClick={
                           isCardSelected === "Test nou" ||
@@ -1258,7 +1339,7 @@ export default function TestePage() {
                               variant="subtitle2"
                               className={classes.errorTooManyQ}
                             >
-                              Poți selecta maxim {questionRemaining} întrebări.
+                              Testul va conține {questionRemaining} întrebări.
                             </Typography>
                           </>
                         )}

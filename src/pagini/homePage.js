@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import test from "../poze/test_v4.svg";
-import librarie from "../poze/librarie_v5.svg";
+// import librarie from "../poze/librarie_v5.svg";
 // import grupuri from '../poze/grupuri_v1.svg';
 import tutorial from "../poze/tutorial.svg";
 import profil from "../poze/profil_v1.svg";
@@ -160,7 +160,7 @@ export default function HomePage() {
               disabled={false}
             />
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <HomeCard
               imagine={librarie}
               // sendTo="/librarie"
@@ -169,7 +169,7 @@ export default function HomePage() {
               text="învață din materialele speciale, flashcarduri și mnemonics"
               disabled={true}
             />
-          </Grid>
+          </Grid> */}
 
           {/* <Grid item>
                     <HomeCard 
