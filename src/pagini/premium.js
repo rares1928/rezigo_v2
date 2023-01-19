@@ -205,27 +205,6 @@ export default function Pricing() {
                   />
                   <CardContent>
                     <div className={classes.cardPricing}>
-                      <div className={classes.priceCutDiv}>
-                        <Typography
-                          component="h4"
-                          variant="h5"
-                          color="textPrimary"
-                          className={classes.priceCutTypo}
-                        >
-                          {Math.floor(
-                            (parseInt(price.metadata.price) / 100) *
-                              inversReducere
-                          )}
-                        </Typography>
-                        <Typography
-                          component="h4"
-                          variant="h5"
-                          color="textPrimary"
-                        >
-                          Lei (-
-                          {Math.floor(100 * (1 - 1 / inversReducere))}%)
-                        </Typography>
-                      </div>
 
                       <Typography
                         component="h2"
