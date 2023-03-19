@@ -386,8 +386,17 @@ export default function AdminsDisplayGrile({ simID, getSimulareQuestions }) {
                           <Typography>c) {grilaPrimita.Variante_c}</Typography>
                           <Typography>d) {grilaPrimita.Variante_d}</Typography>
                           <Typography>e) {grilaPrimita.Variante_e}</Typography>
+                          <Typography variant="h6">
+                            Face paret din test standard: {}
+                          </Typography>
                           <div className={classes.divButton}>
-                            <div />
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              className={classes.button}
+                            >
+                              Adauga test standard
+                            </Button>
                             <Button
                               variant="contained"
                               color="secondary"

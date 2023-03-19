@@ -16,6 +16,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import CategoryAcordion from "../componente/categoryAcordion";
 import CategoryListSimulare from "../componente/categoryListSimulare";
+import CategoryListStandard from "../componente/categoryListStandard";
 import Grow from "@material-ui/core/Grow";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
@@ -101,6 +102,7 @@ export default function TestePage() {
   const [listaselectiisubcat, setListaselectiisubcat] = useState([{}]);
   const [listaselectii, setListaselectii] = useState([]);
   const [listaSelectiiSimulare, setListaSelectiiSimulare] = useState([]);
+  const [listaSelectiiStandard, setListaSelectiiStandard] = useState([]);
   const [readyCat, setReadyCat] = useState(false);
   const [readyTest, setReadyTest] = useState(false);
   const [listaCategorii, setListaCategorii] = useState([]);
@@ -176,6 +178,7 @@ export default function TestePage() {
     setListaselectiisubcat(lista_temp);
     setListaselectii(lista_temp2);
     setListaSelectiiSimulare(lista_temp2);
+    setListaSelectiiStandard(lista_temp2);
     setReadyCat(true);
     // console.log(listaSelectiiSimulare, listaselectii, listaselectiisubcat);
   };
@@ -362,6 +365,27 @@ export default function TestePage() {
     setGoLoading(false);
   };
 
+  const creeazaStandard = async () => {
+    setGoLoading(true);
+    const lista_categorii = [];
+    for (let i = 0; i < listaSelectiiStandard.length; i++) {
+      if (listaSelectiiStandard[i]) {
+        lista_categorii.push({
+          nume_categorie: listaCategorii[i]["category_Name"],
+        });
+      }
+    }
+
+    // await callApi(
+    //   "https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==",
+    //   { lista_categorii, aleator: false },
+    //   handleTestIdNou,
+    //   handleError
+    // );
+    console.log(lista_categorii);
+    setGoLoading(false);
+  };
+
   const creeazaTest = async () => {
     setGoLoading(true);
     const lista_categorii = [];
@@ -389,34 +413,6 @@ export default function TestePage() {
     );
     setGoLoading(false);
   };
-
-  //   const creeazaTestNonPremium = async () => {
-  //     setGoLoading(true);
-  //     const lista_categorii = [];
-  //     let intrebariRamase = questionRemaining;
-  //     for (let i = 0; i < listaselectii.length; i++) {
-  //       for (let j = 0; j < listaselectiisubcat[i].length; j++) {
-  //         if (listaselectiisubcat[i][j] > 0 && intrebariRamase > 0) {
-  //           lista_categorii.push({
-  //             nume_categorie: listaCategorii[i]["category_Name"],
-  //             nume_subcategorie: listaCategorii[i]["subCategory"][j]["Name"],
-  //             numar: Math.min(intrebariRamase, listaselectiisubcat[i][j]),
-  //           });
-  //           intrebariRamase =
-  //             intrebariRamase -
-  //             Math.min(intrebariRamase, listaselectiisubcat[i][j]);
-  //         }
-  //       }
-  //     }
-  //     console.log(lista_categorii);
-  //     // await callApi(
-  //     //     "https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==",
-  //     //     { lista_categorii, aleator: false },
-  //     //     handleTestIdNou,
-  //     //     handleError
-  //     // );
-  //     setGoLoading(false);
-  //   };
 
   const creeazaTestPerPage = async () => {
     setGoLoading(true);
@@ -533,6 +529,107 @@ export default function TestePage() {
                       setListaSelectii={setListaselectii}
                       onClickCategorieSimulare={onClickCategorieSimulare}
                       listaSelectiiSimulare={listaSelectiiSimulare}
+                      book="Sinopsis"
+                    />
+                  </div>
+                </Grow>
+              )}
+            </Grid>
+          </Grid>
+        </div>
+      </>
+    );
+  };
+
+  const displayTestStandard = () => {
+    return (
+      <>
+        <div className={classes.bookDiv}>
+          <Typography variant="h6" className={classes.instructionsText}>
+            2. Selectează cărțile și capitolele din care dorești un test
+            standard:
+          </Typography>
+          <Grid
+            className={classes.cardGrid}
+            container
+            justifyContent="center"
+            spacing={4}
+          >
+            <Grid item className={classes.bookLevel}>
+              <TestsBookCard
+                isSelected={isKumar}
+                setCardSelected={setKumar}
+                imagine={kumar}
+                title="Kumar și Clark Medicină Clinică"
+                listaCategorii={listaCategorii}
+                listaSelectiiStandard={listaSelectiiStandard}
+                setListaSelectiiStandard={setListaSelectiiStandard}
+                isCardSelected={isCardSelected}
+                book="Kumar"
+              />
+              {isKumar && (
+                <Grow in={isKumar} timeout={growTimeout}>
+                  <div className={classes.bookSubcatDiv}>
+                    <CategoryListStandard
+                      data={listaCategorii}
+                      listSelectii={listaselectii}
+                      setListaSelectii={setListaselectii}
+                      onClickCategorieStandard={onClickCategorieStandard}
+                      listaSelectiiStandard={listaSelectiiStandard}
+                      book="Kumar"
+                    />
+                  </div>
+                </Grow>
+              )}
+            </Grid>
+            <Grid item className={classes.bookLevel}>
+              <TestsBookCard
+                isSelected={isLawrence}
+                setCardSelected={setLawerence}
+                imagine={lawrence}
+                title="Chirurgie generală și specialități chirurgicale"
+                isCardSelected={isCardSelected}
+                listaCategorii={listaCategorii}
+                listaSelectiiStandard={listaSelectiiStandard}
+                setListaSelectiiStandard={setListaSelectiiStandard}
+                book="Chirurgie"
+              />
+              {isLawrence && (
+                <Grow in={isLawrence} timeout={growTimeout}>
+                  <div className={classes.bookSubcatDiv}>
+                    <CategoryListStandard
+                      data={listaCategorii}
+                      listSelectii={listaselectii}
+                      setListaSelectii={setListaselectii}
+                      onClickCategorieStandard={onClickCategorieStandard}
+                      listaSelectiiStandard={listaSelectiiStandard}
+                      book="Chirurgie"
+                    />
+                  </div>
+                </Grow>
+              )}
+            </Grid>
+            <Grid item className={classes.bookLevel}>
+              <TestsBookCard
+                isSelected={isSinopsis}
+                setCardSelected={setSinopsis}
+                imagine={sinopsis}
+                title="Sinopsis de medicină"
+                isCardSelected={isCardSelected}
+                listaCategorii={listaCategorii}
+                listaSelectiiStandard={listaSelectiiStandard}
+                setListaSelectiiStandard={setListaSelectiiStandard}
+                book="Sinopsis"
+              />
+              {isSinopsis && (
+                <Grow in={isSinopsis} timeout={growTimeout}>
+                  <div className={classes.bookSubcatDiv}>
+                    <CategoryListStandard
+                      data={listaCategorii}
+                      listSelectii={listaselectii}
+                      setListaSelectii={setListaselectii}
+                      onClickCategorieStandard={onClickCategorieStandard}
+                      listaSelectiiStandard={listaSelectiiStandard}
                       book="Sinopsis"
                     />
                   </div>
@@ -915,6 +1012,12 @@ export default function TestePage() {
     setListaSelectiiSimulare(lista_temp_selectii);
   };
 
+  const onClickCategorieStandard = (i) => {
+    const lista_temp_selectii = [...listaSelectiiStandard];
+    lista_temp_selectii[i] = !listaSelectiiStandard[i];
+    setListaSelectiiStandard(lista_temp_selectii);
+  };
+
   const onClickCategorieMarePerPage = (i) => {
     const lista_temp_selectii = [...listaselectiiPerPage];
     const lista_temporara_mare = [...listaselectiisubcatPerPage];
@@ -1142,7 +1245,7 @@ export default function TestePage() {
                   setCardSelected={setCardSelected}
                   imagine={reparcurgeGreseliImg}
                   title="Reparcurge greșeli"
-                  text="Selectează unul dintre testele cu greșelile tale de-a lungul timpului"
+                  text="Selectează unul dintre testele cu greșelile tale de-a lungul timpului."
                   tipCont={tipCont}
                   setPremiumPop={setPremiumPop}
                 />
@@ -1153,7 +1256,19 @@ export default function TestePage() {
                   setCardSelected={setCardSelected}
                   imagine={exameneOficialeImg}
                   title="Examene rezidențiat"
-                  text="Selectează unul dintre examenele de rezidențiat din anii trecuți"
+                  text="Selectează unul dintre examenele de rezidențiat din anii trecuți."
+                />
+              </Grid>
+              <Grid item>
+                <TestsCard
+                  isSelected={isCardSelected === "Test Standard"}
+                  setCardSelected={setCardSelected}
+                  imagine={exameneOficialeImg}
+                  title="Test Standard"
+                  text="Selectează cartea și capitolele pentru un test standard făcut de noi."
+                  ready={readyCat}
+                  tipCont={tipCont}
+                  setPremiumPop={setPremiumPop}
                 />
               </Grid>
             </Grid>
@@ -1218,12 +1333,24 @@ export default function TestePage() {
             <div> {displayExameneRezidentiat()} </div>
           </Grow>
         )}
+        {isCardSelected === "Test Standard" && (
+          <Grow
+            id="bookCard_div"
+            in={isCardSelected === "Test Standard"}
+            timeout={growTimeout}
+          >
+            <Typography>
+              <div>{displayTestStandard()}</div>
+            </Typography>
+          </Grow>
+        )}
       </Container>
 
       {readyTest && readyCat && (
         <>
           {(sumaElemArr(listaselectiisubcat) !== 0 ||
             sumaCategoriiArray(listaSelectiiSimulare) !== 0 ||
+            sumaCategoriiArray(listaSelectiiStandard) !== 0 ||
             (readyPerPage
               ? sumaElemArr(listaselectiisubcatPerPage) !== 0
               : false)) && (
@@ -1235,7 +1362,8 @@ export default function TestePage() {
                 (isCardSelected === "Test nou" ||
                 isCardSelected === "Examene rezidențiat"
                   ? sumaElemArr(listaselectiisubcat) > 0
-                  : sumaCategoriiArray(listaSelectiiSimulare) > 0)
+                  : sumaCategoriiArray(listaSelectiiSimulare) > 0 ||
+                    sumaCategoriiArray(listaSelectiiStandard) > 0)
               } // cand este selectata mai mult de o grila, apare footerul cu readySetGo
               direction="up"
               className={classes.footer}
@@ -1260,6 +1388,8 @@ export default function TestePage() {
                             : 200
                           : isCardSelected === "Grile pe pagini"
                           ? sumaElemArr(listaselectiisubcatPerPage)
+                          : isCardSelected === "Test Standard"
+                          ? produsScalarListe(listaSelectiiStandard)
                           : sumaElemArr(listaselectiisubcat)}
                       </Typography>
                       {isCardSelected === "Test nou" ||
@@ -1298,6 +1428,10 @@ export default function TestePage() {
                             </>
                           )}
                         </Button>
+                      ) : isCardSelected === "Test Standard" ? (
+                        <Typography variant="subtitle2">
+                          Ordinea grilelor: ordonate
+                        </Typography>
                       ) : (
                         <Typography variant="subtitle2">
                           Ordinea grilelor: aleatoare
@@ -1321,7 +1455,9 @@ export default function TestePage() {
                             ? () => creeazaTest()
                             : isCardSelected === "Grile pe pagini"
                             ? () => creeazaTestPerPage()
-                            : () => creeazaSimulare()
+                            : isCardSelected === "Simulare"
+                            ? () => creeazaSimulare()
+                            : () => creeazaStandard()
                         }
                       >
                         {goLoading ? (

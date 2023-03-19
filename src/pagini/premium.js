@@ -77,7 +77,7 @@ export default function Pricing() {
   const [loadCumpara, setLoadCumpara] = useState(false);
   const [items, setItems] = useState({});
   const [prices, setPrices] = useState([]);
-  const inversReducere = 1.429;
+  // const inversReducere = 1.429;
 
   const handleError = (e) => {
     console.log(e.status);
@@ -205,7 +205,6 @@ export default function Pricing() {
                   />
                   <CardContent>
                     <div className={classes.cardPricing}>
-
                       <Typography
                         component="h2"
                         variant="h3"
