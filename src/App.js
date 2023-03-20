@@ -94,8 +94,7 @@ function App() {
                 />
                 {/* <Route path="/librarie" exact component={LibrariePage} /> */}
                 <Route
-                  path="/creeaza-ti_test"
-                  exact
+                  path="/creeaza-ti_test*"
                   component={() => <TestePage darkMode={darkMode}></TestePage>}
                 />
                 <Route

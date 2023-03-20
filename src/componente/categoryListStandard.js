@@ -24,7 +24,7 @@ export default function CategoryListStandard(props) {
 
   return (
     <div className={classes.root}>
-      <List component="nav" aria-label="main mailbox folders">
+      <List component="nav" aria-label="main mailbox folders Standard">
         {props.data.map(
           (categorie, index) =>
             categorie["book"] === props.book && (

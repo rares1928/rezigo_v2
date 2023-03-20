@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 export default function TestsCard(props) {
   const useStyles = makeStyles((theme) => ({
     root: {
-      maxWidth: 285,
+      maxWidth: 255,
       display: "flex",
       flexDirection: "column",
       borderRadius: 15,
@@ -18,12 +18,12 @@ export default function TestsCard(props) {
       backgroundColor: props.isSelected
         ? theme.palette.secondary.main
         : theme.palette.background.paper,
-      height: "20vh",
-      maxHeight: "200px",
-      minHeight: 150,
+      height: "15vh",
+      maxHeight: "150px",
+      minHeight: 100,
     },
     lowerPart: {
-      height: 115,
+      height: 120,
     },
     textSide: {},
     title: {},

@@ -158,11 +158,80 @@ export default function TestePage() {
     setReadyPerPage(true);
   };
 
+  //   let tipTestToSelect = "";
+  //   switch (tipTest) {
+  //     case "test_nou":
+  //       tipTestToSelect = "Test nou";
+  //       break;
+  //     case "grile_pe_pagini":
+  //       tipTestToSelect = "Grile pe pagini";
+  //       break;
+  //     case "simulare":
+  //       tipTestToSelect = "Simulare";
+  //       break;
+  //     case "teste_inceputes":
+  //       tipTestToSelect = "Teste începute";
+  //       break;
+  //     case "reparcurge_greseli":
+  //       tipTestToSelect = "Reparcurge greșeli";
+  //       break;
+  //     case "examene_rezidentiat":
+  //       tipTestToSelect = "Examene rezidențiat";
+  //       break;
+  //     case "test_standard":
+  //       tipTestToSelect = "Test Standard";
+  //       break;
+  //     default:
+  //       break;
+  //   }
+
   const handleCategorii = (e) => {
+    //selecteaza cardul corect
+    const listaTipTest = [
+      "test_nou",
+      "grile_pe_pagini",
+      "simulare",
+      "teste_incepute",
+      "reparcurge_greseli",
+      "examene_rezidentiat",
+      "test_standard",
+    ];
+    let cardToSelect = "";
+    if (listaTipTest.includes(window.location.pathname.split("/")[2])) {
+      const linkCard = window.location.pathname.split("/")[2];
+      switch (linkCard) {
+        case "test_nou":
+          cardToSelect = "Test nou";
+          break;
+        case "grile_pe_pagini":
+          cardToSelect = "Grile pe pagini";
+          break;
+        case "simulare":
+          cardToSelect = "Simulare";
+          break;
+        case "teste_inceputes":
+          cardToSelect = "Teste începute";
+          break;
+        case "reparcurge_greseli":
+          cardToSelect = "Reparcurge greșeli";
+          break;
+        case "examene_rezidentiat":
+          cardToSelect = "Examene rezidențiat";
+          break;
+        case "test_standard":
+          cardToSelect = "Test Standard";
+          break;
+        default:
+          break;
+      }
+      localStorage.removeItem("tipTest");
+    }
     setListaCategorii(e.data["lista"]);
     setTipCont(e.data["tip_cont"]);
     if (e.data["tip_cont"] === "Standard") {
       setQuestionRemaining(e.data["intrebariRamase"]);
+    } else {
+      setCardSelected(cardToSelect);
     }
     let lista_temp = [];
     let lista_temp2 = [];
@@ -180,6 +249,44 @@ export default function TestePage() {
     setListaSelectiiSimulare(lista_temp2);
     setListaSelectiiStandard(lista_temp2);
     setReadyCat(true);
+    if (e.data["tip_cont"] !== "Standard") {
+      if (
+        cardToSelect === "Test Standard" &&
+        window.location.pathname.split("/")[3]
+      ) {
+        const string = window.location.pathname.split("/")[3];
+        const lista = string.split("-");
+        //aici verific fiecare carte din link si o selectez
+        lista.forEach(function (cuvant) {
+          switch (cuvant) {
+            case "kumar":
+              setKumar(true);
+              break;
+            case "chirurgie":
+              setLawerence(true);
+              break;
+            case "sinopsis":
+              setSinopsis(true);
+              break;
+            default:
+              break;
+          }
+        });
+        //aici verific fiecare numar de capitol din link, tai ultimul punct din el si il selectez
+        const listaNumereCat = e.data["lista"].map((categorie) => {
+          return categorie.category_Name.split(" ")[0].slice(0, -1);
+        });
+        const lista_temp_selectii = [...lista_temp2];
+        lista.forEach(function (cuvant) {
+          if (listaNumereCat.includes(cuvant)) {
+            const indexCuvant = listaNumereCat.indexOf(cuvant);
+            lista_temp_selectii[indexCuvant] =
+              !lista_temp_selectii[indexCuvant];
+          }
+        });
+        setListaSelectiiStandard(lista_temp_selectii);
+      }
+    }
     // console.log(listaSelectiiSimulare, listaselectii, listaselectiisubcat);
   };
 
@@ -382,7 +489,6 @@ export default function TestePage() {
     //   handleTestIdNou,
     //   handleError
     // );
-    console.log(lista_categorii);
     setGoLoading(false);
   };
 
