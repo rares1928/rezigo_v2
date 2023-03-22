@@ -233,6 +233,9 @@ export default function TestePage() {
     } else {
       setCardSelected(cardToSelect);
     }
+    if (e.data["tip_cont"] === "Standard" && cardToSelect === "Test Standard") {
+      setCardSelected(cardToSelect);
+    }
     let lista_temp = [];
     let lista_temp2 = [];
 
@@ -249,44 +252,42 @@ export default function TestePage() {
     setListaSelectiiSimulare(lista_temp2);
     setListaSelectiiStandard(lista_temp2);
     setReadyCat(true);
-    if (e.data["tip_cont"] !== "Standard") {
-      if (
-        cardToSelect === "Test Standard" &&
-        window.location.pathname.split("/")[3]
-      ) {
-        const string = window.location.pathname.split("/")[3];
-        const lista = string.split("-");
-        //aici verific fiecare carte din link si o selectez
-        lista.forEach(function (cuvant) {
-          switch (cuvant) {
-            case "kumar":
-              setKumar(true);
-              break;
-            case "chirurgie":
-              setLawerence(true);
-              break;
-            case "sinopsis":
-              setSinopsis(true);
-              break;
-            default:
-              break;
-          }
-        });
-        //aici verific fiecare numar de capitol din link, tai ultimul punct din el si il selectez
-        const listaNumereCat = e.data["lista"].map((categorie) => {
-          return categorie.category_Name.split(" ")[0].slice(0, -1);
-        });
-        const lista_temp_selectii = [...lista_temp2];
-        lista.forEach(function (cuvant) {
-          if (listaNumereCat.includes(cuvant)) {
-            const indexCuvant = listaNumereCat.indexOf(cuvant);
-            lista_temp_selectii[indexCuvant] =
-              !lista_temp_selectii[indexCuvant];
-          }
-        });
-        setListaSelectiiStandard(lista_temp_selectii);
-      }
+    if (
+      cardToSelect === "Test Standard" &&
+      window.location.pathname.split("/")[3]
+    ) {
+      const string = window.location.pathname.split("/")[3];
+      const lista = string.split("-");
+      //aici verific fiecare carte din link si o selectez
+      lista.forEach(function (cuvant) {
+        switch (cuvant) {
+          case "kumar":
+            setKumar(true);
+            break;
+          case "chirurgie":
+            setLawerence(true);
+            break;
+          case "sinopsis":
+            setSinopsis(true);
+            break;
+          default:
+            break;
+        }
+      });
+      //aici verific fiecare numar de capitol din link, tai ultimul punct din el si il selectez
+      const listaNumereCat = e.data["lista"].map((categorie) => {
+        return categorie.category_Name.split(" ")[0].slice(0, -1);
+      });
+      const lista_temp_selectii = [...lista_temp2];
+      lista.forEach(function (cuvant) {
+        if (listaNumereCat.includes(cuvant)) {
+          const indexCuvant = listaNumereCat.indexOf(cuvant);
+          lista_temp_selectii[indexCuvant] = !lista_temp_selectii[indexCuvant];
+        }
+      });
+      setListaSelectiiStandard(lista_temp_selectii);
     }
+
     // console.log(listaSelectiiSimulare, listaselectii, listaselectiisubcat);
   };
 
@@ -477,18 +478,16 @@ export default function TestePage() {
     const lista_categorii = [];
     for (let i = 0; i < listaSelectiiStandard.length; i++) {
       if (listaSelectiiStandard[i]) {
-        lista_categorii.push({
-          nume_categorie: listaCategorii[i]["category_Name"],
-        });
+        lista_categorii.push(listaCategorii[i]["category_Name"]);
       }
     }
 
-    // await callApi(
-    //   "https://grileapiwin.azurewebsites.net/api/CreateTestWin?code=UWWieYZbXJombLLaR12BaLqCxfdBbHEz84QWnVaE/ZCVyCm2Fi9nvg==",
-    //   { lista_categorii, aleator: false },
-    //   handleTestIdNou,
-    //   handleError
-    // );
+    await callApi(
+      "https://grileapiwin.azurewebsites.net/api/CreateTestStandard?code=YII0eB2A4Uhe3u2282t-DSe_aLUHsMi47a2rb7utOSMkAzFutFNklQ==",
+      { lista_categorii, aleator: false },
+      handleTestIdNou,
+      handleError
+    );
     setGoLoading(false);
   };
 
@@ -1254,6 +1253,21 @@ export default function TestePage() {
     }
     return suma;
   };
+
+  const numarGrileStandard = () => {
+    return listaSelectiiStandard.reduce(
+      (acc, currentValue, index) =>
+        acc +
+        (currentValue
+          ? listaCategorii[index]["subCategory"].reduce(
+              (acc, currentSubcat) =>
+                acc + currentSubcat["GrileStandardNumber"],
+              0
+            )
+          : 0),
+      0
+    );
+  };
   const TITLE = "Creează-ți test";
 
   // console.log(
@@ -1373,7 +1387,7 @@ export default function TestePage() {
                   title="Test Standard"
                   text="Selectează cartea și capitolele pentru un test standard făcut de noi."
                   ready={readyCat}
-                  tipCont={tipCont}
+                  // tipCont={tipCont}
                   setPremiumPop={setPremiumPop}
                 />
               </Grid>
@@ -1495,7 +1509,7 @@ export default function TestePage() {
                           : isCardSelected === "Grile pe pagini"
                           ? sumaElemArr(listaselectiisubcatPerPage)
                           : isCardSelected === "Test Standard"
-                          ? produsScalarListe(listaSelectiiStandard)
+                          ? numarGrileStandard()
                           : sumaElemArr(listaselectiisubcat)}
                       </Typography>
                       {isCardSelected === "Test nou" ||
