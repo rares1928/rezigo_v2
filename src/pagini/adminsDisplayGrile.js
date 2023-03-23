@@ -170,6 +170,29 @@ export default function AdminsDisplayGrile({ simID, getSimulareQuestions }) {
     setLoading(false);
   };
 
+  const editeazaInTestStandard = async (id) => {
+    setLoading(true);
+    const url =
+      "https://grileapiwin.azurewebsites.net/api/EditTestStandard?code=vYtPvDXhxuKAff6A4VXp57xrO6rED_qzSHntxeW5obQCAzFuKRnddQ==";
+
+    const data = { grilaId: id };
+    await callApi(url, data, handleEditStandard, handleError);
+    setShowGrileList(true);
+    setLoading(false);
+  };
+
+  const handleEditStandard = async () => {
+    const url =
+      "https://grileapiwin.azurewebsites.net/api/CautaGrileAdmin?code=ip64oSUrfBheQN110qwIjK/jQsx7hmxgQrb0Tpy6BDmIG8TBPE/nag==";
+    const data = {
+      carte: carte,
+      capitol: listaCat[capitol]["category_Name"],
+      subcapitol: listaCat[capitol]["subCategory"][subCapitol]["Name"],
+      textPartialGrila: textPartialGrila,
+    };
+    await callApi(url, data, handleItems, handleError);
+  };
+
   const editGrila = (id) => {
     return history.push({ pathname: "/admins/grile/id" + id, state: id });
   };
@@ -387,15 +410,23 @@ export default function AdminsDisplayGrile({ simID, getSimulareQuestions }) {
                           <Typography>d) {grilaPrimita.Variante_d}</Typography>
                           <Typography>e) {grilaPrimita.Variante_e}</Typography>
                           <Typography variant="h6">
-                            Face paret din test standard: {}
+                            Face paret din test standard:{" "}
+                            {grilaPrimita.InTestStandard}
                           </Typography>
                           <div className={classes.divButton}>
                             <Button
                               variant="contained"
                               color="primary"
                               className={classes.button}
+                              onClick={() => {
+                                editeazaInTestStandard(grilaPrimita.GrilaID);
+                              }}
                             >
-                              Adauga test standard
+                              {grilaPrimita.InTestStandard === 1 ? (
+                                <>STERGE test standard</>
+                              ) : (
+                                <>ADAUGA test standard</>
+                              )}
                             </Button>
                             <Button
                               variant="contained"
