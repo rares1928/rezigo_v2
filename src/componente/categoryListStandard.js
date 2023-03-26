@@ -19,28 +19,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CategoryListSimulare(props) {
+export default function CategoryListStandard(props) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <List component="nav" aria-label="main mailbox folders">
+      <List component="nav" aria-label="main mailbox folders Standard">
         {props.data.map(
           (categorie, index) =>
             categorie["book"] === props.book && (
               <>
                 <ListItem
-                  key={`additional-actions-simulare${index}-header`}
+                  key={`additional-actions-Standard${index}-header`}
                   button
                   onClick={() => {
-                    props.onClickCategorieSimulare(index);
+                    props.onClickCategorieStandard(index);
                   }}
                 >
                   <div className={classes.titles}>
                     <Checkbox
-                      checked={props.listaSelectiiSimulare[index]}
+                      checked={props.listaSelectiiStandard[index]}
                       onChange={() => {
-                        props.onClickCategorieSimulare(index);
+                        props.onClickCategorieStandard(index);
                       }}
                       onClick={(event) => event.stopPropagation()}
                       onFocus={(event) => event.stopPropagation()}
