@@ -692,8 +692,8 @@ export default function TestePage() {
                 <Typography variant="h6" className={classes.instructionsText}>
                     2. Selectează câte probleme dorești din fiecare an:
                 </Typography>
-                <Grid className={classes.cardGrid} container spacing={4}>
-                    <Grid item>
+                <Grid className={classes.cardGrid} container spacing={4} direction="column">
+                    <Grid item xs={3}>
                         <CategoryAcordion
                             onClickCategorieMare={onClickCategorieMare}
                             onClickSubCategorie={onClickSubCategorie}
@@ -703,6 +703,18 @@ export default function TestePage() {
                             setListaselectiisubcat={setListaselectiisubcat}
                             data={listaCategorii}
                             book="Rezidențiat 2021"
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <CategoryAcordion
+                            onClickCategorieMare={onClickCategorieMare}
+                            onClickSubCategorie={onClickSubCategorie}
+                            listaselectii={listaselectii}
+                            listaselectiisubcat={listaselectiisubcat}
+                            setListaselectii={setListaselectii}
+                            setListaselectiisubcat={setListaselectiisubcat}
+                            data={listaCategorii}
+                            book="Rezidențiat 2022"
                         />
                     </Grid>
                 </Grid>
